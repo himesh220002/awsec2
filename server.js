@@ -28,6 +28,13 @@ const posts = [
     date: '2026-09-27',
     excerpt: 'Step-by-step guide to deploying Docker containers on EC2 instances.',
     content: 'AWS EC2 provides scalable virtual servers. By combining EC2 with Docker, you can deploy containerized applications with ease and scale them as needed.'
+  },
+  {
+    id: 4,
+    title: 'Live from EC2 - CI/CD Works!',
+    date: '2026-09-29',
+    excerpt: 'This post proves the full pipeline: push, build, deploy.',
+    content: 'If you can read this on the EC2 instance, the GitHub push triggered Docker CI, which pushed to Docker Hub, which triggered Docker CD to deploy here automatically.'
   }
 ];
 
