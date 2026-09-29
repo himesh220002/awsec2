@@ -143,9 +143,15 @@
 
   <header class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4 bg-ink/85 backdrop-blur-xl border-b border-white/10">
     <a href="/" class="font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white">VI<span class="text-pill">/BLOG</span></a>
-    <div class="flex items-center gap-2 sm:gap-4">
-      <a href="#posts" class="hidden sm:inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline hover:brightness-105 transition">Read Stories</a>
-      <button id="menuBtn" aria-label="Menu" class="p-2 -mr-2 sm:mr-0">
+    <div class="hidden sm:flex items-center gap-1 text-xs font-bold uppercase tracking-widest">
+      <a href="/" class="text-white/70 hover:text-pill px-4 py-2 no-underline transition">Home</a>
+      <a href="/blog" class="text-pill px-4 py-2 no-underline">Blog</a>
+      <a href="/about" class="text-white/70 hover:text-pill px-4 py-2 no-underline transition">About</a>
+      <a href="/contact" class="text-white/70 hover:text-pill px-4 py-2 no-underline transition">Contact</a>
+      <a href="#posts" class="pill-btn ml-2 bg-pill text-inkdeep px-6 py-2.5 rounded-full no-underline">Read Stories</a>
+    </div>
+    <div class="flex sm:hidden items-center gap-2">
+      <button id="menuBtn" aria-label="Menu" class="p-2 -mr-2">
         <span class="block w-7 h-[3px] bg-white mb-[7px]"></span>
         <span class="block w-7 h-[3px] bg-white"></span>
       </button>
