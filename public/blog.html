@@ -17,7 +17,7 @@
             panel: '#4a2b6b',
             vice: { pink: '#ff2e88', cyan: '#00e5ff', purple: '#7b2ff7' }
           },
-          fontFamily: { archivo: ['Archivo', 'system-ui', 'sans-serif'] }
+          fontFamily: { archivo: ['Archivo', 'system-ui', 'sans-serif'], mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'] }
         }
       }
     }
@@ -36,11 +36,62 @@
     }
     .layer { will-change: transform; }
     .palm { color: rgba(0,0,0,.55); }
+    .chip { clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
+
+    /* ---- glitch reveal (millisecond RGB-split flicker) ---- */
+    .glitch { position: relative; display: inline-block; }
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute; inset: 0; overflow: hidden;
+      background: transparent;
+    }
+    .glitching::before { color: #00e5ff; animation: gl1 .55s steps(2) both; }
+    .glitching::after { color: #ff2e88; animation: gl2 .55s steps(2) both; }
+    .glitching { animation: gskew .55s steps(3) both; }
+    @keyframes gl1 {
+      0% { clip-path: inset(10% 0 60% 0); transform: translate(-7px, -3px); opacity: 1; }
+      25% { clip-path: inset(55% 0 12% 0); transform: translate(6px, 2px); opacity: 1; }
+      50% { clip-path: inset(28% 0 45% 0); transform: translate(-5px, 1px); opacity: 1; }
+      75% { clip-path: inset(70% 0 5% 0); transform: translate(5px, -2px); opacity: 1; }
+      100% { clip-path: inset(50% 0 50% 0); transform: none; opacity: 0; }
+    }
+    @keyframes gl2 {
+      0% { clip-path: inset(60% 0 8% 0); transform: translate(7px, 3px); opacity: 1; }
+      25% { clip-path: inset(12% 0 70% 0); transform: translate(-6px, -2px); opacity: 1; }
+      50% { clip-path: inset(45% 0 30% 0); transform: translate(5px, -1px); opacity: 1; }
+      75% { clip-path: inset(5% 0 82% 0); transform: translate(-5px, 2px); opacity: 1; }
+      100% { clip-path: inset(50% 0 50% 0); transform: none; opacity: 0; }
+    }
+    @keyframes gskew {
+      0%, 100% { transform: skewX(0); }
+      20% { transform: skewX(-4deg); }
+      40% { transform: skewX(3deg); }
+      60% { transform: skewX(-2deg); }
+    }
+    /* staged event reveal */
+    .stage { opacity: 0; transform: translateY(18px); }
+    .detail-open .stage { animation: stageIn .5s cubic-bezier(.2,.9,.25,1) forwards; }
+    .detail-open .s1 { animation-delay: .05s; }
+    .detail-open .s2 { animation-delay: .2s; }
+    .detail-open .s3 { animation-delay: .45s; }
+    .detail-open .s4 { animation-delay: .65s; }
+    .detail-open .s5 { animation-delay: .85s; }
+    @keyframes stageIn { to { opacity: 1; transform: none; } }
+    .sweep { position: relative; overflow: hidden; }
+    .detail-open .sweep::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(0,229,255,.55), transparent);
+      animation: sweep .6s ease-out both;
+    }
+    @keyframes sweep { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+    .scanlines::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 5;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 3px);
+    }
   </style>
 </head>
 <body class="bg-ink text-white min-h-screen overflow-x-hidden antialiased">
 
-  <!-- shared palm texture -->
   <svg width="0" height="0" class="absolute" aria-hidden="true">
     <symbol id="palm" viewBox="0 0 100 140">
       <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round">
@@ -59,12 +110,10 @@
 
   <canvas id="bg3d" class="fixed inset-0 -z-[15] pointer-events-none opacity-60"></canvas>
 
-  <!-- D3 scroll progress -->
   <div class="fixed top-0 left-0 right-0 h-1 z-50 bg-white/10">
     <div id="progress" class="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-vice-pink via-vice-purple to-vice-cyan"></div>
   </div>
 
-  <!-- top bar: VI mark / hamburger / pink pill -->
   <header class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4 bg-ink/85 backdrop-blur-xl border-b border-white/10">
     <a href="/" class="font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white">VI<span class="text-pill">/BLOG</span></a>
     <div class="flex items-center gap-2 sm:gap-4">
@@ -85,7 +134,6 @@
     </div>
   </nav>
 
-  <!-- hero -->
   <section id="hero" class="layer relative overflow-hidden" data-speed="0.2">
     <div class="sun-glow absolute inset-0"></div>
     <svg class="palm absolute -left-8 bottom-0 w-48 sm:w-72 opacity-40"><use href="#palm"/></svg>
@@ -101,7 +149,6 @@
     </div>
   </section>
 
-  <!-- panel-grid stories -->
   <main id="posts" class="layer max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14" data-speed="0.08">
     <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50 mb-6">Latest&nbsp;Panels</p>
     <div id="cards" class="grid gap-5 sm:gap-7 sm:grid-cols-2">
@@ -109,7 +156,6 @@
     </div>
   </main>
 
-  <!-- cinematic divider -->
   <section class="relative overflow-hidden my-4 sm:my-8">
     <div class="absolute inset-0 bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#b3543f]"></div>
     <svg class="palm absolute left-4 sm:left-16 -bottom-6 w-40 sm:w-64 opacity-50"><use href="#palm"/></svg>
@@ -121,12 +167,11 @@
     </div>
   </section>
 
-  <!-- city data -->
   <section class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
     <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Telemetry</p>
     <h2 class="mt-3 font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">City Data</h2>
     <p class="mt-2 text-white/60 text-sm sm:text-base">Story size per panel, rendered live with D3.</p>
-    <div id="chart" class="mt-6 rounded-[24px] p-5 sm:p-8 bg-inkdeep border border-panel"></div>
+    <div id="chart" class="mt-6 rounded-[24px] p-5 sm:p-8 bg-inkdeep border border-panel overflow-x-auto"></div>
   </section>
 
   <footer class="border-t border-white/10 px-4 sm:px-8 py-8 text-center">
@@ -140,23 +185,58 @@
     </div>
   </footer>
 
+  <!-- ===== detail overlay: event-launch transmission view ===== -->
+  <div id="detail" class="hidden fixed inset-0 z-[60] overflow-y-auto bg-inkdeep/97 backdrop-blur-xl scanlines">
+    <div class="min-h-full max-w-5xl mx-auto px-4 sm:px-8 py-6 sm:py-10">
+      <div class="stage s1 flex items-center justify-between font-mono text-[0.65rem] sm:text-xs tracking-[0.25em] text-vice-cyan/80">
+        <span id="dKicker">TRANSMISSION // PANEL 01</span>
+        <button onclick="closeDetail()" class="text-white/70 hover:text-pill font-bold tracking-widest border border-white/20 hover:border-pill rounded-full px-4 py-2 transition">✕ CLOSE</button>
+      </div>
+      <div class="stage s2 mt-4 h-[3px] w-24 bg-vice-cyan shadow-[0_0_12px_rgba(0,229,255,.8)]"></div>
+      <h1 class="stage s2 mt-5 font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2rem,7vw,4.25rem)]">
+        <span id="dTitle" class="glitch" data-text="">…</span>
+      </h1>
+      <p id="dExcerpt" class="stage s3 mt-4 text-pill font-bold text-base sm:text-xl max-w-3xl"></p>
+      <div class="stage s3 mt-6 flex flex-wrap gap-2 sm:gap-3 font-mono text-[0.65rem] sm:text-xs font-bold tracking-[0.2em]">
+        <span id="dDate" class="chip bg-white/10 border border-white/15 px-4 py-2.5 text-white/85"></span>
+        <span id="dRead" class="chip bg-vice-pink/15 border border-vice-pink/50 px-4 py-2.5 text-vice-pink"></span>
+        <span id="dWords" class="chip bg-vice-cyan/10 border border-vice-cyan/40 px-4 py-2.5 text-vice-cyan"></span>
+      </div>
+      <div id="dArt" class="stage s4 sweep relative mt-8 h-48 sm:h-72 overflow-hidden rounded-[24px] border-2 border-panel"></div>
+      <div class="stage s5 mt-8 grid sm:grid-cols-[1fr_220px] gap-6">
+        <div>
+          <p class="kicker text-[0.6rem] font-bold uppercase text-white/40 mb-3">Full&nbsp;Story</p>
+          <p id="dBody" class="text-white/80 text-base sm:text-lg leading-relaxed"></p>
+        </div>
+        <div class="flex sm:flex-col gap-3">
+          <button id="dPrev" class="flex-1 sm:flex-none border border-white/20 hover:border-pill rounded-full px-5 py-3 text-xs font-bold tracking-widest text-white/80 hover:text-pill transition">← PREV</button>
+          <button id="dNext" class="flex-1 sm:flex-none border border-white/20 hover:border-pill rounded-full px-5 py-3 text-xs font-bold tracking-widest text-white/80 hover:text-pill transition">NEXT →</button>
+          <button onclick="closeDetail()" class="flex-1 sm:flex-none bg-pill text-inkdeep rounded-full px-5 py-3 text-xs font-bold tracking-widest hover:brightness-105 transition">ALL PANELS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // hamburger
     document.getElementById('menuBtn').addEventListener('click', () => {
       document.getElementById('mobileMenu').classList.toggle('hidden');
     });
 
-    // panel art: alternating sunset artwork per card
     const ARTS = [
       'from-[#f7b733] via-[#ff2e88] to-[#7b2ff7]',
       'from-[#00e5ff] via-[#4a90d9] to-[#7b2ff7]',
       'from-[#ff9a3c] via-[#ff2e88] to-[#2a1535]',
       'from-[#7bffcf] via-[#00e5ff] to-[#4a2b6b]'
     ];
+    let POSTS = [];
+
+    const words = s => (s || '').trim().split(/\s+/).filter(Boolean).length;
+    const readTime = p => Math.max(1, Math.ceil((words(p.excerpt) + words(p.content)) / 200));
 
     fetch('/api/posts')
       .then(res => res.json())
       .then(posts => {
+        POSTS = posts;
         document.getElementById('cards').innerHTML = posts.map((p, i) => `
           <article class="overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
             <div class="relative h-44 sm:h-52 bg-gradient-to-br ${ARTS[i % ARTS.length]} overflow-hidden">
@@ -169,17 +249,69 @@
               <small class="text-pill font-bold text-[0.7rem] tracking-[0.25em] uppercase">${p.date}</small>
               <h2 class="mt-2 text-cream font-black uppercase leading-tight text-xl sm:text-2xl">${p.title}</h2>
               <p class="mt-3 text-white/70 text-sm sm:text-base font-medium">${p.excerpt}</p>
-              <p class="story-body hidden mt-3 text-white/60 text-sm leading-relaxed">${p.content}</p>
-              <button onclick="const b=this.previousElementSibling;b.classList.toggle('hidden');this.textContent=b.classList.contains('hidden')?'Read Story →':'Close ↑'"
-                class="mt-5 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full hover:brightness-105 transition">Read Story →</button>
+              <div class="mt-5 flex flex-wrap gap-3">
+                <a href="#/post/${p.id}" class="bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline hover:brightness-105 transition">Open File →</a>
+                <span class="font-mono text-[0.65rem] tracking-[0.2em] text-white/40 self-center">${readTime(p)} MIN READ</span>
+              </div>
             </div>
           </article>
         `).join('');
         renderChart(posts);
+        route(); // deep link #/post/N on load
       })
       .catch(() => {
         document.getElementById('cards').innerHTML = '<p class="text-white/60">Failed to load stories.</p>';
       });
+
+    // ---------- detail overlay w/ glitch reveal ----------
+    const detail = document.getElementById('detail');
+    let current = -1;
+    function openDetail(id) {
+      const i = POSTS.findIndex(p => p.id === id);
+      if (i < 0) return;
+      current = i;
+      const p = POSTS[i];
+      document.body.style.overflow = 'hidden';
+      detail.classList.remove('hidden');
+      // restart staged animation
+      detail.classList.remove('detail-open');
+      void detail.offsetWidth;
+      detail.classList.add('detail-open');
+      detail.scrollTop = 0;
+      document.getElementById('dKicker').textContent = `TRANSMISSION // PANEL ${String(i + 1).padStart(2, '0')} — ${p.date}`;
+      const t = document.getElementById('dTitle');
+      t.textContent = p.title;
+      t.dataset.text = p.title;
+      t.classList.remove('glitching');
+      void t.offsetWidth;
+      t.classList.add('glitching'); // millisecond RGB-split flicker
+      document.getElementById('dExcerpt').textContent = p.excerpt;
+      document.getElementById('dDate').textContent = '◷ ' + p.date;
+      document.getElementById('dRead').textContent = '◈ ' + readTime(p) + ' MIN READ';
+      document.getElementById('dWords').textContent = '⬣ ' + words(p.content) + ' WORDS';
+      document.getElementById('dArt').className = `stage s4 sweep relative mt-8 h-48 sm:h-72 overflow-hidden rounded-[24px] border-2 border-panel bg-gradient-to-br ${ARTS[i % ARTS.length]}`;
+      document.getElementById('dArt').innerHTML = `
+        <svg class="palm absolute -left-6 -bottom-8 w-48 sm:w-72 opacity-60"><use href="#palm"/></svg>
+        <svg class="palm absolute right-10 -bottom-10 w-56 sm:w-80 opacity-60"><use href="#palm"/></svg>
+        <div class="absolute right-6 top-2 font-black text-8xl sm:text-9xl text-black/25">${String(i + 1).padStart(2, '0')}</div>
+        <div class="absolute left-5 bottom-4 font-mono text-[0.65rem] tracking-[0.3em] text-black/60">SCENE // ${p.date}</div>`;
+      document.getElementById('dBody').textContent = p.content;
+      document.getElementById('dPrev').onclick = () => location.hash = '#/post/' + POSTS[(i - 1 + POSTS.length) % POSTS.length].id;
+      document.getElementById('dNext').onclick = () => location.hash = '#/post/' + POSTS[(i + 1) % POSTS.length].id;
+    }
+    function closeDetail() {
+      detail.classList.add('hidden');
+      detail.classList.remove('detail-open');
+      document.body.style.overflow = '';
+      if (location.hash.startsWith('#/post/')) history.replaceState(null, '', '#posts');
+    }
+    function route() {
+      const m = location.hash.match(/^#\/post\/(\d+)/);
+      if (m) openDetail(parseInt(m[1], 10));
+      else if (!detail.classList.contains('hidden')) closeDetail();
+    }
+    addEventListener('hashchange', route);
+    addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
 
     // D3: progress + multilayer parallax
     if (typeof d3 !== 'undefined') {
@@ -197,31 +329,41 @@
       onScroll();
     }
 
-    // D3: story-size bars
+    // D3: story-size bars — FIX: dynamic label width, no truncation
+    let chartData = [];
     function renderChart(posts) {
       if (typeof d3 === 'undefined') return;
-      const data = posts.map(p => ({ title: p.title.slice(0, 20), value: (p.content || '').length }));
+      chartData = posts.map(p => ({ title: p.title, value: (p.content || '').length }));
+      drawChart();
+    }
+    function drawChart() {
+      if (typeof d3 === 'undefined' || !chartData.length) return;
       const box = document.getElementById('chart');
       box.innerHTML = '';
-      const width = box.clientWidth || 600, barH = 34, pad = 120;
-      const height = data.length * (barH + 14) + 10;
-      const x = d3.scaleLinear().domain([0, d3.max(data, d => d.value)]).range([0, Math.max(width - pad - 30, 40)]);
+      const width = box.clientWidth || 600, barH = 34;
+      const pad = Math.min(Math.max(...chartData.map(d => d.title.length)) * 7.5 + 16, width * 0.45);
+      const height = chartData.length * (barH + 14) + 10;
+      const x = d3.scaleLinear().domain([0, d3.max(chartData, d => d.value)]).range([0, Math.max(width - pad - 60, 40)]);
       const svg = d3.select(box).append('svg').attr('width', width).attr('height', height);
       const defs = svg.append('defs');
       const grad = defs.append('linearGradient').attr('id', 'viceGrad').attr('x1', 0).attr('x2', 1);
       grad.append('stop').attr('offset', '0%').attr('stop-color', '#ff2e88');
       grad.append('stop').attr('offset', '55%').attr('stop-color', '#7b2ff7');
       grad.append('stop').attr('offset', '100%').attr('stop-color', '#00e5ff');
-      const row = svg.selectAll('g').data(data).join('g')
+      const row = svg.selectAll('g').data(chartData).join('g')
         .attr('transform', (d, i) => `translate(0,${i * (barH + 14) + 5})`);
       row.append('text').attr('x', 0).attr('y', barH / 2).attr('dy', '.35em')
-        .attr('fill', '#f2ecdc').attr('font-size', 12).attr('font-weight', 700).text(d => d.title);
+        .attr('fill', '#f2ecdc').attr('font-size', 12).attr('font-weight', 700)
+        .text(d => d.title)
+        .append('title').text(d => d.title);
       row.append('rect').attr('x', pad).attr('y', 0).attr('height', barH).attr('rx', 10)
         .attr('width', 0).attr('fill', 'url(#viceGrad)')
         .transition().duration(1200).delay((d, i) => i * 150).attr('width', d => x(d.value));
       row.append('text').attr('x', d => pad + x(d.value) + 8).attr('y', barH / 2).attr('dy', '.35em')
         .attr('fill', '#00e5ff').attr('font-size', 12).attr('font-weight', 700).text(d => d.value);
     }
+    let rsz;
+    addEventListener('resize', () => { clearTimeout(rsz); rsz = setTimeout(drawChart, 200); });
 
     // Three.js: neon particles + grid, scroll/mouse parallax
     (function initThree() {
