@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEDIA — Vice City Stories</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#191924', inkdeep: '#12121c', pill: '#f6a9c6', cream: '#f2ecdc',
+            panel: '#4a2b6b', vice: { pink: '#ff2e88', cyan: '#00e5ff', purple: '#7b2ff7' }
+          },
+          fontFamily: { archivo: ['Archivo', 'system-ui', 'sans-serif'], mono: ['ui-monospace', 'Menlo', 'monospace'] }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Archivo', system-ui, sans-serif; background: #191924; }
+    .kicker { letter-spacing: 0.55em; }
+    .palm { color: rgba(0,0,0,.55); }
+    .logo-text { background: linear-gradient(90deg, #ff2e88, #00e5ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .pill-btn { transition: transform .2s ease, box-shadow .25s ease, filter .2s ease; }
+    .pill-btn:hover { transform: translateY(-2px); filter: brightness(1.07); box-shadow: 0 10px 28px rgba(246,169,198,.35); }
+    .pill-btn:active { transform: scale(.95); }
+    .ghost-btn { transition: transform .2s ease, border-color .2s, color .2s; }
+    .ghost-btn:hover { transform: translateY(-2px); }
+    .ghost-btn:active { transform: scale(.95); }
+    #loader { transition: opacity .5s ease; }
+    #loadbar { animation: load 1.1s ease-in-out infinite; }
+    @keyframes load { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
+    #wipe { transition: transform .38s cubic-bezier(.7,0,.3,1); }
+    .page-in { animation: pageIn .55s cubic-bezier(.2,.9,.25,1) both; }
+    @keyframes pageIn { from { opacity: 0; transform: translateY(14px); } }
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.9,.25,1); }
+    .reveal.on { opacity: 1; transform: none; }
+    .mlink { display: flex; align-items: center; justify-content: space-between; width: 100%; background: none; border: none; border-bottom: 1px solid rgba(255,255,255,.07); cursor: pointer; text-align: left; font-weight: 900; text-transform: uppercase; font-size: clamp(1.5rem, 4vw, 2.3rem); letter-spacing: -0.01em; line-height: 1.1; color: #c9c3e8; padding: 0.6rem 0; text-decoration: none; transition: color .2s, transform .2s; }
+    .mlink:hover, .mlink.active { color: #f2ecdc; transform: translateX(8px); }
+    .mlink span { color: rgba(255,255,255,.35); font-weight: 400; }
+    #rmenu { animation: menuIn .3s ease both; }
+    @keyframes menuIn { from { opacity: 0; } }
+    .subpill { transition: all .2s; }
+    .subpill.active { background: #f2ecdc; color: #12121c; }
+    #lightbox { transition: opacity .3s ease; }
+  </style>
+</head>
+<body class="bg-ink text-white min-h-screen overflow-x-hidden antialiased">
+
+  <div id="loader" class="fixed inset-0 z-[100] bg-inkdeep flex flex-col items-center justify-center gap-5">
+    <p class="font-black text-3xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
+    <div class="w-48 h-1 rounded-full bg-white/10 overflow-hidden">
+      <div id="loadbar" class="h-full w-2/5 bg-gradient-to-r from-vice-pink via-vice-purple to-vice-cyan"></div>
+    </div>
+    <p class="font-mono text-[0.6rem] tracking-[0.4em] text-white/40">BOOTING LEONIDA…</p>
+  </div>
+  <div id="wipe" class="fixed inset-0 z-[90] bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#12121c] pointer-events-none" style="transform:translateY(100%)"></div>
+
+  <svg width="0" height="0" class="absolute" aria-hidden="true">
+    <symbol id="palm" viewBox="0 0 100 140">
+      <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round">
+        <path d="M48 138 C46 102 44 72 40 46"/>
+        <path d="M40 46 Q20 32 4 40"/><path d="M40 46 Q30 22 14 20"/>
+        <path d="M40 46 Q40 16 30 8"/><path d="M40 46 Q56 18 72 22"/>
+        <path d="M40 46 Q62 32 80 38"/><path d="M40 46 Q56 42 70 52"/>
+      </g>
+      <circle cx="36" cy="50" r="4" fill="currentColor"/><circle cx="45" cy="51" r="4" fill="currentColor"/>
+    </symbol>
+  </svg>
+
+  <header class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4 bg-ink/85 backdrop-blur-xl border-b border-white/10">
+    <a href="/" class="font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white">VI<span class="text-pill">/BLOG</span> <span class="text-white/30 font-bold text-base sm:text-lg tracking-normal">| Media</span></a>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a href="#videos" class="pill-btn hidden sm:inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Watch Now</a>
+      <button id="menuBtn" aria-label="Menu" class="p-2 -mr-2 hover:opacity-70 transition">
+        <span class="block w-7 h-[3px] bg-white mb-[7px]"></span>
+        <span class="block w-7 h-[3px] bg-white"></span>
+      </button>
+    </div>
+  </header>
+
+  <div id="rmenu" class="hidden fixed inset-0 z-[80]">
+    <div class="absolute inset-0 flex">
+      <div class="hidden md:flex flex-1 relative flex-col justify-between overflow-hidden bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#1b1b2e] p-10">
+        <svg class="palm absolute -left-10 -bottom-10 w-72 opacity-50"><use href="#palm"/></svg>
+        <svg class="palm absolute -right-12 -bottom-12 w-80 opacity-50"><use href="#palm"/></svg>
+        <div class="m-auto text-center">
+          <p class="font-black leading-none tracking-tighter text-[9rem]">VI<span class="logo-text">/B</span></p>
+          <p class="mt-4 font-mono text-[0.65rem] tracking-[0.5em] text-white/50">WELCOME TO LEONIDA</p>
+        </div>
+        <p class="relative font-mono text-[0.6rem] tracking-[0.3em] text-white/40">CYPHERTECH GAMING HUB — EST. 2026</p>
+      </div>
+      <aside class="w-full md:w-[46%] bg-[#16161f] flex flex-col px-8 sm:px-12 py-6 overflow-y-auto">
+        <div class="flex items-center justify-between">
+          <p class="font-black text-xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
+          <button data-close aria-label="Close menu" class="w-11 h-11 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-black text-lg transition">✕</button>
+        </div>
+        <nav id="menuMain" class="mt-6 flex flex-col">
+          <a class="mlink" data-path="/" href="/">Home</a>
+          <a class="mlink" data-path="/#games" href="/#games">Games</a>
+          <a class="mlink" data-path="/#events" href="/#events">Events</a>
+          <button class="mlink" id="menuWatchBtn">Watch <span>›</span></button>
+          <a class="mlink" data-path="/media" href="/media">Media</a>
+          <a class="mlink" data-path="/blog" href="/blog">Blog</a>
+          <a class="mlink" data-path="/about" href="/about">About</a>
+          <a class="mlink" data-path="/contact" href="/contact">Contact</a>
+        </nav>
+        <div id="menuWatch" class="hidden mt-6">
+          <button id="menuBackBtn" class="flex items-center gap-3 font-bold text-lg text-white/85 hover:text-pill transition">← Back <span class="text-white/25">|</span> Watch</button>
+          <div id="menuVideos" class="mt-5 flex flex-col gap-5"></div>
+        </div>
+        <p class="mt-auto pt-8 font-mono text-[0.6rem] tracking-[0.3em] text-white/30">© 2026 — WELCOME TO LEONIDA</p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- hero -->
+  <section class="page-in relative overflow-hidden min-h-[52vh] sm:min-h-[62vh] flex items-end">
+    <img id="heroBg" src="https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920" alt="Vice City artwork" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-ink/10"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pb-10 sm:pb-14 pt-28 w-full">
+      <h1 class="font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2.2rem,7vw,4.5rem)]">Explore Vice City<br>and Beyond</h1>
+      <p class="mt-3 text-white/75 text-base sm:text-lg font-medium">Trailers, screenshots and artwork — download the vibe, share the neon.</p>
+    </div>
+  </section>
+
+  <!-- sub nav -->
+  <div class="sticky top-[68px] z-30 bg-ink/85 backdrop-blur-xl border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 py-3 flex gap-2 overflow-x-auto">
+      <a href="#featured" data-sub="featured" class="subpill active shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80">Featured</a>
+      <a href="#videos" data-sub="videos" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80">Videos</a>
+      <a href="#shots" data-sub="shots" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80">Screenshots</a>
+      <a href="#art" data-sub="art" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80">Artwork</a>
+    </div>
+  </div>
+
+  <div id="library">
+    <!-- featured player -->
+    <section id="featured" class="max-w-6xl mx-auto px-4 sm:px-8 pt-8 sm:pt-12">
+      <div id="featurePlayer" class="overflow-hidden rounded-[24px] border-2 border-panel bg-inkdeep"></div>
+      <div class="mt-4 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <h2 id="featureTitle" class="font-black uppercase text-cream text-xl sm:text-3xl leading-tight"></h2>
+          <p id="featureDate" class="mt-1 font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></p>
+        </div>
+        <a id="featureYT" href="#" target="_blank" rel="noopener" class="pill-btn shrink-0 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Watch on YouTube ↗</a>
+      </div>
+    </section>
+
+    <!-- videos -->
+    <section id="videos" class="max-w-6xl mx-auto px-4 sm:px-8 pt-10 sm:pt-14">
+      <div class="reveal flex items-end justify-between mb-6">
+        <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Videos</h2>
+        <span id="videoCount" class="font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></span>
+      </div>
+      <div id="videoGrid" class="grid gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3"></div>
+    </section>
+
+    <!-- screenshots -->
+    <section id="shots" class="max-w-6xl mx-auto px-4 sm:px-8 pt-10 sm:pt-14">
+      <div class="reveal flex items-end justify-between mb-6">
+        <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Screenshots</h2>
+        <span id="shotCount" class="font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></span>
+      </div>
+      <div id="shotGrid" class="grid gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3"></div>
+    </section>
+
+    <!-- artwork -->
+    <section id="art" class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
+      <div class="reveal flex items-end justify-between mb-6">
+        <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Artwork</h2>
+      </div>
+      <div id="artGrid" class="grid gap-5 sm:gap-7 sm:grid-cols-2"></div>
+    </section>
+  </div>
+
+  <!-- watch detail -->
+  <div id="watchDetail" class="hidden">
+    <section class="bg-black">
+      <div class="max-w-6xl mx-auto px-4 sm:px-8 py-6 sm:py-10">
+        <button onclick="closeWatch()" class="ghost-btn font-bold text-sm text-white/70 hover:text-pill mb-4">← Back | Watch</button>
+        <div id="detailPlayer" class="overflow-hidden rounded-[20px] border border-white/10"></div>
+      </div>
+    </section>
+    <section class="max-w-6xl mx-auto px-4 sm:px-8 py-8 sm:py-12 grid sm:grid-cols-2 gap-8">
+      <div>
+        <h2 id="detailTitle" class="font-black uppercase text-cream leading-tight text-[clamp(1.8rem,5vw,3rem)]"></h2>
+        <p id="detailDate" class="mt-2 font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></p>
+      </div>
+      <div>
+        <p id="detailDesc" class="text-white/70 text-base sm:text-lg"></p>
+        <a id="detailYT" href="#" target="_blank" rel="noopener" class="pill-btn inline-block mt-5 bg-white text-inkdeep font-bold text-sm px-6 py-3 rounded-full no-underline">▶ Watch on YouTube</a>
+      </div>
+    </section>
+    <section class="max-w-6xl mx-auto px-4 sm:px-8 pb-12 sm:pb-16">
+      <h3 class="font-black uppercase text-cream text-xl mb-5">Watch more</h3>
+      <div id="moreGrid" class="grid gap-5 sm:grid-cols-2"></div>
+    </section>
+  </div>
+
+  <!-- lightbox -->
+  <div id="lightbox" class="hidden fixed inset-0 z-[95] bg-black/90 backdrop-blur-sm items-center justify-center p-4 sm:p-10">
+    <button onclick="closeBox()" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-black text-lg transition">✕</button>
+    <figure class="max-w-5xl w-full">
+      <img id="boxImg" src="" alt="" class="w-full max-h-[78vh] object-contain rounded-2xl border border-white/15">
+      <figcaption id="boxCap" class="mt-3 text-center font-mono text-xs tracking-[0.25em] text-white/60"></figcaption>
+    </figure>
+  </div>
+
+  <footer class="border-t border-white/10 px-4 sm:px-8 py-8 text-center">
+    <p class="font-black text-xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
+    <p class="mt-2 text-white/40 text-xs tracking-[0.3em] uppercase">&copy; 2026 — Welcome to Leonida</p>
+    <div class="mt-3 flex justify-center gap-5 text-xs font-bold uppercase tracking-widest text-white/50">
+      <a href="/" class="no-underline hover:text-pill">Home</a>
+      <a href="/blog" class="no-underline hover:text-pill">Blog</a>
+      <a href="/media" class="no-underline hover:text-pill">Media</a>
+      <a href="/about" class="no-underline hover:text-pill">About</a>
+      <a href="/contact" class="no-underline hover:text-pill">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const hideLoader = () => { const l = document.getElementById('loader'); if (l) { l.style.opacity = '0'; setTimeout(() => l.remove(), 550); } };
+    addEventListener('load', () => setTimeout(hideLoader, 450));
+    setTimeout(hideLoader, 2800);
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href^="/"]:not([href^="//"])');
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      document.getElementById('wipe').style.transform = 'translateY(0)';
+      setTimeout(() => location.href = a.href, 400);
+    });
+
+    // rockstar overlay menu
+    const rmenu = document.getElementById('rmenu');
+    const menuMain = document.getElementById('menuMain');
+    const menuWatch = document.getElementById('menuWatch');
+    function highlightMenu() {
+      const path = location.pathname + location.hash;
+      document.querySelectorAll('.mlink[data-path]').forEach(a => {
+        a.classList.toggle('active', a.dataset.path === location.pathname || a.dataset.path === path);
+      });
+    }
+    function showMenuMain() { menuMain.classList.remove('hidden'); menuWatch.classList.add('hidden'); highlightMenu(); }
+    function setMenu(open) {
+      rmenu.classList.toggle('hidden', !open);
+      document.body.style.overflow = open ? 'hidden' : '';
+      if (open) showMenuMain();
+    }
+    document.getElementById('menuBtn').onclick = () => setMenu(true);
+    rmenu.querySelectorAll('[data-close]').forEach(el => el.onclick = () => setMenu(false));
+    document.getElementById('menuWatchBtn').onclick = () => { menuMain.classList.add('hidden'); menuWatch.classList.remove('hidden'); };
+    document.getElementById('menuBackBtn').onclick = showMenuMain;
+    addEventListener('keydown', e => { if (e.key === 'Escape' && !rmenu.classList.contains('hidden')) setMenu(false); });
+
+    // sub-nav active state
+    document.querySelectorAll('[data-sub]').forEach(a => a.addEventListener('click', () => {
+      document.querySelectorAll('[data-sub]').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+    }));
+
+    const thumb = id => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    const embed = (id, auto) => `<iframe class="w-full aspect-video" src="https://www.youtube-nocookie.com/embed/${id}?autoplay=${auto ? 1 : 0}&rel=0" title="video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    let MEDIA = null;
+
+    function videoCard(v) {
+      return `
+      <article class="overflow-hidden rounded-[20px] bg-inkdeep border border-white/10 transition duration-300 hover:-translate-y-1.5 hover:border-panel hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
+        <a href="#/watch/${v.youtubeId}" class="block relative no-underline">
+          <img src="${thumb(v.youtubeId)}" alt="${v.title}" loading="lazy" class="w-full aspect-video object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
+          <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/95 flex items-center justify-center transition hover:scale-110">
+            <span class="text-inkdeep text-xl font-black pl-0.5">▶</span>
+          </span>
+          <span class="absolute right-3 bottom-3 font-mono text-[0.65rem] font-bold bg-black/70 rounded px-2 py-1">${v.duration}</span>
+        </a>
+        <div class="p-5">
+          <a href="#/watch/${v.youtubeId}" class="font-bold text-cream no-underline hover:text-pill transition leading-snug block">${v.title}</a>
+          <p class="mt-1 font-mono text-[0.62rem] tracking-[0.2em] text-white/40">${v.date}</p>
+        </div>
+      </article>`;
+    }
+
+    function renderLibrary(m) {
+      const v0 = m.videos[0];
+      document.getElementById('featurePlayer').innerHTML = embed(v0.youtubeId, false);
+      document.getElementById('featureTitle').textContent = v0.title;
+      document.getElementById('featureDate').textContent = v0.date + '  ·  ' + v0.duration;
+      document.getElementById('featureYT').href = 'https://www.youtube.com/watch?v=' + v0.youtubeId;
+      document.getElementById('videoGrid').innerHTML = m.videos.map(videoCard).join('');
+      document.getElementById('videoCount').textContent = m.videos.length + ' FILES';
+      document.getElementById('shotGrid').innerHTML = m.screenshots.map(s => `
+        <figure class="shot overflow-hidden rounded-[20px] bg-inkdeep border border-white/10 cursor-pointer transition duration-300 hover:-translate-y-1.5 hover:border-panel" data-url="${s.url}" data-cap="${s.title} — ${s.tag}">
+          <img src="${s.url}" alt="${s.title}" loading="lazy" class="w-full aspect-video object-cover">
+          <figcaption class="p-4 flex items-center justify-between">
+            <span class="font-bold text-sm text-cream">${s.title}</span>
+            <span class="font-mono text-[0.6rem] tracking-[0.2em] text-vice-cyan">${s.tag.toUpperCase()}</span>
+          </figcaption>
+        </figure>`).join('');
+      document.getElementById('shotCount').textContent = m.screenshots.length + ' FILES';
+      document.getElementById('artGrid').innerHTML = m.artwork.map(a => `
+        <figure class="shot overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel cursor-pointer transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]" data-url="${a.url}" data-cap="${a.title}">
+          <img src="${a.url}" alt="${a.title}" loading="lazy" class="w-full aspect-[16/10] object-cover">
+          <figcaption class="p-5 flex items-center justify-between">
+            <span class="font-black uppercase text-cream">${a.title}</span>
+            <span class="font-mono text-[0.6rem] tracking-[0.2em] text-white/40">${a.sizes.toUpperCase()}</span>
+          </figcaption>
+        </figure>`).join('');
+      document.querySelectorAll('.shot').forEach(f => f.onclick = () => openBox(f.dataset.url, f.dataset.cap));
+      const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('on'); io.unobserve(x.target); } }), { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }
+
+    function openWatch(id) {
+      const v = (MEDIA.videos || []).find(x => x.youtubeId === id) || MEDIA.videos[0];
+      document.getElementById('library').classList.add('hidden');
+      const wd = document.getElementById('watchDetail');
+      wd.classList.remove('hidden');
+      document.getElementById('detailPlayer').innerHTML = embed(v.youtubeId, true);
+      document.getElementById('detailTitle').textContent = v.title;
+      document.getElementById('detailDate').textContent = v.date + '  ·  ' + v.duration;
+      document.getElementById('detailDesc').textContent = 'Captured from official channels — streaming here via YouTube embed. ' + v.title + ' originally premiered ' + v.date + '.';
+      document.getElementById('detailYT').href = 'https://www.youtube.com/watch?v=' + v.youtubeId;
+      document.getElementById('moreGrid').innerHTML = MEDIA.videos.filter(x => x.youtubeId !== v.youtubeId).map(videoCard).join('');
+      scrollTo({ top: 0 });
+    }
+    function closeWatch() {
+      document.getElementById('watchDetail').classList.add('hidden');
+      document.getElementById('detailPlayer').innerHTML = '';
+      document.getElementById('library').classList.remove('hidden');
+      if (location.hash.startsWith('#/watch/')) history.replaceState(null, '', location.pathname);
+    }
+    function route() {
+      const m = location.hash.match(/^#\/watch\/([\w-]{6,})/);
+      if (m && MEDIA) openWatch(m[1]);
+      else if (!document.getElementById('watchDetail').classList.contains('hidden')) closeWatch();
+    }
+    addEventListener('hashchange', route);
+
+    function openBox(url, cap) {
+      document.getElementById('boxImg').src = url;
+      document.getElementById('boxCap').textContent = cap;
+      const lb = document.getElementById('lightbox');
+      lb.classList.remove('hidden'); lb.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeBox() {
+      const lb = document.getElementById('lightbox');
+      lb.classList.add('hidden'); lb.classList.remove('flex');
+      document.getElementById('boxImg').src = '';
+      document.body.style.overflow = '';
+    }
+    addEventListener('keydown', e => { if (e.key === 'Escape') closeBox(); });
+    document.getElementById('lightbox').addEventListener('click', e => { if (e.target.id === 'lightbox') closeBox(); });
+
+    fetch('/api/showcase').then(r => r.json()).then(s => {
+      MEDIA = s.media;
+      renderLibrary(s.media);
+      document.getElementById('menuVideos').innerHTML = s.media.videos.map(v => `
+        <a href="/media#/watch/${v.youtubeId}" class="flex gap-4 items-center no-underline group">
+          <span class="relative shrink-0 w-32 aspect-video rounded-xl overflow-hidden bg-white/5">
+            <img src="${thumb(v.youtubeId)}" alt="" loading="lazy" class="w-full h-full object-cover">
+            <span class="absolute right-1 bottom-1 font-mono text-[0.6rem] font-bold bg-black/70 rounded px-1.5 py-0.5">${v.duration}</span>
+          </span>
+          <span><span class="block font-bold text-sm text-cream group-hover:text-pill transition">${v.title}</span>
+          <span class="block font-mono text-[0.6rem] tracking-[0.2em] text-white/40 mt-1">${v.date}</span></span>
+        </a>`).join('');
+      route();
+    }).catch(() => {});
+  </script>
+</body>
+</html>

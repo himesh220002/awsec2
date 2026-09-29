@@ -111,6 +111,12 @@
   "media": {
     "videos": [
       {
+        "title": "Grand Theft Auto VI: An Extended Look",
+        "date": "August 27, 2026",
+        "duration": "26:48",
+        "youtubeId": "tJbzMqJGH4k"
+      },
+      {
         "title": "Grand Theft Auto VI Trailer 2",
         "date": "May 6, 2025",
         "duration": "2:47",
@@ -130,6 +136,10 @@
       { "title": "Arena Wide", "tag": "Valorant", "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/4c679fc9b8f253d5915261338f81fe1043fded45-3440x1020.jpg?accountingTag=VAL&fit=fill&fm=jpg&q=80&h=640" },
       { "title": "Ultrawide Clash", "tag": "Valorant", "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/c8157d71a4776dd821d05ed6b82d5d875ca03386-5120x1644.png?accountingTag=VAL&fit=fill&fm=png&q=80&h=640" },
       { "title": "Header Art", "tag": "CS2", "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/162664aa5da85f418105350c5d67ca565f6c3713/header.jpg?t=1789251637" }
+    ],
+    "artwork": [
+      { "title": "Leonida Key Art", "sizes": "1 size", "url": "https://www.rockstargames.com/VI/-/opengraph-image.jpg?opengraph-image.0t8ty~nlmxq2s.jpg" },
+      { "title": "Arena Ultrawide", "sizes": "1 size", "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/4c679fc9b8f253d5915261338f81fe1043fded45-3440x1020.jpg?accountingTag=VAL&fit=fill&fm=jpg&q=80&h=640" }
     ]
   },
   "categories": ["News", "Esports", "Guides", "Reviews"],

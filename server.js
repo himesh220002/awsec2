@@ -37,6 +37,10 @@ app.get('/contact', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'contact.html'));
 });
 
+app.get('/media', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'media.html'));
+});
+
 app.get('/api/posts', (req, res) => {
   res.json(posts);
 });
