@@ -45,6 +45,51 @@
       "genre": "Hero Shooter",
       "tags": ["FPS", "Esports", "Heroes"],
       "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/1d1a219a5cb25d15b6e9fe2d4a4d2b83d41f0a8f-1920x1080.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=630&w=1200&crop=center"
+    },
+    {
+      "slug": "pubg-battlegrounds",
+      "title": "PUBG Battlegrounds",
+      "desc": "Battle royale survival at its finest.",
+      "genre": "Battle Royale",
+      "tags": ["BR", "Survival", "100P"],
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/578080/841ea38bc58cabb70aef65365cf50bc2d79329d9/header.jpg?t=1786493086",
+      "watchUrl": "https://www.youtube.com/results?search_query=pubg+official+trailer"
+    },
+    {
+      "slug": "cities-skylines-2",
+      "title": "Cities: Skylines II",
+      "desc": "City builder with next-gen simulation.",
+      "genre": "City Builder",
+      "tags": ["Sim", "Building", "Mods"],
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/page_bg_raw.jpg",
+      "watchUrl": "https://www.youtube.com/results?search_query=cities+skylines+2+official+trailer"
+    },
+    {
+      "slug": "forza-horizon-5",
+      "title": "Forza Horizon 5",
+      "desc": "Open-world racing with stunning visuals.",
+      "genre": "Racing",
+      "tags": ["Open World", "Cars", "Mexico"],
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/header.jpg",
+      "watchUrl": "https://www.youtube.com/results?search_query=forza+horizon+5+official+trailer"
+    },
+    {
+      "slug": "far-cry-6",
+      "title": "Far Cry 6",
+      "desc": "Story-driven FPS in a tropical revolution.",
+      "genre": "Story FPS",
+      "tags": ["Story", "FPS", "Yara"],
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2369390/64af0c6b70ef233bbdff1e5ffe0e397481efb3c9/header.jpg?t=1790173132",
+      "watchUrl": "https://www.youtube.com/results?search_query=far+cry+6+official+trailer"
+    },
+    {
+      "slug": "story-mode-spotlight",
+      "title": "Story Mode Spotlight",
+      "desc": "Immersive narrative-driven adventures.",
+      "genre": "Story",
+      "tags": ["Narrative", "Adventure", "Single-Player"],
+      "image": "https://www.rockstargames.com/VI/_next/static/media/shard1.14.-n-5n.4nws.png?akim=1&imdensity=1&imwidth=1920",
+      "watchUrl": "https://www.youtube.com/results?search_query=gta+6+trailer+2"
     }
   ],
   "events": [
@@ -98,6 +143,7 @@
       "category": "News",
       "tags": ["GTA 6", "Leonida", "Open World"],
       "excerpt": "Explore leaks, trailers, and gameplay expectations.",
+      "image": "https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920",
       "content": "Every trailer frame of GTA 6 has been dissected by the community, and the picture is getting clearer: a Leonida state twice as dense as anything before it, dual protagonists, and a world that reacts to your reputation street by street. Rockstar's trailers confirm the Vice City return alongside new swampland and Keys-inspired regions. Expect the launch conversation to be dominated by performance modes on console — fidelity versus 60fps — and by how the online component evolves from GTA Online's decade-long run. Our advice: watch the second trailer shot by shot, keep expectations measured on the map size rumors, and get your backlog cleared before November."
     },
     {
@@ -109,6 +155,7 @@
       "category": "Esports",
       "tags": ["Valorant", "Esports", "VCT"],
       "excerpt": "How Valorant became a global competitive phenomenon.",
+      "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/1d1a219a5cb25d15b6e9fe2d4a4d2b83d41f0a8f-1920x1080.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=630&w=1200&crop=center",
       "content": "Valorant's rise from 2020 launch to sold-out arenas took barely five years, powered by Riot's franchised VCT leagues across four international regions. The formula worked: a readable spectator client, agent abilities that create highlight moments without obscuring gunplay, and a Challengers path that keeps grassroots scenes alive from Mumbai to Berlin. Viewership now rivals the biggest tactical shooters every Masters event, and sponsor money follows the eyeballs. The next growth lever is mobile and console audiences feeding back into the PC scene. If you run a collegiate or city-level event, this is the title with the deepest amateur-to-pro funnel right now."
     },
     {
@@ -120,6 +167,7 @@
       "category": "Esports",
       "tags": ["CS2", "LAN", "Mumbai", "Tournament"],
       "excerpt": "Everything to watch at the $25,000 Mumbai LAN showdown.",
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/162664aa5da85f418105350c5d67ca565f6c3713/header.jpg?t=1789251637",
       "content": "The CS2 Global Clash lands in Mumbai on December 1 with $25,000 on the line and eight squads fighting through a GSL group stage into single-elimination playoffs. LAN CS2 plays differently: sub-tick movement rewards disciplined crosshair placement, and the new lighting on overhauled maps punishes lazy angles. Watch for the Indian qualifiers — home-crowd energy has historically lifted underdogs into deep runs. Doors open at 10 AM with the showmatch at noon, and the grand final is a best-of-five under arena lights. Our pick: experience over aim, but never count out a hot AWPer on LAN."
     },
     {
@@ -131,6 +179,7 @@
       "category": "Guides",
       "tags": ["Valorant", "Guide", "Qualifier"],
       "excerpt": "How to prep, register, and survive the open qualifiers.",
+      "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/c8157d71a4776dd821d05ed6b82d5d875ca03386-5120x1644.png?accountingTag=VAL&fit=fill&fm=png&q=80&h=640",
       "content": "The Valorant Cypher Cup opens its qualifiers online on November 15, and preparation beats raw aim at this level. Start with the admin pack: stable roster of five plus one substitute, every account in good standing, and voice comms tested a week early — most qualifier forfeits are tech issues, not losses. In-game, drill your map pool down to three comfort picks and a single anti-eco protocol your whole team can call blind. Review one VOD per map focusing only on round-one setups and timeout usage. On match day, warm up with thirty minutes of deathmatch, lock your agents early, and treat every timeout as a reset button. Qualifiers reward the disciplined, not the flashy."
     }
   ]

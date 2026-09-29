@@ -130,6 +130,17 @@
     </div>
   </section>
 
+  <section id="watch" class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
+    <div class="reveal mb-2">
+      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Watch</p>
+    </div>
+    <h2 class="reveal font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Trailers &amp; Gameplay</h2>
+    <p class="reveal mt-2 text-white/60 text-sm sm:text-base">Official trailers, embedded from YouTube. New slots plug straight into JSON.</p>
+    <div id="watchGrid" class="mt-6 grid gap-5 sm:gap-7 sm:grid-cols-2">
+      <p class="text-white/60">Loading trailers…</p>
+    </div>
+  </section>
+
   <section class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
     <div class="reveal flex items-end justify-between mb-6">
       <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Latest&nbsp;Transmissions</p>
@@ -142,21 +153,19 @@
 
   <section class="reveal max-w-6xl mx-auto px-4 sm:px-8 pb-12 sm:pb-16">
     <div class="rounded-[24px] bg-inkdeep border border-panel p-6 sm:p-10">
-      <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Live&nbsp;Pipeline</p>
+      <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Everywhere&nbsp;You&nbsp;Play</p>
       <div class="mt-5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 font-mono text-[0.65rem] sm:text-xs font-bold tracking-[0.2em]">
-        <span class="bg-white/10 border border-white/15 rounded-full px-4 py-2.5 text-center">PUSH</span>
-        <span class="text-vice-pink text-center">→</span>
-        <span class="bg-vice-pink/15 border border-vice-pink/50 rounded-full px-4 py-2.5 text-vice-pink text-center">DOCKER CI</span>
-        <span class="text-vice-pink text-center">→</span>
-        <span class="bg-white/10 border border-white/15 rounded-full px-4 py-2.5 text-center">HUB :LATEST</span>
-        <span class="text-vice-pink text-center">→</span>
-        <span class="bg-vice-cyan/10 border border-vice-cyan/40 rounded-full px-4 py-2.5 text-vice-cyan text-center">DOCKER CD</span>
-        <span class="text-vice-pink text-center">→</span>
-        <span class="bg-white/10 border border-white/15 rounded-full px-4 py-2.5 text-center">EC2 :8080</span>
+        <span class="bg-white/10 border border-white/15 rounded-full px-4 py-2.5 text-center">PC</span>
+        <span class="text-vice-pink text-center">·</span>
+        <span class="bg-vice-pink/15 border border-vice-pink/50 rounded-full px-4 py-2.5 text-vice-pink text-center">PS5</span>
+        <span class="text-vice-pink text-center">·</span>
+        <span class="bg-vice-cyan/10 border border-vice-cyan/40 rounded-full px-4 py-2.5 text-vice-cyan text-center">XBOX SERIES X|S</span>
+        <span class="text-vice-pink text-center">·</span>
+        <span class="bg-white/10 border border-white/15 rounded-full px-4 py-2.5 text-center">MOBILE</span>
       </div>
       <div class="mt-6 flex flex-wrap gap-3">
-        <a href="/blog" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Read the Blog</a>
-        <a href="/contact" class="ghost-btn font-bold text-sm px-7 py-3 rounded-full no-underline border border-white/25 text-white/85 hover:border-pill hover:text-pill">Open a Channel</a>
+        <a href="#watch" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Watch Trailers</a>
+        <a href="/blog" class="ghost-btn font-bold text-sm px-7 py-3 rounded-full no-underline border border-white/25 text-white/85 hover:border-pill hover:text-pill">Read Transmissions</a>
       </div>
     </div>
   </section>
@@ -207,7 +216,7 @@
               <h2 class="text-cream font-black uppercase leading-tight text-lg">${g.title}</h2>
               <p class="mt-2 text-white/70 text-sm">${g.desc}</p>
               <p class="mt-3 font-mono text-[0.62rem] tracking-[0.18em] text-vice-cyan/80 uppercase">${g.tags.join(' · ')}</p>
-              <a href="/blog#/post/${GAME_POST[g.slug] || ''}" class="pill-btn inline-block mt-4 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Intel File →</a>
+              ${GAME_POST[g.slug] ? `<a href="/blog#/post/${GAME_POST[g.slug]}" class="pill-btn inline-block mt-4 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Intel File →</a>` : `<a href="${g.watchUrl}" target="_blank" rel="noopener" class="pill-btn inline-block mt-4 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Trailer ↗</a>`}
             </div>
           </article>`).join('');
         document.getElementById('eventGrid').innerHTML = s.events.map(ev => `
@@ -223,11 +232,32 @@
             </div>
             <a href="/contact" class="pill-btn inline-block mt-5 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Register →</a>
           </article>`).join('');
+        document.getElementById('watchGrid').innerHTML = s.media.videos.map(v => `
+          <article class="watch-card overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel" data-yt="${v.youtubeId}" data-title="${v.title}">
+            <div class="watch-thumb relative cursor-pointer">
+              <img src="https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg" alt="${v.title}" loading="lazy" class="w-full aspect-video object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/95 flex items-center justify-center transition hover:scale-110">
+                <span class="text-inkdeep text-2xl font-black pl-1">▶</span>
+              </div>
+              <span class="absolute right-3 bottom-3 font-mono text-[0.65rem] font-bold bg-black/70 rounded px-2 py-1">${v.duration}</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-black uppercase text-cream text-lg leading-tight">${v.title}</h3>
+              <p class="mt-1 font-mono text-[0.65rem] tracking-[0.2em] text-white/40">${v.date}</p>
+            </div>
+          </article>`).join('');
+        document.querySelectorAll('.watch-card').forEach(card => {
+          card.querySelector('.watch-thumb').onclick = () => {
+            card.querySelector('.watch-thumb').outerHTML = `<iframe class="w-full aspect-video" src="https://www.youtube-nocookie.com/embed/${card.dataset.yt}?autoplay=1&rel=0" title="${card.dataset.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+          };
+        });
         observeReveals();
       })
       .catch(() => {
         document.getElementById('games').innerHTML = '<p class="text-white/60">Showcase offline.</p>';
         document.getElementById('eventGrid').innerHTML = '<p class="text-white/60">Events offline.</p>';
+        document.getElementById('watchGrid').innerHTML = '<p class="text-white/60">Trailers offline.</p>';
       });
 
     fetch('/api/posts')
@@ -236,9 +266,9 @@
         document.getElementById('featured').innerHTML = posts.slice(0, 3).map((p, i) => `
           <article class="overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
             <div class="relative h-40 sm:h-48 bg-gradient-to-br ${ARTS[i % ARTS.length]} overflow-hidden">
-              <svg class="palm absolute -left-4 -bottom-4 w-28 opacity-60"><use href="#palm"/></svg>
-              <div class="absolute right-4 top-2 font-black text-6xl text-black/25">${String(i + 1).padStart(2, '0')}</div>
-              <div class="absolute left-4 bottom-3 text-[0.65rem] font-bold tracking-[0.3em] uppercase text-black/60">Panel&nbsp;${String(i + 1).padStart(2, '0')}</div>
+              ${p.image ? `<img src="${p.image}" alt="${p.title} artwork" loading="lazy" class="absolute inset-0 w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>` : `<svg class="palm absolute -left-4 -bottom-4 w-28 opacity-60"><use href="#palm"/></svg>`}
+              <div class="absolute right-4 top-2 font-black text-6xl ${p.image ? 'text-white/40' : 'text-black/25'}">${String(i + 1).padStart(2, '0')}</div>
+              <div class="absolute left-4 bottom-3 text-[0.65rem] font-bold tracking-[0.3em] uppercase ${p.image ? 'text-white/85' : 'text-black/60'}">Panel&nbsp;${String(i + 1).padStart(2, '0')}</div>
             </div>
             <div class="p-5 sm:p-6">
               <small class="text-pill font-bold text-[0.7rem] tracking-[0.25em] uppercase">${p.date}</small>

@@ -242,7 +242,7 @@
       <div class="stage s5 mt-8 grid sm:grid-cols-[1fr_220px] gap-6">
         <div>
           <p class="kicker text-[0.6rem] font-bold uppercase text-white/40 mb-3">Full&nbsp;Story</p>
-          <p id="dBody" class="text-white/80 text-base sm:text-lg leading-relaxed"></p>
+          <p id="dBody" class="rounded-2xl bg-inkdeep/95 border border-white/10 p-5 sm:p-7 text-white/85 text-base sm:text-lg leading-relaxed"></p>
         </div>
         <div class="flex sm:flex-col gap-3">
           <button id="dPrev" class="flex-1 sm:flex-none border border-white/20 hover:border-pill rounded-full px-5 py-3 text-xs font-bold tracking-widest text-white/80 hover:text-pill transition">← PREV</button>
@@ -296,10 +296,9 @@
       return `
           <article class="overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
             <div class="relative h-44 sm:h-52 bg-gradient-to-br ${ARTS[i % ARTS.length]} overflow-hidden">
-              <svg class="palm absolute -left-4 -bottom-4 w-32 opacity-60"><use href="#palm"/></svg>
-              <svg class="palm absolute right-6 -bottom-5 w-36 opacity-60"><use href="#palm"/></svg>
-              <div class="absolute right-4 top-3 font-black text-6xl sm:text-7xl text-black/25">${String(i + 1).padStart(2, '0')}</div>
-              <div class="absolute left-4 bottom-3 text-[0.65rem] font-bold tracking-[0.3em] uppercase text-black/60">Panel&nbsp;${String(i + 1).padStart(2, '0')}</div>
+              ${p.image ? `<img src="${p.image}" alt="${p.title} artwork" loading="lazy" class="absolute inset-0 w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>` : `<svg class="palm absolute -left-4 -bottom-4 w-32 opacity-60"><use href="#palm"/></svg><svg class="palm absolute right-6 -bottom-5 w-36 opacity-60"><use href="#palm"/></svg>`}
+              <div class="absolute right-4 top-3 font-black text-6xl sm:text-7xl ${p.image ? 'text-white/40' : 'text-black/25'}">${String(i + 1).padStart(2, '0')}</div>
+              <div class="absolute left-4 bottom-3 text-[0.65rem] font-bold tracking-[0.3em] uppercase ${p.image ? 'text-white/85' : 'text-black/60'}">Panel&nbsp;${String(i + 1).padStart(2, '0')}</div>
             </div>
             <div class="p-5 sm:p-7">
               <div class="flex flex-wrap items-center gap-2">
@@ -367,10 +366,9 @@
       document.getElementById('dWords').textContent = '⬣ ' + words(p.content) + ' WORDS';
       document.getElementById('dArt').className = `stage s4 sweep relative mt-8 h-48 sm:h-72 overflow-hidden rounded-[24px] border-2 border-panel bg-gradient-to-br ${ARTS[i % ARTS.length]}`;
       document.getElementById('dArt').innerHTML = `
-        <svg class="palm absolute -left-6 -bottom-8 w-48 sm:w-72 opacity-60"><use href="#palm"/></svg>
-        <svg class="palm absolute right-10 -bottom-10 w-56 sm:w-80 opacity-60"><use href="#palm"/></svg>
-        <div class="absolute right-6 top-2 font-black text-8xl sm:text-9xl text-black/25">${String(i + 1).padStart(2, '0')}</div>
-        <div class="absolute left-5 bottom-4 font-mono text-[0.65rem] tracking-[0.3em] text-black/60">SCENE // ${p.date}</div>`;
+        ${p.image ? `<img src="${p.image}" alt="${p.title} artwork" class="absolute inset-0 w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"></div>` : `<svg class="palm absolute -left-6 -bottom-8 w-48 sm:w-72 opacity-60"><use href="#palm"/></svg><svg class="palm absolute right-10 -bottom-10 w-56 sm:w-80 opacity-60"><use href="#palm"/></svg>`}
+        <div class="absolute right-6 top-2 font-black text-8xl sm:text-9xl ${p.image ? 'text-white/40' : 'text-black/25'}">${String(i + 1).padStart(2, '0')}</div>
+        <div class="absolute left-5 bottom-4 font-mono text-[0.65rem] tracking-[0.3em] ${p.image ? 'text-white/85' : 'text-black/60'}">SCENE // ${p.date}</div>`;
       document.getElementById('dBody').innerHTML = linkify(p.content);
       document.getElementById('dPrev').onclick = () => location.hash = '#/post/' + POSTS[(i - 1 + POSTS.length) % POSTS.length].id;
       document.getElementById('dNext').onclick = () => location.hash = '#/post/' + POSTS[(i + 1) % POSTS.length].id;
@@ -393,10 +391,12 @@
     if (typeof d3 !== 'undefined') {
       const progress = d3.select('#progress');
       const layers = d3.selectAll('.layer');
+      const fine = matchMedia('(min-width: 768px)').matches; // parallax desktop-only: prevents mobile overlap
       const onScroll = () => {
         const y = window.scrollY;
         const max = document.documentElement.scrollHeight - innerHeight;
         progress.style('transform', `scaleX(${max > 0 ? y / max : 0})`);
+        if (!fine) { layers.style('transform', 'none'); return; }
         layers.each(function () {
           d3.select(this).style('transform', `translateY(${y * parseFloat(this.dataset.speed || 0)}px)`);
         });

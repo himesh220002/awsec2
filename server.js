@@ -17,7 +17,8 @@ const posts = showcase.blogs.map(b => ({
   category: b.category,
   tags: b.tags,
   excerpt: b.excerpt,
-  content: b.content
+  content: b.content,
+  image: b.image || null
 }));
 
 app.get('/', (req, res) => {

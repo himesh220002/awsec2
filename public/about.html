@@ -89,42 +89,46 @@
     <div class="absolute inset-0 bg-gradient-to-b from-[#2a1535] via-[#191924] to-[#191924]"></div>
     <svg class="palm absolute -right-8 bottom-0 w-52 sm:w-80 opacity-40"><use href="#palm"/></svg>
     <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-14 sm:pt-20 pb-10 sm:pb-14">
-      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/60">Case&nbsp;File&nbsp;001</p>
-      <h1 class="mt-4 font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2.4rem,8vw,5rem)]">How It<br>Ships</h1>
-      <p class="mt-5 max-w-xl text-white/70 text-base sm:text-lg">A learning build: an Express blog on port 8080, containerized, pushed to Docker Hub by CI and pulled onto EC2 by CD — all on every push to master.</p>
+      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/60">Who&nbsp;We&nbsp;Are</p>
+      <h1 class="mt-4 font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2.4rem,8vw,5rem)]">Built<br>For Players</h1>
+      <p class="mt-5 max-w-xl text-white/70 text-base sm:text-lg">CypherTech Gaming Hub covers the games, events and products that matter — from Leonida open worlds and LAN finals to city builders and story-driven adventures.</p>
     </div>
   </section>
 
   <section class="max-w-6xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
-    <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50 mb-6">The&nbsp;Run</p>
-    <div class="grid gap-4 sm:gap-5">
-      <div class="reveal rounded-[20px] bg-inkdeep border border-panel p-5 sm:p-7 flex gap-4 sm:gap-6 items-start">
-        <span class="font-black text-3xl sm:text-4xl text-black/40 bg-gradient-to-br from-[#f7b733] to-[#ff2e88] bg-clip-text text-transparent shrink-0">01</span>
-        <div><h3 class="font-black uppercase text-cream text-lg sm:text-xl">Push</h3><p class="mt-1 text-white/65 text-sm sm:text-base">Commit lands on <span class="font-mono text-vice-cyan">master</span> at <span class="font-mono text-white/85">github.com/himesh220002/awsec2</span>.</p></div>
-      </div>
-      <div class="reveal rounded-[20px] bg-inkdeep border border-panel p-5 sm:p-7 flex gap-4 sm:gap-6 items-start">
+    <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50 mb-6">What&nbsp;We&nbsp;Cover</p>
+    <div class="grid gap-4 sm:gap-5 sm:grid-cols-2">
+      <a href="/blog" class="reveal rounded-[20px] bg-inkdeep border border-panel p-5 sm:p-7 no-underline block transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
+        <span class="font-black text-3xl sm:text-4xl shrink-0 bg-gradient-to-br from-[#f7b733] to-[#ff2e88] bg-clip-text text-transparent">01</span>
+        <div><h3 class="mt-2 font-black uppercase text-cream text-lg sm:text-xl">Games</h3><p class="mt-1 text-white/65 text-sm sm:text-base">GTA 6, Valorant, CS2, PUBG, builders, racers and story epics — panels with art, intel and trailers.</p></div>
+      </a>
+      <a href="/#events" class="reveal rounded-[20px] bg-inkdeep border border-panel p-5 sm:p-7 no-underline block transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,255,.2)]">
         <span class="font-black text-3xl sm:text-4xl shrink-0 bg-gradient-to-br from-[#00e5ff] to-[#7b2ff7] bg-clip-text text-transparent">02</span>
-        <div><h3 class="font-black uppercase text-cream text-lg sm:text-xl">Docker CI</h3><p class="mt-1 text-white/65 text-sm sm:text-base">GitHub Actions logs into Docker Hub, builds the image and pushes <span class="font-mono text-vice-cyan">:latest</span>.</p></div>
-      </div>
-      <div class="reveal rounded-[20px] bg-inkdeep border border-panel p-5 sm:p-7 flex gap-4 sm:gap-6 items-start">
+        <div><h3 class="mt-2 font-black uppercase text-cream text-lg sm:text-xl">Events</h3><p class="mt-1 text-white/65 text-sm sm:text-base">Cypher Cup qualifiers, the Mumbai LAN clash — dates, prizes and qualifier guides.</p></div>
+      </a>
+      <a href="/blog" class="reveal rounded-[20px] bg-inkdeep border border-panel p-5 sm:p-7 no-underline block transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
         <span class="font-black text-3xl sm:text-4xl shrink-0 bg-gradient-to-br from-[#ff9a3c] to-[#ff2e88] bg-clip-text text-transparent">03</span>
-        <div><h3 class="font-black uppercase text-cream text-lg sm:text-xl">Docker CD</h3><p class="mt-1 text-white/65 text-sm sm:text-base">Fires only after CI succeeds — SSHs into EC2, pulls the image, stops the old container and starts the new one on port 8080.</p></div>
-      </div>
+        <div><h3 class="mt-2 font-black uppercase text-cream text-lg sm:text-xl">Products</h3><p class="mt-1 text-white/65 text-sm sm:text-base">Next-gen console coverage — performance, showcases and everything around the box.</p></div>
+      </a>
+      <a href="/contact" class="reveal rounded-[20px] bg-inkdeep border border-panel p-5 sm:p-7 no-underline block transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,255,.2)]">
+        <span class="font-black text-3xl sm:text-4xl shrink-0 bg-gradient-to-br from-[#7bffcf] to-[#00e5ff] bg-clip-text text-transparent">04</span>
+        <div><h3 class="mt-2 font-black uppercase text-cream text-lg sm:text-xl">Community</h3><p class="mt-1 text-white/65 text-sm sm:text-base">Open a channel — tips, corrections and tournament registrations welcome.</p></div>
+      </a>
     </div>
   </section>
 
   <section class="reveal max-w-6xl mx-auto px-4 sm:px-8 pb-12 sm:pb-16">
     <div class="rounded-[24px] bg-inkdeep border border-panel p-6 sm:p-10">
-      <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Loadout</p>
+      <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">On&nbsp;The&nbsp;Board</p>
       <div class="mt-4 flex flex-wrap gap-2 font-mono text-[0.65rem] sm:text-xs font-bold tracking-[0.15em]">
-        <span class="border border-white/15 rounded-full px-4 py-2 text-white/80">EXPRESS :8080</span>
-        <span class="border border-white/15 rounded-full px-4 py-2 text-white/80">DOCKER</span>
-        <span class="border border-white/15 rounded-full px-4 py-2 text-white/80">GITHUB ACTIONS</span>
-        <span class="border border-white/15 rounded-full px-4 py-2 text-white/80">DOCKER HUB</span>
-        <span class="border border-white/15 rounded-full px-4 py-2 text-white/80">AWS EC2</span>
-        <span class="border border-vice-pink/50 rounded-full px-4 py-2 text-vice-pink">TAILWIND</span>
-        <span class="border border-vice-cyan/40 rounded-full px-4 py-2 text-vice-cyan">THREE.JS</span>
-        <span class="border border-vice-cyan/40 rounded-full px-4 py-2 text-vice-cyan">D3</span>
+        <span class="border border-vice-pink/50 rounded-full px-4 py-2 text-vice-pink">GTA 6</span>
+        <span class="border border-vice-pink/50 rounded-full px-4 py-2 text-vice-pink">VALORANT</span>
+        <span class="border border-vice-pink/50 rounded-full px-4 py-2 text-vice-pink">CS2</span>
+        <span class="border border-white/15 rounded-full px-4 py-2 text-white/80">PUBG</span>
+        <span class="border border-white/15 rounded-full px-4 py-2 text-white/80">SKYLINES II</span>
+        <span class="border border-white/15 rounded-full px-4 py-2 text-white/80">FORZA H5</span>
+        <span class="border border-white/15 rounded-full px-4 py-2 text-white/80">FAR CRY 6</span>
+        <span class="border border-vice-cyan/40 rounded-full px-4 py-2 text-vice-cyan">STORY SPOTLIGHT</span>
       </div>
       <div class="mt-7 flex flex-wrap gap-3">
         <a href="/blog" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Read the Blog</a>

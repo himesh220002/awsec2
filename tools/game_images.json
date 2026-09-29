@@ -669,5 +669,393 @@
         }
       ]
     }
-  ]
+  ],
+  "steam_pubg": {
+    "url": "https://store.steampowered.com/app/578080/PUBG_BATTLEGROUNDS/",
+    "title": "PUBG: BATTLEGROUNDS on Steam",
+    "method": "playwright",
+    "images": [
+      {
+        "url": "https://store.fastly.steamstatic.com/public/shared/images/responsive/header_menu_hamburger.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/578080/841ea38bc58cabb70aef65365cf50bc2d79329d9/header.jpg?t=1786493086",
+        "alt": "",
+        "kind": "img"
+      }
+    ]
+  },
+  "steam_skyline2": {
+    "url": "https://store.steampowered.com/app/949230/Cities_Skylines_II/",
+    "title": "Cities: Skylines II on Steam",
+    "method": "requests",
+    "images": [
+      {
+        "url": "https://store.fastly.steamstatic.com/public/shared/images/responsive/header_menu_hamburger.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/page_bg_raw.jpg?t=1789487974",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/apps/949230/2dfa1f3e740ae5300bf59e9a14066391dab4727a.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/8fb6d4b60f7120ff56bea2efc92aee3a5bb7fe70/header_alt_assets_7.jpg?t=1789487974",
+        "alt": "Cities: Skylines II",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_singlePlayer.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_achievements.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_cloud.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_familysharing.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/shared/images/game_ratings/PEGI/3.png?v=3",
+        "alt": "3+",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/apps/949230/9cc276b74f060b01a43d5fec9b3bc2baeabf431c.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/apps/949230/7f017e439528b3fb0bff8517f7b6da8ce9beab5d.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/apps/949230/9481e385f72337379e3b0c7fcf42e18acadbf5fb.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/apps/949230/e4311eed2b83ff9a23acd5f408a7d25272f7a0fe.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v5/ico_external_link.gif",
+        "alt": "External",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/181c2741890bed32ae3b08c7828df946bff98fd2/capsule_sm_120_alt_assets_7.jpg?t=1789487974",
+        "alt": "Cities: Skylines II",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2427743/53c4776113f01d6821a75d3bd7d1a030a50380a8/capsule_sm_120.jpg?t=1764600381",
+        "alt": "Cities: Skylines II - Bridges &amp; Ports",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2427741/ca67a8b6bf06a9def745fb20217153c14b0ad2ca/capsule_sm_120.jpg?t=1742288499",
+        "alt": "Cities: Skylines II - Creator Pack: Modern Architecture",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3579790/7f4fe98c44134a4e4e5965092cccf307bc4cebbc/capsule_sm_120.jpg?t=1764752443",
+        "alt": "Cities: Skylines II - Creator Pack: Skyscrapers",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3579810/7d9dea85d65ee90b997d714571fc90ba3d2f2e62/capsule_sm_120.jpg?t=1764752447",
+        "alt": "Cities: Skylines II - Cloud Lounge FM",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3579840/0967582ebdec5fbad9464680bc80da7d5f653d92/capsule_231x87.jpg?t=1789565110",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/extras/7c8dbaee956d0dd6824f00cea6846233.avif?t=1789487974",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/extras/993f9e38861794a023da5ab084318856.avif?t=1789487974",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/extras/f1ed9f5fe0b45a700ec742b1b045bb2c.avif?t=1789487974",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/extras/6315190bff1639f732ac03204813c8eb.webp?t=1789487974",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/extras/1db3030c14656613e89aca9b713e32e4.avif?t=1789487974",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/extras/647ff50ec9bd10afb582ca53ff3f3270.avif?t=1789487974",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/extras/0cd419852a4f0cbbab0d3325123a8c24.avif?t=1789487974",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/extras/efebcfcd927ebccdb3c638405c6eb118.webp?t=1789487974",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/extras/86ed0dced44776f02c72787f64b41816.webp?t=1789487974",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/close_btn.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/c7b1ff2e22d17371685e1c347576cad5e4cc6957/capsule_616x353_alt_assets_7.jpg?t=1789487974",
+        "alt": "og:image",
+        "kind": "og-image"
+      },
+      {
+        "url": "https://clan.fastly.steamstatic.com/images/44768575/2df4ce93a17e7e2f3411c2a512bb0c4d27d7f044.png",
+        "alt": "",
+        "kind": "css-bg"
+      }
+    ]
+  },
+  "steam_forza5": {
+    "url": "https://store.steampowered.com/app/1551360/Forza_Horizon_5/",
+    "title": "Forza Horizon 5 on Steam",
+    "method": "requests",
+    "images": [
+      {
+        "url": "https://store.fastly.steamstatic.com/public/shared/images/responsive/header_menu_hamburger.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/page_bg_raw.jpg?t=1788546569",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/apps/1551360/6c1d20c62c4613263548323052c62cece488876b.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://clan.fastly.steamstatic.com/images/39769908/87ad5ba6533c684fe8ab11087d8fd63f74467f42.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://clan.fastly.steamstatic.com/images/39769908/ff45cc9f161f0479b716b2654c0de47cc6765cd6.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/header.jpg?t=1788546569",
+        "alt": "Forza Horizon 5",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_singlePlayer.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_multiPlayer.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_coop.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_achievements.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_cards.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_cloud.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_hdr.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_familysharing.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/shared/images/game_ratings/PEGI/3.png?v=3",
+        "alt": "3+",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/apps/1551360/812d8933b25b27433b627ea3b9b4faa4ef5325f8.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/apps/1551360/e597bb47bf3950bffada26f1fababbc293d77f68.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/apps/1551360/f365ef7f40c3d83d90a8c282539f86712e9d669e.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/apps/1551360/3dcfdd8feaabb8ae75a8b5689d71da6895ebd39b.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://community.fastly.steamstatic.com/economy/profilebackground/items/1551360/3e4532ce079226f13a557aa035858db8a47c64f9.jpg?size=64x0",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/items/1551360/7b9bcf323bcd1e09860bd08f26aaad902558ad7d.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/items/1551360/a91768ffc1bf5ca3ba9934381449b38732f1729d.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://community.fastly.steamstatic.com/economy/profilebackground/items/1551360/a86849a891172229fdb4900bbd34dfbf1f4e58fc.jpg?size=64x0",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v5/ico_external_link.gif",
+        "alt": "External",
+        "kind": "img"
+      },
+      {
+        "url": "https://cdn.fastly.steamstatic.com/store/promo/steamawards2021/trophy2021.png?v=3",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/extras/93b56467e33f1763ccfa030984d44aca.avif?t=1788546569",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/extras/42d5c54dc35aba752bdff49b9ca66929.avif?t=1788546569",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/extras/4a33b9c72446a0a4b4c2e595dfab0436.avif?t=1788546569",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/extras/298c85e87a6288719190c6402ace9211.avif?t=1788546569",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/extras/5d9052cdf5dce0e329fc0561487c5589.avif?t=1788546569",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/extras/621ba0f0cb283f89d021c79396826b7c.avif?t=1788546569",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/extras/0d5a5a6143dc45961c9e874ba175ed12.avif?t=1788546569",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/extras/4b1debb7771dfe3bbdaf61b841f3687e.avif?t=1788546569",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/close_btn.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/capsule_616x353.jpg?t=1788546569",
+        "alt": "og:image",
+        "kind": "og-image"
+      },
+      {
+        "url": "https://clan.fastly.steamstatic.com/images/44451136/c1434d26120c95dcc79a05c4a7ffffa43601546d.gif",
+        "alt": "",
+        "kind": "css-bg"
+      }
+    ]
+  },
+  "steam_farcry6": {
+    "url": "https://store.steampowered.com/app/2369390/Far_Cry_6/",
+    "title": "Save 90% on Far Cry\u00ae 6 on Steam",
+    "method": "playwright",
+    "images": [
+      {
+        "url": "https://store.fastly.steamstatic.com/public/shared/images/responsive/header_menu_hamburger.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2369390/64af0c6b70ef233bbdff1e5ffe0e397481efb3c9/header.jpg?t=1790173132",
+        "alt": "",
+        "kind": "img"
+      }
+    ]
+  }
 }
