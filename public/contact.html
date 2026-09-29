@@ -120,6 +120,23 @@
     </a>
   </section>
 
+  <section class="max-w-6xl mx-auto px-4 sm:px-8 pb-8 sm:pb-12">
+    <div class="reveal rounded-[24px] bg-inkdeep border border-panel p-6 sm:p-8 grid gap-5 sm:grid-cols-3">
+      <div>
+        <p class="font-mono text-[0.6rem] tracking-[0.3em] text-vice-cyan">EMAIL</p>
+        <a id="cEmail" href="mailto:support@cyphertech.online" class="mt-1 block font-bold text-cream text-sm sm:text-base no-underline hover:text-pill break-all">support@cyphertech.online</a>
+      </div>
+      <div>
+        <p class="font-mono text-[0.6rem] tracking-[0.3em] text-vice-cyan">PHONE</p>
+        <a id="cPhone" href="tel:+918105542318" class="mt-1 block font-bold text-cream text-sm sm:text-base no-underline hover:text-pill">+91-8105542318</a>
+      </div>
+      <div>
+        <p class="font-mono text-[0.6rem] tracking-[0.3em] text-vice-cyan">SOCIALS</p>
+        <div id="cSocials" class="mt-2 flex flex-wrap gap-2"></div>
+      </div>
+    </div>
+  </section>
+
   <section class="reveal max-w-6xl mx-auto px-4 sm:px-8 pb-14 sm:pb-20">
     <div class="rounded-[24px] bg-inkdeep border border-panel p-6 sm:p-10 grid sm:grid-cols-2 gap-8">
       <div>
@@ -155,6 +172,18 @@
   </footer>
 
   <script>
+    fetch('/api/showcase')
+      .then(res => res.json())
+      .then(s => {
+        const c = s.site.contact;
+        const em = document.getElementById('cEmail');
+        em.textContent = c.email; em.href = 'mailto:' + c.email;
+        const ph = document.getElementById('cPhone');
+        ph.textContent = c.phone; ph.href = 'tel:' + c.phone.replace(/[^+\d]/g, '');
+        document.getElementById('cSocials').innerHTML = c.socials.map(x => `
+          <a href="${x.href}" target="_blank" rel="noopener" class="ghost-btn font-mono text-[0.62rem] font-bold tracking-[0.18em] uppercase border border-white/20 text-white/70 hover:border-pill hover:text-pill rounded-full px-4 py-2 no-underline">${x.name} ↗</a>`).join('');
+      })
+      .catch(() => {});
     const hideLoader = () => { const l = document.getElementById('loader'); if (l) { l.style.opacity = '0'; setTimeout(() => l.remove(), 550); } };
     addEventListener('load', () => setTimeout(hideLoader, 450));
     setTimeout(hideLoader, 2800);

@@ -183,7 +183,8 @@
   </section>
 
   <main id="posts" class="layer max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14" data-speed="0.08">
-    <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50 mb-6">Latest&nbsp;Panels</p>
+    <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50 mb-4">Latest&nbsp;Panels</p>
+    <div id="filters" class="flex flex-wrap gap-2 mb-6"></div>
     <div id="cards" class="grid gap-5 sm:gap-7 sm:grid-cols-2">
       <p class="text-white/60">Loading stories from the city…</p>
     </div>
@@ -231,10 +232,12 @@
       </h1>
       <p id="dExcerpt" class="stage s3 mt-4 text-pill font-bold text-base sm:text-xl max-w-3xl"></p>
       <div class="stage s3 mt-6 flex flex-wrap gap-2 sm:gap-3 font-mono text-[0.65rem] sm:text-xs font-bold tracking-[0.2em]">
+        <span id="dCat" class="chip bg-vice-cyan/10 border border-vice-cyan/40 px-4 py-2.5 text-vice-cyan"></span>
         <span id="dDate" class="chip bg-white/10 border border-white/15 px-4 py-2.5 text-white/85"></span>
         <span id="dRead" class="chip bg-vice-pink/15 border border-vice-pink/50 px-4 py-2.5 text-vice-pink"></span>
         <span id="dWords" class="chip bg-vice-cyan/10 border border-vice-cyan/40 px-4 py-2.5 text-vice-cyan"></span>
       </div>
+      <p id="dTags" class="stage s3 mt-3 font-mono text-[0.62rem] tracking-[0.2em] text-vice-cyan/70"></p>
       <div id="dArt" class="stage s4 sweep relative mt-8 h-48 sm:h-72 overflow-hidden rounded-[24px] border-2 border-panel"></div>
       <div class="stage s5 mt-8 grid sm:grid-cols-[1fr_220px] gap-6">
         <div>
@@ -280,11 +283,17 @@
     const linkify = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
       .replace(/(https?:\/\/[^\s<]+)/g, '<a class="story-link" href="$1" target="_blank" rel="noopener">$1</a>');
 
-    fetch('/api/posts')
-      .then(res => res.json())
-      .then(posts => {
-        POSTS = posts;
-        document.getElementById('cards').innerHTML = posts.map((p, i) => `
+    let activeCat = 'All';
+    const visiblePosts = () => POSTS.filter(p => activeCat === 'All' || p.category === activeCat);
+    function buildFilters() {
+      const cats = ['All', ...new Set(POSTS.map(p => p.category).filter(Boolean))];
+      document.getElementById('filters').innerHTML = cats.map(c => `
+        <button data-cat="${c}" class="font-mono text-[0.65rem] font-bold tracking-[0.2em] uppercase rounded-full px-4 py-2 border transition ${c === activeCat ? 'bg-pill text-inkdeep border-pill' : 'border-white/20 text-white/60 hover:border-pill hover:text-pill'}">${c}</button>`).join('');
+      document.querySelectorAll('#filters button').forEach(b => b.onclick = () => { activeCat = b.dataset.cat; buildFilters(); renderCards(); });
+    }
+    function cardHTML(p) {
+      const i = POSTS.indexOf(p);
+      return `
           <article class="overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
             <div class="relative h-44 sm:h-52 bg-gradient-to-br ${ARTS[i % ARTS.length]} overflow-hidden">
               <svg class="palm absolute -left-4 -bottom-4 w-32 opacity-60"><use href="#palm"/></svg>
@@ -293,8 +302,12 @@
               <div class="absolute left-4 bottom-3 text-[0.65rem] font-bold tracking-[0.3em] uppercase text-black/60">Panel&nbsp;${String(i + 1).padStart(2, '0')}</div>
             </div>
             <div class="p-5 sm:p-7">
-              <small class="text-pill font-bold text-[0.7rem] tracking-[0.25em] uppercase">${p.date}</small>
+              <div class="flex flex-wrap items-center gap-2">
+                <small class="text-pill font-bold text-[0.7rem] tracking-[0.25em] uppercase">${p.date}</small>
+                <span class="font-mono text-[0.6rem] font-bold tracking-[0.2em] uppercase bg-vice-cyan/10 border border-vice-cyan/40 text-vice-cyan rounded-full px-3 py-1">${p.category || 'Story'}</span>
+              </div>
               <h2 class="mt-2 text-cream font-black uppercase leading-tight text-xl sm:text-2xl">${p.title}</h2>
+              <p class="mt-1 font-mono text-[0.62rem] tracking-[0.18em] uppercase text-white/40">BY ${(p.author || 'EDITORIAL').toUpperCase()}</p>
               <p class="mt-3 text-white/70 text-sm sm:text-base font-medium">${linkify(p.excerpt)}</p>
               <div class="mt-5 flex flex-wrap gap-3">
                 <a href="#/post/${p.id}" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Open File →</a>
@@ -302,7 +315,21 @@
               </div>
             </div>
           </article>
-        `).join('');
+        `;
+    }
+    function renderCards() {
+      const list = visiblePosts();
+      document.getElementById('cards').innerHTML = list.length
+        ? list.map(cardHTML).join('')
+        : '<p class="text-white/60 col-span-full">No panels in this category yet.</p>';
+    }
+
+    fetch('/api/posts')
+      .then(res => res.json())
+      .then(posts => {
+        POSTS = posts;
+        buildFilters();
+        renderCards();
         renderChart(posts);
         route(); // deep link #/post/N on load
       })
@@ -325,7 +352,9 @@
       void detail.offsetWidth;
       detail.classList.add('detail-open');
       detail.scrollTop = 0;
-      document.getElementById('dKicker').textContent = `TRANSMISSION // PANEL ${String(i + 1).padStart(2, '0')} — ${p.date}`;
+      document.getElementById('dKicker').textContent = `TRANSMISSION // PANEL ${String(i + 1).padStart(2, '0')} — ${p.date} — BY ${(p.author || 'EDITORIAL').toUpperCase()}`;
+      document.getElementById('dCat').textContent = '◆ ' + (p.category || 'STORY').toUpperCase();
+      document.getElementById('dTags').textContent = (p.tags || []).map(t => '#' + t.toUpperCase().replace(/\s+/g, '')).join('   ');
       const t = document.getElementById('dTitle');
       t.textContent = p.title;
       t.dataset.text = p.title;

@@ -1,0 +1,110 @@
+{
+  "site": {
+    "title": "CypherTech Gaming Hub",
+    "theme": "Dark neon gaming aesthetic",
+    "contact": {
+      "email": "support@cyphertech.online",
+      "phone": "+91-8105542318",
+      "socials": [
+        { "name": "Twitter", "href": "https://twitter.com" },
+        { "name": "YouTube", "href": "https://youtube.com" },
+        { "name": "Discord", "href": "https://discord.com" }
+      ]
+    }
+  },
+  "hero": {
+    "kicker": "CypherTech // Main Feed",
+    "headline": "Next-Gen Gaming Console",
+    "subheadline": "Experience immersive gameplay with cutting-edge performance.",
+    "ctas": [
+      { "label": "Explore Console", "href": "/blog" },
+      { "label": "Upcoming Tournaments", "href": "/#events" }
+    ]
+  },
+  "featuredGames": [
+    {
+      "slug": "gta-6",
+      "title": "GTA 6",
+      "desc": "The most anticipated open-world crime saga.",
+      "genre": "Open World",
+      "tags": ["Leonida", "Open World", "Story"]
+    },
+    {
+      "slug": "counter-strike-2",
+      "title": "Counter-Strike 2",
+      "desc": "Tactical FPS with global tournaments.",
+      "genre": "Tactical FPS",
+      "tags": ["FPS", "Esports", "5v5"]
+    },
+    {
+      "slug": "valorant",
+      "title": "Valorant",
+      "desc": "Competitive hero shooter with esports events.",
+      "genre": "Hero Shooter",
+      "tags": ["FPS", "Esports", "Heroes"]
+    }
+  ],
+  "events": [
+    {
+      "name": "Valorant Cypher Cup",
+      "game": "Valorant",
+      "date": "2026-11-15",
+      "location": "Online",
+      "prize": "$10,000"
+    },
+    {
+      "name": "CS2 Global Clash",
+      "game": "Counter-Strike 2",
+      "date": "2026-12-01",
+      "location": "LAN — Mumbai",
+      "prize": "$25,000"
+    }
+  ],
+  "categories": ["News", "Esports", "Guides", "Reviews"],
+  "blogs": [
+    {
+      "id": 1,
+      "slug": "gta-6-what-we-know",
+      "title": "GTA 6 – What We Know",
+      "date": "2026-09-20",
+      "author": "CypherTech Editorial",
+      "category": "News",
+      "tags": ["GTA 6", "Leonida", "Open World"],
+      "excerpt": "Explore leaks, trailers, and gameplay expectations.",
+      "content": "Every trailer frame of GTA 6 has been dissected by the community, and the picture is getting clearer: a Leonida state twice as dense as anything before it, dual protagonists, and a world that reacts to your reputation street by street. Rockstar's trailers confirm the Vice City return alongside new swampland and Keys-inspired regions. Expect the launch conversation to be dominated by performance modes on console — fidelity versus 60fps — and by how the online component evolves from GTA Online's decade-long run. Our advice: watch the second trailer shot by shot, keep expectations measured on the map size rumors, and get your backlog cleared before November."
+    },
+    {
+      "id": 2,
+      "slug": "valorant-esports-growth",
+      "title": "Valorant Esports Growth",
+      "date": "2026-09-25",
+      "author": "CypherTech Editorial",
+      "category": "Esports",
+      "tags": ["Valorant", "Esports", "VCT"],
+      "excerpt": "How Valorant became a global competitive phenomenon.",
+      "content": "Valorant's rise from 2020 launch to sold-out arenas took barely five years, powered by Riot's franchised VCT leagues across four international regions. The formula worked: a readable spectator client, agent abilities that create highlight moments without obscuring gunplay, and a Challengers path that keeps grassroots scenes alive from Mumbai to Berlin. Viewership now rivals the biggest tactical shooters every Masters event, and sponsor money follows the eyeballs. The next growth lever is mobile and console audiences feeding back into the PC scene. If you run a collegiate or city-level event, this is the title with the deepest amateur-to-pro funnel right now."
+    },
+    {
+      "id": 3,
+      "slug": "cs2-global-clash-preview",
+      "title": "CS2 Global Clash — LAN Preview",
+      "date": "2026-11-28",
+      "author": "CypherTech Editorial",
+      "category": "Esports",
+      "tags": ["CS2", "LAN", "Mumbai", "Tournament"],
+      "excerpt": "Everything to watch at the $25,000 Mumbai LAN showdown.",
+      "content": "The CS2 Global Clash lands in Mumbai on December 1 with $25,000 on the line and eight squads fighting through a GSL group stage into single-elimination playoffs. LAN CS2 plays differently: sub-tick movement rewards disciplined crosshair placement, and the new lighting on overhauled maps punishes lazy angles. Watch for the Indian qualifiers — home-crowd energy has historically lifted underdogs into deep runs. Doors open at 10 AM with the showmatch at noon, and the grand final is a best-of-five under arena lights. Our pick: experience over aim, but never count out a hot AWPer on LAN."
+    },
+    {
+      "id": 4,
+      "slug": "cypher-cup-qualifier-guide",
+      "title": "Cypher Cup Qualifier Guide",
+      "date": "2026-11-10",
+      "author": "CypherTech Editorial",
+      "category": "Guides",
+      "tags": ["Valorant", "Guide", "Qualifier"],
+      "excerpt": "How to prep, register, and survive the open qualifiers.",
+      "content": "The Valorant Cypher Cup opens its qualifiers online on November 15, and preparation beats raw aim at this level. Start with the admin pack: stable roster of five plus one substitute, every account in good standing, and voice comms tested a week early — most qualifier forfeits are tech issues, not losses. In-game, drill your map pool down to three comfort picks and a single anti-eco protocol your whole team can call blind. Review one VOD per map focusing only on round-one setups and timeout usage. On match day, warm up with thirty minutes of deathmatch, lock your agents early, and treat every timeout as a reset button. Qualifiers reward the disciplined, not the flashy."
+    }
+  ]
+}

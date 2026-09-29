@@ -101,19 +101,38 @@
     <svg class="palm absolute -left-8 bottom-0 w-48 sm:w-72 opacity-40"><use href="#palm"/></svg>
     <svg class="palm absolute -right-10 bottom-0 w-56 sm:w-80 opacity-40"><use href="#palm"/></svg>
     <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-16 sm:pt-24 pb-14 sm:pb-20">
-      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/60">Vice&nbsp;City&nbsp;//&nbsp;Main&nbsp;Feed</p>
-      <h1 class="mt-4 font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2.6rem,9vw,5.75rem)]">Welcome<br>to Leonida</h1>
-      <p class="mt-5 max-w-xl text-white/70 text-base sm:text-lg">A test blog with a real pipeline — every push is built, shipped and deployed to EC2 automatically.</p>
+      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/60">CypherTech&nbsp;//&nbsp;Main&nbsp;Feed</p>
+      <h1 class="mt-4 font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2.6rem,9vw,5.75rem)]">Next-Gen<br>Gaming Console</h1>
+      <p class="mt-5 max-w-xl text-white/70 text-base sm:text-lg">Experience immersive gameplay with cutting-edge performance.</p>
       <div class="mt-7 flex flex-wrap gap-3">
-        <a href="/blog" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Explore Panels</a>
-        <a href="/about" class="ghost-btn font-bold text-sm px-7 py-3 rounded-full no-underline border border-white/25 text-white/85 hover:border-pill hover:text-pill">How It Ships →</a>
+        <a href="/blog" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Explore Console</a>
+        <a href="#events" class="ghost-btn font-bold text-sm px-7 py-3 rounded-full no-underline border border-white/25 text-white/85 hover:border-pill hover:text-pill">Upcoming Tournaments</a>
       </div>
     </div>
   </section>
 
   <section class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
     <div class="reveal flex items-end justify-between mb-6">
-      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Featured&nbsp;Panels</p>
+      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Featured&nbsp;Games</p>
+      <a href="/blog" class="ghost-btn text-xs font-bold uppercase tracking-widest text-pill no-underline">Intel →</a>
+    </div>
+    <div id="games" class="grid gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3">
+      <p class="text-white/60">Loading showcase…</p>
+    </div>
+  </section>
+
+  <section id="events" class="max-w-6xl mx-auto px-4 sm:px-8 pb-2 sm:pb-4">
+    <div class="reveal flex items-end justify-between mb-6">
+      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Upcoming&nbsp;Tournaments</p>
+    </div>
+    <div id="eventGrid" class="grid gap-5 sm:gap-7 sm:grid-cols-2">
+      <p class="text-white/60">Loading events…</p>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
+    <div class="reveal flex items-end justify-between mb-6">
+      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Latest&nbsp;Transmissions</p>
       <a href="/blog" class="ghost-btn text-xs font-bold uppercase tracking-widest text-pill no-underline">All →</a>
     </div>
     <div id="featured" class="grid gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3">
@@ -173,6 +192,44 @@
       'from-[#00e5ff] via-[#4a90d9] to-[#7b2ff7]',
       'from-[#ff9a3c] via-[#ff2e88] to-[#2a1535]'
     ];
+    const GAME_POST = { 'gta-6': 1, 'valorant': 2, 'counter-strike-2': 3 };
+    fetch('/api/showcase')
+      .then(res => res.json())
+      .then(s => {
+        document.getElementById('games').innerHTML = s.featuredGames.map((g, i) => `
+          <article class="overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
+            <div class="relative h-40 sm:h-48 bg-gradient-to-br ${ARTS[i % ARTS.length]} overflow-hidden">
+              <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-black text-5xl sm:text-6xl text-black/30 tracking-tighter">${g.title.split(' ').map(w => w[0]).join('').slice(0, 3)}</div>
+              <div class="absolute left-4 top-3 font-mono text-[0.6rem] font-bold tracking-[0.25em] uppercase text-black/60">${g.genre}</div>
+              <div class="absolute left-4 bottom-3 text-[0.65rem] font-bold tracking-[0.3em] uppercase text-black/60">Showcase&nbsp;${String(i + 1).padStart(2, '0')}</div>
+            </div>
+            <div class="p-5 sm:p-6">
+              <h2 class="text-cream font-black uppercase leading-tight text-lg">${g.title}</h2>
+              <p class="mt-2 text-white/70 text-sm">${g.desc}</p>
+              <p class="mt-3 font-mono text-[0.62rem] tracking-[0.18em] text-vice-cyan/80 uppercase">${g.tags.join(' · ')}</p>
+              <a href="/blog#/post/${GAME_POST[g.slug] || ''}" class="pill-btn inline-block mt-4 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Intel File →</a>
+            </div>
+          </article>`).join('');
+        document.getElementById('eventGrid').innerHTML = s.events.map(ev => `
+          <article class="rounded-[20px] bg-inkdeep border border-panel p-6 sm:p-7 relative overflow-hidden transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,255,.18)]">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-vice-pink via-vice-purple to-vice-cyan"></div>
+            <div class="flex flex-wrap items-center gap-2 font-mono text-[0.62rem] font-bold tracking-[0.2em]">
+              <span class="bg-vice-pink/15 border border-vice-pink/50 text-vice-pink rounded-full px-3 py-1.5">${ev.game.toUpperCase()}</span>
+              <span class="bg-vice-cyan/10 border border-vice-cyan/40 text-vice-cyan rounded-full px-3 py-1.5">${ev.prize}</span>
+            </div>
+            <h3 class="mt-3 font-black uppercase text-cream text-xl sm:text-2xl leading-tight">${ev.name}</h3>
+            <div class="mt-3 font-mono text-xs text-white/60 flex flex-col gap-1">
+              <span>◷ ${ev.date}</span><span>◈ ${ev.location}</span>
+            </div>
+            <a href="/contact" class="pill-btn inline-block mt-5 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Register →</a>
+          </article>`).join('');
+        observeReveals();
+      })
+      .catch(() => {
+        document.getElementById('games').innerHTML = '<p class="text-white/60">Showcase offline.</p>';
+        document.getElementById('eventGrid').innerHTML = '<p class="text-white/60">Events offline.</p>';
+      });
+
     fetch('/api/posts')
       .then(res => res.json())
       .then(posts => {
