@@ -1,0 +1,673 @@
+{
+  "cs2_debug": {
+    "url": "https://www.counter-strike.net/",
+    "title": "",
+    "method": "none",
+    "images": []
+  },
+  "cs2_home": {
+    "url": "https://www.counter-strike.net/",
+    "title": "Counter-Strike 2",
+    "method": "playwright",
+    "images": [
+      {
+        "url": "https://cdn.fastly.steamstatic.com/apps/csgo/images/csgo_react/global/arrow_left.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://cdn.fastly.steamstatic.com/apps/csgo/images/csgo_react//home/workshop_images.png",
+        "alt": "",
+        "kind": "img"
+      }
+    ]
+  },
+  "cs2_steam": {
+    "url": "https://store.steampowered.com/app/730/CounterStrike_2/",
+    "title": "Counter-Strike 2 on Steam",
+    "method": "requests",
+    "images": [
+      {
+        "url": "https://store.fastly.steamstatic.com/public/shared/images/responsive/header_menu_hamburger.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/page_bg_raw.jpg?t=1789251637",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/apps/730/8dbc71957312bbd3baea65848b545be9eae2a355.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://clan.fastly.steamstatic.com/images/39769908/87ad5ba6533c684fe8ab11087d8fd63f74467f42.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://clan.fastly.steamstatic.com/images/39769908/ff45cc9f161f0479b716b2654c0de47cc6765cd6.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/162664aa5da85f418105350c5d67ca565f6c3713/header.jpg?t=1789251637",
+        "alt": "Counter-Strike 2",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_multiPlayer.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_cards.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_workshop.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_cart.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_stats.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_remote_play.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/ico/ico_timeline.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/items/730/c30260bb120bf1379f075802653c8eb86da7a7e9.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/items/730/c2a822b6422d7a2c9e72ec74bf54139db8723ef0.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/items/730/08763b38c214a554b5e83c5a39a048495b6ecee6.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/community_assets/images/items/730/5a726c956a85ba9b60b9b9400e8df94c547dfdcf.jpg",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v5/ico_external_link.gif",
+        "alt": "External",
+        "kind": "img"
+      },
+      {
+        "url": "https://cdn.fastly.steamstatic.com/store/promo/steamawards2020/trophy2020.png?v=3",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/extras/87184cdf8045cdc8b7a83be42802e634.avif?t=1789251637",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://store.fastly.steamstatic.com/public/images/v6/close_btn.png",
+        "alt": "",
+        "kind": "img"
+      },
+      {
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/6328493f4cc4a8fb83e1149be1cac5a7823fe588/capsule_616x353.jpg?t=1789251637",
+        "alt": "og:image",
+        "kind": "og-image"
+      }
+    ]
+  },
+  "gta6": [
+    {
+      "url": "https://www.rockstargames.com/VI",
+      "title": "Grand Theft Auto VI - Rockstar Games",
+      "method": "requests",
+      "images": [
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard0.0_vm6ya9-h67x.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard1.14.-n-5n.4nws.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard2.0n4e6vntuoxgf.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard3.120i1.3ll3tb9.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard4.0bi8cg9mdh8p4.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard5.0qdavlhu9vx3m.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard6.0m27xv.6a~.pk.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard7.0r3-p5yp386ao.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard8.0-nawcceg2vqw.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard9.08p7clh5_sa.q.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/featured.0y5yxwenpsgc3.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/trailer-2.0l.7aqib91fz6.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/trailer-1.06b6paykx247w.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/mobile.0xsc-b1pnezup.jpg?akim=1&imdensity=1&imwidth=3840?akim=1&imdensity=1&imwidth=2560",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/ultimate_mobile_en_us.03~7e7tlo4k4r.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/VINTAGE_VICE_CITY_PACK_01.05zaof7o1uz.3.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/mobile.09~60xnm5q~pr.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/mobile.0mi46.hy2kwfa.jpg?akim=1&imdensity=1&imwidth=3840?akim=1&imdensity=1&imwidth=2560",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/musicMobile.16pdg34v6lit..jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/onlyInLeonidaMobile.0mupfnk-x6x~r.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/mediaMobile.0p_yfitphljim.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/9k2a49ook82o57.0y.tef0ihubh2.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/GTAVI_Soundtrack_Newswire.01z2azm37u9oe.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/9k2kaa1o3297k9.0ux_qup1vxl7o.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/vi.0hxa9~pf214xe.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "Grand Theft Auto VI",
+          "kind": "img"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/poster_full.17aay~zardo52.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/poster_full.02ig6s_80ei58.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/poster_full.10y8e6nwjx9t5.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard0.11lnxwt4mejxh.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard0.01exo44atm7cd.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard0.05mjizbf5hj_f.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard1.0.hwj_d2mxudo.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard1.0h5bjmed~rogs.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard1.0ufvv8f9v-a_d.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard2.02tu.k5d91y8j.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard2.0cz~6hyuvvu7e.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard2.05al8-ha_.0q1.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard3.0.e.god-.dely.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard3.0y38t1xx7h_-9.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard3.0ip~4n1dqh9g2.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard4.0~hgfhi.pv~z3.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard4.0edkjt_ym7e7w.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard4.0c84culhxxr-b.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard5.0gq2hznxe6wx5.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard5.162kl1_q4xwlo.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard5.0sr0ukcy.u788.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard6.14ufb5zbccu97.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard6.0f-n3-o5~pxv3.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard6.0ir_.4rvxg_vg.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard7.14hfi0gfry4sd.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard7.0gfmb1xwz6fg9.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard7.0d.nm6xf4nap7.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard8.0-8ntmv6fr3hm.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard8.124~7c3nj3ol6.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard8.0l9y_pmj~t8yt.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard9.16r1_.qnn633v.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard9.0b3k-o-v-u8rm.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/shard9.0jh6qrro1q9gf.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/featured-mobile.14ok.safz3arg.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/desktop.0iky3x6.hl8fo.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/mobile.0xsc-b1pnezup.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/ultimate_desktop_en_us.0~shc~hnjifzu.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/desktop.0_-qli20ox00w.png?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/desktop.00.5pzu2sm-z4.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/mobile.0mi46.hy2kwfa.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/musicDesktop.0zwcbzhynnsc-.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/onlyInLeonidaDesktop.15y2n40f3axwo.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/_next/static/media/mediaDesktop.11iioep6d3wsf.jpg?akim=1&imdensity=1&imwidth=3840",
+          "alt": "",
+          "kind": "picture-source"
+        },
+        {
+          "url": "https://www.rockstargames.com/VI/-/opengraph-image.jpg?opengraph-image.0t8ty~nlmxq2s.jpg",
+          "alt": "og:image",
+          "kind": "og-image"
+        }
+      ]
+    },
+    {
+      "url": "https://www.rockstargames.com/newswire",
+      "title": "Newswire - Rockstar Games",
+      "method": "playwright",
+      "images": [
+        {
+          "url": "https://s.rsg.sc/shared/onetrust/cross.png",
+          "alt": "",
+          "kind": "css-bg"
+        }
+      ]
+    }
+  ],
+  "valorant": [
+    {
+      "url": "https://playvalorant.com/en-us/",
+      "title": "VALORANT",
+      "method": "playwright",
+      "images": [
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/7b76209193f1bfe190d3ae6ef8728328870be9c3-736x138.png?accountingTag=VAL&fit=fill&fm=png&q=80&w=300",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/1d1a219a5cb25d15b6e9fe2d4a4d2b83d41f0a8f-1920x1080.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/f47c5cbbe728c3c0affa2e4da46a05312642a350-1920x1080.png?accountingTag=VAL&fit=crop&fm=png&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/6e894a617f0e1a5729c89cbe30239da8eb3cc00f-1920x1080.png?accountingTag=VAL&fit=crop&fm=png&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/4c679fc9b8f253d5915261338f81fe1043fded45-3440x1020.jpg?accountingTag=VAL&fit=fill&fm=jpg&q=80&h=640",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/c8157d71a4776dd821d05ed6b82d5d875ca03386-5120x1644.png?accountingTag=VAL&fit=fill&fm=png&q=80&h=640",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/b9f3efa9355803cc44e4c59d3f4437cab192bec3-5120x1616.png?accountingTag=VAL&fit=fill&fm=png&q=80&h=816",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/1d62a3751be9d7abfce84da8ca89be7d79f07fed-1232x1232.png?accountingTag=VAL&fit=fill&fm=png&q=80&w=720",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/3828b05489971b4715f673bc0e2db81f6c7afac7-5120x1616.png?accountingTag=VAL&fit=fill&fm=png&q=80&h=816",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/65c45804e00ee97977b6eef06da370543968d161-1232x1232.png?accountingTag=VAL&fit=fill&fm=png&q=80&w=720",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/cbf4460132cdfeb2a97fad5f9dd25ba0bc058f76-128x128.png?accountingTag=VAL?w=1200&h=630&fm=webp&fit=crop&crop=center",
+          "alt": "og:image",
+          "kind": "og-image"
+        }
+      ]
+    },
+    {
+      "url": "https://playvalorant.com/en-us/news/",
+      "title": "News",
+      "method": "playwright",
+      "images": [
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/1d1a219a5cb25d15b6e9fe2d4a4d2b83d41f0a8f-1920x1080.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/f47c5cbbe728c3c0affa2e4da46a05312642a350-1920x1080.png?accountingTag=VAL&fit=crop&fm=png&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/6e894a617f0e1a5729c89cbe30239da8eb3cc00f-1920x1080.png?accountingTag=VAL&fit=crop&fm=png&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/4854460e10c1dcdab319c6ab9e7136af7e0310d6-1920x1080.png?accountingTag=VAL&fit=crop&fm=png&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/84a5e64fcef6c10f08860cfef98273e4122f13d3-1920x1080.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/405df7bdf3cb27eced0414b0eb8aa46def086869-1920x1080.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/b104b7fb195bde0a5414d883b066a5848b5e00ab-1920x1080.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/c66043d2669cc11fee4d870f414731bea4388c71-3840x2160.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/cbed2492bdf6a0f3e3f1f573133395d98449ac5b-1920x1081.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/b51fe298be9ef054f2c2fa60a6c125a2db020af0-1920x1080.png?accountingTag=VAL&fit=crop&fm=png&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/ebb7d451ea8198a7830cf04857302e584d553942-1920x1080.png?accountingTag=VAL&fit=crop&fm=png&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/2bdf5a5ffc4a2ebe4fce058a0331fc009b9b8039-1920x1080.png?accountingTag=VAL&fit=crop&fm=png&q=80&h=270&w=480&crop=center",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/cbf4460132cdfeb2a97fad5f9dd25ba0bc058f76-128x128.png?accountingTag=VAL?w=1200&h=630&fm=webp&fit=crop&crop=center",
+          "alt": "og:image",
+          "kind": "og-image"
+        },
+        {
+          "url": "https://cdn.rgpub.io/public/live/riotbar/latest/f1c782f5006f80285afe.png",
+          "alt": "",
+          "kind": "css-bg"
+        }
+      ]
+    }
+  ],
+  "cs2": [
+    {
+      "url": "https://www.counter-strike.net/",
+      "title": "Counter-Strike 2",
+      "method": "playwright",
+      "images": [
+        {
+          "url": "https://cdn.fastly.steamstatic.com/apps/csgo/images/csgo_react/global/arrow_left.png",
+          "alt": "",
+          "kind": "img"
+        },
+        {
+          "url": "https://cdn.fastly.steamstatic.com/apps/csgo/images/csgo_react//home/workshop_images.png",
+          "alt": "",
+          "kind": "img"
+        }
+      ]
+    }
+  ]
+}

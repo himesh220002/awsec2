@@ -199,9 +199,9 @@
         document.getElementById('games').innerHTML = s.featuredGames.map((g, i) => `
           <article class="overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
             <div class="relative h-40 sm:h-48 bg-gradient-to-br ${ARTS[i % ARTS.length]} overflow-hidden">
-              <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-black text-5xl sm:text-6xl text-black/30 tracking-tighter">${g.title.split(' ').map(w => w[0]).join('').slice(0, 3)}</div>
-              <div class="absolute left-4 top-3 font-mono text-[0.6rem] font-bold tracking-[0.25em] uppercase text-black/60">${g.genre}</div>
-              <div class="absolute left-4 bottom-3 text-[0.65rem] font-bold tracking-[0.3em] uppercase text-black/60">Showcase&nbsp;${String(i + 1).padStart(2, '0')}</div>
+              ${g.image ? `<img src="${g.image}" alt="${g.title} artwork" loading="lazy" class="absolute inset-0 w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"></div>` : `<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-black text-5xl sm:text-6xl text-black/30 tracking-tighter">${g.title.split(' ').map(w => w[0]).join('').slice(0, 3)}</div>`}
+              <div class="absolute left-4 top-3 font-mono text-[0.6rem] font-bold tracking-[0.25em] uppercase ${g.image ? 'text-white/85' : 'text-black/60'}">${g.genre}</div>
+              <div class="absolute left-4 bottom-3 text-[0.65rem] font-bold tracking-[0.3em] uppercase ${g.image ? 'text-white/85' : 'text-black/60'}">Showcase&nbsp;${String(i + 1).padStart(2, '0')}</div>
             </div>
             <div class="p-5 sm:p-6">
               <h2 class="text-cream font-black uppercase leading-tight text-lg">${g.title}</h2>

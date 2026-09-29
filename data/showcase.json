@@ -27,21 +27,24 @@
       "title": "GTA 6",
       "desc": "The most anticipated open-world crime saga.",
       "genre": "Open World",
-      "tags": ["Leonida", "Open World", "Story"]
+      "tags": ["Leonida", "Open World", "Story"],
+      "image": "https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920"
     },
     {
       "slug": "counter-strike-2",
       "title": "Counter-Strike 2",
       "desc": "Tactical FPS with global tournaments.",
       "genre": "Tactical FPS",
-      "tags": ["FPS", "Esports", "5v5"]
+      "tags": ["FPS", "Esports", "5v5"],
+      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/page_bg_raw.jpg?t=1789251637"
     },
     {
       "slug": "valorant",
       "title": "Valorant",
       "desc": "Competitive hero shooter with esports events.",
       "genre": "Hero Shooter",
-      "tags": ["FPS", "Esports", "Heroes"]
+      "tags": ["FPS", "Esports", "Heroes"],
+      "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/1d1a219a5cb25d15b6e9fe2d4a4d2b83d41f0a8f-1920x1080.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=630&w=1200&crop=center"
     }
   ],
   "events": [
@@ -60,6 +63,30 @@
       "prize": "$25,000"
     }
   ],
+  "media": {
+    "videos": [
+      {
+        "title": "Grand Theft Auto VI Trailer 2",
+        "date": "May 6, 2025",
+        "duration": "2:47",
+        "youtubeId": "VQRLujxTm3c"
+      },
+      {
+        "title": "Grand Theft Auto VI Trailer 1",
+        "date": "December 4, 2023",
+        "duration": "1:31",
+        "youtubeId": "QdBZY2fkU-0"
+      }
+    ],
+    "screenshots": [
+      { "title": "Leonida Poster", "tag": "GTA VI", "url": "https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920" },
+      { "title": "Shard Study 01", "tag": "GTA VI", "url": "https://www.rockstargames.com/VI/_next/static/media/shard0.0_vm6ya9-h67x.png?akim=1&imdensity=1&imwidth=1920" },
+      { "title": "Shard Study 02", "tag": "GTA VI", "url": "https://www.rockstargames.com/VI/_next/static/media/shard1.14.-n-5n.4nws.png?akim=1&imdensity=1&imwidth=1920" },
+      { "title": "Arena Wide", "tag": "Valorant", "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/4c679fc9b8f253d5915261338f81fe1043fded45-3440x1020.jpg?accountingTag=VAL&fit=fill&fm=jpg&q=80&h=640" },
+      { "title": "Ultrawide Clash", "tag": "Valorant", "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/c8157d71a4776dd821d05ed6b82d5d875ca03386-5120x1644.png?accountingTag=VAL&fit=fill&fm=png&q=80&h=640" },
+      { "title": "Header Art", "tag": "CS2", "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/162664aa5da85f418105350c5d67ca565f6c3713/header.jpg?t=1789251637" }
+    ]
+  },
   "categories": ["News", "Esports", "Guides", "Reviews"],
   "blogs": [
     {
