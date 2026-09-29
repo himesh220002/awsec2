@@ -18,9 +18,23 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://www.rockstargames.com" crossorigin>
+  <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
+  <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
+  <link rel="dns-prefetch" href="https://shared.fastly.steamstatic.com">
+  <link rel="dns-prefetch" href="https://cmsassets.rgpub.io">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root { --rs-lav: #cdc3e8; }
     body { font-family: 'Archivo', system-ui, sans-serif; background: #191924; }
+    .font-cond { font-family: 'ArtDecoCondensedBold', 'Oswald', 'Archivo Narrow', 'Arial Narrow', sans-serif; font-stretch: condensed; }
+    /* overlay nav over fullscreen hero (Rockstar media style) */
+    #siteHeader { transition: background .3s ease, backdrop-filter .3s ease, border-color .3s ease; border-bottom: 1px solid transparent; }
+    #siteHeader.header-solid { background: rgba(25,25,36,.88); backdrop-filter: blur(16px); border-bottom-color: rgba(255,255,255,.08); }
+    .nav-pills { background: rgba(0,0,0,.28); backdrop-filter: blur(12px); border-radius: 999px; padding: 5px; }
+    .nav-pills .subpill { border: none; color: #fff; }
+    .nav-pills .subpill.active { background: #f4f2fa; color: #12121c; }
     .kicker { letter-spacing: 0.55em; }
     .palm { color: rgba(0,0,0,.55); }
     .logo-text { background: linear-gradient(90deg, #ff2e88, #00e5ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -33,12 +47,12 @@
     #loader { transition: opacity .5s ease; }
     #loadbar { animation: load 1.1s ease-in-out infinite; }
     @keyframes load { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
-    #wipe { transition: transform .38s cubic-bezier(.7,0,.3,1); }
+    /* #wipe { transition: transform .38s cubic-bezier(.7,0,.3,1); } */
     .page-in { animation: pageIn .55s cubic-bezier(.2,.9,.25,1) both; }
     @keyframes pageIn { from { opacity: 0; transform: translateY(14px); } }
     .reveal { opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.9,.25,1); }
     .reveal.on { opacity: 1; transform: none; }
-    .mlink { display: flex; align-items: center; justify-content: space-between; width: 100%; background: none; border: none; border-bottom: 1px solid rgba(255,255,255,.07); cursor: pointer; text-align: left; font-weight: 900; text-transform: uppercase; font-size: clamp(1.5rem, 4vw, 2.3rem); letter-spacing: -0.01em; line-height: 1.1; color: #c9c3e8; padding: 0.6rem 0; text-decoration: none; transition: color .2s, transform .2s; }
+    .mlink { display: flex; align-items: center; justify-content: space-between; width: 100%; background: none; border: none; border-bottom: 1px solid rgba(255,255,255,.07); cursor: pointer; text-align: left; font-family: 'ArtDecoCondensedBold', 'Oswald', 'Archivo Narrow', 'Arial Narrow', sans-serif; font-stretch: condensed; font-weight: 600; text-transform: uppercase; font-size: clamp(2.4rem, 5vw, 3.4rem); letter-spacing: 0.01em; line-height: 1.02; color: var(--rs-lav); padding: 0.35rem 0; text-decoration: none; transition: color .2s, transform .2s; }
     .mlink:hover, .mlink.active { color: #f2ecdc; transform: translateX(8px); }
     .mlink span { color: rgba(255,255,255,.35); font-weight: 400; }
     #rmenu { animation: menuIn .3s ease both; }
@@ -46,6 +60,19 @@
     .subpill { transition: all .2s; }
     .subpill.active { background: #f2ecdc; color: #12121c; }
     #lightbox { transition: opacity .3s ease; }
+    .hero-fade { transition: opacity 1.4s ease-in-out; }
+    /* Rockstar-exact Watch cards */
+    .rs-card { background: #23232f; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.06); transition: transform .25s ease, box-shadow .25s ease; }
+    .rs-card:hover { transform: translateY(-3px); box-shadow: 0 18px 44px rgba(0,0,0,.5); }
+    .rs-thumb { position: relative; aspect-ratio: 16/9; background: #101018; overflow: hidden; }
+    .rs-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .rs-dur { position: absolute; right: 10px; bottom: 10px; font-family: ui-monospace,Menlo,monospace; font-size: 0.7rem; font-weight: 700; background: rgba(0,0,0,.75); border-radius: 6px; padding: 3px 8px; color: #fff; }
+    .rs-body { padding: 16px 18px 18px; }
+    .rs-title { font-weight: 700; font-size: 1.02rem; line-height: 1.3; color: #f4f2fa; letter-spacing: -0.01em; }
+    .rs-date { margin-top: 6px; font-size: 0.85rem; color: rgba(255,255,255,.5); font-weight: 500; }
+    .rs-badge18 { display: inline-block; font-family: ui-monospace,Menlo,monospace; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em; border: 1px solid rgba(255,46,136,.6); color: #ff7ab3; border-radius: 999px; padding: 2px 8px; margin-left: 8px; vertical-align: middle; }
+    .rs-game { display: inline-block; font-family: ui-monospace,Menlo,monospace; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; color: #00e5ff; text-transform: uppercase; }
+    #ageGate { transition: opacity .3s ease; }
   </style>
 </head>
 <body class="bg-ink text-white min-h-screen overflow-x-hidden antialiased">
@@ -71,32 +98,52 @@
     </symbol>
   </svg>
 
-  <header class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4 bg-ink/85 backdrop-blur-xl border-b border-white/10">
-    <a href="/" class="font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white">VI<span class="text-pill">/BLOG</span> <span class="text-white/30 font-bold text-base sm:text-lg tracking-normal">| Media</span></a>
-    <div class="flex items-center gap-2 sm:gap-3">
-      <a href="#videos" class="pill-btn hidden sm:inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Watch Now</a>
-      <button id="menuBtn" aria-label="Menu" class="p-2 -mr-2 hover:opacity-70 transition">
-        <span class="block w-7 h-[3px] bg-white mb-[7px]"></span>
-        <span class="block w-7 h-[3px] bg-white"></span>
-      </button>
+  <header id="siteHeader" class="fixed top-0 left-0 right-0 z-40 px-4 sm:px-8 pt-4 pb-3">
+    <div class="flex items-center justify-between gap-3">
+      <a href="/" class="font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white drop-shadow-lg">VI<span class="text-pill">/BLOG</span> <span class="text-white/70 font-bold text-base sm:text-lg tracking-normal">| Media</span></a>
+      <nav class="nav-pills hidden lg:flex items-center gap-1" aria-label="Media sections">
+        <a href="#featured" data-sub="featured" class="subpill active shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Featured</a>
+        <a href="#videos" data-sub="videos" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Videos</a>
+        <a href="#shots" data-sub="shots" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Screenshots</a>
+        <a href="#art" data-sub="art" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Artwork</a>
+      </nav>
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="#videos" class="pill-btn hidden sm:inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Pre-Order Now</a>
+        <button id="menuBtn" aria-label="Menu" class="p-2 -mr-2 hover:opacity-70 transition drop-shadow-lg">
+          <span class="block w-7 h-[3px] bg-white mb-[7px]"></span>
+          <span class="block w-7 h-[3px] bg-white"></span>
+        </button>
+      </div>
+    </div>
+    <div class="lg:hidden mt-3 flex gap-2 overflow-x-auto pb-1">
+      <a href="#featured" data-sub="featured" class="subpill active shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Featured</a>
+      <a href="#videos" data-sub="videos" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Videos</a>
+      <a href="#shots" data-sub="shots" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Screenshots</a>
+      <a href="#art" data-sub="art" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Artwork</a>
     </div>
   </header>
 
   <div id="rmenu" class="hidden fixed inset-0 z-[80]">
     <div class="absolute inset-0 flex">
       <div class="hidden md:flex flex-1 relative flex-col justify-between overflow-hidden bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#1b1b2e] p-10">
-        <svg class="palm absolute -left-10 -bottom-10 w-72 opacity-50"><use href="#palm"/></svg>
-        <svg class="palm absolute -right-12 -bottom-12 w-80 opacity-50"><use href="#palm"/></svg>
-        <div class="m-auto text-center">
-          <p class="font-black leading-none tracking-tighter text-[9rem]">VI<span class="logo-text">/B</span></p>
+        <img src="/images/vi-palm-left.svg" alt="" aria-hidden="true" class="palm absolute top-0 left-0 w-full opacity-40 pointer-events-none">
+        <svg class="palm absolute -left-10 -bottom-10 w-72 opacity-40"><use href="#palm"/></svg>
+        <svg class="palm absolute -right-12 -bottom-12 w-80 opacity-40"><use href="#palm"/></svg>
+        <div class="m-auto text-center relative px-8">
+          <img src="https://www.rockstargames.com/VI/_next/static/media/vi.0hxa9~pf214xe.png?akim=1&imdensity=1&imwidth=1024" alt="Grand Theft Auto VI" loading="lazy" decoding="async" class="w-full max-w-[420px] mx-auto drop-shadow-2xl" onerror="this.style.display='none';document.getElementById('menuFallback').style.display='';">
+          <p id="menuFallback" style="display:none" class="font-black leading-none tracking-tighter text-[9rem]">VI<span class="logo-text">/B</span></p>
           <p class="mt-4 font-mono text-[0.65rem] tracking-[0.5em] text-white/50">WELCOME TO LEONIDA</p>
         </div>
         <p class="relative font-mono text-[0.6rem] tracking-[0.3em] text-white/40">CYPHERTECH GAMING HUB — EST. 2026</p>
       </div>
-      <aside class="w-full md:w-[46%] bg-[#16161f] flex flex-col px-8 sm:px-12 py-6 overflow-y-auto">
-        <div class="flex items-center justify-between">
-          <p class="font-black text-xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
-          <button data-close aria-label="Close menu" class="w-11 h-11 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-black text-lg transition">✕</button>
+      <aside class="w-full md:w-[46%] bg-[#23232f] flex flex-col px-8 sm:px-12 py-6 overflow-y-auto">
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3 min-w-0">
+            <p class="font-black text-xl tracking-tighter shrink-0">VI<span class="text-pill">/B</span></p>
+            <span class="text-white/25 font-light">|</span>
+            <p class="font-cond font-medium uppercase tracking-wide text-white/85 truncate">Grand Theft Auto VI</p>
+          </div>
+          <button data-close aria-label="Close menu" class="shrink-0 w-11 h-11 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-black text-lg transition">✕</button>
         </div>
         <nav id="menuMain" class="mt-6 flex flex-col">
           <a class="mlink" data-path="/" href="/">Home</a>
@@ -117,41 +164,37 @@
     </div>
   </div>
 
-  <!-- hero -->
-  <section class="page-in relative overflow-hidden min-h-[52vh] sm:min-h-[62vh] flex items-end">
-    <img id="heroBg" src="https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920" alt="Vice City artwork" class="absolute inset-0 w-full h-full object-cover">
-    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-ink/10"></div>
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pb-10 sm:pb-14 pt-28 w-full">
-      <h1 class="font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2.2rem,7vw,4.5rem)]">Explore Vice City<br>and Beyond</h1>
-      <p class="mt-3 text-white/75 text-base sm:text-lg font-medium">Trailers, screenshots and artwork — download the vibe, share the neon.</p>
+  <!-- hero carousel — fullscreen, nav floats above (Rockstar media style) -->
+  <section class="page-in relative overflow-hidden min-h-[100svh] flex items-end">
+    <img id="heroBgA" src="https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920" alt="Vice City artwork" fetchpriority="high" decoding="async" class="hero-fade absolute inset-0 w-full h-full object-cover object-center opacity-100">
+    <img id="heroBgB" src="" alt="" decoding="async" class="hero-fade absolute inset-0 w-full h-full object-cover object-center opacity-0">
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/35 to-ink/5 pointer-events-none"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-0 pb-12 sm:pb-16 pt-40 w-full">
+      <p id="heroKicker" class="font-mono text-[0.62rem] tracking-[0.3em] text-white/60 uppercase">Featured — GTA VI</p>
+      <h1 id="heroTitle" class="font-cond font-semibold uppercase leading-[0.95] text-cream text-[clamp(2.6rem,8vw,5.5rem)]">Explore Vice<br>City and Beyond</h1>
+      <p id="heroSub" class="mt-4 text-white/80 text-base sm:text-lg font-medium">Download and share trailers, imagery, and more.</p>
     </div>
   </section>
 
-  <!-- sub nav -->
-  <div class="sticky top-[68px] z-30 bg-ink/85 backdrop-blur-xl border-b border-white/10">
-    <div class="max-w-6xl mx-auto px-4 sm:px-8 py-3 flex gap-2 overflow-x-auto">
-      <a href="#featured" data-sub="featured" class="subpill active shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80">Featured</a>
-      <a href="#videos" data-sub="videos" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80">Videos</a>
-      <a href="#shots" data-sub="shots" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80">Screenshots</a>
-      <a href="#art" data-sub="art" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80">Artwork</a>
-    </div>
-  </div>
-
   <div id="library">
     <!-- featured player -->
-    <section id="featured" class="max-w-6xl mx-auto px-4 sm:px-8 pt-8 sm:pt-12">
+    <section id="featured" class="max-w-7xl mx-auto px-4 sm:px-0 pt-8 sm:pt-12">
       <div id="featurePlayer" class="overflow-hidden rounded-[24px] border-2 border-panel bg-inkdeep"></div>
       <div class="mt-4 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
           <h2 id="featureTitle" class="font-black uppercase text-cream text-xl sm:text-3xl leading-tight"></h2>
           <p id="featureDate" class="mt-1 font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></p>
+          <p id="featureAgeNote" class="hidden mt-2 text-xs text-white/55 max-w-xl">Age-restricted on YouTube — if the embed says “Sorry, this content is age-restricted”, open it on YouTube (sign in + confirm DOB there) or watch the official Rockstar version.</p>
         </div>
-        <a id="featureYT" href="#" target="_blank" rel="noopener" class="pill-btn shrink-0 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Watch on YouTube ↗</a>
+        <div class="flex flex-wrap gap-2 shrink-0">
+          <a id="featureRS" href="#" target="_blank" rel="noopener" class="hidden pill-btn bg-white text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Rockstar ↗</a>
+          <a id="featureYT" href="#" target="_blank" rel="noopener" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Watch on YouTube ↗</a>
+        </div>
       </div>
     </section>
 
     <!-- videos -->
-    <section id="videos" class="max-w-6xl mx-auto px-4 sm:px-8 pt-10 sm:pt-14">
+    <section id="videos" class="max-w-7xl mx-auto px-4 sm:px-0 pt-10 sm:pt-14">
       <div class="reveal flex items-end justify-between mb-6">
         <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Videos</h2>
         <span id="videoCount" class="font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></span>
@@ -160,7 +203,7 @@
     </section>
 
     <!-- screenshots -->
-    <section id="shots" class="max-w-6xl mx-auto px-4 sm:px-8 pt-10 sm:pt-14">
+    <section id="shots" class="max-w-7xl mx-auto px-4 sm:px-0 pt-10 sm:pt-14">
       <div class="reveal flex items-end justify-between mb-6">
         <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Screenshots</h2>
         <span id="shotCount" class="font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></span>
@@ -169,7 +212,7 @@
     </section>
 
     <!-- artwork -->
-    <section id="art" class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
+    <section id="art" class="max-w-7xl mx-auto px-4 sm:px-0 py-10 sm:py-14">
       <div class="reveal flex items-end justify-between mb-6">
         <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Artwork</h2>
       </div>
@@ -180,25 +223,61 @@
   <!-- watch detail -->
   <div id="watchDetail" class="hidden">
     <section class="bg-black">
-      <div class="max-w-6xl mx-auto px-4 sm:px-8 py-6 sm:py-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-0 py-6 sm:py-10">
         <button onclick="closeWatch()" class="ghost-btn font-bold text-sm text-white/70 hover:text-pill mb-4">← Back | Watch</button>
-        <div id="detailPlayer" class="overflow-hidden rounded-[20px] border border-white/10"></div>
+        <div id="detailPlayer" class="overflow-hidden rounded-[20px] border border-white/10 bg-inkdeep"></div>
+        <div id="ageFallback" class="hidden mt-4 rounded-2xl border border-vice-pink/40 bg-vice-pink/10 p-4 sm:p-5">
+          <p class="font-bold text-sm text-cream">Age-restricted video <span class="font-mono text-[0.6rem] tracking-[0.15em] text-vice-pink border border-vice-pink/50 rounded-full px-2 py-0.5 ml-1">18+</span></p>
+          <p class="mt-1 text-sm text-white/65">YouTube blocks age-restricted embeds unless you are signed in with a verified 18+ account. If the player above shows “Sorry, this content is age-restricted”, use the buttons below — YouTube will ask for your DOB / sign-in there, exactly like youtube.com does. Rockstar hosts the same trailers with only a year-gate.</p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <a id="detailYT2" href="#" target="_blank" rel="noopener" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-5 py-2.5 rounded-full no-underline">Continue on YouTube ↗</a>
+            <a id="detailRS2" href="#" target="_blank" rel="noopener" class="hidden pill-btn bg-white text-inkdeep font-bold text-sm px-5 py-2.5 rounded-full no-underline">Watch on Rockstar ↗</a>
+          </div>
+        </div>
       </div>
     </section>
-    <section class="max-w-6xl mx-auto px-4 sm:px-8 py-8 sm:py-12 grid sm:grid-cols-2 gap-8">
+    <section class="max-w-7xl mx-auto px-4 sm:px-0 py-8 sm:py-12 grid sm:grid-cols-2 gap-8">
       <div>
         <h2 id="detailTitle" class="font-black uppercase text-cream leading-tight text-[clamp(1.8rem,5vw,3rem)]"></h2>
         <p id="detailDate" class="mt-2 font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></p>
+        <p id="detailVerified" class="hidden mt-2 font-mono text-[0.62rem] tracking-[0.2em] text-emerald-300/90">✓ AGE VERIFIED 18+ ON THIS DEVICE</p>
       </div>
       <div>
         <p id="detailDesc" class="text-white/70 text-base sm:text-lg"></p>
-        <a id="detailYT" href="#" target="_blank" rel="noopener" class="pill-btn inline-block mt-5 bg-white text-inkdeep font-bold text-sm px-6 py-3 rounded-full no-underline">▶ Watch on YouTube</a>
+        <div class="mt-5 flex flex-wrap gap-2">
+          <a id="detailYT" href="#" target="_blank" rel="noopener" class="pill-btn inline-block bg-white text-inkdeep font-bold text-sm px-6 py-3 rounded-full no-underline">▶ Watch on YouTube</a>
+          <a id="detailRS" href="#" target="_blank" rel="noopener" class="hidden pill-btn bg-pill text-inkdeep font-bold text-sm px-6 py-3 rounded-full no-underline">Rockstar ↗</a>
+        </div>
       </div>
     </section>
-    <section class="max-w-6xl mx-auto px-4 sm:px-8 pb-12 sm:pb-16">
+    <section class="max-w-7xl mx-auto px-4 sm:px-0 pb-12 sm:pb-16">
       <h3 class="font-black uppercase text-cream text-xl mb-5">Watch more</h3>
       <div id="moreGrid" class="grid gap-5 sm:grid-cols-2"></div>
     </section>
+  </div>
+
+  <!-- DOB age gate (mirrors YouTube's own DOB check) -->
+  <div id="ageGate" class="hidden fixed inset-0 z-[96] bg-black/85 backdrop-blur-md items-center justify-center p-4">
+    <div class="w-full max-w-md rounded-[22px] bg-[#1b1b26] border border-white/10 p-6 sm:p-8">
+      <p class="font-black text-xl tracking-tighter">VI<span class="text-pill">/BLOG</span> <span class="font-mono text-[0.6rem] tracking-[0.25em] text-white/40 ml-1">18+ CHECK</span></p>
+      <h3 class="mt-3 font-black uppercase text-cream text-2xl leading-tight">Confirm your<br>date of birth</h3>
+      <p class="mt-2 text-sm text-white/60">Some trailers (GTA VI) are age-restricted by YouTube. Same check you see on youtube.com — enter your DOB once, we remember this device.</p>
+      <p id="ageVideoTitle" class="mt-3 text-sm font-bold text-pill"></p>
+      <div class="mt-4 grid grid-cols-3 gap-2">
+        <label class="block"><span class="font-mono text-[0.6rem] tracking-[0.2em] text-white/40">DAY</span>
+          <input id="dobD" type="number" min="1" max="31" placeholder="DD" class="mt-1 w-full rounded-xl bg-white/5 border border-white/15 px-3 py-3 font-bold text-cream outline-none focus:border-pill"></label>
+        <label class="block"><span class="font-mono text-[0.6rem] tracking-[0.2em] text-white/40">MONTH</span>
+          <input id="dobM" type="number" min="1" max="12" placeholder="MM" class="mt-1 w-full rounded-xl bg-white/5 border border-white/15 px-3 py-3 font-bold text-cream outline-none focus:border-pill"></label>
+        <label class="block"><span class="font-mono text-[0.6rem] tracking-[0.2em] text-white/40">YEAR</span>
+          <input id="dobY" type="number" min="1900" max="2026" placeholder="YYYY" class="mt-1 w-full rounded-xl bg-white/5 border border-white/15 px-3 py-3 font-bold text-cream outline-none focus:border-pill"></label>
+      </div>
+      <p id="ageErr" class="hidden mt-3 text-sm font-bold text-red-300"></p>
+      <div class="mt-5 flex gap-2">
+        <button onclick="submitDOB()" class="pill-btn flex-1 bg-pill text-inkdeep font-bold text-sm px-6 py-3 rounded-full">Verify & Watch</button>
+        <button onclick="closeAgeGate()" class="ghost-btn px-6 py-3 rounded-full border border-white/20 text-white/70 font-bold text-sm">Cancel</button>
+      </div>
+      <p class="mt-3 font-mono text-[0.58rem] tracking-[0.18em] text-white/30 text-center">STORED LOCALLY · NEVER UPLOADED · CLEAR SITE DATA TO RESET</p>
+    </div>
   </div>
 
   <!-- lightbox -->
@@ -210,28 +289,97 @@
     </figure>
   </div>
 
-  <footer class="border-t border-white/10 px-4 sm:px-8 py-8 text-center">
-    <p class="font-black text-xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
-    <p class="mt-2 text-white/40 text-xs tracking-[0.3em] uppercase">&copy; 2026 — Welcome to Leonida</p>
-    <div class="mt-3 flex justify-center gap-5 text-xs font-bold uppercase tracking-widest text-white/50">
-      <a href="/" class="no-underline hover:text-pill">Home</a>
-      <a href="/blog" class="no-underline hover:text-pill">Blog</a>
-      <a href="/media" class="no-underline hover:text-pill">Media</a>
-      <a href="/about" class="no-underline hover:text-pill">About</a>
-      <a href="/contact" class="no-underline hover:text-pill">Contact</a>
+  <footer class="border-t border-white/10 bg-inkdeep/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div>
+        <p class="font-black text-2xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
+        <p class="mt-3 text-white/55 text-sm max-w-xs">Next-gen console coverage — trailers, esports, guides and reviews from the neon coast.</p>
+        <div class="mt-4 flex flex-wrap gap-2 font-mono text-[0.62rem] font-bold tracking-[0.2em]">
+          <a href="https://twitter.com" target="_blank" rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">TWITTER</a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">YOUTUBE</a>
+          <a href="https://discord.com" target="_blank" rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">DISCORD</a>
+        </div>
+      </div>
+      <nav>
+        <p class="font-mono text-[0.62rem] font-bold tracking-[0.3em] text-white/40 uppercase">Explore</p>
+        <div class="mt-4 flex flex-col gap-2.5 text-sm font-bold uppercase tracking-widest text-white/65">
+          <a href="/" class="no-underline hover:text-pill transition w-fit">Home</a>
+          <a href="/#games" class="no-underline hover:text-pill transition w-fit">Games</a>
+          <a href="/#events" class="no-underline hover:text-pill transition w-fit">Events</a>
+          <a href="/media" class="no-underline hover:text-pill transition w-fit">Media</a>
+          <a href="/blog" class="no-underline hover:text-pill transition w-fit">Blog</a>
+          <a href="/about" class="no-underline hover:text-pill transition w-fit">About</a>
+          <a href="/contact" class="no-underline hover:text-pill transition w-fit">Contact</a>
+        </div>
+      </nav>
+      <nav>
+        <p class="font-mono text-[0.62rem] font-bold tracking-[0.3em] text-white/40 uppercase">Intel Files</p>
+        <div class="mt-4 flex flex-col gap-2.5 text-sm font-bold text-white/65">
+          <a href="/blog#/post/1" class="no-underline hover:text-pill transition w-fit">GTA 6 — What We Know</a>
+          <a href="/blog#/post/2" class="no-underline hover:text-pill transition w-fit">Valorant Esports Growth</a>
+          <a href="/blog#/post/3" class="no-underline hover:text-pill transition w-fit">CS2 LAN Preview</a>
+          <a href="/blog#/post/4" class="no-underline hover:text-pill transition w-fit">Cypher Cup Guide</a>
+        </div>
+      </nav>
+      <div>
+        <p class="font-mono text-[0.62rem] font-bold tracking-[0.3em] text-white/40 uppercase">Latest Drops</p>
+        <div id="footVideos" class="mt-4 flex flex-col gap-2.5 text-sm font-bold text-white/65">
+          <span class="text-white/35 font-mono text-xs font-normal">Loading…</span>
+        </div>
+        <a href="/media" class="mt-4 inline-block text-xs font-bold uppercase tracking-widest text-pill no-underline">All media →</a>
+      </div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-white/40 text-xs tracking-[0.25em] uppercase">&copy; 2026 CypherTech — Welcome to Leonida</p>
+        <p class="font-mono text-[0.65rem] text-white/40">support@cyphertech.online · +91-8105542318</p>
+        <button onclick="scrollTo({top:0,behavior:'smooth'})" class="ghost-btn font-bold text-xs uppercase tracking-widest text-white/60 hover:text-pill border border-white/20 rounded-full px-5 py-2 transition">↑ Top</button>
+      </div>
     </div>
   </footer>
+  <script>
+    fetch('/api/showcase').then(r => r.json()).then(s => {
+      const el = document.getElementById('footVideos');
+      if (!el || !s.media || !s.media.videos) return;
+      el.innerHTML = s.media.videos.slice(0, 3).map(v => `<a href="/media#/watch/${v.youtubeId}" class="no-underline hover:text-pill transition w-fit">${v.title}</a>`).join('');
+    }).catch(() => {});
+  </script>
 
   <script>
     const hideLoader = () => { const l = document.getElementById('loader'); if (l) { l.style.opacity = '0'; setTimeout(() => l.remove(), 550); } };
     addEventListener('load', () => setTimeout(hideLoader, 450));
     setTimeout(hideLoader, 2800);
+    // page-change wipe: never freeze on same-page / hash-only links
+    const wipeEl = () => document.getElementById('wipe');
+    const parkWipe = () => { const w = wipeEl(); if (w) w.style.transform = 'translateY(100%)'; };
+    const closeAnyMenu = () => {
+      ['rmenu', 'mobileMenu'].forEach(id => {
+        const m = document.getElementById(id);
+        if (m && !m.classList.contains('hidden')) m.classList.add('hidden');
+      });
+      document.body.style.overflow = '';
+    };
+    addEventListener('load', parkWipe);
+    parkWipe();
     document.addEventListener('click', e => {
       const a = e.target.closest('a[href^="/"]:not([href^="//"])');
-      if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      let url;
+      try { url = new URL(a.getAttribute('href'), location.href); }
+      catch (err) { return; }
+      if (url.origin !== location.origin) return;
+      if (url.pathname === location.pathname) {
+        // same page (hash / query only, incl. unimplemented /#name links): no wipe, just close menu
+        closeAnyMenu();
+        return;
+      }
       e.preventDefault();
-      document.getElementById('wipe').style.transform = 'translateY(0)';
-      setTimeout(() => location.href = a.href, 400);
+      closeAnyMenu();
+      const w = wipeEl();
+      if (w) w.style.transform = 'translateY(0)';
+      setTimeout(() => { location.href = a.href; }, 420);
+      // safety: if navigation never fires, slide back down instead of freezing
+      setTimeout(parkWipe, 1800);
     });
 
     // rockstar overlay menu
@@ -256,54 +404,157 @@
     document.getElementById('menuBackBtn').onclick = showMenuMain;
     addEventListener('keydown', e => { if (e.key === 'Escape' && !rmenu.classList.contains('hidden')) setMenu(false); });
 
+    // overlay header: transparent over fullscreen hero, solid after scroll
+    const siteHeader = document.getElementById('siteHeader');
+    const syncHeader = () => siteHeader.classList.toggle('header-solid', scrollY > 40);
+    addEventListener('scroll', syncHeader, { passive: true });
+    syncHeader();
+
     // sub-nav active state
     document.querySelectorAll('[data-sub]').forEach(a => a.addEventListener('click', () => {
       document.querySelectorAll('[data-sub]').forEach(x => x.classList.remove('active'));
-      a.classList.add('active');
+      document.querySelectorAll(`[data-sub="${a.dataset.sub}"]`).forEach(x => x.classList.add('active'));
     }));
 
     const thumb = id => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
     const embed = (id, auto) => `<iframe class="w-full aspect-video" src="https://www.youtube-nocookie.com/embed/${id}?autoplay=${auto ? 1 : 0}&rel=0" title="video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-    let MEDIA = null;
+    let MEDIA = null, SHOWCASE = null;
+    let pendingWatchId = null;
 
+    /* ---------- DOB age gate (mirrors YouTube's own check) ---------- */
+    const isVerified = () => localStorage.getItem('vi_age_verified') === '1';
+    function needsGate(v) { return v && v.ageRestricted && !isVerified(); }
+    function openAgeGate(videoId) {
+      pendingWatchId = videoId;
+      const v = (MEDIA.videos || []).find(x => x.youtubeId === videoId);
+      document.getElementById('ageVideoTitle').textContent = v ? v.title : '';
+      document.getElementById('ageErr').classList.add('hidden');
+      const g = document.getElementById('ageGate');
+      g.classList.remove('hidden'); g.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('dobD').focus(), 50);
+    }
+    function closeAgeGate() {
+      const g = document.getElementById('ageGate');
+      g.classList.add('hidden'); g.classList.remove('flex');
+      if (document.getElementById('rmenu').classList.contains('hidden') && document.getElementById('watchDetail').classList.contains('hidden')) document.body.style.overflow = '';
+      if (pendingWatchId && location.hash.startsWith('#/watch/')) history.replaceState(null, '', location.pathname);
+      pendingWatchId = null;
+    }
+    function calcAge(d, m, y) {
+      const now = new Date(); let age = now.getFullYear() - y;
+      const mm = now.getMonth() + 1 - m, dd = now.getDate() - d;
+      if (mm < 0 || (mm === 0 && dd < 0)) age--;
+      return age;
+    }
+    function submitDOB() {
+      const d = parseInt(document.getElementById('dobD').value, 10);
+      const m = parseInt(document.getElementById('dobM').value, 10);
+      const y = parseInt(document.getElementById('dobY').value, 10);
+      const err = document.getElementById('ageErr');
+      const bad = msg => { err.textContent = msg; err.classList.remove('hidden'); };
+      if (!d || !m || !y) return bad('Enter your full date of birth — DD / MM / YYYY.');
+      if (m < 1 || m > 12 || d < 1 || d > 31 || y < 1900 || y > new Date().getFullYear()) return bad('That date does not look valid. Check DD / MM / YYYY.');
+      const age = calcAge(d, m, y);
+      if (isNaN(age)) return bad('That date does not look valid.');
+      if (age < 18) return bad('Sorry — this video is 18+. You must be 18 or older (same rule as YouTube).');
+      localStorage.setItem('vi_age_verified', '1');
+      localStorage.setItem('vi_dob', `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`);
+      const g = document.getElementById('ageGate');
+      g.classList.add('hidden'); g.classList.remove('flex');
+      document.body.style.overflow = '';
+      const id = pendingWatchId; pendingWatchId = null;
+      if (id) { location.hash = '#/watch/' + id; openWatch(id, true); }
+    }
+
+    /* ---------- Next/Image-style responsive helpers ---------- */
+    // Local posters: /images/posters/Foo.jpg -> opt/Foo-640/1024/1600.webp + 1024.jpg fallback.
+    // 14MB originals become ~15-50KB WebP. Falls back to original URL if opt missing.
+    function localPic(url, alt, cls) {
+      const m = (url || '').match(/\/images\/posters\/(.+)\.jpg$/);
+      const esc = (alt || '').replace(/"/g, '');
+      if (!m) return `<img src="${url}" alt="${esc}" loading="lazy" decoding="async" class="${cls}">`;
+      const base = `/images/posters/opt/${m[1]}`;
+      return `<picture><source type="image/webp" srcset="${base}-640.webp 640w, ${base}-1024.webp 1024w, ${base}-1600.webp 1600w" sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 800px"><img src="${base}-1024.jpg" alt="${esc}" loading="lazy" decoding="async" width="1024" class="${cls}"></picture>`;
+    }
+    // Rockstar CDN supports ?imwidth= — serve small srcset instead of full 1920 every time
+    function rockSrc(url, alt, cls) {
+      const esc = (alt || '').replace(/"/g, '');
+      if (!url || !url.includes('rockstargames.com') || !url.includes('imwidth=')) {
+        return `<img src="${url}" alt="${esc}" loading="lazy" decoding="async" class="${cls}">`;
+      }
+      const mk = w => url.replace(/imwidth=\d+/, 'imwidth=' + w);
+      return `<img src="${mk(1024)}" srcset="${mk(640)} 640w, ${mk(1024)} 1024w, ${mk(1920)} 1920w" sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 800px" alt="${esc}" loading="lazy" decoding="async" class="${cls}">`;
+    }
+    // YouTube thumbs: mq(320) / hq(480) / sd(640) instead of always hq
+    function ytThumb(id, alt) {
+      const esc = (alt || '').replace(/"/g, '');
+      return `<img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" srcset="https://i.ytimg.com/vi/${id}/mqdefault.jpg 320w, https://i.ytimg.com/vi/${id}/hqdefault.jpg 480w, https://i.ytimg.com/vi/${id}/sddefault.jpg 640w" sizes="(max-width:640px) 100vw, 480px" alt="${esc}" loading="lazy" decoding="async" class="w-full h-full object-cover">`;
+    }
+    // Full-res URL for lightbox: prefer -1600.webp for locals
+    function fullRes(url) {
+      const m = (url || '').match(/\/images\/posters\/(.+)\.jpg$/);
+      if (m) return `/images/posters/opt/${m[1]}-1600.webp`;
+      return url;
+    }
+
+    /* ---------- Rockstar-exact video cards ---------- */
     function videoCard(v) {
+      const badge18 = v.ageRestricted ? '<span class="rs-badge18">18+</span>' : '';
+      const game = v.game ? `<span class="rs-game">${v.game}</span>` : '';
       return `
-      <article class="overflow-hidden rounded-[20px] bg-inkdeep border border-white/10 transition duration-300 hover:-translate-y-1.5 hover:border-panel hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
-        <a href="#/watch/${v.youtubeId}" class="block relative no-underline">
-          <img src="${thumb(v.youtubeId)}" alt="${v.title}" loading="lazy" class="w-full aspect-video object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
-          <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/95 flex items-center justify-center transition hover:scale-110">
-            <span class="text-inkdeep text-xl font-black pl-0.5">▶</span>
+      <article class="rs-card">
+        <a href="#/watch/${v.youtubeId}" data-watch="${v.youtubeId}" class="block no-underline">
+          <span class="rs-thumb block">
+            ${ytThumb(v.youtubeId, v.title)}
+            <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/95 flex items-center justify-center"><span class="text-inkdeep text-xl font-black pl-0.5">▶</span></span>
+            <span class="rs-dur">${v.duration}</span>
           </span>
-          <span class="absolute right-3 bottom-3 font-mono text-[0.65rem] font-bold bg-black/70 rounded px-2 py-1">${v.duration}</span>
         </a>
-        <div class="p-5">
-          <a href="#/watch/${v.youtubeId}" class="font-bold text-cream no-underline hover:text-pill transition leading-snug block">${v.title}</a>
-          <p class="mt-1 font-mono text-[0.62rem] tracking-[0.2em] text-white/40">${v.date}</p>
+        <div class="rs-body">
+          <div class="flex items-center gap-2 flex-wrap">${game}</div>
+          <a href="#/watch/${v.youtubeId}" data-watch="${v.youtubeId}" class="rs-title no-underline hover:text-pill transition block mt-1">${v.title}${badge18}</a>
+          <p class="rs-date">${v.date}${v.channel ? ' · ' + v.channel : ''}</p>
         </div>
       </article>`;
+    }
+    function menuCard(v) {
+      return `
+        <a href="/media#/watch/${v.youtubeId}" class="rs-card block no-underline group">
+          <span class="rs-thumb block">
+            ${ytThumb(v.youtubeId, v.title)}
+            <span class="rs-dur">${v.duration}</span>
+          </span>
+          <span class="rs-body block">
+            <span class="rs-title block group-hover:text-pill transition">${v.title}</span>
+            <span class="rs-date block">${v.date}</span>
+          </span>
+        </a>`;
     }
 
     function renderLibrary(m) {
       const v0 = m.videos[0];
       document.getElementById('featurePlayer').innerHTML = embed(v0.youtubeId, false);
       document.getElementById('featureTitle').textContent = v0.title;
-      document.getElementById('featureDate').textContent = v0.date + '  ·  ' + v0.duration;
+      document.getElementById('featureDate').textContent = (v0.game ? v0.game + '  ·  ' : '') + v0.date + '  ·  ' + v0.duration;
       document.getElementById('featureYT').href = 'https://www.youtube.com/watch?v=' + v0.youtubeId;
+      const frs = document.getElementById('featureRS');
+      if (v0.rockstarUrl) { frs.href = v0.rockstarUrl; frs.classList.remove('hidden'); }
+      document.getElementById('featureAgeNote').classList.toggle('hidden', !v0.ageRestricted);
       document.getElementById('videoGrid').innerHTML = m.videos.map(videoCard).join('');
       document.getElementById('videoCount').textContent = m.videos.length + ' FILES';
       document.getElementById('shotGrid').innerHTML = m.screenshots.map(s => `
-        <figure class="shot overflow-hidden rounded-[20px] bg-inkdeep border border-white/10 cursor-pointer transition duration-300 hover:-translate-y-1.5 hover:border-panel" data-url="${s.url}" data-cap="${s.title} — ${s.tag}">
-          <img src="${s.url}" alt="${s.title}" loading="lazy" class="w-full aspect-video object-cover">
-          <figcaption class="p-4 flex items-center justify-between">
+        <figure class="shot overflow-hidden rounded-[20px] bg-inkdeep border border-white/10 cursor-pointer transition duration-300 hover:-translate-y-1.5 hover:border-panel" data-url="${fullRes(s.url)}" data-cap="${s.title} — ${s.tag}">
+          <span class="block w-full aspect-video bg-black/40 overflow-hidden">${s.url.includes('/images/posters/') ? localPic(s.url, s.title, 'w-full h-full object-cover') : rockSrc(s.url, s.title, 'w-full h-full object-cover')}</span>
+          <figcaption class="p-4 flex items-center justify-between gap-2">
             <span class="font-bold text-sm text-cream">${s.title}</span>
-            <span class="font-mono text-[0.6rem] tracking-[0.2em] text-vice-cyan">${s.tag.toUpperCase()}</span>
+            <span class="font-mono text-[0.6rem] tracking-[0.2em] text-vice-cyan shrink-0">${s.tag.toUpperCase()}</span>
           </figcaption>
         </figure>`).join('');
       document.getElementById('shotCount').textContent = m.screenshots.length + ' FILES';
       document.getElementById('artGrid').innerHTML = m.artwork.map(a => `
-        <figure class="shot overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel cursor-pointer transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]" data-url="${a.url}" data-cap="${a.title}">
-          <img src="${a.url}" alt="${a.title}" loading="lazy" class="w-full aspect-[16/10] object-cover">
+        <figure class="shot overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel cursor-pointer transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]" data-url="${fullRes(a.url)}" data-cap="${a.title}">
+          <span class="block w-full aspect-[16/10] bg-black/40 overflow-hidden">${a.url.includes('/images/posters/') ? localPic(a.url, a.title, 'w-full h-full object-cover') : rockSrc(a.url, a.title, 'w-full h-full object-cover')}</span>
           <figcaption class="p-5 flex items-center justify-between">
             <span class="font-black uppercase text-cream">${a.title}</span>
             <span class="font-mono text-[0.6rem] tracking-[0.2em] text-white/40">${a.sizes.toUpperCase()}</span>
@@ -312,19 +563,38 @@
       document.querySelectorAll('.shot').forEach(f => f.onclick = () => openBox(f.dataset.url, f.dataset.cap));
       const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('on'); io.unobserve(x.target); } }), { threshold: 0.12 });
       document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+      bindWatchLinks();
+    }
+    function bindWatchLinks() {
+      document.querySelectorAll('a[data-watch]').forEach(a => {
+        a.onclick = e => {
+          const id = a.dataset.watch;
+          const v = (MEDIA.videos || []).find(x => x.youtubeId === id);
+          if (needsGate(v)) { e.preventDefault(); openAgeGate(id); }
+        };
+      });
     }
 
-    function openWatch(id) {
+    function openWatch(id, skipGate) {
       const v = (MEDIA.videos || []).find(x => x.youtubeId === id) || MEDIA.videos[0];
+      if (!skipGate && needsGate(v)) { openAgeGate(v.youtubeId); return; }
       document.getElementById('library').classList.add('hidden');
       const wd = document.getElementById('watchDetail');
       wd.classList.remove('hidden');
       document.getElementById('detailPlayer').innerHTML = embed(v.youtubeId, true);
       document.getElementById('detailTitle').textContent = v.title;
-      document.getElementById('detailDate').textContent = v.date + '  ·  ' + v.duration;
-      document.getElementById('detailDesc').textContent = 'Captured from official channels — streaming here via YouTube embed. ' + v.title + ' originally premiered ' + v.date + '.';
-      document.getElementById('detailYT').href = 'https://www.youtube.com/watch?v=' + v.youtubeId;
+      document.getElementById('detailDate').textContent = (v.game ? v.game + '  ·  ' : '') + v.date + '  ·  ' + v.duration;
+      document.getElementById('detailDesc').textContent = 'Captured from official channels — streaming here via YouTube embed. ' + v.title + ' originally premiered ' + v.date + '.' + (v.ageRestricted ? ' YouTube age-gates this trailer: if the player says “age-restricted”, continue on YouTube (DOB / sign-in) or Rockstar.' : '');
+      const yt = 'https://www.youtube.com/watch?v=' + v.youtubeId;
+      document.getElementById('detailYT').href = yt;
+      document.getElementById('detailYT2').href = yt;
+      const rs = document.getElementById('detailRS'), rs2 = document.getElementById('detailRS2');
+      if (v.rockstarUrl) { rs.href = v.rockstarUrl; rs.classList.remove('hidden'); rs2.href = v.rockstarUrl; rs2.classList.remove('hidden'); }
+      else { rs.classList.add('hidden'); rs2.classList.add('hidden'); }
+      document.getElementById('ageFallback').classList.toggle('hidden', !v.ageRestricted);
+      document.getElementById('detailVerified').classList.toggle('hidden', !(v.ageRestricted && isVerified()));
       document.getElementById('moreGrid').innerHTML = MEDIA.videos.filter(x => x.youtubeId !== v.youtubeId).map(videoCard).join('');
+      bindWatchLinks();
       scrollTo({ top: 0 });
     }
     function closeWatch() {
@@ -353,21 +623,94 @@
       document.getElementById('boxImg').src = '';
       document.body.style.overflow = '';
     }
-    addEventListener('keydown', e => { if (e.key === 'Escape') closeBox(); });
+    addEventListener('keydown', e => { if (e.key === 'Escape') { closeBox(); if (!document.getElementById('ageGate').classList.contains('hidden')) closeAgeGate(); } });
     document.getElementById('lightbox').addEventListener('click', e => { if (e.target.id === 'lightbox') closeBox(); });
+    document.getElementById('ageGate').addEventListener('click', e => { if (e.target.id === 'ageGate') closeAgeGate(); });
+
+    /* ---------- Hero carousel: HQ-only slides, per-game titles, 10s, random, no repeat ---------- */
+    const HERO_SLIDES = [
+      { src: '/images/posters/opt/Official_Cover_Art_landscape-1600.webp', kick: 'GTA VI — 11.19.2026', title: 'Welcome to<br>Leonida', sub: "Lucia's out. Vice City isn't ready." },
+      { src: 'https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920', kick: 'Featured — GTA VI', title: 'Explore Vice<br>City and Beyond', sub: 'Steal the vibe. Share the neon.' },
+      { src: '/images/posters/opt/Jason_and_Lucia_Robbery_With_Logo_landscape-1600.webp', kick: 'GTA VI — Story', title: 'Jason and<br>Lucia', sub: 'Ride or die, Leonida-style.' },
+      { src: 'https://www.rockstargames.com/VI/_next/static/media/trailer-2.0l.7aqib91fz6.jpg?akim=1&imdensity=1&imwidth=1920', kick: 'GTA VI — Trailer 2', title: 'Vice City<br>Nights', sub: 'Neon bleeds. Nobody sleeps.' },
+      { src: '/images/posters/opt/The_Album_Cover_Art_landscape-1600.webp', kick: 'GTA VI — Music', title: 'The Sound<br>of Leonida', sub: 'Windows down, wanted level up.' },
+      { src: 'https://www.rockstargames.com/VI/_next/static/media/trailer-1.06b6paykx247w.jpg?akim=1&imdensity=1&imwidth=1920', kick: 'GTA VI — Trailer 1', title: 'Leonida<br>Keys', sub: 'Salt in the air. Heat on your tail.' },
+      { src: '/images/posters/opt/VALORANT_Jett_Dark-1600.webp', kick: 'Featured — Valorant', title: 'Defy the<br>Limits', sub: 'Blink in. Blades out. No apologies.' },
+      { src: '/images/posters/opt/China_CG_Sagefire_Full-1600.webp', kick: 'Valorant — Arena', title: 'Sagefire<br>Protocol', sub: 'Wall up. Odds down.' },
+      { src: '/images/posters/opt/China_CG_Haven_Overlook-1600.webp', kick: 'Valorant — Maps', title: 'Haven<br>Overlook', sub: 'Three sites. Zero mercy.' },
+      { src: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/page_bg_raw.jpg', kick: 'Cities: Skylines II', title: 'Build Your<br>Tomorrow', sub: 'Zone it. Build it. Flood it (again).' },
+      { src: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/page_bg_raw.jpg?t=1789251637', kick: 'Counter-Strike 2', title: 'Hold the<br>Angle', sub: 'Crosshair discipline. Mumbai watches.' },
+      { src: 'https://cdn.forza.net/strapi-uploads/assets/massive_FH_6_S01_Car_Pass_Group_01_16x9_WM_a39e4be2c3.webp', kick: 'Forza Horizon 6 — Car Pass', title: 'Race the<br>Horizon', sub: 'Redline the festival. Japan is the track.' },
+      { src: 'https://cdn.forza.net/strapi-uploads/assets/massive_FH_6_S01_Car_Pass_DAT_269_240_Z_72_01_16x9_WM_bd1aee45c2.webp', kick: 'Forza Horizon 6 — Series 1', title: 'Classic<br>Thunder', sub: '1972 called — it wants its crown back.' },
+      { src: 'https://cdn.forza.net/strapi-uploads/assets/massive_FH_6_S02_Car_Pass_MAZ_123_808_Wagon_74_01_16x9_WM_c4932f3afb.webp', kick: 'Forza Horizon 6 — Series 2', title: 'Wagon<br>Culture', sub: 'Groceries? Never heard of them.' },
+      { src: 'https://cdn.forza.net/strapi-uploads/assets/massive_FH_6_S02_Car_Pass_Group_01_16x9_WM_beb04b0404.webp', kick: 'Forza Horizon 6 — Garage', title: 'Full<br>Send', sub: 'Bring friends. Leave paint.' },
+      { src: 'https://wstatic-prod-boc.krafton.com/PUBG_OFFICIAL/20230328/GsanRjfF/Season15_Free_to_Play_Key_Art_A.jpg', kick: 'PUBG — Free to Play', title: 'Drop In.<br>Survive.', sub: '100 drop in. One eats chicken.' },
+      { src: 'https://wstatic-prod-boc.krafton.com/PUBG_OFFICIAL/20230328/CkdsBQtW/Season10_Key_Art_B.jpg', kick: 'PUBG — Seasons', title: 'Every Drop<br>Counts', sub: 'Old scars. Fresh drops.' },
+      { src: 'https://wstatic-prod-boc.krafton.com/PUBG_OFFICIAL/20230329/RZrUeqfk/Karakin-A.jpg', kick: 'PUBG — Karakin', title: 'Small Map.<br>Big Chaos.', sub: 'Tiny island. Loud goodbyes.' },
+      { src: 'https://drop-assets.ea.com/images/37trg6to3D151LpTv9LGnm/b821709d22dc506c7c0848eec1de2b1c/BF6_tombstone-keyart-nologo-16x9.jpg?im=AspectCrop=(16,9),xPosition=0.5,yPosition=0.5;Resize=(1280)&q=85', kick: 'Battlefield 6', title: 'Total<br>Warfare', sub: 'Bring the squad. Break everything.' },
+      { src: 'https://www.rockstargames.com/VI/_next/static/media/Vice_City_10.0f1q-xa_4q8r2.jpg', kick: 'GTA VI — Vice City', title: 'Vice After<br>Dark', sub: 'Palm trees. Police choppers. Pick one.' },
+      { src: 'https://www.rockstargames.com/VI/_next/static/media/Vice_City_01.135x56yoeu.6t.jpg', kick: 'GTA VI — Vice City', title: 'Paradise<br>Has Teeth', sub: 'Smile for the traffic cam.' },
+      { src: 'https://www.rockstargames.com/VI/_next/static/media/Leonida_Keys_04.0hce1rw1s8pd9.jpg', kick: 'GTA VI — Leonida Keys', title: 'Keys to<br>Chaos', sub: "Island time, criminal o'clock." },
+      { src: 'https://www.rockstargames.com/VI/_next/static/media/Leonida_Keys_01.0zgz7tveur6y8.jpg', kick: 'GTA VI — Leonida Keys', title: 'Salt, Sun,<br>Sirens', sub: 'The Keys remember everything.' },
+      { src: 'https://www.rockstargames.com/VI/_next/static/media/ULTIMATE_EDITION_VAPID_BUGGY_01.0jxfiql~371ik.jpg', kick: 'GTA VI — Ultimate Edition', title: 'Dune-Runner<br>Energy', sub: "Vapid Buggy — sand in your teeth, cops in your mirror." },
+      { src: 'https://www.rockstargames.com/VI/_next/static/media/ULTIMATE_EDITION_STOCK_305_04.0ipze9~3u6eok.jpg', kick: 'GTA VI — Ultimate Edition', title: 'Fresh Off<br>the Lot', sub: 'Stock 305 — straight into trouble.' },
+      { src: 'https://www.rockstargames.com/VI/_next/static/media/ULTIMATE_EDITION_SQUALO_03.0quncwrsw97j1.jpg', kick: 'GTA VI — Ultimate Edition', title: 'Throttle<br>Therapy', sub: 'Squalo offshore — outrun the horizon.' },
+      { src: 'https://media-rockstargames-com.akamaized.net/tina-uploads/tina-modules/6a84/fdac18d4377f55a8b9aed1dcb882c4ffa0c60959.jpg', kick: 'GTA VI — Streets', title: 'Concrete<br>Paradise', sub: 'Every alley pays. Every neon lies.' },
+      { src: 'https://media-rockstargames-com.akamaized.net/tina-uploads/tina-modules/3871/07edb091bb329145ee3f3f01476adb40acc6457b.jpg', kick: 'GTA VI — Nights', title: 'After<br>Hours', sub: "Leonida doesn't sleep. It schemes." },
+      { src: 'https://media-rockstargames-com.akamaized.net/tina-uploads/tina-modules/gta-v/a457313ec277b6e74bd25238768cbcecda739549.jpg', kick: 'GTA — Legends', title: 'Los Santos<br>Forever', sub: 'Where the myth started.' },
+      { src: 'https://media-rockstargames-com.akamaized.net/tina-uploads/tina-modules/gta-v/24ba6644deb404944cdbe64705285bbad80154a4.jpg', kick: 'GTA — Legends', title: 'Kings of<br>San Andreas', sub: 'Bow down to the pioneers.' }
+    ];
+    function setSlideText(item) {
+      const kick = document.getElementById('heroKicker'), h = document.getElementById('heroTitle'), sub = document.getElementById('heroSub');
+      if (kick) kick.textContent = item.kick;
+      if (h) h.innerHTML = item.title;
+      if (sub) sub.textContent = item.sub;
+    }
+    function initHeroCarousel() {
+      const pool = HERO_SLIDES;
+      const A = document.getElementById('heroBgA'), B = document.getElementById('heroBgB');
+      let lastStored = null;
+      try { lastStored = JSON.parse(localStorage.getItem('vi_hero_last') || 'null'); } catch (e) {}
+      let cur = Math.floor(Math.random() * pool.length);
+      if (lastStored && lastStored.idx >= 0 && lastStored.idx < pool.length && lastStored.idx === cur) {
+        cur = (cur + 1 + Math.floor(Math.random() * (pool.length - 1))) % pool.length;
+      }
+      let showingA = true;
+      const show = (idx, instant) => {
+        const item = pool[idx];
+        const showEl = showingA ? A : B, hideEl = showingA ? B : A;
+        const swap = () => { showEl.src = item.src; showEl.style.opacity = '1'; hideEl.style.opacity = '0'; showingA = !showingA; };
+        if (instant) { swap(); }
+        else {
+          const pre = new Image(); pre.src = item.src;
+          pre.onload = swap;
+          setTimeout(() => { if (showEl.getAttribute('src') !== item.src) swap(); }, 2500);
+        }
+        setSlideText(item);
+        try { localStorage.setItem('vi_hero_last', JSON.stringify({ idx })); } catch (e) {}
+        cur = idx;
+      };
+      show(cur, true);
+      // warm the next one so rotation never flashes
+      const preload = i => { const im = new Image(); im.src = pool[i].src; };
+      setInterval(() => {
+        if (document.hidden) return;
+        let n = cur;
+        while (n === cur) n = Math.floor(Math.random() * pool.length);
+        show(n, false);
+        let m = n;
+        while (m === n) m = Math.floor(Math.random() * pool.length);
+        preload(m);
+      }, 10000);
+    }
 
     fetch('/api/showcase').then(r => r.json()).then(s => {
-      MEDIA = s.media;
+      MEDIA = s.media; SHOWCASE = s;
       renderLibrary(s.media);
-      document.getElementById('menuVideos').innerHTML = s.media.videos.map(v => `
-        <a href="/media#/watch/${v.youtubeId}" class="flex gap-4 items-center no-underline group">
-          <span class="relative shrink-0 w-32 aspect-video rounded-xl overflow-hidden bg-white/5">
-            <img src="${thumb(v.youtubeId)}" alt="" loading="lazy" class="w-full h-full object-cover">
-            <span class="absolute right-1 bottom-1 font-mono text-[0.6rem] font-bold bg-black/70 rounded px-1.5 py-0.5">${v.duration}</span>
-          </span>
-          <span><span class="block font-bold text-sm text-cream group-hover:text-pill transition">${v.title}</span>
-          <span class="block font-mono text-[0.6rem] tracking-[0.2em] text-white/40 mt-1">${v.date}</span></span>
-        </a>`).join('');
+      initHeroCarousel();
+      const mv = document.getElementById('menuVideos');
+      mv.className = 'mt-5 grid sm:grid-cols-2 gap-4';
+      mv.innerHTML = s.media.videos.map(menuCard).join('');
       route();
     }).catch(() => {});
   </script>

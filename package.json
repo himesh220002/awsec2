@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
+    "images:optimize": "python3 tools/optimize_images.py",
     "test": "node -e \"fetch('http://localhost:8080/api/posts').then(r=>r.json()).then(j=>{if(!Array.isArray(j))process.exit(1);console.log('API OK')})\""
   },
   "keywords": [],
@@ -12,6 +13,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "compression": "^1.8.2",
     "express": "^5.2.1"
   }
 }

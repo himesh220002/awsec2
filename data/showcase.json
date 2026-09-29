@@ -52,7 +52,7 @@
       "desc": "Battle royale survival at its finest.",
       "genre": "Battle Royale",
       "tags": ["BR", "Survival", "100P"],
-      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/578080/841ea38bc58cabb70aef65365cf50bc2d79329d9/header.jpg?t=1786493086",
+      "image": "https://wstatic-prod-boc.krafton.com/PUBG_OFFICIAL/20230328/GsanRjfF/Season15_Free_to_Play_Key_Art_A.jpg",
       "watchUrl": "https://www.youtube.com/results?search_query=pubg+official+trailer"
     },
     {
@@ -70,7 +70,7 @@
       "desc": "Open-world racing with stunning visuals.",
       "genre": "Racing",
       "tags": ["Open World", "Cars", "Mexico"],
-      "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/header.jpg",
+      "image": "https://cdn.forza.net/strapi-uploads/assets/massive_FH_6_S01_Car_Pass_Group_01_16x9_WM_a39e4be2c3.webp",
       "watchUrl": "https://www.youtube.com/results?search_query=forza+horizon+5+official+trailer"
     },
     {
@@ -88,7 +88,7 @@
       "desc": "Immersive narrative-driven adventures.",
       "genre": "Story",
       "tags": ["Narrative", "Adventure", "Single-Player"],
-      "image": "https://www.rockstargames.com/VI/_next/static/media/shard1.14.-n-5n.4nws.png?akim=1&imdensity=1&imwidth=1920",
+      "image": "https://www.rockstargames.com/VI/_next/static/media/Leonida_Keys_01.0zgz7tveur6y8.jpg",
       "watchUrl": "https://www.youtube.com/results?search_query=gta+6+trailer+2"
     }
   ],
@@ -111,35 +111,102 @@
   "media": {
     "videos": [
       {
-        "title": "Grand Theft Auto VI: An Extended Look",
-        "date": "August 27, 2026",
-        "duration": "26:48",
-        "youtubeId": "tJbzMqJGH4k"
-      },
-      {
         "title": "Grand Theft Auto VI Trailer 2",
         "date": "May 6, 2025",
         "duration": "2:47",
-        "youtubeId": "VQRLujxTm3c"
+        "youtubeId": "VQRLujxTm3c",
+        "game": "GTA VI",
+        "ageRestricted": true,
+        "rockstarUrl": "https://www.rockstargames.com/VI/trailer-2"
       },
       {
         "title": "Grand Theft Auto VI Trailer 1",
         "date": "December 4, 2023",
         "duration": "1:31",
-        "youtubeId": "QdBZY2fkU-0"
+        "youtubeId": "QdBZY2fkU-0",
+        "game": "GTA VI",
+        "ageRestricted": true,
+        "rockstarUrl": "https://www.rockstargames.com/VI/trailer-1"
+      },
+      {
+        "title": "Halo: Campaign Evolved - Official Reveal Trailer",
+        "date": "October 24, 2025",
+        "duration": "1:36",
+        "youtubeId": "AMGJ7OMqyvI",
+        "game": "Halo",
+        "channel": "IGN"
+      },
+      {
+        "title": "Forza Horizon 6 - Official Launch Trailer",
+        "date": "May 8, 2026",
+        "duration": "1:36",
+        "youtubeId": "oYhaW-Vr4wg",
+        "game": "Forza Horizon 6",
+        "channel": "Forza"
+      },
+      {
+        "title": "Battlefield 6 - Official Multiplayer Gameplay Reveal Trailer",
+        "date": "July 31, 2025",
+        "duration": "2:27",
+        "youtubeId": "dbTzsfwv-sc",
+        "game": "Battlefield 6",
+        "channel": "IGN"
+      },
+      {
+        "title": "Call of Duty: Black Ops 7 - Gameplay Reveal Trailer",
+        "date": "August 19, 2025",
+        "duration": "2:20",
+        "youtubeId": "9txkGBj_trg",
+        "game": "Call of Duty",
+        "channel": "Call of Duty"
+      },
+      {
+        "title": "Counter-Strike 2 - Official Launch Trailer",
+        "date": "September 27, 2023",
+        "duration": "0:56",
+        "youtubeId": "c80dVYcL69E",
+        "game": "Counter-Strike 2",
+        "channel": "GameSpot"
+      },
+      {
+        "title": "Untitled John Wick Game - Announce Trailer",
+        "date": "February 12, 2026",
+        "duration": "2:02",
+        "youtubeId": "OhHvHrDBru8",
+        "game": "John Wick",
+        "channel": "PlayStation"
+      },
+      {
+        "title": "If The Sun Burns Out Tonight - VALORANT Champions 2026",
+        "date": "September 16, 2026",
+        "duration": "3:54",
+        "youtubeId": "x8jAY2CoOBg",
+        "game": "Valorant",
+        "channel": "VALORANT"
+      },
+      {
+        "title": "Hitman Absolution - Attack of the Saints Trailer",
+        "date": "May 30, 2012",
+        "duration": "2:56",
+        "youtubeId": "65gcndvshAY",
+        "game": "Hitman",
+        "channel": "ONE Media"
       }
     ],
     "screenshots": [
       { "title": "Leonida Poster", "tag": "GTA VI", "url": "https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920" },
-      { "title": "Shard Study 01", "tag": "GTA VI", "url": "https://www.rockstargames.com/VI/_next/static/media/shard0.0_vm6ya9-h67x.png?akim=1&imdensity=1&imwidth=1920" },
-      { "title": "Shard Study 02", "tag": "GTA VI", "url": "https://www.rockstargames.com/VI/_next/static/media/shard1.14.-n-5n.4nws.png?akim=1&imdensity=1&imwidth=1920" },
-      { "title": "Arena Wide", "tag": "Valorant", "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/4c679fc9b8f253d5915261338f81fe1043fded45-3440x1020.jpg?accountingTag=VAL&fit=fill&fm=jpg&q=80&h=640" },
-      { "title": "Ultrawide Clash", "tag": "Valorant", "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/c8157d71a4776dd821d05ed6b82d5d875ca03386-5120x1644.png?accountingTag=VAL&fit=fill&fm=png&q=80&h=640" },
+      { "title": "Vice City Nights", "tag": "GTA VI", "url": "https://www.rockstargames.com/VI/_next/static/media/trailer-2.0l.7aqib91fz6.jpg?akim=1&imdensity=1&imwidth=1920" },
+      { "title": "Leonida Keys", "tag": "GTA VI", "url": "https://www.rockstargames.com/VI/_next/static/media/trailer-1.06b6paykx247w.jpg?akim=1&imdensity=1&imwidth=1920" },
+      { "title": "Jett Ascent", "tag": "Valorant", "url": "/images/posters/China_CG_Jett_Jump_Full.jpg" },
+      { "title": "Haven Overlook", "tag": "Valorant", "url": "/images/posters/China_CG_Haven_Overlook.jpg" },
+      { "title": "Jett Dark", "tag": "Valorant", "url": "/images/posters/VALORANT_Jett_Dark.jpg" },
+      { "title": "Launch Key Visual", "tag": "Valorant", "url": "/images/posters/Valorant_Launch_KV_424_designpass_F.jpg" },
       { "title": "Header Art", "tag": "CS2", "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/162664aa5da85f418105350c5d67ca565f6c3713/header.jpg?t=1789251637" }
     ],
     "artwork": [
       { "title": "Leonida Key Art", "sizes": "1 size", "url": "https://www.rockstargames.com/VI/-/opengraph-image.jpg?opengraph-image.0t8ty~nlmxq2s.jpg" },
-      { "title": "Arena Ultrawide", "sizes": "1 size", "url": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/4c679fc9b8f253d5915261338f81fe1043fded45-3440x1020.jpg?accountingTag=VAL&fit=fill&fm=jpg&q=80&h=640" }
+      { "title": "Sage Fire", "sizes": "1 size", "url": "/images/posters/China_CG_Sagefire_Full.jpg" },
+      { "title": "Omen Dark", "sizes": "1 size", "url": "/images/posters/VALORANT_Omen_Dark.jpg" }
     ]
   },
   "categories": ["News", "Esports", "Guides", "Reviews"],
@@ -165,7 +232,7 @@
       "category": "Esports",
       "tags": ["Valorant", "Esports", "VCT"],
       "excerpt": "How Valorant became a global competitive phenomenon.",
-      "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/1d1a219a5cb25d15b6e9fe2d4a4d2b83d41f0a8f-1920x1080.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=630&w=1200&crop=center",
+      "image": "/images/posters/opt/Valorant_Launch_KV_424_designpass_F-1024.jpg",
       "content": "Valorant's rise from 2020 launch to sold-out arenas took barely five years, powered by Riot's franchised VCT leagues across four international regions. The formula worked: a readable spectator client, agent abilities that create highlight moments without obscuring gunplay, and a Challengers path that keeps grassroots scenes alive from Mumbai to Berlin. Viewership now rivals the biggest tactical shooters every Masters event, and sponsor money follows the eyeballs. The next growth lever is mobile and console audiences feeding back into the PC scene. If you run a collegiate or city-level event, this is the title with the deepest amateur-to-pro funnel right now."
     },
     {
@@ -189,7 +256,7 @@
       "category": "Guides",
       "tags": ["Valorant", "Guide", "Qualifier"],
       "excerpt": "How to prep, register, and survive the open qualifiers.",
-      "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/c8157d71a4776dd821d05ed6b82d5d875ca03386-5120x1644.png?accountingTag=VAL&fit=fill&fm=png&q=80&h=640",
+      "image": "/images/posters/opt/China_CG_A2_Full-1024.jpg",
       "content": "The Valorant Cypher Cup opens its qualifiers online on November 15, and preparation beats raw aim at this level. Start with the admin pack: stable roster of five plus one substitute, every account in good standing, and voice comms tested a week early — most qualifier forfeits are tech issues, not losses. In-game, drill your map pool down to three comfort picks and a single anti-eco protocol your whole team can call blind. Review one VOD per map focusing only on round-one setups and timeout usage. On match day, warm up with thirty minutes of deathmatch, lock your agents early, and treat every timeout as a reset button. Qualifiers reward the disciplined, not the flashy."
     }
   ]

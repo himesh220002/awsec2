@@ -1,10 +1,31 @@
 const express = require('express');
+const compression = require('compression');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, 'public')));
+// gzip / brotli (via Accept-Encoding) for html / json / svg — like Next.js does
+app.use(compression({ level: 6, threshold: 1024 }));
+
+// Next/Image-style HTTP caching: immutable 1y for versioned images,
+// short for html, day for js/css
+app.use(express.static(path.join(__dirname, 'public'), {
+  etag: true,
+  lastModified: true,
+  maxAge: '1y',
+  setHeaders(res, filePath) {
+    if (filePath.endsWith('.html')) {
+      // pages: always revalidate so new deploys show instantly
+      res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+    } else if (/\.(webp|avif|jpe?g|png|gif|svg|woff2?)$/i.test(filePath)) {
+      // optimized images + fonts: immutable year (filenames are content-hashed via -w suffix)
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (/\.(js|css)$/i.test(filePath)) {
+      res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=86400');
+    }
+  }
+}));
 app.use(express.json());
 
 const showcase = require('./data/showcase.json');
@@ -52,6 +73,8 @@ app.get('/api/posts/:id', (req, res) => {
 });
 
 app.get('/api/showcase', (req, res) => {
+  // small stale-while-revalidate so grids + hero paint fast on repeat visits
+  res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
   res.json(showcase);
 });
 

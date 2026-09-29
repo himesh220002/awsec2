@@ -18,6 +18,9 @@
       }
     }
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.rockstargames.com">
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Archivo', system-ui, sans-serif; background: #191924; }
@@ -32,11 +35,18 @@
     #loader { transition: opacity .5s ease; }
     #loadbar { animation: load 1.1s ease-in-out infinite; }
     @keyframes load { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
-    #wipe { transition: transform .38s cubic-bezier(.7,0,.3,1); }
+    /* #wipe { transition: transform .38s cubic-bezier(.7,0,.3,1); } */
     .logo-text { background: linear-gradient(90deg, #ff2e88, #00e5ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .mlink { display: flex; align-items: center; justify-content: space-between; width: 100%; background: none; border: none; border-bottom: 1px solid rgba(255,255,255,.07); cursor: pointer; text-align: left; font-weight: 900; text-transform: uppercase; font-size: clamp(1.5rem, 4vw, 2.3rem); letter-spacing: -0.01em; line-height: 1.1; color: #c9c3e8; padding: 0.6rem 0; text-decoration: none; transition: color .2s, transform .2s; }
+    .mlink { display: flex; align-items: center; justify-content: space-between; width: 100%; background: none; border: none; border-bottom: 1px solid rgba(255,255,255,.07); cursor: pointer; text-align: left; font-weight: 800; text-transform: uppercase; font-size: clamp(1.9rem, 4.5vw, 2.9rem); letter-spacing: -0.02em; line-height: 1.05; color: #c9c3e8; padding: 0.55rem 0; text-decoration: none; transition: color .2s, transform .2s; font-stretch: condensed; }
     .mlink:hover, .mlink.active { color: #f2ecdc; transform: translateX(8px); }
     .mlink span { color: rgba(255,255,255,.35); font-weight: 400; }
+    .rs-card { background: #23232f; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.06); }
+    .rs-thumb { position: relative; aspect-ratio: 16/9; background: #101018; overflow: hidden; display: block; }
+    .rs-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .rs-dur { position: absolute; right: 10px; bottom: 10px; font-family: ui-monospace,Menlo,monospace; font-size: 0.7rem; font-weight: 700; background: rgba(0,0,0,.75); border-radius: 6px; padding: 3px 8px; color: #fff; }
+    .rs-body { padding: 16px 18px 18px; display: block; }
+    .rs-title { font-weight: 700; font-size: 1.02rem; line-height: 1.3; color: #f4f2fa; display: block; }
+    .rs-date { margin-top: 6px; font-size: 0.85rem; color: rgba(255,255,255,.5); display: block; }
     #rmenu { animation: menuIn .3s ease both; }
     @keyframes menuIn { from { opacity: 0; } }
     .page-in { animation: pageIn .55s cubic-bezier(.2,.9,.25,1) both; }
@@ -121,14 +131,14 @@
   <section class="page-in relative overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-b from-[#2a1535] via-[#191924] to-[#191924]"></div>
     <svg class="palm absolute -left-8 bottom-0 w-52 sm:w-80 opacity-40"><use href="#palm"/></svg>
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-14 sm:pt-20 pb-10 sm:pb-14">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-0 pt-14 sm:pt-20 pb-10 sm:pb-14">
       <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/60">Open&nbsp;A&nbsp;Channel</p>
       <h1 class="mt-4 font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2.4rem,8vw,5rem)]">Contact</h1>
       <p class="mt-5 max-w-xl text-white/70 text-base sm:text-lg">Every link below is live — repo, registry, and the running instance itself.</p>
     </div>
   </section>
 
-  <section class="max-w-6xl mx-auto px-4 sm:px-8 pb-8 sm:pb-12 grid gap-4 sm:gap-5 sm:grid-cols-3">
+  <section class="max-w-7xl mx-auto px-4 sm:px-0 pb-8 sm:pb-12 grid gap-4 sm:gap-5 sm:grid-cols-3">
     <a href="https://youtube.com" target="_blank" rel="noopener" class="reveal rounded-[20px] bg-inkdeep border border-panel p-6 no-underline block transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
       <p class="font-mono text-[0.6rem] tracking-[0.3em] text-vice-cyan">VIDEO</p>
       <h3 class="mt-2 font-black uppercase text-cream text-lg">YouTube</h3>
@@ -149,7 +159,7 @@
     </a>
   </section>
 
-  <section class="max-w-6xl mx-auto px-4 sm:px-8 pb-8 sm:pb-12">
+  <section class="max-w-7xl mx-auto px-4 sm:px-0 pb-8 sm:pb-12">
     <div class="reveal rounded-[24px] bg-inkdeep border border-panel p-6 sm:p-8 grid gap-5 sm:grid-cols-3">
       <div>
         <p class="font-mono text-[0.6rem] tracking-[0.3em] text-vice-cyan">EMAIL</p>
@@ -166,7 +176,7 @@
     </div>
   </section>
 
-  <section class="reveal max-w-6xl mx-auto px-4 sm:px-8 pb-14 sm:pb-20">
+  <section class="reveal max-w-7xl mx-auto px-4 sm:px-0 pb-14 sm:pb-20">
     <div class="rounded-[24px] bg-inkdeep border border-panel p-6 sm:p-10 grid sm:grid-cols-2 gap-8">
       <div>
         <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Transmission&nbsp;Form</p>
@@ -189,16 +199,61 @@
 
   <div id="toast" class="fixed left-1/2 bottom-6 z-[95] -translate-x-1/2 translate-y-24 opacity-0 bg-vice-cyan/15 border border-vice-cyan/60 text-vice-cyan font-mono text-xs font-bold tracking-[0.2em] px-6 py-3 rounded-full backdrop-blur-xl">✓ TRANSMISSION LOGGED</div>
 
-  <footer class="border-t border-white/10 px-4 sm:px-8 py-8 text-center">
-    <p class="font-black text-xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
-    <p class="mt-2 text-white/40 text-xs tracking-[0.3em] uppercase">&copy; 2026 — Welcome to Leonida</p>
-    <div class="mt-3 flex justify-center gap-5 text-xs font-bold uppercase tracking-widest text-white/50">
-      <a href="/" class="no-underline hover:text-pill">Home</a>
-      <a href="/blog" class="no-underline hover:text-pill">Blog</a>
-      <a href="/about" class="no-underline hover:text-pill">About</a>
-      <a href="/contact" class="no-underline hover:text-pill">Contact</a>
+  <footer class="border-t border-white/10 bg-inkdeep/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div>
+        <p class="font-black text-2xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
+        <p class="mt-3 text-white/55 text-sm max-w-xs">Next-gen console coverage — trailers, esports, guides and reviews from the neon coast.</p>
+        <div class="mt-4 flex flex-wrap gap-2 font-mono text-[0.62rem] font-bold tracking-[0.2em]">
+          <a href="https://twitter.com" target="_blank" rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">TWITTER</a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">YOUTUBE</a>
+          <a href="https://discord.com" target="_blank" rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">DISCORD</a>
+        </div>
+      </div>
+      <nav>
+        <p class="font-mono text-[0.62rem] font-bold tracking-[0.3em] text-white/40 uppercase">Explore</p>
+        <div class="mt-4 flex flex-col gap-2.5 text-sm font-bold uppercase tracking-widest text-white/65">
+          <a href="/" class="no-underline hover:text-pill transition w-fit">Home</a>
+          <a href="/#games" class="no-underline hover:text-pill transition w-fit">Games</a>
+          <a href="/#events" class="no-underline hover:text-pill transition w-fit">Events</a>
+          <a href="/media" class="no-underline hover:text-pill transition w-fit">Media</a>
+          <a href="/blog" class="no-underline hover:text-pill transition w-fit">Blog</a>
+          <a href="/about" class="no-underline hover:text-pill transition w-fit">About</a>
+          <a href="/contact" class="no-underline hover:text-pill transition w-fit">Contact</a>
+        </div>
+      </nav>
+      <nav>
+        <p class="font-mono text-[0.62rem] font-bold tracking-[0.3em] text-white/40 uppercase">Intel Files</p>
+        <div class="mt-4 flex flex-col gap-2.5 text-sm font-bold text-white/65">
+          <a href="/blog#/post/1" class="no-underline hover:text-pill transition w-fit">GTA 6 — What We Know</a>
+          <a href="/blog#/post/2" class="no-underline hover:text-pill transition w-fit">Valorant Esports Growth</a>
+          <a href="/blog#/post/3" class="no-underline hover:text-pill transition w-fit">CS2 LAN Preview</a>
+          <a href="/blog#/post/4" class="no-underline hover:text-pill transition w-fit">Cypher Cup Guide</a>
+        </div>
+      </nav>
+      <div>
+        <p class="font-mono text-[0.62rem] font-bold tracking-[0.3em] text-white/40 uppercase">Latest Drops</p>
+        <div id="footVideos" class="mt-4 flex flex-col gap-2.5 text-sm font-bold text-white/65">
+          <span class="text-white/35 font-mono text-xs font-normal">Loading…</span>
+        </div>
+        <a href="/media" class="mt-4 inline-block text-xs font-bold uppercase tracking-widest text-pill no-underline">All media →</a>
+      </div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-white/40 text-xs tracking-[0.25em] uppercase">&copy; 2026 CypherTech — Welcome to Leonida</p>
+        <p class="font-mono text-[0.65rem] text-white/40">support@cyphertech.online · +91-8105542318</p>
+        <button onclick="scrollTo({top:0,behavior:'smooth'})" class="ghost-btn font-bold text-xs uppercase tracking-widest text-white/60 hover:text-pill border border-white/20 rounded-full px-5 py-2 transition">↑ Top</button>
+      </div>
     </div>
   </footer>
+  <script>
+    fetch('/api/showcase').then(r => r.json()).then(s => {
+      const el = document.getElementById('footVideos');
+      if (!el || !s.media || !s.media.videos) return;
+      el.innerHTML = s.media.videos.slice(0, 3).map(v => `<a href="/media#/watch/${v.youtubeId}" class="no-underline hover:text-pill transition w-fit">${v.title}</a>`).join('');
+    }).catch(() => {});
+  </script>
 
   <script>
     fetch('/api/showcase')
@@ -216,12 +271,37 @@
     const hideLoader = () => { const l = document.getElementById('loader'); if (l) { l.style.opacity = '0'; setTimeout(() => l.remove(), 550); } };
     addEventListener('load', () => setTimeout(hideLoader, 450));
     setTimeout(hideLoader, 2800);
+    // page-change wipe: never freeze on same-page / hash-only links
+    const wipeEl = () => document.getElementById('wipe');
+    const parkWipe = () => { const w = wipeEl(); if (w) w.style.transform = 'translateY(100%)'; };
+    const closeAnyMenu = () => {
+      ['rmenu', 'mobileMenu'].forEach(id => {
+        const m = document.getElementById(id);
+        if (m && !m.classList.contains('hidden')) m.classList.add('hidden');
+      });
+      document.body.style.overflow = '';
+    };
+    addEventListener('load', parkWipe);
+    parkWipe();
     document.addEventListener('click', e => {
       const a = e.target.closest('a[href^="/"]:not([href^="//"])');
-      if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      let url;
+      try { url = new URL(a.getAttribute('href'), location.href); }
+      catch (err) { return; }
+      if (url.origin !== location.origin) return;
+      if (url.pathname === location.pathname) {
+        // same page (hash / query only, incl. unimplemented /#name links): no wipe, just close menu
+        closeAnyMenu();
+        return;
+      }
       e.preventDefault();
-      document.getElementById('wipe').style.transform = 'translateY(0)';
-      setTimeout(() => location.href = a.href, 400);
+      closeAnyMenu();
+      const w = wipeEl();
+      if (w) w.style.transform = 'translateY(0)';
+      setTimeout(() => { location.href = a.href; }, 420);
+      // safety: if navigation never fires, slide back down instead of freezing
+      setTimeout(parkWipe, 1800);
     });
     // rockstar overlay menu
     const rmenu = document.getElementById('rmenu');
@@ -247,14 +327,12 @@
     document.getElementById('menuBackBtn').onclick = showMenuMain;
     addEventListener('keydown', e => { if (e.key === 'Escape' && !rmenu.classList.contains('hidden')) setMenu(false); });
     fetch('/api/showcase').then(r => r.json()).then(s => {
-      document.getElementById('menuVideos').innerHTML = s.media.videos.map(v => `
-        <a href="/media#/watch/${v.youtubeId}" class="flex gap-4 items-center no-underline group">
-          <span class="relative shrink-0 w-32 aspect-video rounded-xl overflow-hidden bg-white/5">
-            <img src="https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg" alt="" loading="lazy" class="w-full h-full object-cover">
-            <span class="absolute right-1 bottom-1 font-mono text-[0.6rem] font-bold bg-black/70 rounded px-1.5 py-0.5">${v.duration}</span>
-          </span>
-          <span><span class="block font-bold text-sm text-cream group-hover:text-pill transition">${v.title}</span>
-          <span class="block font-mono text-[0.6rem] tracking-[0.2em] text-white/40 mt-1">${v.date}</span></span>
+      const mv = document.getElementById('menuVideos');
+      mv.className = 'mt-5 grid sm:grid-cols-2 gap-4';
+      mv.innerHTML = s.media.videos.map(v => `
+        <a href="/media#/watch/${v.youtubeId}" class="rs-card block no-underline group">
+          <span class="rs-thumb"><img src="https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg" srcset="https://i.ytimg.com/vi/${v.youtubeId}/mqdefault.jpg 320w, https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg 480w" sizes="320px" alt="" loading="lazy" decoding="async"><span class="rs-dur">${v.duration}</span></span>
+          <span class="rs-body"><span class="rs-title group-hover:text-pill transition">${v.title}</span><span class="rs-date">${v.date}</span></span>
         </a>`).join('');
     }).catch(() => {});
     const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('on'); io.unobserve(x.target); } }), { threshold: 0.12 });
