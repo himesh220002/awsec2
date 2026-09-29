@@ -16,6 +16,8 @@
     }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <style>
     body { font-family: 'Archivo', system-ui, sans-serif; }
     .sunset {
@@ -41,12 +43,19 @@
       background: linear-gradient(90deg, #ff2e88, #00e5ff);
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
+    .layer { will-change: transform; }
   </style>
 </head>
 <body class="bg-vice-bg text-white min-h-screen overflow-x-hidden">
 
-  <div class="sunset fixed inset-0 -z-20"></div>
-  <div class="grid-lines fixed inset-0 -z-10 opacity-[0.14]"></div>
+  <div class="sunset fixed inset-0 -z-20 layer" data-speed="0.08"></div>
+  <canvas id="bg3d" class="fixed inset-0 -z-[15] pointer-events-none"></canvas>
+  <div class="grid-lines fixed inset-0 -z-10 opacity-[0.14] layer" data-speed="0.18"></div>
+
+  <!-- D3 scroll progress -->
+  <div class="fixed top-0 left-0 right-0 h-1 z-50 bg-white/10">
+    <div id="progress" class="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-vice-pink via-vice-purple to-vice-cyan"></div>
+  </div>
 
   <nav class="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 px-4 sm:px-8 py-4 bg-[#0b0614]/70 backdrop-blur-xl border-b border-vice-pink/40">
     <a href="/" class="logo-text font-black text-xl sm:text-2xl tracking-widest no-underline">VICE/BLOG</a>
@@ -58,26 +67,36 @@
     </div>
   </nav>
 
-  <section class="text-center px-4 pt-12 sm:pt-16 pb-6">
+  <section id="hero" class="layer text-center px-4 pt-12 sm:pt-16 pb-6" data-speed="0.28">
     <span class="inline-block text-[0.7rem] font-bold tracking-[4px] uppercase text-vice-cyan border border-vice-cyan/50 rounded-full px-4 py-1.5 mb-5 shadow-[0_0_18px_rgba(0,229,255,.3)]">Leonida Stories</span>
     <h1 class="hero-title font-black uppercase leading-[0.95] tracking-tight text-[clamp(2.6rem,9vw,5.5rem)]">Vice<br>City Blog</h1>
     <p class="mt-4 text-white/70 text-base sm:text-lg">Dispatches from the neon streets — Docker, CI/CD &amp; EC2.</p>
   </section>
 
-  <main class="max-w-5xl mx-auto px-4 sm:px-6 pb-16 pt-6">
+  <main class="layer max-w-5xl mx-auto px-4 sm:px-6 pb-10 pt-6" data-speed="0.12">
     <div id="posts" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <p class="text-white/60 text-center col-span-full">Loading stories from the city…</p>
     </div>
   </main>
+
+  <!-- D3 data-viz: story length per post -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
+    <h2 class="font-black uppercase tracking-widest text-sm text-vice-cyan mb-1">City Data</h2>
+    <p class="text-white/60 text-sm mb-5">Story size per post, rendered live with D3.</p>
+    <div id="chart" class="rounded-[20px] p-5 sm:p-7 bg-white/[0.06] border border-white/10 backdrop-blur-md"></div>
+  </section>
 
   <footer class="text-center px-4 py-8 text-white/50 text-xs sm:text-sm tracking-widest border-t border-vice-pink/25">
     <p>&copy; 2026 <span class="text-vice-pink font-bold">VICE/BLOG</span> — WELCOME TO LEONIDA</p>
   </footer>
 
   <script>
+    // ---------- Posts (unchanged API) ----------
+    let allPosts = [];
     fetch('/api/posts')
       .then(res => res.json())
       .then(posts => {
+        allPosts = posts;
         document.getElementById('posts').innerHTML = posts.map(p => `
           <article class="relative overflow-hidden rounded-[20px] p-6 sm:p-7 bg-white/[0.06] border border-white/10 backdrop-blur-md transition duration-300 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(255,46,136,.3)]">
             <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-vice-pink via-vice-purple to-vice-cyan"></div>
@@ -87,10 +106,118 @@
             <p class="mt-2 text-white/75 text-sm">${p.content}</p>
           </article>
         `).join('');
+        renderChart(posts);
       })
       .catch(() => {
         document.getElementById('posts').innerHTML = '<p class="text-white/60 text-center col-span-full">Failed to load stories.</p>';
       });
+
+    // ---------- D3: scroll progress + multilayer parallax ----------
+    if (typeof d3 !== 'undefined') {
+      const progress = d3.select('#progress');
+      const layers = d3.selectAll('.layer');
+      const onScroll = () => {
+        const y = window.scrollY;
+        const max = document.documentElement.scrollHeight - innerHeight;
+        progress.style('transform', `scaleX(${max > 0 ? y / max : 0})`);
+        layers.each(function () {
+          const speed = parseFloat(this.dataset.speed || 0);
+          d3.select(this).style('transform', `translateY(${y * speed}px)`);
+        });
+      };
+      d3.select(window).on('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    // ---------- D3: bar chart of story length ----------
+    function renderChart(posts) {
+      if (typeof d3 === 'undefined') return;
+      const data = posts.map(p => ({ title: p.title.slice(0, 18), value: (p.content || '').length }));
+      const box = document.getElementById('chart');
+      box.innerHTML = '';
+      const width = box.clientWidth || 600, barH = 34, pad = 110;
+      const height = data.length * (barH + 14) + 10;
+      const x = d3.scaleLinear().domain([0, d3.max(data, d => d.value)]).range([0, width - pad - 20]);
+      const svg = d3.select(box).append('svg').attr('width', width).attr('height', height);
+      const row = svg.selectAll('g').data(data).join('g')
+        .attr('transform', (d, i) => `translate(0,${i * (barH + 14) + 5})`);
+      row.append('text')
+        .attr('x', 0).attr('y', barH / 2).attr('dy', '.35em')
+        .attr('fill', 'rgba(255,255,255,.75)').attr('font-size', 12)
+        .text(d => d.title);
+      row.append('rect')
+        .attr('x', pad).attr('y', 0).attr('height', barH).attr('rx', 8)
+        .attr('width', 0).attr('fill', 'url(#viceGrad)')
+        .transition().duration(1200).delay((d, i) => i * 150)
+        .attr('width', d => x(d.value));
+      const defs = svg.append('defs');
+      const grad = defs.append('linearGradient').attr('id', 'viceGrad').attr('x1', 0).attr('x2', 1);
+      grad.append('stop').attr('offset', '0%').attr('stop-color', '#ff2e88');
+      grad.append('stop').attr('offset', '55%').attr('stop-color', '#7b2ff7');
+      grad.append('stop').attr('offset', '100%').attr('stop-color', '#00e5ff');
+      row.append('text')
+        .attr('x', d => pad + x(d.value) + 8).attr('y', barH / 2).attr('dy', '.35em')
+        .attr('fill', '#00e5ff').attr('font-size', 12).attr('font-weight', 700)
+        .text(d => d.value);
+    }
+
+    // ---------- Three.js: neon particle field + grid, scroll/mouse parallax ----------
+    (function initThree() {
+      if (typeof THREE === 'undefined') return;
+      const canvas = document.getElementById('bg3d');
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x0b0614, 0.035);
+      const camera = new THREE.PerspectiveCamera(65, innerWidth / innerHeight, 0.1, 200);
+      camera.position.set(0, 2, 16);
+
+      const isMobile = innerWidth < 640;
+      const COUNT = isMobile ? 350 : 900;
+      const pos = new Float32Array(COUNT * 3), col = new Float32Array(COUNT * 3);
+      const palette = [new THREE.Color('#ff2e88'), new THREE.Color('#00e5ff'), new THREE.Color('#7b2ff7')];
+      for (let i = 0; i < COUNT; i++) {
+        pos[i * 3] = (Math.random() - 0.5) * 60;
+        pos[i * 3 + 1] = Math.random() * 24 - 6;
+        pos[i * 3 + 2] = (Math.random() - 0.5) * 40 - 8;
+        const c = palette[i % 3];
+        col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      const points = new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.14, vertexColors: true, transparent: true, opacity: 0.9 }));
+      scene.add(points);
+
+      const grid = new THREE.GridHelper(80, 40, 0x00e5ff, 0x7b2ff7);
+      grid.position.y = -5;
+      grid.material.transparent = true;
+      grid.material.opacity = 0.35;
+      scene.add(grid);
+
+      let mx = 0, targetMX = 0;
+      addEventListener('mousemove', e => { targetMX = (e.clientX / innerWidth - 0.5) * 4; }, { passive: true });
+      const resize = () => {
+        camera.aspect = innerWidth / innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(innerWidth, innerHeight, false);
+        renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      };
+      addEventListener('resize', resize);
+      resize();
+
+      const clock = new THREE.Clock();
+      (function tick() {
+        requestAnimationFrame(tick);
+        const t = clock.getElapsedTime();
+        points.rotation.y = t * 0.03;
+        grid.position.z = (t * 0.6) % 2;
+        mx += (targetMX - mx) * 0.04;
+        camera.position.x = mx;                       // mouse parallax
+        camera.position.y = 2 - scrollY * 0.004;      // scroll parallax
+        camera.lookAt(0, 0, 0);
+        renderer.render(scene, camera);
+      })();
+    })();
   </script>
 </body>
 </html>
