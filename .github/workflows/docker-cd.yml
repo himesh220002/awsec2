@@ -1,0 +1,28 @@
+name: Docker CD
+
+# Runs only after "Docker Image CI" finishes on main
+on:
+  workflow_run:
+    workflows: ["Docker Image CI"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/testawsec2-blog:latest
+            docker stop blog || true
+            docker rm blog || true
+            docker run -d --name blog -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/testawsec2-blog:latest
+            docker ps
+            sleep 3
+            curl -f http://localhost:8080/ || true

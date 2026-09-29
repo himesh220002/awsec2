@@ -1,0 +1,17 @@
+{
+  "name": "testawsec2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node -e \"fetch('http://localhost:8080/api/posts').then(r=>r.json()).then(j=>{if(!Array.isArray(j))process.exit(1);console.log('API OK')})\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
