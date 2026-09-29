@@ -9,110 +9,179 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { vice: { pink: '#ff2e88', cyan: '#00e5ff', purple: '#7b2ff7', bg: '#0b0614' } },
+          colors: {
+            ink: '#191924',
+            inkdeep: '#12121c',
+            pill: '#f6a9c6',
+            cream: '#f2ecdc',
+            panel: '#4a2b6b',
+            vice: { pink: '#ff2e88', cyan: '#00e5ff', purple: '#7b2ff7' }
+          },
           fontFamily: { archivo: ['Archivo', 'system-ui', 'sans-serif'] }
         }
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
   <style>
-    body { font-family: 'Archivo', system-ui, sans-serif; }
-    .sunset {
+    body { font-family: 'Archivo', system-ui, sans-serif; background: #191924; }
+    .kicker { letter-spacing: 0.55em; }
+    .sun-glow {
       background:
-        radial-gradient(ellipse 80% 55% at 50% 110%, rgba(255,46,136,.45), transparent 60%),
-        radial-gradient(ellipse 60% 40% at 50% 105%, rgba(255,140,0,.35), transparent 60%),
-        radial-gradient(ellipse 50% 35% at 85% -5%, rgba(0,229,255,.18), transparent 60%),
-        radial-gradient(ellipse 50% 35% at 10% 0%, rgba(123,47,247,.25), transparent 60%),
-        linear-gradient(180deg, #0b0614 0%, #1a0b2e 55%, #2d0a2e 100%);
-    }
-    .grid-lines {
-      background-image: linear-gradient(rgba(0,229,255,.6) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,255,.6) 1px, transparent 1px);
-      background-size: 44px 44px;
-      mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
-    }
-    .hero-title {
-      background: linear-gradient(180deg, #fff 20%, #ff2e88 55%, #7b2ff7 100%);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-      filter: drop-shadow(0 0 26px rgba(255,46,136,.45));
-    }
-    .logo-text {
-      background: linear-gradient(90deg, #ff2e88, #00e5ff);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
+        radial-gradient(ellipse 70% 50% at 50% 108%, rgba(255,110,80,.5), transparent 60%),
+        radial-gradient(ellipse 55% 38% at 50% 102%, rgba(255,46,136,.4), transparent 60%),
+        linear-gradient(180deg, #191924 0%, #2a1535 55%, #4a1f3d 100%);
     }
     .layer { will-change: transform; }
+    .palm { color: rgba(0,0,0,.55); }
   </style>
 </head>
-<body class="bg-vice-bg text-white min-h-screen overflow-x-hidden">
+<body class="bg-ink text-white min-h-screen overflow-x-hidden antialiased">
 
-  <div class="sunset fixed inset-0 -z-20 layer" data-speed="0.08"></div>
-  <canvas id="bg3d" class="fixed inset-0 -z-[15] pointer-events-none"></canvas>
-  <div class="grid-lines fixed inset-0 -z-10 opacity-[0.14] layer" data-speed="0.18"></div>
+  <!-- shared palm texture -->
+  <svg width="0" height="0" class="absolute" aria-hidden="true">
+    <symbol id="palm" viewBox="0 0 100 140">
+      <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round">
+        <path d="M48 138 C46 102 44 72 40 46"/>
+        <path d="M40 46 Q20 32 4 40"/>
+        <path d="M40 46 Q30 22 14 20"/>
+        <path d="M40 46 Q40 16 30 8"/>
+        <path d="M40 46 Q56 18 72 22"/>
+        <path d="M40 46 Q62 32 80 38"/>
+        <path d="M40 46 Q56 42 70 52"/>
+      </g>
+      <circle cx="36" cy="50" r="4" fill="currentColor"/>
+      <circle cx="45" cy="51" r="4" fill="currentColor"/>
+    </symbol>
+  </svg>
+
+  <canvas id="bg3d" class="fixed inset-0 -z-[15] pointer-events-none opacity-60"></canvas>
 
   <!-- D3 scroll progress -->
   <div class="fixed top-0 left-0 right-0 h-1 z-50 bg-white/10">
     <div id="progress" class="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-vice-pink via-vice-purple to-vice-cyan"></div>
   </div>
 
-  <nav class="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 px-4 sm:px-8 py-4 bg-[#0b0614]/70 backdrop-blur-xl border-b border-vice-pink/40">
-    <a href="/" class="logo-text font-black text-xl sm:text-2xl tracking-widest no-underline">VICE/BLOG</a>
-    <div class="flex flex-wrap gap-1 sm:gap-2">
-      <a href="/" class="text-white no-underline font-bold text-xs tracking-widest uppercase px-3 sm:px-4 py-2 rounded-full border border-transparent transition hover:text-vice-pink hover:border-vice-pink hover:shadow-[0_0_18px_rgba(255,46,136,.45)]">Home</a>
-      <a href="/blog" class="text-vice-pink no-underline font-bold text-xs tracking-widest uppercase px-3 sm:px-4 py-2 rounded-full border border-vice-pink shadow-[0_0_18px_rgba(255,46,136,.45)]">Blog</a>
-      <a href="/about" class="text-white no-underline font-bold text-xs tracking-widest uppercase px-3 sm:px-4 py-2 rounded-full border border-transparent transition hover:text-vice-pink hover:border-vice-pink hover:shadow-[0_0_18px_rgba(255,46,136,.45)]">About</a>
-      <a href="/contact" class="text-white no-underline font-bold text-xs tracking-widest uppercase px-3 sm:px-4 py-2 rounded-full border border-transparent transition hover:text-vice-pink hover:border-vice-pink hover:shadow-[0_0_18px_rgba(255,46,136,.45)]">Contact</a>
+  <!-- top bar: VI mark / hamburger / pink pill -->
+  <header class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4 bg-ink/85 backdrop-blur-xl border-b border-white/10">
+    <a href="/" class="font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white">VI<span class="text-pill">/BLOG</span></a>
+    <div class="flex items-center gap-2 sm:gap-4">
+      <a href="#posts" class="hidden sm:inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline hover:brightness-105 transition">Read Stories</a>
+      <button id="menuBtn" aria-label="Menu" class="p-2 -mr-2 sm:mr-0">
+        <span class="block w-7 h-[3px] bg-white mb-[7px]"></span>
+        <span class="block w-7 h-[3px] bg-white"></span>
+      </button>
+    </div>
+  </header>
+  <nav id="mobileMenu" class="hidden sticky top-[68px] z-40 bg-inkdeep/95 backdrop-blur-xl border-b border-white/10 px-6 py-4 sm:hidden">
+    <div class="flex flex-col gap-1 text-sm font-bold uppercase tracking-widest">
+      <a href="/" class="py-2.5 text-white/80 no-underline">Home</a>
+      <a href="/blog" class="py-2.5 text-pill no-underline">Blog</a>
+      <a href="/about" class="py-2.5 text-white/80 no-underline">About</a>
+      <a href="/contact" class="py-2.5 text-white/80 no-underline">Contact</a>
+      <a href="#posts" class="mt-2 bg-pill text-inkdeep text-center font-bold px-6 py-3 rounded-full no-underline">Read Stories</a>
     </div>
   </nav>
 
-  <section id="hero" class="layer text-center px-4 pt-12 sm:pt-16 pb-6" data-speed="0.28">
-    <span class="inline-block text-[0.7rem] font-bold tracking-[4px] uppercase text-vice-cyan border border-vice-cyan/50 rounded-full px-4 py-1.5 mb-5 shadow-[0_0_18px_rgba(0,229,255,.3)]">Leonida Stories</span>
-    <h1 class="hero-title font-black uppercase leading-[0.95] tracking-tight text-[clamp(2.6rem,9vw,5.5rem)]">Vice<br>City Blog</h1>
-    <p class="mt-4 text-white/70 text-base sm:text-lg">Dispatches from the neon streets — Docker, CI/CD &amp; EC2.</p>
+  <!-- hero -->
+  <section id="hero" class="layer relative overflow-hidden" data-speed="0.2">
+    <div class="sun-glow absolute inset-0"></div>
+    <svg class="palm absolute -left-8 bottom-0 w-48 sm:w-72 opacity-40"><use href="#palm"/></svg>
+    <svg class="palm absolute -right-10 bottom-0 w-56 sm:w-80 opacity-40"><use href="#palm"/></svg>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-8 pt-14 sm:pt-20 pb-12 sm:pb-16">
+      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/60">Leonida&nbsp;Stories</p>
+      <h1 class="mt-4 font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2.4rem,8vw,5rem)]">Vice City<br>Blog</h1>
+      <p class="mt-5 max-w-xl text-white/70 text-base sm:text-lg">Dispatches from the neon coast — Docker, CI/CD &amp; EC2, told in panels.</p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a href="#posts" class="bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline hover:brightness-105 transition">Read Stories</a>
+        <a href="/api/posts" class="font-bold text-sm px-7 py-3 rounded-full no-underline border border-white/25 text-white/85 hover:border-pill hover:text-pill transition">Raw Feed →</a>
+      </div>
+    </div>
   </section>
 
-  <main class="layer max-w-5xl mx-auto px-4 sm:px-6 pb-10 pt-6" data-speed="0.12">
-    <div id="posts" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <p class="text-white/60 text-center col-span-full">Loading stories from the city…</p>
+  <!-- panel-grid stories -->
+  <main id="posts" class="layer max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14" data-speed="0.08">
+    <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50 mb-6">Latest&nbsp;Panels</p>
+    <div id="cards" class="grid gap-5 sm:gap-7 sm:grid-cols-2">
+      <p class="text-white/60">Loading stories from the city…</p>
     </div>
   </main>
 
-  <!-- D3 data-viz: story length per post -->
-  <section class="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
-    <h2 class="font-black uppercase tracking-widest text-sm text-vice-cyan mb-1">City Data</h2>
-    <p class="text-white/60 text-sm mb-5">Story size per post, rendered live with D3.</p>
-    <div id="chart" class="rounded-[20px] p-5 sm:p-7 bg-white/[0.06] border border-white/10 backdrop-blur-md"></div>
+  <!-- cinematic divider -->
+  <section class="relative overflow-hidden my-4 sm:my-8">
+    <div class="absolute inset-0 bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#b3543f]"></div>
+    <svg class="palm absolute left-4 sm:left-16 -bottom-6 w-40 sm:w-64 opacity-50"><use href="#palm"/></svg>
+    <svg class="palm absolute right-6 sm:right-24 -bottom-8 w-48 sm:w-72 opacity-50"><use href="#palm"/></svg>
+    <div class="absolute left-1/2 top-1/3 -translate-x-1/2 w-40 h-40 sm:w-56 sm:h-56 rounded-full bg-gradient-to-b from-[#ffd9a0] to-[#ff2e88] blur-[1px] opacity-90"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-8 py-20 sm:py-32">
+      <h2 class="font-black uppercase tracking-tight text-pill text-[clamp(1.8rem,6vw,3.5rem)] leading-none drop-shadow-lg">Leonida, USA.</h2>
+      <p class="mt-4 max-w-2xl text-cream/90 font-bold text-base sm:text-2xl leading-snug">Every push sails down the coast — built, shipped and deployed before sundown.</p>
+    </div>
   </section>
 
-  <footer class="text-center px-4 py-8 text-white/50 text-xs sm:text-sm tracking-widest border-t border-vice-pink/25">
-    <p>&copy; 2026 <span class="text-vice-pink font-bold">VICE/BLOG</span> — WELCOME TO LEONIDA</p>
+  <!-- city data -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-8 py-10 sm:py-14">
+    <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Telemetry</p>
+    <h2 class="mt-3 font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">City Data</h2>
+    <p class="mt-2 text-white/60 text-sm sm:text-base">Story size per panel, rendered live with D3.</p>
+    <div id="chart" class="mt-6 rounded-[24px] p-5 sm:p-8 bg-inkdeep border border-panel"></div>
+  </section>
+
+  <footer class="border-t border-white/10 px-4 sm:px-8 py-8 text-center">
+    <p class="font-black text-xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
+    <p class="mt-2 text-white/40 text-xs tracking-[0.3em] uppercase">&copy; 2026 — Welcome to Leonida</p>
+    <div class="mt-3 flex justify-center gap-5 text-xs font-bold uppercase tracking-widest text-white/50">
+      <a href="/" class="no-underline hover:text-pill">Home</a>
+      <a href="/blog" class="no-underline hover:text-pill">Blog</a>
+      <a href="/about" class="no-underline hover:text-pill">About</a>
+      <a href="/contact" class="no-underline hover:text-pill">Contact</a>
+    </div>
   </footer>
 
   <script>
-    // ---------- Posts (unchanged API) ----------
-    let allPosts = [];
+    // hamburger
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+
+    // panel art: alternating sunset artwork per card
+    const ARTS = [
+      'from-[#f7b733] via-[#ff2e88] to-[#7b2ff7]',
+      'from-[#00e5ff] via-[#4a90d9] to-[#7b2ff7]',
+      'from-[#ff9a3c] via-[#ff2e88] to-[#2a1535]',
+      'from-[#7bffcf] via-[#00e5ff] to-[#4a2b6b]'
+    ];
+
     fetch('/api/posts')
       .then(res => res.json())
       .then(posts => {
-        allPosts = posts;
-        document.getElementById('posts').innerHTML = posts.map(p => `
-          <article class="relative overflow-hidden rounded-[20px] p-6 sm:p-7 bg-white/[0.06] border border-white/10 backdrop-blur-md transition duration-300 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(255,46,136,.3)]">
-            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-vice-pink via-vice-purple to-vice-cyan"></div>
-            <h2 class="text-lg sm:text-xl font-black uppercase mb-2">${p.title}</h2>
-            <small class="text-vice-cyan font-bold text-[0.7rem] tracking-[2px] uppercase">${p.date}</small>
-            <p class="mt-3 text-vice-pink font-bold text-sm sm:text-base">${p.excerpt}</p>
-            <p class="mt-2 text-white/75 text-sm">${p.content}</p>
+        document.getElementById('cards').innerHTML = posts.map((p, i) => `
+          <article class="overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
+            <div class="relative h-44 sm:h-52 bg-gradient-to-br ${ARTS[i % ARTS.length]} overflow-hidden">
+              <svg class="palm absolute -left-4 -bottom-4 w-32 opacity-60"><use href="#palm"/></svg>
+              <svg class="palm absolute right-6 -bottom-5 w-36 opacity-60"><use href="#palm"/></svg>
+              <div class="absolute right-4 top-3 font-black text-6xl sm:text-7xl text-black/25">${String(i + 1).padStart(2, '0')}</div>
+              <div class="absolute left-4 bottom-3 text-[0.65rem] font-bold tracking-[0.3em] uppercase text-black/60">Panel&nbsp;${String(i + 1).padStart(2, '0')}</div>
+            </div>
+            <div class="p-5 sm:p-7">
+              <small class="text-pill font-bold text-[0.7rem] tracking-[0.25em] uppercase">${p.date}</small>
+              <h2 class="mt-2 text-cream font-black uppercase leading-tight text-xl sm:text-2xl">${p.title}</h2>
+              <p class="mt-3 text-white/70 text-sm sm:text-base font-medium">${p.excerpt}</p>
+              <p class="story-body hidden mt-3 text-white/60 text-sm leading-relaxed">${p.content}</p>
+              <button onclick="const b=this.previousElementSibling;b.classList.toggle('hidden');this.textContent=b.classList.contains('hidden')?'Read Story →':'Close ↑'"
+                class="mt-5 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full hover:brightness-105 transition">Read Story →</button>
+            </div>
           </article>
         `).join('');
         renderChart(posts);
       })
       .catch(() => {
-        document.getElementById('posts').innerHTML = '<p class="text-white/60 text-center col-span-full">Failed to load stories.</p>';
+        document.getElementById('cards').innerHTML = '<p class="text-white/60">Failed to load stories.</p>';
       });
 
-    // ---------- D3: scroll progress + multilayer parallax ----------
+    // D3: progress + multilayer parallax
     if (typeof d3 !== 'undefined') {
       const progress = d3.select('#progress');
       const layers = d3.selectAll('.layer');
@@ -121,58 +190,50 @@
         const max = document.documentElement.scrollHeight - innerHeight;
         progress.style('transform', `scaleX(${max > 0 ? y / max : 0})`);
         layers.each(function () {
-          const speed = parseFloat(this.dataset.speed || 0);
-          d3.select(this).style('transform', `translateY(${y * speed}px)`);
+          d3.select(this).style('transform', `translateY(${y * parseFloat(this.dataset.speed || 0)}px)`);
         });
       };
       d3.select(window).on('scroll', onScroll, { passive: true });
       onScroll();
     }
 
-    // ---------- D3: bar chart of story length ----------
+    // D3: story-size bars
     function renderChart(posts) {
       if (typeof d3 === 'undefined') return;
-      const data = posts.map(p => ({ title: p.title.slice(0, 18), value: (p.content || '').length }));
+      const data = posts.map(p => ({ title: p.title.slice(0, 20), value: (p.content || '').length }));
       const box = document.getElementById('chart');
       box.innerHTML = '';
-      const width = box.clientWidth || 600, barH = 34, pad = 110;
+      const width = box.clientWidth || 600, barH = 34, pad = 120;
       const height = data.length * (barH + 14) + 10;
-      const x = d3.scaleLinear().domain([0, d3.max(data, d => d.value)]).range([0, width - pad - 20]);
+      const x = d3.scaleLinear().domain([0, d3.max(data, d => d.value)]).range([0, Math.max(width - pad - 30, 40)]);
       const svg = d3.select(box).append('svg').attr('width', width).attr('height', height);
-      const row = svg.selectAll('g').data(data).join('g')
-        .attr('transform', (d, i) => `translate(0,${i * (barH + 14) + 5})`);
-      row.append('text')
-        .attr('x', 0).attr('y', barH / 2).attr('dy', '.35em')
-        .attr('fill', 'rgba(255,255,255,.75)').attr('font-size', 12)
-        .text(d => d.title);
-      row.append('rect')
-        .attr('x', pad).attr('y', 0).attr('height', barH).attr('rx', 8)
-        .attr('width', 0).attr('fill', 'url(#viceGrad)')
-        .transition().duration(1200).delay((d, i) => i * 150)
-        .attr('width', d => x(d.value));
       const defs = svg.append('defs');
       const grad = defs.append('linearGradient').attr('id', 'viceGrad').attr('x1', 0).attr('x2', 1);
       grad.append('stop').attr('offset', '0%').attr('stop-color', '#ff2e88');
       grad.append('stop').attr('offset', '55%').attr('stop-color', '#7b2ff7');
       grad.append('stop').attr('offset', '100%').attr('stop-color', '#00e5ff');
-      row.append('text')
-        .attr('x', d => pad + x(d.value) + 8).attr('y', barH / 2).attr('dy', '.35em')
-        .attr('fill', '#00e5ff').attr('font-size', 12).attr('font-weight', 700)
-        .text(d => d.value);
+      const row = svg.selectAll('g').data(data).join('g')
+        .attr('transform', (d, i) => `translate(0,${i * (barH + 14) + 5})`);
+      row.append('text').attr('x', 0).attr('y', barH / 2).attr('dy', '.35em')
+        .attr('fill', '#f2ecdc').attr('font-size', 12).attr('font-weight', 700).text(d => d.title);
+      row.append('rect').attr('x', pad).attr('y', 0).attr('height', barH).attr('rx', 10)
+        .attr('width', 0).attr('fill', 'url(#viceGrad)')
+        .transition().duration(1200).delay((d, i) => i * 150).attr('width', d => x(d.value));
+      row.append('text').attr('x', d => pad + x(d.value) + 8).attr('y', barH / 2).attr('dy', '.35em')
+        .attr('fill', '#00e5ff').attr('font-size', 12).attr('font-weight', 700).text(d => d.value);
     }
 
-    // ---------- Three.js: neon particle field + grid, scroll/mouse parallax ----------
+    // Three.js: neon particles + grid, scroll/mouse parallax
     (function initThree() {
       if (typeof THREE === 'undefined') return;
       const canvas = document.getElementById('bg3d');
       const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
       const scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0x0b0614, 0.035);
+      scene.fog = new THREE.FogExp2(0x191924, 0.03);
       const camera = new THREE.PerspectiveCamera(65, innerWidth / innerHeight, 0.1, 200);
       camera.position.set(0, 2, 16);
-
       const isMobile = innerWidth < 640;
-      const COUNT = isMobile ? 350 : 900;
+      const COUNT = isMobile ? 300 : 800;
       const pos = new Float32Array(COUNT * 3), col = new Float32Array(COUNT * 3);
       const palette = [new THREE.Color('#ff2e88'), new THREE.Color('#00e5ff'), new THREE.Color('#7b2ff7')];
       for (let i = 0; i < COUNT; i++) {
@@ -185,15 +246,12 @@
       const geo = new THREE.BufferGeometry();
       geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
       geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
-      const points = new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.14, vertexColors: true, transparent: true, opacity: 0.9 }));
-      scene.add(points);
-
+      scene.add(new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.14, vertexColors: true, transparent: true, opacity: 0.7 })));
       const grid = new THREE.GridHelper(80, 40, 0x00e5ff, 0x7b2ff7);
       grid.position.y = -5;
       grid.material.transparent = true;
-      grid.material.opacity = 0.35;
+      grid.material.opacity = 0.28;
       scene.add(grid);
-
       let mx = 0, targetMX = 0;
       addEventListener('mousemove', e => { targetMX = (e.clientX / innerWidth - 0.5) * 4; }, { passive: true });
       const resize = () => {
@@ -204,16 +262,15 @@
       };
       addEventListener('resize', resize);
       resize();
-
       const clock = new THREE.Clock();
       (function tick() {
         requestAnimationFrame(tick);
         const t = clock.getElapsedTime();
-        points.rotation.y = t * 0.03;
+        scene.children[0].rotation.y = t * 0.03;
         grid.position.z = (t * 0.6) % 2;
         mx += (targetMX - mx) * 0.04;
-        camera.position.x = mx;                       // mouse parallax
-        camera.position.y = 2 - scrollY * 0.004;      // scroll parallax
+        camera.position.x = mx;
+        camera.position.y = 2 - scrollY * 0.004;
         camera.lookAt(0, 0, 0);
         renderer.render(scene, camera);
       })();
