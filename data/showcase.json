@@ -94,18 +94,216 @@
   ],
   "events": [
     {
+      "name": "Trident Ignite 2026 — BGMI",
+      "game": "BGMI",
+      "date": "2026 Season — Road to Masters",
+      "location": "India — LAN + Online",
+      "prize": "Pro Circuit",
+      "status": "live",
+      "format": "Challengers vs Masters",
+      "desc": "iQOO Revenant Xspark lit the first spark — Challengers vs Masters face-off on the road to Masters.",
+      "source": "Krafton India Esports",
+      "url": "https://kraftonindiaesports.com/",
+      "start": "2026 Season",
+      "end": "2026 Season",
+      "teams": "Challengers + Masters",
+      "prizePool": "Road to Masters",
+      "about": "Trident Ignite 2026 lights the BGMI season — challenger squads face invited masters for a road-to-Masters run.",
+      "stages": [
+        { "name": "Challengers vs Masters Face-off", "dates": "2026 Season", "region": "India", "slots": "Open + Invite", "status": "live" },
+        { "name": "Road to Masters", "dates": "2026 Season", "region": "India", "slots": "Qualified", "status": "upcoming" }
+      ]
+    },
+    {
       "name": "Valorant Cypher Cup",
       "game": "Valorant",
       "date": "2026-11-15",
       "location": "Online",
-      "prize": "$10,000"
+      "prize": "$10,000",
+      "status": "upcoming",
+      "format": "Open Qualifier",
+      "desc": "Open qualifiers online — read the qualifier guide, then register your stack.",
+      "url": "/blog#/post/4",
+      "start": "15 Nov 2026",
+      "end": "15 Nov 2026",
+      "teams": "Open",
+      "prizePool": "$10,000",
+      "about": "The Valorant Cypher Cup opens its qualifiers online — five-plus-one rosters, three comfort maps and one anti-eco protocol. Preparation beats raw aim at this level.",
+      "stages": [
+        { "name": "Open Qualifiers", "dates": "15 Nov 2026", "region": "Online", "slots": "Open", "status": "upcoming" },
+        { "name": "Group Stage", "dates": "TBA", "region": "Online", "slots": "8 teams", "status": "upcoming" },
+        { "name": "Grand Final", "dates": "TBA", "region": "Online", "slots": "2 teams", "status": "upcoming" }
+      ]
     },
     {
       "name": "CS2 Global Clash",
       "game": "Counter-Strike 2",
       "date": "2026-12-01",
       "location": "LAN — Mumbai",
-      "prize": "$25,000"
+      "prize": "$25,000",
+      "status": "upcoming",
+      "format": "GSL Groups → Playoffs",
+      "desc": "Eight squads, GSL groups into single-elim playoffs under arena lights.",
+      "url": "/blog#/post/3",
+      "start": "1 Dec 2026",
+      "end": "1 Dec 2026",
+      "teams": "8",
+      "prizePool": "$25,000",
+      "about": "The CS2 Global Clash lands in Mumbai with $25,000 on the line — GSL groups into a single-elimination playoff bracket and a best-of-five grand final.",
+      "stages": [
+        { "name": "GSL Group Stage", "dates": "1 Dec 2026", "region": "Mumbai LAN", "slots": "8 teams", "status": "upcoming" },
+        { "name": "Playoffs", "dates": "1 Dec 2026", "region": "Mumbai LAN", "slots": "4 teams", "status": "upcoming" },
+        { "name": "Grand Final — BO5", "dates": "1 Dec 2026", "region": "Mumbai LAN", "slots": "2 teams", "status": "upcoming" }
+      ]
+    },
+    {
+      "name": "EWC 2026 — Counter-Strike 2",
+      "game": "Counter-Strike 2",
+      "date": "12 — 23 Aug 2026",
+      "location": "Paris",
+      "prize": "$600,000",
+      "status": "completed",
+      "format": "Groups → Playoffs",
+      "desc": "Team Spirit defeated FUT Esports 3-1 in the grand final — MVP donk, $600,000 and 1,000 club points.",
+      "source": "Esports World Cup",
+      "url": "https://esportsworldcup.com/en",
+      "start": "12 Aug 2026",
+      "end": "23 Aug 2026",
+      "teams": "32",
+      "prizePool": "$600,000 + CC points",
+      "about": "Counter-Strike 2 at the Esports World Cup 2026 — 32 clubs qualified through regional leagues and rankings, closing with Team Spirit lifting the trophy in Paris.",
+      "winner": { "team": "Team Spirit", "prize": "$600,000", "note": "def. FUT Esports 3-1 · MVP donk · +1,000 CC points" },
+      "standings": [
+        { "rank": "1st", "team": "Team Spirit", "prize": "$600,000", "points": "+1,000" },
+        { "rank": "2nd", "team": "FUT Esports", "prize": "$340,000", "points": "+750" },
+        { "rank": "3rd", "team": "Legacy", "prize": "$190,000", "points": "+500" },
+        { "rank": "4th", "team": "FURIA", "prize": "$110,000", "points": "+300" },
+        { "rank": "5th", "team": "Team Vitality · Falcons · MOUZ · G2", "prize": "$60,000", "points": "+200" },
+        { "rank": "9th", "team": "MongolZ · NAVI · Aurora · GamerLegion · Astralis · magic · FaZe · BB", "prize": "$35,000", "points": "–" }
+      ],
+      "stages": [
+        { "name": "Asian Champions League", "dates": "May 11 — 17", "region": "Asia", "slots": "1 club", "status": "completed" },
+        { "name": "VRS Asia Ranking", "dates": "Jun 2", "region": "Asia", "slots": "2 clubs", "status": "completed" },
+        { "name": "VRS Global Ranking", "dates": "Jun 2", "region": "Global", "slots": "21 clubs", "status": "completed" },
+        { "name": "VRS NA Ranking", "dates": "Jun 2", "region": "Americas", "slots": "2 clubs", "status": "completed" },
+        { "name": "VRS SA Ranking", "dates": "Jun 2", "region": "Americas", "slots": "2 clubs", "status": "completed" },
+        { "name": "EWC Last Chance Qualifier", "dates": "Aug 7 — 8 · Paris", "region": "Paris", "slots": "4 clubs", "status": "completed" }
+      ],
+      "news": [
+        { "title": "Counter-Strike 2 returns to the Esports World Cup in 2027 and 2028", "date": "2026" },
+        { "title": "2026 Esports World Cup in numbers", "date": "2026" },
+        { "title": "Esports World Cup trophy ceremony crowns AG.AL", "date": "2026" },
+        { "title": "Notable stories of EWC 26 — Week 7", "date": "2026" }
+      ]
+    },
+    {
+      "name": "Naye Khiladi 2026 — BGMI",
+      "game": "BGMI",
+      "date": "15 Jun — 26 Jul 2026",
+      "location": "Online",
+      "prize": "₹10,00,000",
+      "status": "completed",
+      "format": "Grassroots Open",
+      "desc": "HEXWORA turned #AbTeriBaari into glory — inaugural champions from 8,000+ competitors, winning ₹3,50,000 and a Road to BGMS 2026 Grand Finals slot.",
+      "source": "Krafton India Esports",
+      "url": "https://kraftonindiaesports.com/",
+      "start": "15 Jun 2026",
+      "end": "26 Jul 2026",
+      "teams": "1024",
+      "prizePool": "₹10,00,000",
+      "about": "A grassroots BGMI tournament powered by Krafton India Esports to discover the next generation of talent — 8,000+ registered competitors, 1024 teams.",
+      "winner": { "team": "HEXVORA", "prize": "₹3,50,000", "note": "inaugural champions · Road to BGMS 2026 Grand Finals slot" },
+      "standings": [
+        { "rank": "1", "team": "HEXVORA", "prize": "₹3,50,000", "points": "" },
+        { "rank": "2", "team": "Zero Ark Official", "prize": "₹1,80,000", "points": "" },
+        { "rank": "3", "team": "Team Free Agents", "prize": "₹1,00,000", "points": "" },
+        { "rank": "4", "team": "X4RCE", "prize": "₹60,000", "points": "" },
+        { "rank": "5", "team": "Troy Tamilan eSports", "prize": "₹40,000", "points": "" },
+        { "rank": "6", "team": "TEAM ACS", "prize": "₹40,000", "points": "" },
+        { "rank": "7", "team": "DCxSCR Esports", "prize": "₹40,000", "points": "" },
+        { "rank": "8", "team": "K9Esports", "prize": "₹40,000", "points": "" },
+        { "rank": "9", "team": "ESPORT SOCIAL", "prize": "₹25,000", "points": "" },
+        { "rank": "10", "team": "THUNDER GODS ESPORTS", "prize": "₹25,000", "points": "" },
+        { "rank": "11", "team": "BLD Esports", "prize": "₹25,000", "points": "" },
+        { "rank": "12", "team": "7Gods Esports", "prize": "₹25,000", "points": "" },
+        { "rank": "13", "team": "Santa Godsent", "prize": "₹10,000", "points": "" },
+        { "rank": "14", "team": "Aura X Esports", "prize": "₹10,000", "points": "" },
+        { "rank": "15", "team": "TEAM ERA ESPORTS", "prize": "₹10,000", "points": "" },
+        { "rank": "MVP", "team": "HEXVORA", "prize": "₹10,000", "points": "special award" }
+      ]
+    },
+    {
+      "name": "Esports World Cup 2027",
+      "game": "Multi-Title",
+      "date": "July — August 2027",
+      "location": "Riyadh",
+      "prize": "TBA",
+      "status": "upcoming",
+      "format": "Club Championship",
+      "desc": "The 2026 edition closed with a $75,000,000 pool and AG.AL as club champions. Next: Riyadh 2027.",
+      "source": "Esports World Cup",
+      "url": "https://esportsworldcup.com/en",
+      "start": "July 2027",
+      "end": "August 2027",
+      "teams": "TBA",
+      "prizePool": "TBA",
+      "about": "The next edition of the Esports World Cup returns to Riyadh — multi-title festival with the Club Championship on the line. Counter-Strike 2 is confirmed for 2027 and 2028.",
+      "stages": [
+        { "name": "Road to EWC — Rankings", "dates": "2027 Season", "region": "Global", "slots": "TBA", "status": "upcoming" },
+        { "name": "Last Chance Qualifier", "dates": "2027", "region": "TBA", "slots": "TBA", "status": "upcoming" },
+        { "name": "Main Event", "dates": "July — August 2027", "region": "Riyadh", "slots": "TBA", "status": "upcoming" }
+      ],
+      "news": [
+        { "title": "Counter-Strike 2 returns to the Esports World Cup in 2027 and 2028", "date": "2026" }
+      ]
+    },
+    {
+      "name": "BGIS 2026",
+      "game": "BGMI",
+      "date": "15 Dec 2025 — 29 Mar 2026",
+      "location": "India",
+      "prize": "Pro Circuit",
+      "status": "completed",
+      "format": "Open + Invite",
+      "desc": "Battlegrounds Mobile India Series 2026 — open qualifiers into invited finals.",
+      "source": "Krafton India Esports",
+      "url": "https://kraftonindiaesports.com/"
+    },
+    {
+      "name": "Dell Campus Quest — Forza Horizon 6",
+      "game": "Forza Horizon 6",
+      "date": "2026 Season",
+      "location": "Campus — India",
+      "prize": "₹20,000 Vouchers",
+      "status": "upcoming",
+      "format": "Campus Open",
+      "desc": "Collegiate time-attack circuit — Amazon vouchers on the line.",
+      "source": "The Esports Club",
+      "url": "https://theesports.club/tournaments"
+    },
+    {
+      "name": "BMPS 2025",
+      "game": "BGMI",
+      "date": "22 May — 6 Jul 2025",
+      "location": "India",
+      "prize": "Pro Series",
+      "status": "completed",
+      "format": "Invite",
+      "desc": "Battlegrounds Mobile Pro Series 2025 — invited lobby finals.",
+      "source": "Krafton India Esports",
+      "url": "https://kraftonindiaesports.com/"
+    },
+    {
+      "name": "Acer Gaming Weekender — EA FC 26",
+      "game": "EA Sports FC 26",
+      "date": "2026 Season",
+      "location": "LAN — Ranchi",
+      "prize": "₹10,000 + Goodies",
+      "status": "upcoming",
+      "format": "Weekender LAN",
+      "desc": "Community LAN weekend — FC 26 brackets plus Mortal Kombat 1 sides.",
+      "source": "The Esports Club",
+      "url": "https://theesports.club/tournaments"
     }
   ],
   "media": {

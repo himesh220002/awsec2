@@ -24,10 +24,11 @@
   <link rel="dns-prefetch" href="https://www.rockstargames.com">
   <link rel="dns-prefetch" href="https://shared.fastly.steamstatic.com">
   <link rel="dns-prefetch" href="https://cmsassets.rgpub.io">
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.min.js" defer></script>
   <style>
     body { font-family: 'Archivo', system-ui, sans-serif; background: #191924; }
+    .font-cond { font-family: 'ArtDecoCondensedBold', 'Oswald', 'Archivo Narrow', 'Arial Narrow', sans-serif; font-stretch: condensed; }
     .kicker { letter-spacing: 0.55em; }
     .sun-glow {
       background:
@@ -153,22 +154,7 @@
   </section>
 
   <section class="max-w-7xl mx-auto px-4 sm:px-0 pt-10 sm:pt-14">
-    <article class="reveal overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel grid md:grid-cols-2 transition duration-300 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
-      <div class="relative min-h-[240px] sm:min-h-[320px]">
-        <img src="https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/4c679fc9b8f253d5915261338f81fe1043fded45-3440x1020.jpg?accountingTag=VAL&fit=fill&fm=jpg&q=80&h=640" alt="Cypher Cup arena" loading="lazy" class="absolute inset-0 w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-r from-transparent to-inkdeep/40 pointer-events-none"></div>
-        <span class="absolute left-4 top-4 font-mono text-[0.6rem] font-bold tracking-[0.25em] bg-black/60 rounded-full px-3 py-1.5 text-vice-cyan">● LIVE EVENT</span>
-      </div>
-      <div class="p-6 sm:p-10 flex flex-col justify-center">
-        <p class="kicker text-[0.6rem] font-bold uppercase text-vice-pink">Event&nbsp;Spotlight</p>
-        <h2 class="mt-3 font-black uppercase tracking-tight text-cream text-[clamp(1.8rem,4vw,3rem)] leading-none">Valorant<br>Cypher Cup</h2>
-        <p class="mt-3 text-white/65 text-sm sm:text-base">Open qualifiers online November 15 — $10,000 on the line. Read the qualifier guide, then register your stack.</p>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="/blog#/post/4" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Qualifier Guide →</a>
-          <a href="/contact" class="ghost-btn font-bold text-sm px-7 py-3 rounded-full no-underline border border-white/25 text-white/85 hover:border-pill hover:text-pill">Register</a>
-        </div>
-      </div>
-    </article>
+    <div id="eventSpot"><p class="text-white/60">Loading spotlight…</p></div>
   </section>
 
   <section class="max-w-7xl mx-auto px-4 sm:px-0 py-10 sm:py-14">
@@ -179,6 +165,7 @@
     <div id="games" class="grid gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3">
       <p class="text-white/60">Loading showcase…</p>
     </div>
+    <div id="gamesMore" class="mt-6 text-center"></div>
   </section>
 
   <section id="events" class="max-w-7xl mx-auto px-4 sm:px-0 pb-2 sm:pb-4">
@@ -188,6 +175,7 @@
     <div id="eventGrid" class="grid gap-5 sm:gap-7 sm:grid-cols-2">
       <p class="text-white/60">Loading events…</p>
     </div>
+    <div id="eventMore" class="mt-6 text-center"></div>
   </section>
 
   <section id="watch" class="max-w-7xl mx-auto px-4 sm:px-0 py-10 sm:py-14">
@@ -195,10 +183,11 @@
       <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Watch</p>
     </div>
     <h2 class="reveal font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Trailers &amp; Gameplay</h2>
-    <p class="reveal mt-2 text-white/60 text-sm sm:text-base">Official trailers, embedded from YouTube. New slots plug straight into JSON.</p>
+    <p class="reveal mt-2 text-white/60 text-sm sm:text-base">Official trailers via YouTube. Tap any card to play it on the media page.</p>
     <div id="watchGrid" class="mt-6 grid gap-5 sm:gap-7 sm:grid-cols-2">
       <p class="text-white/60">Loading trailers…</p>
     </div>
+    <div id="watchMore" class="mt-6 text-center"></div>
   </section>
 
   <section class="max-w-7xl mx-auto px-4 sm:px-0 py-10 sm:py-14">
@@ -210,6 +199,17 @@
       <p class="text-white/60">Loading featured stories…</p>
     </div>
   </section>
+
+  <!-- event detail overlay (Krafton/EWC style: hero, facts, tabs, tables) -->
+  <div id="eventDetail" class="hidden fixed inset-0 z-[70] overflow-y-auto bg-inkdeep/98 backdrop-blur-xl">
+    <div class="min-h-full max-w-7xl mx-auto px-4 sm:px-8 py-6 sm:py-10">
+      <div class="flex items-center justify-between">
+        <button onclick="closeEvent()" class="ghost-btn font-bold text-sm text-white/70 hover:text-pill transition">← Back | Events</button>
+        <button onclick="closeEvent()" aria-label="Close" class="w-11 h-11 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-black text-lg transition">✕</button>
+      </div>
+      <div id="evBody" class="mt-4 pb-16"></div>
+    </div>
+  </div>
 
   <section class="reveal max-w-7xl mx-auto px-4 sm:px-0 pb-12 sm:pb-16">
     <div class="rounded-[24px] bg-inkdeep border border-panel p-6 sm:p-10">
@@ -361,10 +361,15 @@
       'from-[#ff9a3c] via-[#ff2e88] to-[#2a1535]'
     ];
     const GAME_POST = { 'gta-6': 1, 'valorant': 2, 'counter-strike-2': 3 };
-    fetch('/api/showcase')
-      .then(res => res.json())
-      .then(s => {
-        document.getElementById('games').innerHTML = s.featuredGames.map((g, i) => `
+    // home pagination: every section loads a fixed step; final partial batch loads the remainder
+    let SHOWCASE = null, G_SHOWN = 6, IGDB_CACHE = null, W_SHOW = 4, E_SHOW = 6;
+    const G_STEP = 6, W_STEP = 4, E_STEP = 6;
+    async function igdbGet(p) {
+      try { const r = await fetch('/api/igdb/' + p); if (r.ok) return r.json(); } catch (e) {}
+      return (await fetch('https://awsec2.onrender.com/api/igdb/' + p)).json();
+    }
+    function gameHTML(g, i) {
+      return `
           <article class="overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
             <div class="relative h-40 sm:h-48 bg-gradient-to-br ${ARTS[i % ARTS.length]} overflow-hidden">
               ${g.image ? `<img src="${g.image}" alt="${g.title} artwork" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"></div>` : `<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-black text-5xl sm:text-6xl text-black/30 tracking-tighter">${g.title.split(' ').map(w => w[0]).join('').slice(0, 3)}</div>`}
@@ -377,23 +382,114 @@
               <p class="mt-3 font-mono text-[0.62rem] tracking-[0.18em] text-vice-cyan/80 uppercase">${g.tags.join(' · ')}</p>
               ${GAME_POST[g.slug] ? `<a href="/blog#/post/${GAME_POST[g.slug]}" class="pill-btn inline-block mt-4 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Intel File →</a>` : `<a href="${g.watchUrl}" target="_blank" rel="noopener" class="pill-btn inline-block mt-4 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Trailer ↗</a>`}
             </div>
-          </article>`).join('');
-        document.getElementById('eventGrid').innerHTML = s.events.map(ev => `
+          </article>`;
+    }
+    function igdbGameHTML(g) {
+      const cov = g.cover ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${g.cover.image_id}.jpg` : '';
+      const genres = (g.genres || []).map(x => x.name).slice(0, 3).join(' · ') || 'Game';
+      return `
+          <article class="overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(0,229,255,.18)]">
+            <div class="relative h-40 sm:h-48 bg-gradient-to-br from-[#00e5ff] via-[#4a90d9] to-[#7b2ff7] overflow-hidden">
+              ${cov ? `<img src="${cov}" alt="${g.name} cover" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"></div>` : ''}
+              <div class="absolute left-4 top-3 font-mono text-[0.6rem] font-bold tracking-[0.25em] uppercase text-white/85">IGDB Relay</div>
+              ${g.rating ? `<div class="absolute right-4 top-3 font-mono text-[0.6rem] font-bold bg-black/65 text-vice-cyan rounded-full px-3 py-1.5">★ ${Math.round(g.rating * 10) / 10}</div>` : ''}
+            </div>
+            <div class="p-5 sm:p-6">
+              <h2 class="text-cream font-black uppercase leading-tight text-lg">${g.name}</h2>
+              <p class="mt-3 font-mono text-[0.62rem] tracking-[0.18em] text-vice-cyan/80 uppercase">${genres}</p>
+              <a href="/blog#/game/${g.id}" class="pill-btn inline-block mt-4 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Intel →</a>
+            </div>
+          </article>`;
+    }
+    function homeMoreBtn(elId, left, label, fn) {
+      document.getElementById(elId).innerHTML = left > 0
+        ? `<button onclick="${fn}()" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full">${label} · ${left} more</button>` : '';
+    }
+    // one combined pool: manual picks first, IGDB relay tops up every batch to a full step
+    function gamePool() {
+      const manual = SHOWCASE.featuredGames.map(g => ({ t: 'm', g }));
+      const relay = (IGDB_CACHE || []).map(g => ({ t: 'i', g }));
+      return manual.concat(relay);
+    }
+    function paintGames() {
+      const pool = gamePool(), show = pool.slice(0, G_SHOWN);
+      document.getElementById('games').innerHTML = show.map((it, i) => it.t === 'm' ? gameHTML(it.g, SHOWCASE.featuredGames.indexOf(it.g)) : igdbGameHTML(it.g)).join('');
+      const left = pool.length - G_SHOWN;
+      if (!IGDB_CACHE) homeMoreBtn('gamesMore', G_STEP, 'Load more', 'moreGames');
+      else if (left > 0) homeMoreBtn('gamesMore', left, 'Load more', 'moreGames');
+      else document.getElementById('gamesMore').innerHTML = '';
+    }
+    async function moreGames() {
+      if (!IGDB_CACHE) {
+        document.getElementById('gamesMore').innerHTML = '<p class="text-white/60 text-sm">Pinging the IGDB relay…</p>';
+        try { IGDB_CACHE = await igdbGet('popular'); }
+        catch (e) { IGDB_CACHE = []; }
+        if (!IGDB_CACHE.length) {
+          G_SHOWN = SHOWCASE.featuredGames.length;
+          paintGames();
+          if (!document.getElementById('gamesMore').innerHTML) document.getElementById('gamesMore').innerHTML = '<p class="text-white/60 text-sm">Relay offline — showing house picks.</p>';
+          return;
+        }
+      }
+      G_SHOWN += G_STEP;
+      paintGames();
+    }
+    function statusPill(st) {
+      if (st === 'live') return '<span class="bg-red-500/15 border border-red-400/60 text-red-300 rounded-full px-3 py-1.5"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-400 mr-1.5 animate-pulse"></span>LIVE</span>';
+      if (st === 'completed') return '<span class="bg-white/10 border border-white/15 text-white/50 rounded-full px-3 py-1.5">COMPLETED</span>';
+      return '<span class="bg-vice-cyan/10 border border-vice-cyan/40 text-vice-cyan rounded-full px-3 py-1.5">UPCOMING</span>';
+    }
+    function eventCTA(ev) {
+      if (ev.url && ev.url.startsWith('http')) return `<a href="${ev.url}" target="_blank" rel="noopener" class="pill-btn inline-block mt-5 bg-white text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Source ↗</a>`;
+      if (ev.url) return `<a href="${ev.url}" class="pill-btn inline-block mt-5 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Intel File →</a>`;
+      return `<a href="/contact" class="pill-btn inline-block mt-5 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Register →</a>`;
+    }
+    function paintSpot() {
+      const ev = SHOWCASE.events[0];
+      if (!ev) return;
+      document.getElementById('eventSpot').innerHTML = `
+      <article class="reveal overflow-hidden rounded-[24px] bg-gradient-to-br from-[#2a1535] via-[#1b1b2e] to-[#12121c] border-2 border-panel relative transition duration-300 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
+        <svg class="palm absolute -right-8 -bottom-8 w-56 sm:w-80 opacity-30 pointer-events-none"><use href="#palm"/></svg>
+        <div class="relative p-6 sm:p-10">
+          <div class="flex flex-wrap items-center gap-2 font-mono text-[0.62rem] font-bold tracking-[0.2em]">
+            ${statusPill(ev.status)}
+            <span class="text-white/40 uppercase">${ev.source || 'House Event'} · ${ev.game}</span>
+          </div>
+          <h2 class="mt-4 font-cond font-semibold uppercase text-cream leading-[0.95] text-[clamp(2.2rem,7vw,4.5rem)]">${ev.name}</h2>
+          <p class="mt-3 font-mono text-xs sm:text-sm text-white/60">◷ ${ev.date} &nbsp;·&nbsp; ◈ ${ev.location} &nbsp;·&nbsp; ◆ ${ev.prize}${ev.format ? ` &nbsp;·&nbsp; ${ev.format}` : ''}</p>
+          ${ev.desc ? `<p class="mt-3 text-white/70 text-sm sm:text-base max-w-2xl">${ev.desc}</p>` : ''}
+          <div class="mt-6 flex flex-wrap gap-3"><a href="#/event/0" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Full Details →</a>${eventCTA(ev)}</div>
+        </div>
+      </article>`;
+    }
+    function eventHTML(ev) {
+      return `
           <article class="rounded-[20px] bg-inkdeep border border-panel p-6 sm:p-7 relative overflow-hidden transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,255,.18)]">
             <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-vice-pink via-vice-purple to-vice-cyan"></div>
             <div class="flex flex-wrap items-center gap-2 font-mono text-[0.62rem] font-bold tracking-[0.2em]">
+              ${statusPill(ev.status)}
               <span class="bg-vice-pink/15 border border-vice-pink/50 text-vice-pink rounded-full px-3 py-1.5">${ev.game.toUpperCase()}</span>
               <span class="bg-vice-cyan/10 border border-vice-cyan/40 text-vice-cyan rounded-full px-3 py-1.5">${ev.prize}</span>
             </div>
             <h3 class="mt-3 font-black uppercase text-cream text-xl sm:text-2xl leading-tight">${ev.name}</h3>
             <div class="mt-3 font-mono text-xs text-white/60 flex flex-col gap-1">
-              <span>◷ ${ev.date}</span><span>◈ ${ev.location}</span>
+              <span>◷ ${ev.date}</span><span>◈ ${ev.location}</span>${ev.format ? `<span>⬣ ${ev.format}</span>` : ''}${ev.source ? `<span>⛁ ${ev.source}</span>` : ''}
             </div>
-            <a href="/contact" class="pill-btn inline-block mt-5 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Register →</a>
-          </article>`).join('');
-        document.getElementById('watchGrid').innerHTML = s.media.videos.map(v => `
-          <article class="watch-card overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel" data-yt="${v.youtubeId}" data-title="${v.title.replace(/"/g, '')}" data-age="${v.ageRestricted ? '1' : ''}">
-            <div class="watch-thumb relative cursor-pointer">
+            <div class="mt-5 flex flex-wrap gap-2">
+              <a href="#/event/${SHOWCASE.events.indexOf(ev)}" class="pill-btn bg-white text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Details →</a>
+              ${eventCTA(ev).replace('mt-5 ', '')}
+            </div>
+          </article>`;
+    }
+    function paintEvents() {
+      document.getElementById('eventGrid').innerHTML = SHOWCASE.events.slice(1, 1 + E_SHOW).map(eventHTML).join('');
+      homeMoreBtn('eventMore', SHOWCASE.events.length - 1 - E_SHOW, 'Load more', 'moreEvents');
+    }
+    function moreEvents() { E_SHOW += E_STEP; paintEvents(); }
+    function watchHTML(v) {
+      return `
+          <article class="watch-card overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel">
+            <a href="/media#/watch/${v.youtubeId}" class="watch-thumb relative block no-underline">
               <img src="https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg" srcset="https://i.ytimg.com/vi/${v.youtubeId}/mqdefault.jpg 320w, https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg 480w, https://i.ytimg.com/vi/${v.youtubeId}/sddefault.jpg 640w" sizes="(max-width:640px) 100vw, 480px" alt="${v.title.replace(/"/g, '')}" loading="lazy" decoding="async" class="w-full aspect-video object-cover">
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
               <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/95 flex items-center justify-center transition hover:scale-110">
@@ -401,20 +497,142 @@
               </div>
               <span class="absolute right-3 bottom-3 font-mono text-[0.65rem] font-bold bg-black/70 rounded px-2 py-1">${v.duration}</span>
               ${v.ageRestricted ? '<span class="absolute left-3 top-3 font-mono text-[0.6rem] font-bold tracking-[0.15em] border border-vice-pink/60 text-vice-pink bg-black/60 rounded-full px-2 py-1">18+</span>' : ''}
-            </div>
+            </a>
             <div class="p-5">
-              <h3 class="font-black uppercase text-cream text-lg leading-tight">${v.title}</h3>
+              <a href="/media#/watch/${v.youtubeId}" class="font-black uppercase text-cream text-lg leading-tight no-underline hover:text-pill transition block">${v.title}</a>
               <p class="mt-1 font-mono text-[0.65rem] tracking-[0.2em] text-white/40">${v.game ? v.game.toUpperCase() + ' · ' : ''}${v.date}</p>
-              ${v.ageRestricted ? `<a href="/media#/watch/${v.youtubeId}" class="inline-block mt-3 text-xs font-bold text-pill no-underline">Verify 18+ & Watch →</a>` : ''}
             </div>
-          </article>`).join('');
-        document.querySelectorAll('.watch-card').forEach(card => {
-          card.querySelector('.watch-thumb').onclick = () => {
-            if (card.dataset.age === '1') { location.href = '/media#/watch/' + card.dataset.yt; return; }
-            card.querySelector('.watch-thumb').outerHTML = `<iframe class="w-full aspect-video" src="https://www.youtube-nocookie.com/embed/${card.dataset.yt}?autoplay=1&rel=0" title="${card.dataset.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-          };
-        });
+          </article>`;
+    }
+    function paintWatch() {
+      document.getElementById('watchGrid').innerHTML = SHOWCASE.media.videos.slice(0, W_SHOW).map(watchHTML).join('');
+      homeMoreBtn('watchMore', SHOWCASE.media.videos.length - W_SHOW, 'Load more', 'moreWatch');
+    }
+    function moreWatch() { W_SHOW += W_STEP; paintWatch(); }
+    /* ---------- event detail (hero, facts, tabs, standings) ---------- */
+    let EV_TAB = 'standings';
+    function evFacts(ev) {
+      const cells = [['Start Date', ev.start || ev.date], ['End Date', ev.end || ev.date], ['Total Teams', ev.teams || '—'], ['Location', ev.location], ['Prize Pool', ev.prizePool || ev.prize]];
+      return `<div class="grid grid-cols-2 sm:grid-cols-5 gap-4 mt-8">${cells.map(c => `<div><p class="font-mono text-[0.62rem] tracking-[0.2em] text-white/40 uppercase">${c[0]}</p><p class="mt-1 font-bold text-cream">${c[1]}</p></div>`).join('')}</div>`;
+    }
+    function evTable(rows) {
+      const hasPts = rows.some(r => r.points);
+      return `<div class="overflow-x-auto rounded-[20px] border border-white/10"><table class="w-full text-sm min-w-[520px]">
+        <thead><tr class="font-mono text-[0.62rem] tracking-[0.2em] text-vice-cyan/90 uppercase">
+          <th class="text-left font-bold px-5 py-4">Rank</th><th class="text-left font-bold px-5 py-4">Team</th>
+          <th class="text-right font-bold px-5 py-4">Winnings</th>${hasPts ? '<th class="text-right font-bold px-5 py-4">Points</th>' : ''}
+        </tr></thead><tbody>
+        ${rows.map((r, i) => `<tr class="${i % 2 ? 'bg-white/[0.02]' : 'bg-white/[0.05]'} border-t border-white/5">
+          <td class="px-5 py-3.5 font-mono font-bold text-white/70">${r.rank}</td>
+          <td class="px-5 py-3.5 font-bold text-cream">${r.team}</td>
+          <td class="px-5 py-3.5 text-right font-mono text-vice-cyan">${r.prize}</td>
+          ${hasPts ? `<td class="px-5 py-3.5 text-right font-mono text-white/60">${r.points || '–'}</td>` : ''}
+        </tr>`).join('')}</tbody></table></div>`;
+    }
+    function evStages(stages) {
+      const done = stages.filter(s => s.status === 'completed').length;
+      const pct = Math.round(done / stages.length * 100);
+      return `
+        <div class="rounded-[20px] bg-white/[0.03] border border-white/10 p-4">
+          <div class="h-8 rounded-xl bg-gradient-to-r from-[#ff5a3c] to-[#c9a24b] relative overflow-hidden">
+            <div class="absolute inset-0 opacity-30" style="background:repeating-linear-gradient(115deg,transparent 0 14px,rgba(0,0,0,.25) 14px 28px)"></div>
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 font-black text-white">${pct}%</span>
+          </div>
+          <p class="mt-2 text-right font-bold text-sm text-cream">${done}/${stages.length} Stages Claimed</p>
+        </div>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          ${stages.map(s => `
+          <div class="rounded-[20px] bg-white/[0.03] border border-white/10 p-5">
+            <p class="font-mono text-[0.62rem] tracking-[0.15em] text-white/50">◷ ${s.dates} · ${s.region}</p>
+            <p class="mt-1 font-mono text-[0.62rem] tracking-[0.15em] text-white/50">⬣ ${s.slots} qualify</p>
+            <h4 class="mt-3 font-black uppercase text-cream text-lg leading-tight">${s.name}</h4>
+            <span class="mt-3 inline-block font-mono text-[0.6rem] font-bold tracking-[0.2em] rounded px-2.5 py-1 ${s.status === 'live' ? 'bg-red-500/15 text-red-300 border border-red-400/50' : s.status === 'completed' ? 'bg-[#c9a24b]/15 text-[#c9a24b] border border-[#c9a24b]/40' : 'bg-vice-cyan/10 text-vice-cyan border border-vice-cyan/40'}">${s.status.toUpperCase()}</span>
+          </div>`).join('')}
+        </div>`;
+    }
+    function evTabs(ev) {
+      const tabs = [];
+      if ((ev.standings || []).length) tabs.push(['standings', 'Standings']);
+      if ((ev.stages || []).length) tabs.push(['qualifiers', 'Qualifiers']);
+      if ((ev.news || []).length) tabs.push(['news', 'News']);
+      if (!tabs.length) return '';
+      if (!tabs.some(t => t[0] === EV_TAB)) EV_TAB = tabs[0][0];
+      return `<div class="mt-10 flex justify-center gap-1 rounded-full bg-white/[0.06] border border-white/10 p-1.5 w-fit mx-auto">` +
+        tabs.map(t => `<button onclick="evTab('${t[0]}')" class="font-bold text-xs uppercase tracking-widest rounded-full px-6 py-2.5 transition ${EV_TAB === t[0] ? 'bg-inkdeep text-cream' : 'text-white/50 hover:text-cream'}">${t[1]}</button>`).join('') + `</div>`;
+    }
+    function evTabBody(ev) {
+      if (EV_TAB === 'standings' && ev.standings) {
+        const champ = ev.winner ? `<div class="rounded-[24px] bg-gradient-to-br from-[#2a1535] to-[#12121c] border border-panel p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 mb-6">
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-vice-pink to-vice-cyan flex items-center justify-center font-black text-3xl text-inkdeep shrink-0">★</div>
+          <div><p class="font-mono text-[0.62rem] tracking-[0.3em] text-vice-pink uppercase">Champion</p>
+          <h3 class="mt-1 font-black uppercase text-cream text-2xl sm:text-3xl">${ev.winner.team}</h3>
+          <p class="mt-1 font-mono text-sm text-vice-cyan font-bold">${ev.winner.prize}</p>
+          <p class="mt-1 text-white/60 text-sm">${ev.winner.note}</p></div></div>` : '';
+        return champ + `<p class="font-mono text-[0.62rem] tracking-[0.3em] text-white/40 uppercase mb-3">Prize leaderboard</p>` + evTable(ev.standings);
+      }
+      if (EV_TAB === 'qualifiers' && ev.stages) return evStages(ev.stages);
+      if (EV_TAB === 'news' && ev.news) return `<div class="grid gap-4 sm:grid-cols-2">${ev.news.map(n => `
+        <div class="rounded-[20px] bg-white/[0.03] border border-white/10 p-5">
+          <p class="font-mono text-[0.62rem] tracking-[0.2em] text-vice-cyan/80">${n.date}</p>
+          <h4 class="mt-2 font-black uppercase text-cream leading-snug">${n.title}</h4>
+        </div>`).join('')}</div>`;
+      return '';
+    }
+    function evTab(t) { EV_TAB = t; openEvent(window.__evIdx, true); }
+    function openEvent(idx, keepTab) {
+      const ev = SHOWCASE.events[idx];
+      if (!ev) return;
+      window.__evIdx = idx;
+      if (!keepTab) EV_TAB = 'standings';
+      document.body.style.overflow = 'hidden';
+      const d = document.getElementById('eventDetail');
+      d.classList.remove('hidden');
+      d.scrollTop = 0;
+      document.getElementById('evBody').innerHTML = `
+        <div class="rounded-[24px] bg-gradient-to-br from-[#2a1535] via-[#1b1b2e] to-[#12121c] border border-panel relative overflow-hidden">
+          <svg class="palm absolute -right-10 -bottom-10 w-64 sm:w-96 opacity-25 pointer-events-none"><use href="#palm"/></svg>
+          <div class="relative p-6 sm:p-10">
+            <div class="flex flex-wrap items-center gap-2 font-mono text-[0.62rem] font-bold tracking-[0.2em]">${statusPill(ev.status)}<span class="text-white/40 uppercase">${ev.source || 'House Event'} · ${ev.game}</span></div>
+            <h1 class="mt-4 font-cond font-semibold uppercase text-cream leading-[0.95] text-[clamp(2.4rem,7vw,5rem)]">${ev.name}</h1>
+            ${ev.desc ? `<p class="mt-4 text-white/70 text-base sm:text-lg max-w-2xl">${ev.desc}</p>` : ''}
+            <div class="mt-6 flex flex-wrap gap-3"><a href="/media" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">▶ Watch Videos</a>${eventCTA(ev)}</div>
+          </div>
+        </div>
+        <div class="mt-10 grid sm:grid-cols-2 gap-8">
+          <div><p class="font-mono text-[0.62rem] tracking-[0.3em] text-white/40 uppercase">About this tournament</p>
+          <p class="mt-3 text-white/75 leading-relaxed">${ev.about || ev.desc || ''}</p></div>
+          ${ev.winner ? `<div class="rounded-[24px] bg-white/[0.03] border border-white/10 p-6 text-center">
+            <p class="font-mono text-[0.62rem] tracking-[0.3em] text-vice-pink uppercase">Winning team</p>
+            <p class="mt-3 font-black uppercase text-cream text-3xl">${ev.winner.team}</p>
+            <p class="mt-1 font-mono font-bold text-vice-cyan">${ev.winner.prize}</p></div>`
+          : (ev.source ? `<div class="rounded-[24px] bg-white/[0.03] border border-white/10 p-6"><p class="font-mono text-[0.62rem] tracking-[0.3em] text-white/40 uppercase">Organizer</p><p class="mt-3 font-black uppercase text-cream text-2xl">${ev.source}</p><a href="${ev.url}" target="_blank" rel="noopener" class="mt-3 inline-block text-xs font-bold uppercase tracking-widest text-pill no-underline">Official page ↗</a></div>` : '')}
+        </div>
+        ${evFacts(ev)}
+        ${evTabs(ev)}
+        <div id="evTabBody" class="mt-6">${evTabBody(ev)}</div>`;
+    }
+    function closeEvent() {
+      document.getElementById('eventDetail').classList.add('hidden');
+      document.body.style.overflow = '';
+      if (location.hash.startsWith('#/event/')) history.replaceState(null, '', location.pathname + '#events');
+    }
+    function routeEvent() {
+      const m = location.hash.match(/^#\/event\/(\d+)/);
+      if (m && SHOWCASE) openEvent(parseInt(m[1], 10));
+      else if (!document.getElementById('eventDetail').classList.contains('hidden')) closeEvent();
+    }
+    addEventListener('hashchange', routeEvent);
+    addEventListener('keydown', e => { if (e.key === 'Escape' && !document.getElementById('eventDetail').classList.contains('hidden')) closeEvent(); });
+    fetch('/api/showcase')
+      .then(res => res.json())
+      .then(s => {
+        SHOWCASE = s;
+        paintGames();
+        paintSpot();
+        paintEvents();
+        paintWatch();
         observeReveals();
+        routeEvent();
       })
       .catch(() => {
         document.getElementById('games').innerHTML = '<p class="text-white/60">Showcase offline.</p>';

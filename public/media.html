@@ -61,6 +61,9 @@
     .subpill.active { background: #f2ecdc; color: #12121c; }
     #lightbox { transition: opacity .3s ease; }
     .hero-fade { transition: opacity 1.4s ease-in-out; }
+    #featured, #videos, #shots, #art, #live { scroll-margin-top: 140px; }
+    .live-dot { animation: blink 1.2s ease-in-out infinite; }
+    @keyframes blink { 50% { opacity: 0.25; } }
     /* Rockstar-exact Watch cards */
     .rs-card { background: #23232f; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.06); transition: transform .25s ease, box-shadow .25s ease; }
     .rs-card:hover { transform: translateY(-3px); box-shadow: 0 18px 44px rgba(0,0,0,.5); }
@@ -106,6 +109,7 @@
         <a href="#videos" data-sub="videos" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Videos</a>
         <a href="#shots" data-sub="shots" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Screenshots</a>
         <a href="#art" data-sub="art" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Artwork</a>
+        <a href="#live" data-sub="live" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Live</a>
       </nav>
       <div class="flex items-center gap-2 sm:gap-3">
         <a href="#videos" class="pill-btn hidden sm:inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Pre-Order Now</a>
@@ -120,6 +124,7 @@
       <a href="#videos" data-sub="videos" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Videos</a>
       <a href="#shots" data-sub="shots" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Screenshots</a>
       <a href="#art" data-sub="art" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Artwork</a>
+      <a href="#live" data-sub="live" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Live</a>
     </div>
   </header>
 
@@ -130,7 +135,7 @@
         <svg class="palm absolute -left-10 -bottom-10 w-72 opacity-40"><use href="#palm"/></svg>
         <svg class="palm absolute -right-12 -bottom-12 w-80 opacity-40"><use href="#palm"/></svg>
         <div class="m-auto text-center relative px-8">
-          <img src="https://www.rockstargames.com/VI/_next/static/media/vi.0hxa9~pf214xe.png?akim=1&imdensity=1&imwidth=1024" alt="Grand Theft Auto VI" loading="lazy" decoding="async" class="w-full max-w-[420px] mx-auto drop-shadow-2xl" onerror="this.style.display='none';document.getElementById('menuFallback').style.display='';">
+          <img src="https://www.rockstargames.com/VI/_next/static/media/vi.0hxa9~pf214xe.png?akim=1&imdensity=1&imwidth=1024" alt="Grand Theft Auto VI" loading="lazy" decoding="async" class="w-full max-w-[300px] mx-auto drop-shadow-2xl" onerror="this.style.display='none';document.getElementById('menuFallback').style.display='';">
           <p id="menuFallback" style="display:none" class="font-black leading-none tracking-tighter text-[9rem]">VI<span class="logo-text">/B</span></p>
           <p class="mt-4 font-mono text-[0.65rem] tracking-[0.5em] text-white/50">WELCOME TO LEONIDA</p>
         </div>
@@ -200,6 +205,7 @@
         <span id="videoCount" class="font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></span>
       </div>
       <div id="videoGrid" class="grid gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3"></div>
+      <div id="videoMore" class="mt-6 text-center"></div>
     </section>
 
     <!-- screenshots -->
@@ -209,6 +215,7 @@
         <span id="shotCount" class="font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></span>
       </div>
       <div id="shotGrid" class="grid gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3"></div>
+      <div id="shotMore" class="mt-6 text-center"></div>
     </section>
 
     <!-- artwork -->
@@ -217,6 +224,20 @@
         <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Artwork</h2>
       </div>
       <div id="artGrid" class="grid gap-5 sm:gap-7 sm:grid-cols-2"></div>
+      <div id="artMore" class="mt-6 text-center"></div>
+    </section>
+
+    <!-- live & gameplay (Twitch relay) -->
+    <section id="live" class="max-w-7xl mx-auto px-4 sm:px-0 py-10 sm:py-14">
+      <div class="reveal flex items-end justify-between mb-6">
+        <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Live & Gameplay</h2>
+        <span id="liveCount" class="font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></span>
+      </div>
+      <p class="reveal font-mono text-[0.62rem] tracking-[0.3em] text-red-300/90 uppercase mb-3"><span class="live-dot inline-block w-2 h-2 rounded-full bg-red-400 mr-2"></span>Live now</p>
+      <div id="liveRail" class="flex gap-5 overflow-x-auto pb-4"><p class="text-white/60 text-sm">Scanning Twitch…</p></div>
+      <p class="reveal font-mono text-[0.62rem] tracking-[0.3em] text-vice-cyan/90 uppercase mt-8 mb-3">Gameplay clips</p>
+      <div id="clipGrid" class="grid gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3"></div>
+      <div id="clipMore" class="mt-6 text-center"></div>
     </section>
   </div>
 
@@ -405,10 +426,10 @@
     addEventListener('keydown', e => { if (e.key === 'Escape' && !rmenu.classList.contains('hidden')) setMenu(false); });
 
     // overlay header: transparent over fullscreen hero, solid after scroll
-    const siteHeader = document.getElementById('siteHeader');
-    const syncHeader = () => siteHeader.classList.toggle('header-solid', scrollY > 40);
-    addEventListener('scroll', syncHeader, { passive: true });
-    syncHeader();
+    // const siteHeader = document.getElementById('siteHeader');
+    // const syncHeader = () => siteHeader.classList.toggle('header-solid', scrollY > 40);
+    // addEventListener('scroll', syncHeader, { passive: true });
+    // syncHeader();
 
     // sub-nav active state
     document.querySelectorAll('[data-sub]').forEach(a => a.addEventListener('click', () => {
@@ -541,30 +562,158 @@
       const frs = document.getElementById('featureRS');
       if (v0.rockstarUrl) { frs.href = v0.rockstarUrl; frs.classList.remove('hidden'); }
       document.getElementById('featureAgeNote').classList.toggle('hidden', !v0.ageRestricted);
-      document.getElementById('videoGrid').innerHTML = m.videos.map(videoCard).join('');
       document.getElementById('videoCount').textContent = m.videos.length + ' FILES';
-      document.getElementById('shotGrid').innerHTML = m.screenshots.map(s => `
+      document.getElementById('shotCount').textContent = m.screenshots.length + ' FILES';
+      paintVideos();
+      paintShots();
+      paintArt();
+      const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('on'); io.unobserve(x.target); } }), { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }
+    // pagination: videos 15 +9 · shots 12 +6 · art 8 +4
+    let VG_SHOW = 15, SG_SHOW = 12, AG_SHOW = 8;
+    const VG_STEP = 9, SG_STEP = 6, AG_STEP = 4;
+    function moreBtn(elId, left, step, fn) {
+      document.getElementById(elId).innerHTML = left > 0
+        ? `<button onclick="${fn}()" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full">Load more · ${Math.min(step, left)} of ${left}</button>` : '';
+    }
+    function shotFig(s) {
+      return `
         <figure class="shot overflow-hidden rounded-[20px] bg-inkdeep border border-white/10 cursor-pointer transition duration-300 hover:-translate-y-1.5 hover:border-panel" data-url="${fullRes(s.url)}" data-cap="${s.title} — ${s.tag}">
           <span class="block w-full aspect-video bg-black/40 overflow-hidden">${s.url.includes('/images/posters/') ? localPic(s.url, s.title, 'w-full h-full object-cover') : rockSrc(s.url, s.title, 'w-full h-full object-cover')}</span>
           <figcaption class="p-4 flex items-center justify-between gap-2">
             <span class="font-bold text-sm text-cream">${s.title}</span>
             <span class="font-mono text-[0.6rem] tracking-[0.2em] text-vice-cyan shrink-0">${s.tag.toUpperCase()}</span>
           </figcaption>
-        </figure>`).join('');
-      document.getElementById('shotCount').textContent = m.screenshots.length + ' FILES';
-      document.getElementById('artGrid').innerHTML = m.artwork.map(a => `
+        </figure>`;
+    }
+    function artFig(a) {
+      return `
         <figure class="shot overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel cursor-pointer transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]" data-url="${fullRes(a.url)}" data-cap="${a.title}">
           <span class="block w-full aspect-[16/10] bg-black/40 overflow-hidden">${a.url.includes('/images/posters/') ? localPic(a.url, a.title, 'w-full h-full object-cover') : rockSrc(a.url, a.title, 'w-full h-full object-cover')}</span>
           <figcaption class="p-5 flex items-center justify-between">
             <span class="font-black uppercase text-cream">${a.title}</span>
             <span class="font-mono text-[0.6rem] tracking-[0.2em] text-white/40">${a.sizes.toUpperCase()}</span>
           </figcaption>
-        </figure>`).join('');
-      document.querySelectorAll('.shot').forEach(f => f.onclick = () => openBox(f.dataset.url, f.dataset.cap));
-      const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('on'); io.unobserve(x.target); } }), { threshold: 0.12 });
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-      bindWatchLinks();
+        </figure>`;
     }
+    function bindShots() { document.querySelectorAll('.shot').forEach(f => f.onclick = () => openBox(f.dataset.url, f.dataset.cap)); }
+    function paintVideos() {
+      const list = MEDIA.videos;
+      document.getElementById('videoGrid').innerHTML = list.slice(0, VG_SHOW).map(videoCard).join('');
+      bindWatchLinks();
+      moreBtn('videoMore', list.length - VG_SHOW, VG_STEP, 'moreVideos');
+    }
+    function moreVideos() { VG_SHOW += VG_STEP; paintVideos(); }
+    function paintShots() {
+      const list = MEDIA.screenshots;
+      document.getElementById('shotGrid').innerHTML = list.slice(0, SG_SHOW).map(shotFig).join('');
+      bindShots();
+      moreBtn('shotMore', list.length - SG_SHOW, SG_STEP, 'moreShots');
+    }
+    function moreShots() { SG_SHOW += SG_STEP; paintShots(); }
+    function paintArt() {
+      const list = MEDIA.artwork;
+      document.getElementById('artGrid').innerHTML = list.slice(0, AG_SHOW).map(artFig).join('');
+      bindShots();
+      moreBtn('artMore', list.length - AG_SHOW, AG_STEP, 'moreArt');
+    }
+    function moreArt() { AG_SHOW += AG_STEP; paintArt(); }
+
+    /* ---------- Live & Gameplay (Twitch relay, single playback) ---------- */
+    let HUB = null, CLIPS = [], CLIP_SHOW = 8;
+    const CLIP_STEP = 4;
+    let currentPlayer = null;
+    const twHost = () => location.hostname || 'localhost';
+    function twThumb(url) { return (url || '').replace('{width}', '640').replace('{height}', '360'); }
+    function stopTwitch() {
+      if (currentPlayer) { currentPlayer.innerHTML = currentPlayer.dataset.thumb; currentPlayer = null; }
+    }
+    function twFrame(src, title) {
+      return `<iframe class="w-full aspect-video" src="${src}" title="${title.replace(/"/g, '')}" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+    }
+    function liveCard(s, game) {
+      return `
+      <article class="rs-card shrink-0 w-72 sm:w-80">
+        <div class="rs-thumb tw-play" data-kind="live" data-login="${s.login}" data-title="${s.title.replace(/"/g, '')}">
+          <img src="${twThumb(s.thumb)}" alt="${s.user} live" loading="lazy" decoding="async" class="w-full h-full object-cover">
+          <span class="absolute left-3 top-3 font-mono text-[0.6rem] font-bold tracking-[0.15em] bg-red-500/90 rounded px-2 py-1"><span class="live-dot inline-block w-1.5 h-1.5 rounded-full bg-white mr-1"></span>LIVE</span>
+          <span class="rs-dur">${Number(s.viewers).toLocaleString()} watching</span>
+        </div>
+        <div class="rs-body">
+          <span class="rs-game">${game}</span>
+          <span class="rs-title mt-1">${s.title}</span>
+          <span class="rs-date">${s.user}</span>
+        </div>
+      </article>`;
+    }
+    function clipCard(c) {
+      return `
+      <article class="rs-card">
+        <div class="rs-thumb tw-play" data-kind="clip" data-id="${c.id}" data-title="${c.title.replace(/"/g, '')}">
+          <img src="${c.thumb}" alt="${c.title.replace(/"/g, '')}" loading="lazy" decoding="async" class="w-full h-full object-cover">
+          <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/95 flex items-center justify-center"><span class="text-inkdeep text-xl font-black pl-0.5">▶</span></span>
+          <span class="rs-dur">${c.dur}</span>
+        </div>
+        <div class="rs-body">
+          <span class="rs-game">${c.game}</span>
+          <span class="rs-title mt-1">${c.title}</span>
+          <span class="rs-date">${c.user} · ${Number(c.views).toLocaleString()} views</span>
+        </div>
+      </article>`;
+    }
+    function paintClips() {
+      document.getElementById('clipGrid').innerHTML = CLIPS.slice(0, CLIP_SHOW).map(clipCard).join('');
+      const left = CLIPS.length - CLIP_SHOW;
+      document.getElementById('clipMore').innerHTML = left > 0
+        ? `<button onclick="moreClips()" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full">Load more · ${Math.min(CLIP_STEP, left)} of ${left}</button>` : '';
+    }
+    function moreClips() { stopTwitch(); CLIP_SHOW += CLIP_STEP; paintClips(); }
+    function playTwitch(box) {
+      const kind = box.dataset.kind;
+      const src = kind === 'live'
+        ? `https://player.twitch.tv/?channel=${box.dataset.login}&parent=${twHost()}&autoplay=true`
+        : `https://clips.twitch.tv/embed?clip=${box.dataset.id}&parent=${twHost()}&autoplay=true`;
+      stopTwitch();
+      box.dataset.thumb = box.innerHTML;
+      box.innerHTML = twFrame(src, box.dataset.title || 'twitch player');
+      currentPlayer = box;
+    }
+    document.getElementById('liveRail').addEventListener('click', e => {
+      const box = e.target.closest('.tw-play');
+      if (box) playTwitch(box);
+    });
+    document.getElementById('clipGrid').addEventListener('click', e => {
+      const box = e.target.closest('.tw-play');
+      if (box) playTwitch(box);
+    });
+    async function loadHub() {
+      let data = null;
+      try {
+        const r = await fetch('/api/twitch/hub');
+        if (r.ok) data = await r.json();
+      } catch (e) {}
+      if (!data) {
+        try { data = await (await fetch('https://awsec2.onrender.com/api/twitch/hub')).json(); }
+        catch (e) {
+          document.getElementById('liveRail').innerHTML = '<p class="text-white/60 text-sm">Relay offline.</p>';
+          return;
+        }
+      }
+      HUB = data;
+      const lives = [];
+      CLIPS = [];
+      HUB.forEach(g => {
+        (g.live || []).forEach(s => lives.push({ s, game: g.name }));
+        (g.clips || []).forEach(c => CLIPS.push({ ...c, game: g.name }));
+      });
+      document.getElementById('liveCount').textContent = lives.length ? lives.length + ' LIVE' : '';
+      document.getElementById('liveRail').innerHTML = lives.length
+        ? lives.map(x => liveCard(x.s, x.game)).join('')
+        : '<p class="text-white/60 text-sm">Nobody live right now — gameplay clips below.</p>';
+      paintClips();
+    }
+    loadHub();
     function bindWatchLinks() {
       document.querySelectorAll('a[data-watch]').forEach(a => {
         a.onclick = e => {
@@ -595,13 +744,21 @@
       document.getElementById('detailVerified').classList.toggle('hidden', !(v.ageRestricted && isVerified()));
       document.getElementById('moreGrid').innerHTML = MEDIA.videos.filter(x => x.youtubeId !== v.youtubeId).map(videoCard).join('');
       bindWatchLinks();
-      scrollTo({ top: 0 });
+      requestAnimationFrame(() => {
+        const dp = document.getElementById('detailPlayer');
+        const y = dp.getBoundingClientRect().top + scrollY - 140;
+        scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      });
     }
     function closeWatch() {
       document.getElementById('watchDetail').classList.add('hidden');
       document.getElementById('detailPlayer').innerHTML = '';
       document.getElementById('library').classList.remove('hidden');
       if (location.hash.startsWith('#/watch/')) history.replaceState(null, '', location.pathname);
+      requestAnimationFrame(() => {
+        const sec = document.getElementById('videos');
+        if (sec) scrollTo({ top: Math.max(0, sec.getBoundingClientRect().top + scrollY - 140), behavior: 'smooth' });
+      });
     }
     function route() {
       const m = location.hash.match(/^#\/watch\/([\w-]{6,})/);
@@ -633,7 +790,7 @@
       { src: 'https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920', kick: 'Featured — GTA VI', title: 'Explore Vice<br>City and Beyond', sub: 'Steal the vibe. Share the neon.' },
       { src: '/images/posters/opt/Jason_and_Lucia_Robbery_With_Logo_landscape-1600.webp', kick: 'GTA VI — Story', title: 'Jason and<br>Lucia', sub: 'Ride or die, Leonida-style.' },
       { src: 'https://www.rockstargames.com/VI/_next/static/media/trailer-2.0l.7aqib91fz6.jpg?akim=1&imdensity=1&imwidth=1920', kick: 'GTA VI — Trailer 2', title: 'Vice City<br>Nights', sub: 'Neon bleeds. Nobody sleeps.' },
-      { src: '/images/posters/opt/The_Album_Cover_Art_landscape-1600.webp', kick: 'GTA VI — Music', title: 'The Sound<br>of Leonida', sub: 'Windows down, wanted level up.' },
+      { src: '/images/posters/opt/The_Album_Cover_Art_landscape.webp', kick: 'GTA VI — Music', title: 'The Sound<br>of Leonida', sub: 'Windows down, wanted level up.' },
       { src: 'https://www.rockstargames.com/VI/_next/static/media/trailer-1.06b6paykx247w.jpg?akim=1&imdensity=1&imwidth=1920', kick: 'GTA VI — Trailer 1', title: 'Leonida<br>Keys', sub: 'Salt in the air. Heat on your tail.' },
       { src: '/images/posters/opt/VALORANT_Jett_Dark-1600.webp', kick: 'Featured — Valorant', title: 'Defy the<br>Limits', sub: 'Blink in. Blades out. No apologies.' },
       { src: '/images/posters/opt/China_CG_Sagefire_Full-1600.webp', kick: 'Valorant — Arena', title: 'Sagefire<br>Protocol', sub: 'Wall up. Odds down.' },
