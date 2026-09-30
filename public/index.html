@@ -440,9 +440,9 @@
       return '<span class="bg-vice-cyan/10 border border-vice-cyan/40 text-vice-cyan rounded-full px-3 py-1.5">UPCOMING</span>';
     }
     function eventCTA(ev) {
-      if (ev.url && ev.url.startsWith('http')) return `<a href="${ev.url}" target="_blank" rel="noopener" class="pill-btn inline-block mt-5 bg-white text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Source ↗</a>`;
-      if (ev.url) return `<a href="${ev.url}" class="pill-btn inline-block mt-5 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Intel File →</a>`;
-      return `<a href="/contact" class="pill-btn inline-block mt-5 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Register →</a>`;
+      if (ev.url && ev.url.startsWith('http')) return `<a href="${ev.url}" target="_blank" rel="noopener" class="pill-btn inline-block bg-white text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Source ↗</a>`;
+      if (ev.url) return `<a href="${ev.url}" class="pill-btn inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Intel File →</a>`;
+      return `<a href="/contact" class="pill-btn inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Register →</a>`;
     }
     function paintSpot() {
       const ev = SHOWCASE.events[0];
