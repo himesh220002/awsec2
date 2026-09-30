@@ -59,6 +59,32 @@
     @keyframes menuIn { from { opacity: 0; } }
     .subpill { transition: all .2s; }
     .subpill.active { background: #f2ecdc; color: #12121c; }
+    /* mobile sub-nav: clean horizontal scroll, no half-cut look */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .mobile-subnav {
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+      scroll-padding-left: 16px;
+      scroll-padding-right: 16px;
+      mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent 100%);
+    }
+    .mobile-subnav.at-end {
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+    @media (max-width: 640px) {
+      .mobile-subnav .subpill {
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 0.55rem;
+        padding-bottom: 0.55rem;
+      }
+    }
     #lightbox { transition: opacity .3s ease; }
     .hero-fade { transition: opacity 1.4s ease-in-out; }
     #featured, #videos, #shots, #art, #live { scroll-margin-top: 140px; }
@@ -119,12 +145,12 @@
         </button>
       </div>
     </div>
-    <div class="lg:hidden mt-3 flex gap-2 overflow-x-auto pb-1">
-      <a href="#featured" data-sub="featured" class="subpill active shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Featured</a>
-      <a href="#videos" data-sub="videos" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Videos</a>
-      <a href="#shots" data-sub="shots" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Screenshots</a>
-      <a href="#art" data-sub="art" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Artwork</a>
-      <a href="#live" data-sub="live" class="subpill shrink-0 font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Live</a>
+    <div id="mobileSubnav" class="mobile-subnav no-scrollbar lg:hidden mt-3 -mx-4 px-4 flex flex-nowrap gap-2 overflow-x-auto pb-1.5 pt-0.5 snap-x snap-proximity">
+      <a href="#featured" data-sub="featured" class="subpill active shrink-0 snap-start whitespace-nowrap font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Featured</a>
+      <a href="#videos" data-sub="videos" class="subpill shrink-0 snap-start whitespace-nowrap font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Videos</a>
+      <a href="#shots" data-sub="shots" class="subpill shrink-0 snap-start whitespace-nowrap font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Screenshots</a>
+      <a href="#art" data-sub="art" class="subpill shrink-0 snap-start whitespace-nowrap font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Artwork</a>
+      <a href="#live" data-sub="live" class="subpill shrink-0 snap-start whitespace-nowrap font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Live</a>
     </div>
   </header>
 
@@ -234,7 +260,7 @@
         <span id="liveCount" class="font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></span>
       </div>
       <p class="reveal font-mono text-[0.62rem] tracking-[0.3em] text-red-300/90 uppercase mb-3"><span class="live-dot inline-block w-2 h-2 rounded-full bg-red-400 mr-2"></span>Live now</p>
-      <div id="liveRail" class="flex gap-5 overflow-x-auto pb-4"><p class="text-white/60 text-sm">Scanning Twitch…</p></div>
+      <div id="liveRail" class="grid gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3 pb-4"><p class="text-white/60 text-sm">Scanning Twitch…</p></div>
       <p class="reveal font-mono text-[0.62rem] tracking-[0.3em] text-vice-cyan/90 uppercase mt-8 mb-3">Gameplay clips</p>
       <div id="clipGrid" class="grid gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3"></div>
       <div id="clipMore" class="mt-6 text-center"></div>
@@ -259,7 +285,7 @@
     </section>
     <section class="max-w-7xl mx-auto px-4 sm:px-0 py-8 sm:py-12 grid sm:grid-cols-2 gap-8">
       <div>
-        <h2 id="detailTitle" class="font-black uppercase text-cream leading-tight text-[clamp(1.8rem,5vw,3rem)]"></h2>
+        <h2 id="detailTitle" class="font-black uppercase text-cream leading-tight text-lg md:text-3rem"></h2>
         <p id="detailDate" class="mt-2 font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></p>
         <p id="detailVerified" class="hidden mt-2 font-mono text-[0.62rem] tracking-[0.2em] text-emerald-300/90">✓ AGE VERIFIED 18+ ON THIS DEVICE</p>
       </div>
@@ -431,11 +457,22 @@
     // addEventListener('scroll', syncHeader, { passive: true });
     // syncHeader();
 
-    // sub-nav active state
+    // sub-nav active state + keep active pill visible on mobile
     document.querySelectorAll('[data-sub]').forEach(a => a.addEventListener('click', () => {
       document.querySelectorAll('[data-sub]').forEach(x => x.classList.remove('active'));
       document.querySelectorAll(`[data-sub="${a.dataset.sub}"]`).forEach(x => x.classList.add('active'));
+      const mob = document.querySelector(`#mobileSubnav [data-sub="${a.dataset.sub}"]`);
+      if (mob) mob.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }));
+    // hide right-edge fade once fully scrolled so last pill never looks cut
+    (() => {
+      const nav = document.getElementById('mobileSubnav');
+      if (!nav) return;
+      const sync = () => nav.classList.toggle('at-end', nav.scrollWidth - nav.scrollLeft - nav.clientWidth < 8);
+      nav.addEventListener('scroll', sync, { passive: true });
+      addEventListener('resize', sync);
+      sync();
+    })();
 
     const thumb = id => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
     const embed = (id, auto) => `<iframe class="w-full aspect-video" src="https://www.youtube-nocookie.com/embed/${id}?autoplay=${auto ? 1 : 0}&rel=0" title="video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
@@ -621,8 +658,8 @@
     function moreArt() { AG_SHOW += AG_STEP; paintArt(); }
 
     /* ---------- Live & Gameplay (Twitch relay, single playback) ---------- */
-    let HUB = null, CLIPS = [], CLIP_SHOW = 8;
-    const CLIP_STEP = 4;
+    let HUB = null, CLIPS = [], CLIP_SHOW = 12;
+    const CLIP_STEP = 8;
     let currentPlayer = null;
     const twHost = () => location.hostname || 'localhost';
     function twThumb(url) { return (url || '').replace('{width}', '640').replace('{height}', '360'); }
@@ -634,7 +671,7 @@
     }
     function liveCard(s, game) {
       return `
-      <article class="rs-card shrink-0 w-72 sm:w-80">
+      <article class="rs-card shrink-0 w-full sm:w-[408px]">
         <div class="rs-thumb tw-play" data-kind="live" data-login="${s.login}" data-title="${s.title.replace(/"/g, '')}">
           <img src="${twThumb(s.thumb)}" alt="${s.user} live" loading="lazy" decoding="async" class="w-full h-full object-cover">
           <span class="absolute left-3 top-3 font-mono text-[0.6rem] font-bold tracking-[0.15em] bg-red-500/90 rounded px-2 py-1"><span class="live-dot inline-block w-1.5 h-1.5 rounded-full bg-white mr-1"></span>LIVE</span>
@@ -642,7 +679,7 @@
         </div>
         <div class="rs-body">
           <span class="rs-game">${game}</span>
-          <span class="rs-title mt-1">${s.title}</span>
+          <span class="rs-title mt-1 ">${s.title}</span>
           <span class="rs-date">${s.user}</span>
         </div>
       </article>`;
