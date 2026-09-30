@@ -4,6 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BLOG — Vice City Stories</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#12121c">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="VI/BLOG">
+  <meta name="application-name" content="VI/BLOG">
+  <meta name="msapplication-TileColor" content="#12121c">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -161,7 +174,7 @@
   </div>
 
   <header class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4">
-    <a href="/" class="font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white">VI<span class="text-pill">/BLOG</span></a>
+    <a href="/" class="flex items-center gap-2.5 font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white"><img src="/images/logo.svg" alt="VI/BLOG logo" width="40" height="40" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15"> <span>VI<span class="text-pill">/BLOG</span></span></a>
     <div class="flex items-center gap-2 sm:gap-3">
       <a href="#posts" class="pill-btn hidden sm:inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Read Stories</a>
       <button id="menuBtn" aria-label="Menu" class="p-2 -mr-2 hover:opacity-70 transition">
@@ -177,11 +190,12 @@
         <img src="/images/vi-palm-left.svg" alt="" aria-hidden="true" class="palm absolute top-0 left-0 w-full opacity-40 pointer-events-none">
         <svg class="palm absolute -left-10 -bottom-10 w-72 opacity-40"><use href="#palm"/></svg>
         <svg class="palm absolute -right-12 -bottom-12 w-80 opacity-40"><use href="#palm"/></svg>
-        <div class="m-auto text-center relative px-8">
+        <img src="/images/logo.svg" alt="" aria-hidden="true" class="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-25 mix-blend-screen select-none">
+        <!-- <div class="m-auto text-center relative px-8">
           <img src="https://www.rockstargames.com/VI/_next/static/media/vi.0hxa9~pf214xe.png?akim=1&imdensity=1&imwidth=1024" alt="Grand Theft Auto VI" loading="lazy" decoding="async" class="w-full max-w-[300px] mx-auto drop-shadow-2xl" onerror="this.style.display='none';document.getElementById('menuFallback').style.display='';">
           <p id="menuFallback" style="display:none" class="font-black leading-none tracking-tighter text-[9rem]">VI<span class="logo-text">/B</span></p>
           <p class="mt-4 font-mono text-[0.65rem] tracking-[0.5em] text-white/50">WELCOME TO LEONIDA</p>
-        </div>
+        </div> -->
         <p class="relative font-mono text-[0.6rem] tracking-[0.3em] text-white/40">CYPHERTECH GAMING HUB — EST. 2026</p>
       </div>
       <aside class="w-full md:w-[46%] bg-[#23232f] flex flex-col px-8 sm:px-12 py-6 overflow-y-auto">
@@ -262,7 +276,7 @@
   <footer class="border-t border-white/10 bg-inkdeep/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
       <div>
-        <p class="font-black text-2xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
+        <p class="flex items-center gap-2.5 font-black text-2xl tracking-tighter"><img src="/images/logo.svg" alt="VI/BLOG logo" width="40" height="40" loading="lazy" decoding="async" class="w-10 h-10 rounded-xl ring-1 ring-white/15"> <span>VI<span class="text-pill">/BLOG</span></span></p>
         <p class="mt-3 text-white/55 text-sm max-w-xs">Next-gen console coverage — trailers, esports, guides and reviews from the neon coast.</p>
         <div class="mt-4 flex flex-wrap gap-2 font-mono text-[0.62rem] font-bold tracking-[0.2em]">
           <a href="https://twitter.com" target="_blank" rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">TWITTER</a>
