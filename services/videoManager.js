@@ -8,12 +8,21 @@ const DB_FILE = path.join(__dirname, '..', 'data', 'videos.json');
 const UPLOAD_DIR = path.join(__dirname, '..', 'public', 'uploads', 'videos');
 const THUMB_DIR = path.join(__dirname, '..', 'public', 'uploads', 'thumbnails');
 
-// Ensure upload directories exist
-if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+// Ensure upload directories exist (guarded for read-only serverless filesystems like Vercel /var/task)
+try {
+  if (!fs.existsSync(UPLOAD_DIR)) {
+    fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+  }
+} catch (e) {
+  // Read-only filesystem on serverless runtime
 }
-if (!fs.existsSync(THUMB_DIR)) {
-  fs.mkdirSync(THUMB_DIR, { recursive: true });
+
+try {
+  if (!fs.existsSync(THUMB_DIR)) {
+    fs.mkdirSync(THUMB_DIR, { recursive: true });
+  }
+} catch (e) {
+  // Read-only filesystem on serverless runtime
 }
 
 // In-memory cache + disk persistence for zero-downtime fallback
@@ -359,10 +368,15 @@ async function uploadImageFile(fileBuffer, originalName, mimeType) {
   }
 
   // Local storage fallback
-  const localFileName = `thumb_${Date.now()}_${cleanBase}${ext}`;
-  const localFilePath = path.join(THUMB_DIR, localFileName);
-  fs.writeFileSync(localFilePath, fileBuffer);
-  return `/uploads/thumbnails/${localFileName}`;
+  try {
+    const localFileName = `thumb_${Date.now()}_${cleanBase}${ext}`;
+    const localFilePath = path.join(THUMB_DIR, localFileName);
+    fs.writeFileSync(localFilePath, fileBuffer);
+    return `/uploads/thumbnails/${localFileName}`;
+  } catch (err) {
+    console.error('[MediaManager] Local thumb write failed:', err.message);
+    return '/images/posters/poster_full.0az_iud2g3y4j.jpg';
+  }
 }
 
 // Upload buffer to AWS S3 (under igv_videos/) or fallback to local disk
@@ -398,17 +412,22 @@ async function uploadMediaFile(fileBuffer, originalName, mimeType) {
   }
 
   // Local storage fallback
-  const localFileName = `${Date.now()}_${cleanBase}${ext}`;
-  const localFilePath = path.join(UPLOAD_DIR, localFileName);
-  fs.writeFileSync(localFilePath, fileBuffer);
+  try {
+    const localFileName = `${Date.now()}_${cleanBase}${ext}`;
+    const localFilePath = path.join(UPLOAD_DIR, localFileName);
+    fs.writeFileSync(localFilePath, fileBuffer);
 
-  const streamUrl = `/api/videos/stream?key=${encodeURIComponent(localFileName)}`;
-  return {
-    sourceUrl: streamUrl,
-    type: 's3',
-    s3Used: false,
-    fileKey: localFileName
-  };
+    const streamUrl = `/api/videos/stream?key=${encodeURIComponent(localFileName)}`;
+    return {
+      sourceUrl: streamUrl,
+      type: 's3',
+      s3Used: false,
+      fileKey: localFileName
+    };
+  } catch (err) {
+    console.error('[MediaManager] Local video write failed:', err.message);
+    throw new Error('Storage unavailable: please configure AWS S3 environment variables.');
+  }
 }
 
 // Parse YouTube URL to extract ID, embedUrl, and thumbnail
