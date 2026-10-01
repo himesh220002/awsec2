@@ -118,11 +118,40 @@ const VideoSchema = new mongoose.Schema({
 
 const Video = mongoose.models.Video || mongoose.model('Video', VideoSchema);
 
+// Universal secret/env resolver: checks process.env, Render Secret Files (/etc/secrets/<KEY>), and mounted .env
+function getSecret(key) {
+  if (process.env[key] !== undefined && process.env[key] !== '') {
+    return String(process.env[key]).trim();
+  }
+  // Check Render Secret Files (/etc/secrets/<key>)
+  try {
+    const directPath = path.join('/etc/secrets', key);
+    if (fs.existsSync(directPath)) {
+      return fs.readFileSync(directPath, 'utf8').trim();
+    }
+  } catch (e) {}
+  try {
+    const lowerPath = path.join('/etc/secrets', key.toLowerCase());
+    if (fs.existsSync(lowerPath)) {
+      return fs.readFileSync(lowerPath, 'utf8').trim();
+    }
+  } catch (e) {}
+  try {
+    const envPath = '/etc/secrets/.env';
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, 'utf8');
+      const match = content.match(new RegExp(`^${key}=(.*)$`, 'm'));
+      if (match) return match[1].trim();
+    }
+  } catch (e) {}
+  return '';
+}
+
 let isMongoConnected = false;
 
 // Connect to MongoDB if MONGO_URI is set
 async function initMongo() {
-  const mongoUri = process.env.MONGO_URI;
+  const mongoUri = getSecret('MONGO_URI');
   if (!mongoUri) {
     console.log('[MediaManager] No MONGO_URI set; using local JSON database.');
     return false;
@@ -187,7 +216,7 @@ function getDbStatus() {
     connected: isMongoConnected,
     database: isMongoConnected ? 'igvDB' : 'local_json',
     collection: 'videos',
-    hasMongoUri: !!process.env.MONGO_URI
+    hasMongoUri: !!getSecret('MONGO_URI')
   };
 }
 
@@ -195,14 +224,20 @@ function getDbStatus() {
 // S3 Configuration & Client
 // -------------------------------------------------------------
 function getS3Config() {
-  const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_S3_BUCKET } = process.env;
-  const isConfigured = !!(AWS_ACCESS_KEY_ID && AWS_SECRET_ACCESS_KEY && AWS_REGION && AWS_S3_BUCKET);
+  const accessKeyId = getSecret('AWS_ACCESS_KEY_ID');
+  const secretAccessKey = getSecret('AWS_SECRET_ACCESS_KEY');
+  const region = getSecret('AWS_REGION') || 'us-east-1';
+  const bucket = getSecret('AWS_S3_BUCKET') || '';
+
+  const isConfigured = !!(accessKeyId && secretAccessKey && region && bucket);
   return {
     isConfigured,
-    region: AWS_REGION || 'us-east-1',
-    bucket: AWS_S3_BUCKET || '',
-    hasKey: !!AWS_ACCESS_KEY_ID,
-    hasSecret: !!AWS_SECRET_ACCESS_KEY
+    region,
+    bucket,
+    hasKey: !!accessKeyId,
+    hasSecret: !!secretAccessKey,
+    accessKeyId,
+    secretAccessKey
   };
 }
 
@@ -212,8 +247,8 @@ function getS3Client() {
   return new S3Client({
     region: s3Config.region,
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+      accessKeyId: s3Config.accessKeyId,
+      secretAccessKey: s3Config.secretAccessKey
     }
   });
 }
@@ -718,5 +753,6 @@ module.exports = {
   addVideo,
   assignVideoPlacement,
   deleteVideo,
-  getActivePlacement
+  getActivePlacement,
+  getSecret
 };

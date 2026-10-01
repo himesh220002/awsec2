@@ -85,7 +85,7 @@ app.get('/videoadmin', (req, res) => {
 // Admin Authentication Middleware
 function requireAdminAuth(req, res, next) {
   const password = req.headers['x-admin-password'] || req.query.password || (req.body && req.body.password);
-  const expected = process.env.VIDEO_ADMIN_PASSWORD || 'heyvideo';
+  const expected = (videoManager.getSecret ? videoManager.getSecret('VIDEO_ADMIN_PASSWORD') : process.env.VIDEO_ADMIN_PASSWORD) || 'heyvideo';
   if (password === expected) {
     return next();
   }
@@ -143,7 +143,7 @@ app.post('/api/videos/assign', async (req, res) => {
 // Admin Video API Endpoints
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body || {};
-  const expected = process.env.VIDEO_ADMIN_PASSWORD || 'heyvideo';
+  const expected = (videoManager.getSecret ? videoManager.getSecret('VIDEO_ADMIN_PASSWORD') : process.env.VIDEO_ADMIN_PASSWORD) || 'heyvideo';
   if (password === expected) {
     res.json({ success: true, message: 'Authenticated successfully' });
   } else {

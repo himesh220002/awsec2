@@ -272,10 +272,11 @@
       <h3 class="font-bold text-lg text-cream mb-1">Set Video Thumbnail</h3>
       <p id="thumbModalVideoTitle" class="text-xs text-white/50 mb-4 truncate"></p>
       
-      <!-- Current Thumbnail Preview -->
-      <div class="aspect-video w-full rounded-2xl overflow-hidden bg-black/80 mb-4 border border-white/10 relative">
+      <!-- Current Thumbnail / Live Video Scrubber Preview -->
+      <div class="aspect-video w-full rounded-2xl overflow-hidden bg-black/80 mb-4 border border-white/10 relative flex items-center justify-center">
         <img id="thumbModalPreview" src="" alt="Thumbnail Preview" class="w-full h-full object-cover">
-        <span class="absolute bottom-2 left-2 text-[0.6rem] font-mono bg-black/70 px-2 py-0.5 rounded text-white/80">CURRENT PREVIEW</span>
+        <video id="thumbCaptureVideo" class="hidden w-full h-full object-cover" crossOrigin="anonymous" playsinline preload="metadata" muted></video>
+        <span id="previewBadge" class="absolute bottom-2 left-2 text-[0.6rem] font-mono bg-black/70 px-2 py-0.5 rounded text-white/80">CURRENT PREVIEW</span>
       </div>
 
       <!-- Mode Tabs: File Upload vs URL vs Video Frame Capture -->
@@ -305,12 +306,37 @@
         </button>
       </div>
 
-      <!-- Tab 3: Capture Frame from Video -->
+      <!-- Tab 3: Capture Frame from Video with Live Scrubber -->
       <div id="thumbPaneCapture" class="hidden space-y-3">
-        <p class="text-xs text-white/60">Loads the video, captures the video frame at 1.0s, and uploads it as the official thumbnail image.</p>
-        <button onclick="captureVideoFrame()" id="btnCaptureFrame" class="w-full pill-btn bg-purple-500 hover:bg-purple-400 text-white font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
-          Capture & Save Frame
-        </button>
+        <!-- If S3 or local video: interactive video scrubber -->
+        <div id="s3ScrubberControls" class="space-y-2.5">
+          <div class="flex items-center justify-between text-xs font-mono">
+            <span class="text-white/70">Frame: <strong id="scrubberTimeDisplay" class="text-pill font-bold">00:01.0</strong> / <span id="scrubberDurationDisplay" class="text-white/40">--:--</span></span>
+            <div class="flex items-center gap-1.5">
+              <button type="button" onclick="stepVideoScrubber(-1)" class="px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-[11px] font-mono transition cursor-pointer">⏮ -1s</button>
+              <button type="button" onclick="toggleVideoScrubberPlay()" id="btnPlayScrubber" class="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-[11px] font-mono transition cursor-pointer">▶ Play</button>
+              <button type="button" onclick="stepVideoScrubber(1)" class="px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-[11px] font-mono transition cursor-pointer">+1s ⏭</button>
+            </div>
+          </div>
+          
+          <input type="range" id="frameScrubberSlider" min="0" max="100" step="0.05" value="1.0" 
+            class="w-full accent-pill h-2 bg-white/10 rounded-lg cursor-pointer transition"
+            oninput="onScrubberSlide(this.value)">
+
+          <p class="text-[11px] text-white/50 leading-tight">
+            Scrub the timeline or play to the exact moment you want, then click capture.
+          </p>
+
+          <button onclick="captureCurrentVideoFrame()" id="btnCaptureFrame" class="w-full pill-btn bg-purple-500 hover:bg-purple-400 text-white font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+            📸 Capture Selected Frame (<span id="btnFrameTime">00:01.0</span>) & Save (S3)
+          </button>
+        </div>
+
+        <!-- If YouTube video: pre-generated official frame snapshots -->
+        <div id="ytFrameChoices" class="hidden space-y-2">
+          <p class="text-xs text-white/60">Choose an official frame thumbnail from YouTube:</p>
+          <div id="ytFramesGrid" class="grid grid-cols-4 gap-2"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -739,6 +765,17 @@
     // -------------------------------------------------------------
     // Thumbnail Modal & Setter Logic
     // -------------------------------------------------------------
+    // -------------------------------------------------------------
+    // Thumbnail Modal & Interactive Frame Scrubber Logic
+    // -------------------------------------------------------------
+    function formatTime(sec) {
+      if (isNaN(sec) || sec < 0) return '00:00.0';
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      const ms = Math.floor((sec % 1) * 10);
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}.${ms}`;
+    }
+
     function openThumbModal(videoId) {
       const v = currentVideos.find(x => x._id === videoId);
       if (!v) return;
@@ -748,12 +785,65 @@
       document.getElementById('thumbModalPreview').src = v.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg';
       document.getElementById('thumbUrlInput').value = v.thumbnail || '';
       document.getElementById('thumbFileInput').value = '';
-      
+
+      const vid = document.getElementById('thumbCaptureVideo');
+      const s3Controls = document.getElementById('s3ScrubberControls');
+      const ytControls = document.getElementById('ytFrameChoices');
+
+      if (v.type === 'youtube') {
+        s3Controls.classList.add('hidden');
+        ytControls.classList.remove('hidden');
+        const ytId = v.youtubeId || (v.sourceUrl.match(/(?:embed\/|v=)([^"&?/\s]{11})/) || [])[1];
+        if (ytId) {
+          const frames = [
+            { label: 'Max Res HD', url: `https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg` },
+            { label: 'HQ Cover', url: `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` },
+            { label: 'Frame 1 (Start)', url: `https://i.ytimg.com/vi/${ytId}/1.jpg` },
+            { label: 'Frame 2 (Mid)', url: `https://i.ytimg.com/vi/${ytId}/2.jpg` },
+            { label: 'Frame 3 (End)', url: `https://i.ytimg.com/vi/${ytId}/3.jpg` }
+          ];
+          document.getElementById('ytFramesGrid').innerHTML = frames.map(f => `
+            <button type="button" onclick="selectYtThumb('${f.url}')" class="group relative aspect-video rounded-lg overflow-hidden border border-white/20 hover:border-pill transition text-left cursor-pointer">
+              <img src="${f.url}" class="w-full h-full object-cover" onerror="this.parentElement.style.display='none'">
+              <span class="absolute bottom-1 left-1 text-[9px] bg-black/80 px-1 py-0.5 rounded text-white/80 font-mono">${f.label}</span>
+            </button>
+          `).join('');
+        }
+      } else {
+        s3Controls.classList.remove('hidden');
+        ytControls.classList.add('hidden');
+        vid.src = v.sourceUrl;
+        vid.currentTime = 1.0;
+        document.getElementById('btnPlayScrubber').innerText = '▶ Play';
+
+        vid.onloadedmetadata = () => {
+          const duration = vid.duration || 10;
+          const slider = document.getElementById('frameScrubberSlider');
+          slider.max = duration;
+          slider.value = Math.min(1.0, duration);
+          document.getElementById('scrubberDurationDisplay').innerText = formatTime(duration);
+          document.getElementById('scrubberTimeDisplay').innerText = formatTime(slider.value);
+          document.getElementById('btnFrameTime').innerText = formatTime(slider.value);
+        };
+
+        vid.ontimeupdate = () => {
+          document.getElementById('frameScrubberSlider').value = vid.currentTime;
+          document.getElementById('scrubberTimeDisplay').innerText = formatTime(vid.currentTime);
+          document.getElementById('btnFrameTime').innerText = formatTime(vid.currentTime);
+        };
+      }
+
       switchThumbTab('file');
       document.getElementById('thumbModal').classList.remove('hidden');
     }
 
     function closeThumbModal() {
+      const vid = document.getElementById('thumbCaptureVideo');
+      vid.pause();
+      vid.src = '';
+      vid.classList.add('hidden');
+      document.getElementById('thumbModalPreview').classList.remove('hidden');
+      document.getElementById('previewBadge').innerText = 'CURRENT PREVIEW';
       document.getElementById('thumbModal').classList.add('hidden');
       activeEditingVideoId = null;
     }
@@ -765,6 +855,9 @@
       const tFile = document.getElementById('tTabFile');
       const tUrl = document.getElementById('tTabUrl');
       const tCap = document.getElementById('tTabCapture');
+      const vid = document.getElementById('thumbCaptureVideo');
+      const img = document.getElementById('thumbModalPreview');
+      const badge = document.getElementById('previewBadge');
 
       pFile.classList.add('hidden');
       pUrl.classList.add('hidden');
@@ -774,14 +867,56 @@
       tCap.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition text-white/60 cursor-pointer';
 
       if (tab === 'file') {
+        vid.pause();
+        vid.classList.add('hidden');
+        img.classList.remove('hidden');
+        badge.innerText = 'CURRENT PREVIEW';
         pFile.classList.remove('hidden');
         tFile.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-pill text-inkdeep cursor-pointer';
       } else if (tab === 'url') {
+        vid.pause();
+        vid.classList.add('hidden');
+        img.classList.remove('hidden');
+        badge.innerText = 'CURRENT PREVIEW';
         pUrl.classList.remove('hidden');
         tUrl.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-vice-cyan text-inkdeep cursor-pointer';
       } else {
         pCap.classList.remove('hidden');
         tCap.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-purple-500 text-white cursor-pointer';
+        const v = currentVideos.find(x => x._id === activeEditingVideoId);
+        if (v && v.type !== 'youtube') {
+          img.classList.add('hidden');
+          vid.classList.remove('hidden');
+          badge.innerText = 'LIVE VIDEO SCRUBBER';
+        }
+      }
+    }
+
+    function onScrubberSlide(val) {
+      const vid = document.getElementById('thumbCaptureVideo');
+      vid.currentTime = parseFloat(val);
+      document.getElementById('scrubberTimeDisplay').innerText = formatTime(vid.currentTime);
+      document.getElementById('btnFrameTime').innerText = formatTime(vid.currentTime);
+    }
+
+    function stepVideoScrubber(delta) {
+      const vid = document.getElementById('thumbCaptureVideo');
+      const target = Math.max(0, Math.min(vid.duration || 100, vid.currentTime + delta));
+      vid.currentTime = target;
+      document.getElementById('frameScrubberSlider').value = target;
+      document.getElementById('scrubberTimeDisplay').innerText = formatTime(target);
+      document.getElementById('btnFrameTime').innerText = formatTime(target);
+    }
+
+    function toggleVideoScrubberPlay() {
+      const vid = document.getElementById('thumbCaptureVideo');
+      const btn = document.getElementById('btnPlayScrubber');
+      if (vid.paused) {
+        vid.play();
+        btn.innerText = '⏸ Pause';
+      } else {
+        vid.pause();
+        btn.innerText = '▶ Play';
       }
     }
 
@@ -878,43 +1013,34 @@
       }
     }
 
-    // Auto-capture frame from video at 1.0s
-    async function captureVideoFrame() {
+    // Capture the exact currently scrubbed video frame
+    async function captureCurrentVideoFrame() {
       const v = currentVideos.find(x => x._id === activeEditingVideoId);
       if (!v) return;
 
+      const vid = document.getElementById('thumbCaptureVideo');
+      vid.pause();
+      document.getElementById('btnPlayScrubber').innerText = '▶ Play';
+
       const btn = document.getElementById('btnCaptureFrame');
       btn.disabled = true;
-      btn.innerText = 'Capturing frame at 1.0s...';
+      const originalText = btn.innerHTML;
+      btn.innerText = 'Capturing frame & saving to S3...';
 
       try {
-        const vid = document.createElement('video');
-        vid.crossOrigin = 'anonymous';
-        vid.src = v.sourceUrl;
-        vid.currentTime = 1.0;
-        vid.preload = 'metadata';
-
-        await new Promise((resolve, reject) => {
-          vid.onloadeddata = () => {
-            vid.currentTime = 1.0;
-          };
-          vid.onseeked = resolve;
-          vid.onerror = () => reject(new Error('Cannot load video for frame capture (CORS or codec)'));
-          setTimeout(() => reject(new Error('Timeout loading video stream')), 8000);
-        });
-
         const canvas = document.createElement('canvas');
         canvas.width = vid.videoWidth || 1280;
         canvas.height = vid.videoHeight || 720;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
 
-        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.88));
-        if (!blob) throw new Error('Failed to extract image blob');
+        const blob = await new Promise((resolve, reject) => {
+          canvas.toBlob(b => b ? resolve(b) : reject(new Error('Failed to extract image from canvas')), 'image/jpeg', 0.90);
+        });
 
-        btn.innerText = 'Uploading captured frame to S3...';
         const formData = new FormData();
-        formData.append('thumbFile', blob, `frame_${v._id}.jpg`);
+        const timeClean = String(vid.currentTime.toFixed(1)).replace('.', '_');
+        formData.append('thumbFile', blob, `frame_${v._id}_${timeClean}s.jpg`);
 
         const res = await fetch(`/api/admin/videos/${activeEditingVideoId}/thumbnail`, {
           method: 'POST',
@@ -923,17 +1049,42 @@
         });
 
         if (res.ok) {
-          showToast('Frame captured and saved as official thumbnail!');
-          closeThumbModal();
+          const data = await res.json();
+          showToast(`Frame captured at ${formatTime(vid.currentTime)} and saved to S3!`);
+          document.getElementById('thumbModalPreview').src = data.thumbnail || canvas.toDataURL('image/jpeg');
+          switchThumbTab('file');
           loadVideos();
         } else {
           alert('Server error saving captured frame');
         }
       } catch (err) {
-        alert('Frame capture notice: ' + err.message + '. Please use the "Upload File" or "Image URL" tab.');
+        alert('Frame capture notice: ' + err.message + '. (If browser blocks direct canvas extraction, please use the Upload File tab).');
       } finally {
         btn.disabled = false;
-        btn.innerText = 'Capture & Save Frame';
+        btn.innerHTML = originalText;
+      }
+    }
+
+    async function selectYtThumb(url) {
+      if (!activeEditingVideoId) return;
+      try {
+        const res = await fetch(`/api/admin/videos/${activeEditingVideoId}/thumbnail`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': adminToken
+          },
+          body: JSON.stringify({ thumbnailUrl: url })
+        });
+        if (res.ok) {
+          showToast('YouTube frame saved as thumbnail!');
+          closeThumbModal();
+          loadVideos();
+        } else {
+          alert('Failed to save YouTube frame');
+        }
+      } catch (e) {
+        alert('Network error saving thumbnail');
       }
     }
 
