@@ -1,7 +1,7 @@
 {
-  "name": "VI/BLOG — Welcome to Leonida",
-  "short_name": "VI/BLOG",
-  "description": "Next-gen console coverage — trailers, esports, guides and reviews from the neon coast.",
+  "name": "IGVictory — Next-Gen Gaming & Media Relay",
+  "short_name": "IGV",
+  "description": "Next-gen gaming coverage, live broadcasts, VOD archives, guides, and reviews on IGVictory.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

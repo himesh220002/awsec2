@@ -1,21 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VI/BLOG — Welcome to Leonida</title>
+  <title>IGV — Gaming Hub, Twitch Streams, Clips & VODs | igvictory.com</title>
+  <link rel="canonical" href="https://igvictory.com/">
+  <meta name="description"
+    content="IGV (igvictory.com) is the definitive neon gaming hub. Search live Twitch streams, high-voltage clips, full VODs, GTA VI trailers, and esports intelligence.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IGV — Gaming Hub, Twitch Streams, Clips & VODs">
+  <meta property="og:description"
+    content="Search live Twitch streams, full VODs, clips, and esports coverage on IGV (igvictory.com).">
+  <meta property="og:url" content="https://igvictory.com/">
+  <meta property="og:site_name" content="IGV">
+  <meta property="og:image" content="https://igvictory.com/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="IGV — Gaming Hub, Twitch Streams, Clips & VODs">
+  <meta name="twitter:description"
+    content="Watch live streams, full VOD archives, clips, and trailers across GTA VI, Rust, Valorant, and CS2.">
+  <meta name="twitter:image" content="https://igvictory.com/images/og-image.png">
+  <meta name="google-site-verification" content="google-site-verification-placeholder">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
+  <script src="/js/analytics-consent.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://igvictory.com/#website",
+        "url": "https://igvictory.com/",
+        "name": "IGV",
+        "alternateName": "IGVictory",
+        "description": "Next-gen gaming hub: live Twitch streams, clips, VODs, and esports intel.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://igvictory.com/media?q={search_term_string}#live",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://igvictory.com/#organization",
+        "name": "IGV",
+        "url": "https://igvictory.com/",
+        "logo": "https://igvictory.com/images/logo.png",
+        "sameAs": [
+          "https://twitter.com",
+          "https://youtube.com",
+          "https://discord.com"
+        ]
+      }
+    ]
+  }
+  </script>
   <meta name="theme-color" content="#12121c">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="VI/BLOG">
-  <meta name="application-name" content="VI/BLOG">
+  <meta name="apple-mobile-web-app-title" content="IGV">
+  <meta name="application-name" content="IGV">
   <meta name="msapplication-TileColor" content="#12121c">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -31,84 +83,313 @@
       }
     }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is IGV (igvictory.com)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "IGV is a high-performance next-generation gaming hub delivering real-time Twitch live streams, full broadcast VODs, gaming clips, IGDB game database intelligence, and curated coverage for titles including GTA VI, Rust, Valorant, CS2, and more."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the Twitch Live, Clips, and VODs search work on IGV?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "IGV features a real-time Twitch relay API that searches live broadcasts, top viral clips, and full VOD videos. You can search by game name (e.g. Rust, GTA V, Valorant) or streamer channel (e.g. shroud, tarik, caseoh_), filter by media format, and load up to 12 items at a time with instant playback."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I watch full Twitch past broadcasts (VODs) on IGV?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. IGV queries the Twitch Helix API to resolve broadcaster profiles and fetch full past broadcast videos (VODs) directly for your favorite categories and channels, embedded in an ultra-low-latency theater player."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the game trailers and screenshots officially sourced?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "All trailers, gameplay showcases, and 4K screenshots are pulled directly from official developer relays, verified YouTube channels, and high-definition publisher archives."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is IGV completely free to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, IGV is 100% free for all players, esports fans, and streamers worldwide without requiring an account or subscription."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
   <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.rockstargames.com">
   <link rel="dns-prefetch" href="https://shared.fastly.steamstatic.com">
   <link rel="dns-prefetch" href="https://cmsassets.rgpub.io">
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Oswald:wght@500;600;700&display=swap"
+    rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.149.0/three.min.js" defer></script>
   <style>
-    body { font-family: 'Archivo', system-ui, sans-serif; background: #191924; }
-    .font-cond { font-family: 'ArtDecoCondensedBold', 'Oswald', 'Archivo Narrow', 'Arial Narrow', sans-serif; font-stretch: condensed; }
-    .kicker { letter-spacing: 0.55em; }
+    body {
+      font-family: 'Archivo', system-ui, sans-serif;
+      background: #191924;
+    }
+
+    .font-cond {
+      font-family: 'ArtDecoCondensedBold', 'Oswald', 'Archivo Narrow', 'Arial Narrow', sans-serif;
+      font-stretch: condensed;
+    }
+
+    .kicker {
+      letter-spacing: 0.55em;
+    }
+
     .sun-glow {
       background:
-        radial-gradient(ellipse 70% 50% at 50% 108%, rgba(255,110,80,.5), transparent 60%),
-        radial-gradient(ellipse 55% 38% at 50% 102%, rgba(255,46,136,.4), transparent 60%),
+        radial-gradient(ellipse 70% 50% at 50% 108%, rgba(255, 110, 80, .5), transparent 60%),
+        radial-gradient(ellipse 55% 38% at 50% 102%, rgba(255, 46, 136, .4), transparent 60%),
         linear-gradient(180deg, #191924 0%, #2a1535 55%, #4a1f3d 100%);
     }
-    .palm { color: rgba(0,0,0,.55); }
-    .pill-btn { transition: transform .2s ease, box-shadow .25s ease, filter .2s ease; }
-    .pill-btn:hover { transform: translateY(-2px); filter: brightness(1.07); box-shadow: 0 10px 28px rgba(246,169,198,.35); }
-    .pill-btn:active { transform: scale(.95); }
-    .ghost-btn { transition: transform .2s ease, border-color .2s, color .2s; }
-    .ghost-btn:hover { transform: translateY(-2px); }
-    .ghost-btn:active { transform: scale(.95); }
-    #loader { transition: opacity .5s ease; }
-    #loadbar { animation: load 1.1s ease-in-out infinite; }
-    @keyframes load { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
+
+    .palm {
+      color: rgba(0, 0, 0, .55);
+    }
+
+    .pill-btn {
+      transition: transform .2s ease, box-shadow .25s ease, filter .2s ease;
+    }
+
+    .pill-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.07);
+      box-shadow: 0 10px 28px rgba(246, 169, 198, .35);
+    }
+
+    .pill-btn:active {
+      transform: scale(.95);
+    }
+
+    .ghost-btn {
+      transition: transform .2s ease, border-color .2s, color .2s;
+    }
+
+    .ghost-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .ghost-btn:active {
+      transform: scale(.95);
+    }
+
+    #loader {
+      transition: opacity .5s ease;
+    }
+
+    #loadbar {
+      animation: load 1.1s ease-in-out infinite;
+    }
+
+    @keyframes load {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100% {
+        transform: translateX(250%);
+      }
+    }
+
     /* #wipe { transition: transform .38s cubic-bezier(.7,0,.3,1); } */
-    .logo-text { background: linear-gradient(90deg, #ff2e88, #00e5ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .mlink { display: flex; align-items: center; justify-content: space-between; width: 100%; background: none; border: none; border-bottom: 1px solid rgba(255,255,255,.07); cursor: pointer; text-align: left; font-weight: 800; text-transform: uppercase; font-size: clamp(1.9rem, 4.5vw, 2.9rem); letter-spacing: -0.02em; line-height: 1.05; color: #c9c3e8; padding: 0.55rem 0; text-decoration: none; transition: color .2s, transform .2s; font-stretch: condensed; }
-    .mlink:hover, .mlink.active { color: #f2ecdc; transform: translateX(8px); }
-    .mlink span { color: rgba(255,255,255,.35); font-weight: 400; }
-    .rs-card { background: #23232f; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.06); transition: transform .25s ease, box-shadow .25s ease; }
-    .rs-card:hover { transform: translateY(-3px); box-shadow: 0 18px 44px rgba(0,0,0,.5); }
-    .rs-thumb { position: relative; aspect-ratio: 16/9; background: #101018; overflow: hidden; display: block; }
-    .rs-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .rs-dur { position: absolute; right: 10px; bottom: 10px; font-family: ui-monospace,Menlo,monospace; font-size: 0.7rem; font-weight: 700; background: rgba(0,0,0,.75); border-radius: 6px; padding: 3px 8px; color: #fff; }
-    .rs-body { padding: 16px 18px 18px; display: block; }
-    .rs-title { font-weight: 700; font-size: 1.02rem; line-height: 1.3; color: #f4f2fa; letter-spacing: -0.01em; display: block; }
-    .rs-date { margin-top: 6px; font-size: 0.85rem; color: rgba(255,255,255,.5); font-weight: 500; display: block; }
-    #rmenu { animation: menuIn .3s ease both; }
-    @keyframes menuIn { from { opacity: 0; } }
-    .page-in { animation: pageIn .55s cubic-bezier(.2,.9,.25,1) both; }
-    @keyframes pageIn { from { opacity: 0; transform: translateY(14px); } }
-    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.9,.25,1); }
-    .reveal.on { opacity: 1; transform: none; }
+    .logo-text {
+      background: linear-gradient(90deg, #ff2e88, #00e5ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .mlink {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, .07);
+      cursor: pointer;
+      text-align: left;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: #c9c3e8;
+      padding: 0.55rem 0;
+      text-decoration: none;
+      transition: color .2s, transform .2s;
+      font-stretch: condensed;
+    }
+
+    .mlink:hover,
+    .mlink.active {
+      color: #f2ecdc;
+      transform: translateX(8px);
+    }
+
+    .mlink span {
+      color: rgba(255, 255, 255, .35);
+      font-weight: 400;
+    }
+
+    .rs-card {
+      background: #23232f;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .06);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .rs-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, .5);
+    }
+
+    .rs-thumb {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: #101018;
+      overflow: hidden;
+      display: block;
+    }
+
+    .rs-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .rs-dur {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      font-family: ui-monospace, Menlo, monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(0, 0, 0, .75);
+      border-radius: 6px;
+      padding: 3px 8px;
+      color: #fff;
+    }
+
+    .rs-body {
+      padding: 16px 18px 18px;
+      display: block;
+    }
+
+    .rs-title {
+      font-weight: 700;
+      font-size: 1.02rem;
+      line-height: 1.3;
+      color: #f4f2fa;
+      letter-spacing: -0.01em;
+      display: block;
+    }
+
+    .rs-date {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, .5);
+      font-weight: 500;
+      display: block;
+    }
+
+    #rmenu {
+      animation: menuIn .3s ease both;
+    }
+
+    @keyframes menuIn {
+      from {
+        opacity: 0;
+      }
+    }
+
+    .page-in {
+      animation: pageIn .55s cubic-bezier(.2, .9, .25, 1) both;
+    }
+
+    @keyframes pageIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity .6s ease, transform .6s cubic-bezier(.2, .9, .25, 1);
+    }
+
+    .reveal.on {
+      opacity: 1;
+      transform: none;
+    }
   </style>
 </head>
+
 <body class="bg-ink text-white min-h-screen overflow-x-hidden antialiased">
 
   <div id="loader" class="fixed inset-0 z-[100] bg-inkdeep flex flex-col items-center justify-center gap-5">
-    <p class="font-black text-3xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
+    <p class="font-black text-3xl tracking-tighter">IG<span class="text-pill">V</span></p>
     <div class="w-48 h-1 rounded-full bg-white/10 overflow-hidden">
       <div id="loadbar" class="h-full w-2/5 bg-gradient-to-r from-vice-pink via-vice-purple to-vice-cyan"></div>
     </div>
     <p class="font-mono text-[0.6rem] tracking-[0.4em] text-white/40">BOOTING LEONIDA…</p>
   </div>
-  <div id="wipe" class="fixed inset-0 z-[90] bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#12121c] pointer-events-none" style="transform:translateY(100%)"></div>
+  <div id="wipe"
+    class="fixed inset-0 z-[90] bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#12121c] pointer-events-none"
+    style="transform:translateY(100%)"></div>
 
   <svg width="0" height="0" class="absolute" aria-hidden="true">
     <symbol id="palm" viewBox="0 0 100 140">
       <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round">
-        <path d="M48 138 C46 102 44 72 40 46"/>
-        <path d="M40 46 Q20 32 4 40"/><path d="M40 46 Q30 22 14 20"/>
-        <path d="M40 46 Q40 16 30 8"/><path d="M40 46 Q56 18 72 22"/>
-        <path d="M40 46 Q62 32 80 38"/><path d="M40 46 Q56 42 70 52"/>
+        <path d="M48 138 C46 102 44 72 40 46" />
+        <path d="M40 46 Q20 32 4 40" />
+        <path d="M40 46 Q30 22 14 20" />
+        <path d="M40 46 Q40 16 30 8" />
+        <path d="M40 46 Q56 18 72 22" />
+        <path d="M40 46 Q62 32 80 38" />
+        <path d="M40 46 Q56 42 70 52" />
       </g>
-      <circle cx="36" cy="50" r="4" fill="currentColor"/><circle cx="45" cy="51" r="4" fill="currentColor"/>
+      <circle cx="36" cy="50" r="4" fill="currentColor" />
+      <circle cx="45" cy="51" r="4" fill="currentColor" />
     </symbol>
   </svg>
 
   <canvas id="bg3d" class="fixed inset-0 -z-[15] pointer-events-none opacity-60"></canvas>
 
   <header class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4 ">
-    <a href="/" class="flex items-center gap-2.5 font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white"><img src="/images/logo.svg" alt="VI/BLOG logo" width="40" height="40" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15"> <span>VI<span class="text-pill">/BLOG</span></span></a>
+    <a href="/"
+      class="flex items-center gap-2.5 font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white"><img
+        src="/images/logo.svg" alt="IGV logo" width="40" height="40"
+        class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span
+          class="text-pill">V</span></span></a>
     <div class="flex items-center gap-2 sm:gap-3">
-      <a href="/blog" class="pill-btn hidden sm:inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Read Stories</a>
+      <a href="/blog"
+        class="pill-btn hidden sm:inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Read
+        Stories</a>
       <button id="menuBtn" aria-label="Menu" class="p-2 -mr-2 hover:opacity-70 transition">
         <span class="block w-7 h-[3px] bg-white mb-[7px]"></span>
         <span class="block w-7 h-[3px] bg-white"></span>
@@ -118,20 +399,27 @@
   <!-- rockstar-style overlay menu -->
   <div id="rmenu" class="hidden fixed inset-0 z-[80]">
     <div class="absolute inset-0 flex">
-      <div class="hidden md:flex flex-1 relative flex-col justify-between overflow-hidden bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#1b1b2e] p-10">
-        <svg class="palm absolute -left-10 -bottom-10 w-72 opacity-50"><use href="#palm"/></svg>
-        <svg class="palm absolute -right-12 -bottom-12 w-80 opacity-50"><use href="#palm"/></svg>
-        <img src="/images/logo.svg" alt="" aria-hidden="true" class="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-25 mix-blend-screen select-none">
+      <div
+        class="hidden md:flex flex-1 relative flex-col justify-between overflow-hidden bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#1b1b2e] p-10">
+        <svg class="palm absolute -left-10 -bottom-10 w-72 opacity-50">
+          <use href="#palm" />
+        </svg>
+        <svg class="palm absolute -right-12 -bottom-12 w-80 opacity-50">
+          <use href="#palm" />
+        </svg>
+        <img src="/images/nobglogo.svg" alt="" aria-hidden="true"
+          class="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-25 mix-blend-screen select-none">
         <!-- <div class="m-auto text-center relative">
-          <p class="font-black leading-none tracking-tighter text-[9rem] relative">VI<span class="logo-text">/B</span></p>
+          <p class="font-black leading-none tracking-tighter text-[9rem] relative">IG<span class="logo-text">V</span></p>
           <p class="mt-4 font-mono text-[0.65rem] tracking-[0.5em] text-white/50">WELCOME TO LEONIDA</p>
         </div> -->
         <p class="relative font-mono text-[0.6rem] tracking-[0.3em] text-white/40">CYPHERTECH GAMING HUB — EST. 2026</p>
       </div>
       <aside class="w-full md:w-[46%] bg-[#16161f] flex flex-col px-8 sm:px-12 py-6 overflow-y-auto">
         <div class="flex items-center justify-between">
-          <p class="font-black text-xl tracking-tighter">VI<span class="text-pill">/BLOG</span></p>
-          <button data-close aria-label="Close menu" class="w-11 h-11 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-black text-lg transition">✕</button>
+          <p class="font-black text-xl tracking-tighter">IG<span class="text-pill">V</span></p>
+          <button data-close aria-label="Close menu"
+            class="w-11 h-11 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-black text-lg transition">✕</button>
         </div>
         <nav id="menuMain" class="mt-6 flex flex-col">
           <a class="mlink" data-path="/" href="/">Home</a>
@@ -144,7 +432,9 @@
           <a class="mlink" data-path="/contact" href="/contact">Contact</a>
         </nav>
         <div id="menuWatch" class="hidden mt-6">
-          <button id="menuBackBtn" class="flex items-center gap-3 font-bold text-lg text-white/85 hover:text-pill transition">← Back <span class="text-white/25">|</span> Watch</button>
+          <button id="menuBackBtn"
+            class="flex items-center gap-3 font-bold text-lg text-white/85 hover:text-pill transition">← Back <span
+              class="text-white/25">|</span> Watch</button>
           <div id="menuVideos" class="mt-5 flex flex-col gap-5"></div>
         </div>
         <p class="mt-auto pt-8 font-mono text-[0.6rem] tracking-[0.3em] text-white/30">© 2026 — WELCOME TO LEONIDA</p>
@@ -154,21 +444,34 @@
 
   <section class="page-in relative overflow-hidden">
     <div class="sun-glow absolute inset-0"></div>
-    <svg class="palm absolute -left-8 bottom-0 w-48 sm:w-72 opacity-40"><use href="#palm"/></svg>
-    <svg class="palm absolute -right-10 bottom-0 w-56 sm:w-80 opacity-40"><use href="#palm"/></svg>
+    <svg class="palm absolute -left-8 bottom-0 w-48 sm:w-72 opacity-40">
+      <use href="#palm" />
+    </svg>
+    <svg class="palm absolute -right-10 bottom-0 w-56 sm:w-80 opacity-40">
+      <use href="#palm" />
+    </svg>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-0 pt-16 sm:pt-24 pb-14 sm:pb-20">
-      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/60">CypherTech&nbsp;//&nbsp;Main&nbsp;Feed</p>
-      <h1 class="mt-4 font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2.6rem,9vw,5.75rem)]">Next-Gen<br>Gaming Console</h1>
-      <p class="mt-5 max-w-xl text-white/70 text-base sm:text-lg">Experience immersive gameplay with cutting-edge performance.</p>
+      <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/60">
+        CypherTech&nbsp;//&nbsp;Main&nbsp;Feed</p>
+      <h1 class="mt-4 font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2.6rem,9vw,5.75rem)]">
+        Next-Gen<br>Gaming Console</h1>
+      <p class="mt-5 max-w-xl text-white/70 text-base sm:text-lg">Experience immersive gameplay with cutting-edge
+        performance.</p>
       <div class="mt-7 flex flex-wrap gap-3">
-        <a href="/blog" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Explore Console</a>
-        <a href="#events" class="ghost-btn font-bold text-sm px-7 py-3 rounded-full no-underline border border-white/25 text-white/85 hover:border-pill hover:text-pill">Upcoming Tournaments</a>
+        <a href="/blog"
+          class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Explore
+          Console</a>
+        <a href="#events"
+          class="ghost-btn font-bold text-sm px-7 py-3 rounded-full no-underline border border-white/25 text-white/85 hover:border-pill hover:text-pill">Upcoming
+          Tournaments</a>
       </div>
     </div>
   </section>
 
   <section class="max-w-7xl mx-auto px-4 sm:px-0 pt-10 sm:pt-14">
-    <div id="eventSpot"><p class="text-white/60">Loading spotlight…</p></div>
+    <div id="eventSpot">
+      <p class="text-white/60">Loading spotlight…</p>
+    </div>
   </section>
 
   <section class="max-w-7xl mx-auto px-4 sm:px-0 py-10 sm:py-14">
@@ -196,8 +499,10 @@
     <div class="reveal mb-2">
       <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Watch</p>
     </div>
-    <h2 class="reveal font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Trailers &amp; Gameplay</h2>
-    <p class="reveal mt-2 text-white/60 text-sm sm:text-base">Official trailers via YouTube. Tap any card to play it on the media page.</p>
+    <h2 class="reveal font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Trailers &amp;
+      Gameplay</h2>
+    <p class="reveal mt-2 text-white/60 text-sm sm:text-base">Official trailers via YouTube. Tap any card to play it on
+      the media page.</p>
     <div id="watchGrid" class="mt-6 grid gap-5 sm:gap-7 sm:grid-cols-2">
       <p class="text-white/60">Loading trailers…</p>
     </div>
@@ -218,8 +523,10 @@
   <div id="eventDetail" class="hidden fixed inset-0 z-[70] overflow-y-auto bg-inkdeep/98 backdrop-blur-xl">
     <div class="min-h-full max-w-7xl mx-auto px-4 sm:px-8 py-6 sm:py-10">
       <div class="flex items-center justify-between">
-        <button onclick="closeEvent()" class="ghost-btn font-bold text-sm text-white/70 hover:text-pill transition">← Back | Events</button>
-        <button onclick="closeEvent()" aria-label="Close" class="w-11 h-11 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-black text-lg transition">✕</button>
+        <button onclick="closeEvent()" class="ghost-btn font-bold text-sm text-white/70 hover:text-pill transition">←
+          Back | Events</button>
+        <button onclick="closeEvent()" aria-label="Close"
+          class="w-11 h-11 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-black text-lg transition">✕</button>
       </div>
       <div id="evBody" class="mt-4 pb-16"></div>
     </div>
@@ -228,31 +535,223 @@
   <section class="reveal max-w-7xl mx-auto px-4 sm:px-0 pb-12 sm:pb-16">
     <div class="rounded-[24px] bg-inkdeep border border-panel p-6 sm:p-10">
       <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Everywhere&nbsp;You&nbsp;Play</p>
-      <div class="mt-5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 font-mono text-[0.65rem] sm:text-xs font-bold tracking-[0.2em]">
+      <div
+        class="mt-5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 font-mono text-[0.65rem] sm:text-xs font-bold tracking-[0.2em]">
         <span class="bg-white/10 border border-white/15 rounded-full px-4 py-2.5 text-center">PC</span>
         <span class="text-vice-pink text-center">·</span>
-        <span class="bg-vice-pink/15 border border-vice-pink/50 rounded-full px-4 py-2.5 text-vice-pink text-center">PS5</span>
+        <span
+          class="bg-vice-pink/15 border border-vice-pink/50 rounded-full px-4 py-2.5 text-vice-pink text-center">PS5</span>
         <span class="text-vice-pink text-center">·</span>
-        <span class="bg-vice-cyan/10 border border-vice-cyan/40 rounded-full px-4 py-2.5 text-vice-cyan text-center">XBOX SERIES X|S</span>
+        <span
+          class="bg-vice-cyan/10 border border-vice-cyan/40 rounded-full px-4 py-2.5 text-vice-cyan text-center">XBOX
+          SERIES X|S</span>
         <span class="text-vice-pink text-center">·</span>
         <span class="bg-white/10 border border-white/15 rounded-full px-4 py-2.5 text-center">MOBILE</span>
       </div>
       <div class="mt-6 flex flex-wrap gap-3">
-        <a href="#watch" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Watch Trailers</a>
-        <a href="/blog" class="ghost-btn font-bold text-sm px-7 py-3 rounded-full no-underline border border-white/25 text-white/85 hover:border-pill hover:text-pill">Read Transmissions</a>
+        <a href="#watch"
+          class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Watch Trailers</a>
+        <a href="/blog"
+          class="ghost-btn font-bold text-sm px-7 py-3 rounded-full no-underline border border-white/25 text-white/85 hover:border-pill hover:text-pill">Read
+          Transmissions</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 600-Word SEO Section: About IGV Gaming Hub & Relay -->
+  <section id="about-igv" class="border-t border-white/10 bg-gradient-to-b from-ink via-inkdeep to-ink py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+      <div class="text-center max-w-3xl mx-auto">
+        <p class="font-mono text-xs tracking-[0.35em] text-pill uppercase">The Architecture Behind The Hub</p>
+        <h2 class="mt-3 font-cond font-bold uppercase text-3xl sm:text-5xl tracking-tight text-cream">
+          Welcome to IGV: Your High-Octane Gaming Relay
+        </h2>
+        <p class="mt-4 text-white/70 text-base sm:text-lg leading-relaxed">
+          Welcome to <strong class="text-white">IGV (igvictory.com)</strong>, the definitive multimedia ecosystem
+          designed specifically for next-generation gamers, esports competitors, and live streaming enthusiasts. Born
+          from a passion for open-world masterpieces and fierce competitive arenas, IGV unites real-time Twitch
+          broadcasts, full on-demand video archives (VODs), viral gameplay highlights, and database-backed game intel
+          into a unified, cyber-aesthetic command center.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-8 md:grid-cols-2">
+        <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
+          <h3 class="font-bold text-xl text-pill flex items-center gap-2">
+            <span>//</span> Real-Time Twitch Live Streams & VOD Archives
+          </h3>
+          <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
+            At IGV, our intelligent Twitch relay connects the Twitch Helix API directly to your screen. Track live
+            streams and replays for games like <em>Rust</em>, <em>Grand Theft Auto V</em>, <em>VALORANT</em>, and
+            <em>Counter-Strike 2</em> with effortless clarity.
+          </p>
+          <p class="mt-3 text-white/65 text-sm leading-relaxed">
+            Missed a monumental tournament broadcast? Our dedicated Twitch Videos & VOD browser queries broadcaster
+            video archives on demand, giving you instant access to complete past streams, practice scrims, and marathon
+            speedruns without invasive clutter.
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
+          <h3 class="font-bold text-xl text-vice-cyan flex items-center gap-2">
+            <span>//</span> Dynamic Search & Broadcaster Discovery
+          </h3>
+          <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
+            Skip the endless submenus. IGV streamlines discovery with a unified search for categories, channels, clips,
+            and archives. Search for creators like <em>shroud</em>, <em>tarik</em>, or <em>caseoh_</em> to instantly
+            check live viewers, uptime, and community stats.
+          </p>
+
+          <p class="mt-3 text-white/65 text-sm leading-relaxed">
+            Our search seamlessly incorporates IGDB (Internet Game Database) metadata, allowing you to discover release
+            dates, publisher intel, official websites, and cross-platform availability for thousands of console and PC
+            titles.
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
+          <h3 class="font-bold text-xl text-cream flex items-center gap-2">
+            <span>//</span> Vice City & Leonida: The GTA VI Dispatch
+          </h3>
+          <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
+            As anticipation builds for Rockstar Games' upcoming opus, IGV stands as the premier digital dispatch for the
+            neon state of Leonida. We track official reveal trailers, verified 4K character artwork, map breakdowns of
+            Vice City and the surrounding wetlands, and critical franchise history.
+          </p>
+          <p class="mt-3 text-white/65 text-sm leading-relaxed">
+            Every trailer is embedded using privacy-enhanced YouTube players with built-in client-side date-of-birth
+            verification, ensuring seamless compliance with age ratings without transmitting personal information over
+            external servers.
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
+          <h3 class="font-bold text-xl text-vice-pink flex items-center gap-2">
+            <span>//</span> Zero Paywalls, Pure Performance, 100% Free
+          </h3>
+          <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
+            IGV was designed with a performance-first mindset. Built with lightweight semantic markup, ultra-crisp SVG
+            vector icons, GPU-accelerated styling, and cloud-cached API endpoints, the platform loads at lightning speed
+            across desktop displays, tablets, and smartphones alike.
+          </p>
+          <p class="mt-3 text-white/65 text-sm leading-relaxed">
+            Best of all, IGV is completely free. We do not require accounts, logins, or hidden subscriptions. Jump
+            straight into the action, discover new creators, and stay ahead of every major drop in interactive
+            entertainment.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive FAQ Accordion Section -->
+  <section id="faq" class="border-t border-white/10 bg-inkdeep py-16 sm:py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-8">
+      <div class="text-center">
+        <p class="font-mono text-xs tracking-[0.35em] text-pill uppercase">Got Questions?</p>
+        <h2 class="mt-3 font-cond font-bold uppercase text-3xl sm:text-4xl tracking-tight text-white">
+          Frequently Asked Questions
+        </h2>
+        <p class="mt-2 text-white/60 text-sm sm:text-base">Everything you need to know about the IGV platform, streams,
+          and archives.</p>
+      </div>
+
+      <div class="mt-10 space-y-4">
+        <details
+          class="group rounded-2xl border border-white/10 bg-ink p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
+          <summary
+            class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-white group-open:text-pill list-none">
+            <span>What is IGV (igvictory.com)?</span>
+            <span
+              class="ml-4 font-mono text-xl transition-transform duration-200 group-open:rotate-45 text-pill">+</span>
+          </summary>
+          <p class="mt-4 text-sm sm:text-base leading-relaxed text-white/70">
+            IGV (igvictory.com) is an all-in-one gaming intelligence and streaming platform. It connects players to
+            real-time Twitch live broadcasts, full VODs, viral clips, IGDB game database facts, and high-definition
+            media for top titles including GTA VI, Rust, Valorant, and CS2.
+          </p>
+        </details>
+
+        <details
+          class="group rounded-2xl border border-white/10 bg-ink p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
+          <summary
+            class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-white group-open:text-pill list-none">
+            <span>How does the Twitch search and filter system work?</span>
+            <summary class="hidden"></summary>
+            <span
+              class="ml-4 font-mono text-xl transition-transform duration-200 group-open:rotate-45 text-pill">+</span>
+          </summary>
+          <p class="mt-4 text-sm sm:text-base leading-relaxed text-white/70">
+            From the <a href="/media#live" class="text-pill underline">Media & Live section</a>, you can type any game
+            category or streamer name. Our backend server contacts the Twitch Helix API to simultaneously retrieve
+            active live streams, broadcaster profiles, trending clips, and full VOD videos. You can toggle filters
+            between All Media, Live Only, Videos / VODs, and Clips Only.
+          </p>
+        </details>
+
+        <details
+          class="group rounded-2xl border border-white/10 bg-ink p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
+          <summary
+            class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-white group-open:text-pill list-none">
+            <span>Can I watch full Twitch past broadcasts (VODs) here?</span>
+            <span
+              class="ml-4 font-mono text-xl transition-transform duration-200 group-open:rotate-45 text-pill">+</span>
+          </summary>
+          <p class="mt-4 text-sm sm:text-base leading-relaxed text-white/70">
+            Yes! When searching for a game or streamer, select the "Videos / VODs" view or scroll to the Full Broadcasts
+            & VODs section. The hub displays 12 videos initially with a "Load more videos" button, allowing you to watch
+            hours of uncut tournament matches and gameplay archives right in our theater player.
+          </p>
+        </details>
+
+        <details
+          class="group rounded-2xl border border-white/10 bg-ink p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
+          <summary
+            class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-white group-open:text-pill list-none">
+            <span>Why is there an age verification (18+ check) on certain videos?</span>
+            <span
+              class="ml-4 font-mono text-xl transition-transform duration-200 group-open:rotate-45 text-pill">+</span>
+          </summary>
+          <p class="mt-4 text-sm sm:text-base leading-relaxed text-white/70">
+            Certain official trailers (such as GTA VI Trailer 1) are flagged as mature 18+ content by YouTube. We
+            provide a client-side date-of-birth check to ensure compliance with age standards. Your DOB is remembered
+            locally in your browser storage and is never uploaded to any remote database.
+          </p>
+        </details>
+
+        <details
+          class="group rounded-2xl border border-white/10 bg-ink p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
+          <summary
+            class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-white group-open:text-pill list-none">
+            <span>Is IGV free to use and do I need an account?</span>
+            <span
+              class="ml-4 font-mono text-xl transition-transform duration-200 group-open:rotate-45 text-pill">+</span>
+          </summary>
+          <p class="mt-4 text-sm sm:text-base leading-relaxed text-white/70">
+            IGV is 100% free and open to everyone. No registration, user accounts, or paid memberships are required to
+            browse, search, or stream on <a href="https://igvictory.com" class="text-pill underline">igvictory.com</a>.
+          </p>
+        </details>
       </div>
     </div>
   </section>
 
   <footer class="border-t border-white/10 bg-inkdeep/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
       <div>
-        <p class="flex items-center gap-2.5 font-black text-2xl tracking-tighter"><img src="/images/logo.svg" alt="VI/BLOG logo" width="40" height="40" loading="lazy" decoding="async" class="w-10 h-10 rounded-xl ring-1 ring-white/15"> <span>VI<span class="text-pill">/BLOG</span></span></p>
-        <p class="mt-3 text-white/55 text-sm max-w-xs">Next-gen console coverage — trailers, esports, guides and reviews from the neon coast.</p>
+        <p class="flex items-center gap-2.5 font-black text-2xl tracking-tighter"><img src="/images/logo.svg"
+            alt="IGV logo" width="40" height="40" loading="lazy" decoding="async"
+            class="w-10 h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span class="text-pill">V</span></span></p>
+        <p class="mt-3 text-white/55 text-sm max-w-xs">Next-gen console coverage — trailers, esports, guides and reviews
+          from the neon coast.</p>
         <div class="mt-4 flex flex-wrap gap-2 font-mono text-[0.62rem] font-bold tracking-[0.2em]">
-          <a href="https://twitter.com" target="_blank" rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">TWITTER</a>
-          <a href="https://youtube.com" target="_blank" rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">YOUTUBE</a>
-          <a href="https://discord.com" target="_blank" rel="noopener" class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">DISCORD</a>
+          <a href="https://twitter.com" target="_blank" rel="noopener"
+            class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">TWITTER</a>
+          <a href="https://youtube.com" target="_blank" rel="noopener"
+            class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">YOUTUBE</a>
+          <a href="https://discord.com" target="_blank" rel="noopener"
+            class="rounded-full border border-white/15 px-4 py-2 text-white/60 no-underline hover:border-pill hover:text-pill transition">DISCORD</a>
         </div>
       </div>
       <nav>
@@ -265,6 +764,8 @@
           <a href="/blog" class="no-underline hover:text-pill transition w-fit">Blog</a>
           <a href="/about" class="no-underline hover:text-pill transition w-fit">About</a>
           <a href="/contact" class="no-underline hover:text-pill transition w-fit">Contact</a>
+          <a href="/privacy" class="no-underline hover:text-pill transition w-fit">Privacy Policy</a>
+          <a href="/terms" class="no-underline hover:text-pill transition w-fit">Terms of Service</a>
         </div>
       </nav>
       <nav>
@@ -281,14 +782,18 @@
         <div id="footVideos" class="mt-4 flex flex-col gap-2.5 text-sm font-bold text-white/65">
           <span class="text-white/35 font-mono text-xs font-normal">Loading…</span>
         </div>
-        <a href="/media" class="mt-4 inline-block text-xs font-bold uppercase tracking-widest text-pill no-underline">All media →</a>
+        <a href="/media"
+          class="mt-4 inline-block text-xs font-bold uppercase tracking-widest text-pill no-underline">All media →</a>
       </div>
     </div>
     <div class="border-t border-white/10">
       <div class="max-w-7xl mx-auto px-4 sm:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p class="text-white/40 text-xs tracking-[0.25em] uppercase">&copy; 2026 CypherTech — Welcome to Leonida</p>
-        <p class="font-mono text-[0.65rem] text-white/40">support@cyphertech.online · +91-8105542318</p>
-        <button onclick="scrollTo({top:0,behavior:'smooth'})" class="ghost-btn font-bold text-xs uppercase tracking-widest text-white/60 hover:text-pill border border-white/20 rounded-full px-5 py-2 transition">↑ Top</button>
+        <p class="text-white/40 text-xs tracking-[0.25em] uppercase">&copy; 2026 IGVictory (igvictory.com) · All rights
+          reserved.</p>
+        <p class="font-mono text-[0.65rem] text-white/40">support@igvictory.com</p>
+        <button onclick="scrollTo({top:0,behavior:'smooth'})"
+          class="ghost-btn font-bold text-xs uppercase tracking-widest text-white/60 hover:text-pill border border-white/20 rounded-full px-5 py-2 transition">↑
+          Top</button>
       </div>
     </div>
   </footer>
@@ -297,7 +802,7 @@
       const el = document.getElementById('footVideos');
       if (!el || !s.media || !s.media.videos) return;
       el.innerHTML = s.media.videos.slice(0, 3).map(v => `<a href="/media#/watch/${v.youtubeId}" class="no-underline hover:text-pill transition w-fit">${v.title}</a>`).join('');
-    }).catch(() => {});
+    }).catch(() => { });
   </script>
 
   <script>
@@ -367,7 +872,7 @@
           <span class="rs-thumb"><img src="https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg" srcset="https://i.ytimg.com/vi/${v.youtubeId}/mqdefault.jpg 320w, https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg 480w" sizes="320px" alt="" loading="lazy" decoding="async"><span class="rs-dur">${v.duration}</span></span>
           <span class="rs-body"><span class="rs-title group-hover:text-pill transition">${v.title}</span><span class="rs-date">${v.date}</span></span>
         </a>`).join('');
-    }).catch(() => {});
+    }).catch(() => { });
 
     const ARTS = [
       'from-[#f7b733] via-[#ff2e88] to-[#7b2ff7]',
@@ -379,7 +884,7 @@
     let SHOWCASE = null, G_SHOWN = 6, IGDB_CACHE = null, W_SHOW = 4, E_SHOW = 6;
     const G_STEP = 6, W_STEP = 4, E_STEP = 6;
     async function igdbGet(p) {
-      try { const r = await fetch('/api/igdb/' + p); if (r.ok) return r.json(); } catch (e) {}
+      try { const r = await fetch('/api/igdb/' + p); if (r.ok) return r.json(); } catch (e) { }
       return (await fetch('https://awsec2.onrender.com/api/igdb/' + p)).json();
     }
     function gameHTML(g, i) {
@@ -725,4 +1230,5 @@
     })();
   </script>
 </body>
+
 </html>

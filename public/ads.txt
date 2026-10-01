@@ -1,0 +1,4 @@
+# Google AdSense Authorized Digital Sellers (ads.txt)
+# Domain: igvictory.com
+# Replace pub-0000000000000000 with your actual publisher ID from Google AdSense
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
