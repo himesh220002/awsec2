@@ -6,9 +6,18 @@
       "email": "support@cyphertech.online",
       "phone": "+91-8105542318",
       "socials": [
-        { "name": "Twitter", "href": "https://twitter.com" },
-        { "name": "YouTube", "href": "https://youtube.com" },
-        { "name": "Discord", "href": "https://discord.com" }
+        {
+          "name": "Twitter",
+          "href": "https://twitter.com"
+        },
+        {
+          "name": "YouTube",
+          "href": "https://youtube.com"
+        },
+        {
+          "name": "Discord",
+          "href": "https://discord.com"
+        }
       ]
     }
   },
@@ -17,8 +26,14 @@
     "headline": "Next-Gen Gaming Console",
     "subheadline": "Experience immersive gameplay with cutting-edge performance.",
     "ctas": [
-      { "label": "Explore Console", "href": "/blog" },
-      { "label": "Upcoming Tournaments", "href": "/#events" }
+      {
+        "label": "Explore Console",
+        "href": "/blog"
+      },
+      {
+        "label": "Upcoming Tournaments",
+        "href": "/#events"
+      }
     ]
   },
   "featuredGames": [
@@ -27,7 +42,11 @@
       "title": "GTA 6",
       "desc": "The most anticipated open-world crime saga.",
       "genre": "Open World",
-      "tags": ["Leonida", "Open World", "Story"],
+      "tags": [
+        "Leonida",
+        "Open World",
+        "Story"
+      ],
       "image": "https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920"
     },
     {
@@ -35,7 +54,11 @@
       "title": "Counter-Strike 2",
       "desc": "Tactical FPS with global tournaments.",
       "genre": "Tactical FPS",
-      "tags": ["FPS", "Esports", "5v5"],
+      "tags": [
+        "FPS",
+        "Esports",
+        "5v5"
+      ],
       "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/page_bg_raw.jpg?t=1789251637"
     },
     {
@@ -43,7 +66,11 @@
       "title": "Valorant",
       "desc": "Competitive hero shooter with esports events.",
       "genre": "Hero Shooter",
-      "tags": ["FPS", "Esports", "Heroes"],
+      "tags": [
+        "FPS",
+        "Esports",
+        "Heroes"
+      ],
       "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/1d1a219a5cb25d15b6e9fe2d4a4d2b83d41f0a8f-1920x1080.jpg?accountingTag=VAL&fit=crop&fm=jpg&q=80&h=630&w=1200&crop=center"
     },
     {
@@ -51,7 +78,11 @@
       "title": "PUBG Battlegrounds",
       "desc": "Battle royale survival at its finest.",
       "genre": "Battle Royale",
-      "tags": ["BR", "Survival", "100P"],
+      "tags": [
+        "BR",
+        "Survival",
+        "100P"
+      ],
       "image": "https://wstatic-prod-boc.krafton.com/PUBG_OFFICIAL/20230328/GsanRjfF/Season15_Free_to_Play_Key_Art_A.jpg",
       "watchUrl": "https://www.youtube.com/results?search_query=pubg+official+trailer"
     },
@@ -60,7 +91,11 @@
       "title": "Cities: Skylines II",
       "desc": "City builder with next-gen simulation.",
       "genre": "City Builder",
-      "tags": ["Sim", "Building", "Mods"],
+      "tags": [
+        "Sim",
+        "Building",
+        "Mods"
+      ],
       "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/949230/page_bg_raw.jpg",
       "watchUrl": "https://www.youtube.com/results?search_query=cities+skylines+2+official+trailer"
     },
@@ -69,7 +104,11 @@
       "title": "Forza Horizon 5",
       "desc": "Open-world racing with stunning visuals.",
       "genre": "Racing",
-      "tags": ["Open World", "Cars", "Mexico"],
+      "tags": [
+        "Open World",
+        "Cars",
+        "Mexico"
+      ],
       "image": "https://cdn.forza.net/strapi-uploads/assets/massive_FH_6_S01_Car_Pass_Group_01_16x9_WM_a39e4be2c3.webp",
       "watchUrl": "https://www.youtube.com/results?search_query=forza+horizon+5+official+trailer"
     },
@@ -78,7 +117,11 @@
       "title": "Far Cry 6",
       "desc": "Story-driven FPS in a tropical revolution.",
       "genre": "Story FPS",
-      "tags": ["Story", "FPS", "Yara"],
+      "tags": [
+        "Story",
+        "FPS",
+        "Yara"
+      ],
       "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2369390/64af0c6b70ef233bbdff1e5ffe0e397481efb3c9/header.jpg?t=1790173132",
       "watchUrl": "https://www.youtube.com/results?search_query=far+cry+6+official+trailer"
     },
@@ -87,7 +130,11 @@
       "title": "Story Mode Spotlight",
       "desc": "Immersive narrative-driven adventures.",
       "genre": "Story",
-      "tags": ["Narrative", "Adventure", "Single-Player"],
+      "tags": [
+        "Narrative",
+        "Adventure",
+        "Single-Player"
+      ],
       "image": "https://www.rockstargames.com/VI/_next/static/media/Leonida_Keys_01.0zgz7tveur6y8.jpg",
       "watchUrl": "https://www.youtube.com/results?search_query=gta+6+trailer+2"
     }
@@ -110,8 +157,20 @@
       "prizePool": "Road to Masters",
       "about": "Trident Ignite 2026 lights the BGMI season — challenger squads face invited masters for a road-to-Masters run.",
       "stages": [
-        { "name": "Challengers vs Masters Face-off", "dates": "2026 Season", "region": "India", "slots": "Open + Invite", "status": "live" },
-        { "name": "Road to Masters", "dates": "2026 Season", "region": "India", "slots": "Qualified", "status": "upcoming" }
+        {
+          "name": "Challengers vs Masters Face-off",
+          "dates": "2026 Season",
+          "region": "India",
+          "slots": "Open + Invite",
+          "status": "live"
+        },
+        {
+          "name": "Road to Masters",
+          "dates": "2026 Season",
+          "region": "India",
+          "slots": "Qualified",
+          "status": "upcoming"
+        }
       ]
     },
     {
@@ -130,9 +189,27 @@
       "prizePool": "$10,000",
       "about": "The Valorant Cypher Cup opens its qualifiers online — five-plus-one rosters, three comfort maps and one anti-eco protocol. Preparation beats raw aim at this level.",
       "stages": [
-        { "name": "Open Qualifiers", "dates": "15 Nov 2026", "region": "Online", "slots": "Open", "status": "upcoming" },
-        { "name": "Group Stage", "dates": "TBA", "region": "Online", "slots": "8 teams", "status": "upcoming" },
-        { "name": "Grand Final", "dates": "TBA", "region": "Online", "slots": "2 teams", "status": "upcoming" }
+        {
+          "name": "Open Qualifiers",
+          "dates": "15 Nov 2026",
+          "region": "Online",
+          "slots": "Open",
+          "status": "upcoming"
+        },
+        {
+          "name": "Group Stage",
+          "dates": "TBA",
+          "region": "Online",
+          "slots": "8 teams",
+          "status": "upcoming"
+        },
+        {
+          "name": "Grand Final",
+          "dates": "TBA",
+          "region": "Online",
+          "slots": "2 teams",
+          "status": "upcoming"
+        }
       ]
     },
     {
@@ -151,9 +228,27 @@
       "prizePool": "$25,000",
       "about": "The CS2 Global Clash lands in Mumbai with $25,000 on the line — GSL groups into a single-elimination playoff bracket and a best-of-five grand final.",
       "stages": [
-        { "name": "GSL Group Stage", "dates": "1 Dec 2026", "region": "Mumbai LAN", "slots": "8 teams", "status": "upcoming" },
-        { "name": "Playoffs", "dates": "1 Dec 2026", "region": "Mumbai LAN", "slots": "4 teams", "status": "upcoming" },
-        { "name": "Grand Final — BO5", "dates": "1 Dec 2026", "region": "Mumbai LAN", "slots": "2 teams", "status": "upcoming" }
+        {
+          "name": "GSL Group Stage",
+          "dates": "1 Dec 2026",
+          "region": "Mumbai LAN",
+          "slots": "8 teams",
+          "status": "upcoming"
+        },
+        {
+          "name": "Playoffs",
+          "dates": "1 Dec 2026",
+          "region": "Mumbai LAN",
+          "slots": "4 teams",
+          "status": "upcoming"
+        },
+        {
+          "name": "Grand Final — BO5",
+          "dates": "1 Dec 2026",
+          "region": "Mumbai LAN",
+          "slots": "2 teams",
+          "status": "upcoming"
+        }
       ]
     },
     {
@@ -172,28 +267,110 @@
       "teams": "32",
       "prizePool": "$600,000 + CC points",
       "about": "Counter-Strike 2 at the Esports World Cup 2026 — 32 clubs qualified through regional leagues and rankings, closing with Team Spirit lifting the trophy in Paris.",
-      "winner": { "team": "Team Spirit", "prize": "$600,000", "note": "def. FUT Esports 3-1 · MVP donk · +1,000 CC points" },
+      "winner": {
+        "team": "Team Spirit",
+        "prize": "$600,000",
+        "note": "def. FUT Esports 3-1 · MVP donk · +1,000 CC points"
+      },
       "standings": [
-        { "rank": "1st", "team": "Team Spirit", "prize": "$600,000", "points": "+1,000" },
-        { "rank": "2nd", "team": "FUT Esports", "prize": "$340,000", "points": "+750" },
-        { "rank": "3rd", "team": "Legacy", "prize": "$190,000", "points": "+500" },
-        { "rank": "4th", "team": "FURIA", "prize": "$110,000", "points": "+300" },
-        { "rank": "5th", "team": "Team Vitality · Falcons · MOUZ · G2", "prize": "$60,000", "points": "+200" },
-        { "rank": "9th", "team": "MongolZ · NAVI · Aurora · GamerLegion · Astralis · magic · FaZe · BB", "prize": "$35,000", "points": "–" }
+        {
+          "rank": "1st",
+          "team": "Team Spirit",
+          "prize": "$600,000",
+          "points": "+1,000"
+        },
+        {
+          "rank": "2nd",
+          "team": "FUT Esports",
+          "prize": "$340,000",
+          "points": "+750"
+        },
+        {
+          "rank": "3rd",
+          "team": "Legacy",
+          "prize": "$190,000",
+          "points": "+500"
+        },
+        {
+          "rank": "4th",
+          "team": "FURIA",
+          "prize": "$110,000",
+          "points": "+300"
+        },
+        {
+          "rank": "5th",
+          "team": "Team Vitality · Falcons · MOUZ · G2",
+          "prize": "$60,000",
+          "points": "+200"
+        },
+        {
+          "rank": "9th",
+          "team": "MongolZ · NAVI · Aurora · GamerLegion · Astralis · magic · FaZe · BB",
+          "prize": "$35,000",
+          "points": "–"
+        }
       ],
       "stages": [
-        { "name": "Asian Champions League", "dates": "May 11 — 17", "region": "Asia", "slots": "1 club", "status": "completed" },
-        { "name": "VRS Asia Ranking", "dates": "Jun 2", "region": "Asia", "slots": "2 clubs", "status": "completed" },
-        { "name": "VRS Global Ranking", "dates": "Jun 2", "region": "Global", "slots": "21 clubs", "status": "completed" },
-        { "name": "VRS NA Ranking", "dates": "Jun 2", "region": "Americas", "slots": "2 clubs", "status": "completed" },
-        { "name": "VRS SA Ranking", "dates": "Jun 2", "region": "Americas", "slots": "2 clubs", "status": "completed" },
-        { "name": "EWC Last Chance Qualifier", "dates": "Aug 7 — 8 · Paris", "region": "Paris", "slots": "4 clubs", "status": "completed" }
+        {
+          "name": "Asian Champions League",
+          "dates": "May 11 — 17",
+          "region": "Asia",
+          "slots": "1 club",
+          "status": "completed"
+        },
+        {
+          "name": "VRS Asia Ranking",
+          "dates": "Jun 2",
+          "region": "Asia",
+          "slots": "2 clubs",
+          "status": "completed"
+        },
+        {
+          "name": "VRS Global Ranking",
+          "dates": "Jun 2",
+          "region": "Global",
+          "slots": "21 clubs",
+          "status": "completed"
+        },
+        {
+          "name": "VRS NA Ranking",
+          "dates": "Jun 2",
+          "region": "Americas",
+          "slots": "2 clubs",
+          "status": "completed"
+        },
+        {
+          "name": "VRS SA Ranking",
+          "dates": "Jun 2",
+          "region": "Americas",
+          "slots": "2 clubs",
+          "status": "completed"
+        },
+        {
+          "name": "EWC Last Chance Qualifier",
+          "dates": "Aug 7 — 8 · Paris",
+          "region": "Paris",
+          "slots": "4 clubs",
+          "status": "completed"
+        }
       ],
       "news": [
-        { "title": "Counter-Strike 2 returns to the Esports World Cup in 2027 and 2028", "date": "2026" },
-        { "title": "2026 Esports World Cup in numbers", "date": "2026" },
-        { "title": "Esports World Cup trophy ceremony crowns AG.AL", "date": "2026" },
-        { "title": "Notable stories of EWC 26 — Week 7", "date": "2026" }
+        {
+          "title": "Counter-Strike 2 returns to the Esports World Cup in 2027 and 2028",
+          "date": "2026"
+        },
+        {
+          "title": "2026 Esports World Cup in numbers",
+          "date": "2026"
+        },
+        {
+          "title": "Esports World Cup trophy ceremony crowns AG.AL",
+          "date": "2026"
+        },
+        {
+          "title": "Notable stories of EWC 26 — Week 7",
+          "date": "2026"
+        }
       ]
     },
     {
@@ -212,24 +389,108 @@
       "teams": "1024",
       "prizePool": "₹10,00,000",
       "about": "A grassroots BGMI tournament powered by Krafton India Esports to discover the next generation of talent — 8,000+ registered competitors, 1024 teams.",
-      "winner": { "team": "HEXVORA", "prize": "₹3,50,000", "note": "inaugural champions · Road to BGMS 2026 Grand Finals slot" },
+      "winner": {
+        "team": "HEXVORA",
+        "prize": "₹3,50,000",
+        "note": "inaugural champions · Road to BGMS 2026 Grand Finals slot"
+      },
       "standings": [
-        { "rank": "1", "team": "HEXVORA", "prize": "₹3,50,000", "points": "" },
-        { "rank": "2", "team": "Zero Ark Official", "prize": "₹1,80,000", "points": "" },
-        { "rank": "3", "team": "Team Free Agents", "prize": "₹1,00,000", "points": "" },
-        { "rank": "4", "team": "X4RCE", "prize": "₹60,000", "points": "" },
-        { "rank": "5", "team": "Troy Tamilan eSports", "prize": "₹40,000", "points": "" },
-        { "rank": "6", "team": "TEAM ACS", "prize": "₹40,000", "points": "" },
-        { "rank": "7", "team": "DCxSCR Esports", "prize": "₹40,000", "points": "" },
-        { "rank": "8", "team": "K9Esports", "prize": "₹40,000", "points": "" },
-        { "rank": "9", "team": "ESPORT SOCIAL", "prize": "₹25,000", "points": "" },
-        { "rank": "10", "team": "THUNDER GODS ESPORTS", "prize": "₹25,000", "points": "" },
-        { "rank": "11", "team": "BLD Esports", "prize": "₹25,000", "points": "" },
-        { "rank": "12", "team": "7Gods Esports", "prize": "₹25,000", "points": "" },
-        { "rank": "13", "team": "Santa Godsent", "prize": "₹10,000", "points": "" },
-        { "rank": "14", "team": "Aura X Esports", "prize": "₹10,000", "points": "" },
-        { "rank": "15", "team": "TEAM ERA ESPORTS", "prize": "₹10,000", "points": "" },
-        { "rank": "MVP", "team": "HEXVORA", "prize": "₹10,000", "points": "special award" }
+        {
+          "rank": "1",
+          "team": "HEXVORA",
+          "prize": "₹3,50,000",
+          "points": ""
+        },
+        {
+          "rank": "2",
+          "team": "Zero Ark Official",
+          "prize": "₹1,80,000",
+          "points": ""
+        },
+        {
+          "rank": "3",
+          "team": "Team Free Agents",
+          "prize": "₹1,00,000",
+          "points": ""
+        },
+        {
+          "rank": "4",
+          "team": "X4RCE",
+          "prize": "₹60,000",
+          "points": ""
+        },
+        {
+          "rank": "5",
+          "team": "Troy Tamilan eSports",
+          "prize": "₹40,000",
+          "points": ""
+        },
+        {
+          "rank": "6",
+          "team": "TEAM ACS",
+          "prize": "₹40,000",
+          "points": ""
+        },
+        {
+          "rank": "7",
+          "team": "DCxSCR Esports",
+          "prize": "₹40,000",
+          "points": ""
+        },
+        {
+          "rank": "8",
+          "team": "K9Esports",
+          "prize": "₹40,000",
+          "points": ""
+        },
+        {
+          "rank": "9",
+          "team": "ESPORT SOCIAL",
+          "prize": "₹25,000",
+          "points": ""
+        },
+        {
+          "rank": "10",
+          "team": "THUNDER GODS ESPORTS",
+          "prize": "₹25,000",
+          "points": ""
+        },
+        {
+          "rank": "11",
+          "team": "BLD Esports",
+          "prize": "₹25,000",
+          "points": ""
+        },
+        {
+          "rank": "12",
+          "team": "7Gods Esports",
+          "prize": "₹25,000",
+          "points": ""
+        },
+        {
+          "rank": "13",
+          "team": "Santa Godsent",
+          "prize": "₹10,000",
+          "points": ""
+        },
+        {
+          "rank": "14",
+          "team": "Aura X Esports",
+          "prize": "₹10,000",
+          "points": ""
+        },
+        {
+          "rank": "15",
+          "team": "TEAM ERA ESPORTS",
+          "prize": "₹10,000",
+          "points": ""
+        },
+        {
+          "rank": "MVP",
+          "team": "HEXVORA",
+          "prize": "₹10,000",
+          "points": "special award"
+        }
       ]
     },
     {
@@ -249,12 +510,33 @@
       "prizePool": "TBA",
       "about": "The next edition of the Esports World Cup returns to Riyadh — multi-title festival with the Club Championship on the line. Counter-Strike 2 is confirmed for 2027 and 2028.",
       "stages": [
-        { "name": "Road to EWC — Rankings", "dates": "2027 Season", "region": "Global", "slots": "TBA", "status": "upcoming" },
-        { "name": "Last Chance Qualifier", "dates": "2027", "region": "TBA", "slots": "TBA", "status": "upcoming" },
-        { "name": "Main Event", "dates": "July — August 2027", "region": "Riyadh", "slots": "TBA", "status": "upcoming" }
+        {
+          "name": "Road to EWC — Rankings",
+          "dates": "2027 Season",
+          "region": "Global",
+          "slots": "TBA",
+          "status": "upcoming"
+        },
+        {
+          "name": "Last Chance Qualifier",
+          "dates": "2027",
+          "region": "TBA",
+          "slots": "TBA",
+          "status": "upcoming"
+        },
+        {
+          "name": "Main Event",
+          "dates": "July — August 2027",
+          "region": "Riyadh",
+          "slots": "TBA",
+          "status": "upcoming"
+        }
       ],
       "news": [
-        { "title": "Counter-Strike 2 returns to the Esports World Cup in 2027 and 2028", "date": "2026" }
+        {
+          "title": "Counter-Strike 2 returns to the Esports World Cup in 2027 and 2028",
+          "date": "2026"
+        }
       ]
     },
     {
@@ -392,22 +674,71 @@
       }
     ],
     "screenshots": [
-      { "title": "Leonida Poster", "tag": "GTA VI", "url": "https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920" },
-      { "title": "Vice City Nights", "tag": "GTA VI", "url": "https://www.rockstargames.com/VI/_next/static/media/trailer-2.0l.7aqib91fz6.jpg?akim=1&imdensity=1&imwidth=1920" },
-      { "title": "Leonida Keys", "tag": "GTA VI", "url": "https://www.rockstargames.com/VI/_next/static/media/trailer-1.06b6paykx247w.jpg?akim=1&imdensity=1&imwidth=1920" },
-      { "title": "Jett Ascent", "tag": "Valorant", "url": "/images/posters/China_CG_Jett_Jump_Full.jpg" },
-      { "title": "Haven Overlook", "tag": "Valorant", "url": "/images/posters/China_CG_Haven_Overlook.jpg" },
-      { "title": "Jett Dark", "tag": "Valorant", "url": "/images/posters/VALORANT_Jett_Dark.jpg" },
-      { "title": "Launch Key Visual", "tag": "Valorant", "url": "/images/posters/Valorant_Launch_KV_424_designpass_F.jpg" },
-      { "title": "Header Art", "tag": "CS2", "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/162664aa5da85f418105350c5d67ca565f6c3713/header.jpg?t=1789251637" }
+      {
+        "title": "Leonida Poster",
+        "tag": "GTA VI",
+        "url": "https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920"
+      },
+      {
+        "title": "Vice City Nights",
+        "tag": "GTA VI",
+        "url": "https://www.rockstargames.com/VI/_next/static/media/trailer-2.0l.7aqib91fz6.jpg?akim=1&imdensity=1&imwidth=1920"
+      },
+      {
+        "title": "Leonida Keys",
+        "tag": "GTA VI",
+        "url": "https://www.rockstargames.com/VI/_next/static/media/trailer-1.06b6paykx247w.jpg?akim=1&imdensity=1&imwidth=1920"
+      },
+      {
+        "title": "Jett Ascent",
+        "tag": "Valorant",
+        "url": "/images/posters/China_CG_Jett_Jump_Full.jpg"
+      },
+      {
+        "title": "Haven Overlook",
+        "tag": "Valorant",
+        "url": "/images/posters/China_CG_Haven_Overlook.jpg"
+      },
+      {
+        "title": "Jett Dark",
+        "tag": "Valorant",
+        "url": "/images/posters/VALORANT_Jett_Dark.jpg"
+      },
+      {
+        "title": "Launch Key Visual",
+        "tag": "Valorant",
+        "url": "/images/posters/Valorant_Launch_KV_424_designpass_F.jpg"
+      },
+      {
+        "title": "Header Art",
+        "tag": "CS2",
+        "url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/162664aa5da85f418105350c5d67ca565f6c3713/header.jpg?t=1789251637"
+      }
     ],
     "artwork": [
-      { "title": "Leonida Key Art", "sizes": "1 size", "url": "https://www.rockstargames.com/VI/-/opengraph-image.jpg?opengraph-image.0t8ty~nlmxq2s.jpg" },
-      { "title": "Sage Fire", "sizes": "1 size", "url": "/images/posters/China_CG_Sagefire_Full.jpg" },
-      { "title": "Omen Dark", "sizes": "1 size", "url": "/images/posters/VALORANT_Omen_Dark.jpg" }
+      {
+        "title": "Leonida Key Art",
+        "sizes": "1 size",
+        "url": "https://www.rockstargames.com/VI/-/opengraph-image.jpg?opengraph-image.0t8ty~nlmxq2s.jpg"
+      },
+      {
+        "title": "Sage Fire",
+        "sizes": "1 size",
+        "url": "/images/posters/China_CG_Sagefire_Full.jpg"
+      },
+      {
+        "title": "Omen Dark",
+        "sizes": "1 size",
+        "url": "/images/posters/VALORANT_Omen_Dark.jpg"
+      }
     ]
   },
-  "categories": ["News", "Esports", "Guides", "Reviews"],
+  "categories": [
+    "News",
+    "Esports",
+    "Guides",
+    "Reviews"
+  ],
   "blogs": [
     {
       "id": 1,
@@ -416,7 +747,11 @@
       "date": "2026-09-20",
       "author": "CypherTech Editorial",
       "category": "News",
-      "tags": ["GTA 6", "Leonida", "Open World"],
+      "tags": [
+        "GTA 6",
+        "Leonida",
+        "Open World"
+      ],
       "excerpt": "Explore leaks, trailers, and gameplay expectations.",
       "image": "https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920",
       "content": "Every trailer frame of GTA 6 has been dissected by the community, and the picture is getting clearer: a Leonida state twice as dense as anything before it, dual protagonists, and a world that reacts to your reputation street by street. Rockstar's trailers confirm the Vice City return alongside new swampland and Keys-inspired regions. Expect the launch conversation to be dominated by performance modes on console — fidelity versus 60fps — and by how the online component evolves from GTA Online's decade-long run. Our advice: watch the second trailer shot by shot, keep expectations measured on the map size rumors, and get your backlog cleared before November."
@@ -428,7 +763,11 @@
       "date": "2026-09-25",
       "author": "CypherTech Editorial",
       "category": "Esports",
-      "tags": ["Valorant", "Esports", "VCT"],
+      "tags": [
+        "Valorant",
+        "Esports",
+        "VCT"
+      ],
       "excerpt": "How Valorant became a global competitive phenomenon.",
       "image": "/images/posters/opt/Valorant_Launch_KV_424_designpass_F-1024.jpg",
       "content": "Valorant's rise from 2020 launch to sold-out arenas took barely five years, powered by Riot's franchised VCT leagues across four international regions. The formula worked: a readable spectator client, agent abilities that create highlight moments without obscuring gunplay, and a Challengers path that keeps grassroots scenes alive from Mumbai to Berlin. Viewership now rivals the biggest tactical shooters every Masters event, and sponsor money follows the eyeballs. The next growth lever is mobile and console audiences feeding back into the PC scene. If you run a collegiate or city-level event, this is the title with the deepest amateur-to-pro funnel right now."
@@ -440,7 +779,12 @@
       "date": "2026-11-28",
       "author": "CypherTech Editorial",
       "category": "Esports",
-      "tags": ["CS2", "LAN", "Mumbai", "Tournament"],
+      "tags": [
+        "CS2",
+        "LAN",
+        "Mumbai",
+        "Tournament"
+      ],
       "excerpt": "Everything to watch at the $25,000 Mumbai LAN showdown.",
       "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/162664aa5da85f418105350c5d67ca565f6c3713/header.jpg?t=1789251637",
       "content": "The CS2 Global Clash lands in Mumbai on December 1 with $25,000 on the line and eight squads fighting through a GSL group stage into single-elimination playoffs. LAN CS2 plays differently: sub-tick movement rewards disciplined crosshair placement, and the new lighting on overhauled maps punishes lazy angles. Watch for the Indian qualifiers — home-crowd energy has historically lifted underdogs into deep runs. Doors open at 10 AM with the showmatch at noon, and the grand final is a best-of-five under arena lights. Our pick: experience over aim, but never count out a hot AWPer on LAN."
@@ -452,7 +796,11 @@
       "date": "2026-11-10",
       "author": "CypherTech Editorial",
       "category": "Guides",
-      "tags": ["Valorant", "Guide", "Qualifier"],
+      "tags": [
+        "Valorant",
+        "Guide",
+        "Qualifier"
+      ],
       "excerpt": "How to prep, register, and survive the open qualifiers.",
       "image": "/images/posters/opt/China_CG_A2_Full-1024.jpg",
       "content": "The Valorant Cypher Cup opens its qualifiers online on November 15, and preparation beats raw aim at this level. Start with the admin pack: stable roster of five plus one substitute, every account in good standing, and voice comms tested a week early — most qualifier forfeits are tech issues, not losses. In-game, drill your map pool down to three comfort picks and a single anti-eco protocol your whole team can call blind. Review one VOD per map focusing only on round-one setups and timeout usage. On match day, warm up with thirty minutes of deathmatch, lock your agents early, and treat every timeout as a reset button. Qualifiers reward the disciplined, not the flashy."

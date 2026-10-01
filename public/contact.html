@@ -112,7 +112,10 @@
       }
     }
 
-    /* #wipe { transition: transform .38s cubic-bezier(.7,0,.3,1); } */
+    #wipe {
+      transition: transform .38s cubic-bezier(.7, 0, .3, 1);
+    }
+
     .logo-text {
       background: linear-gradient(90deg, #ff2e88, #00e5ff);
       -webkit-background-clip: text;
@@ -277,8 +280,11 @@
     <p class="font-mono text-[0.6rem] tracking-[0.4em] text-white/40">BOOTING LEONIDA…</p>
   </div>
   <div id="wipe"
-    class="fixed inset-0 z-[90] bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#12121c] pointer-events-none"
-    style="transform:translateY(100%)"></div>
+    class="fixed inset-0 z-[90] bg-gradient-to-br from-[#000] via-[#00003d] to-[#12121c] pointer-events-none"
+    style="transform:translateY(100%)">
+    <img src="/images/nobglogo.svg" alt="" aria-hidden="true"
+      class="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-25 mix-blend-screen select-none">
+  </div>
 
   <svg width="0" height="0" class="absolute" aria-hidden="true">
     <symbol id="palm" viewBox="0 0 100 140">

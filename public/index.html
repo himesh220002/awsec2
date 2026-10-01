@@ -194,7 +194,7 @@
     }
 
     #loader {
-      transition: opacity .5s ease;
+      transition: opacity 0.5s ease;
     }
 
     #loadbar {
@@ -211,7 +211,10 @@
       }
     }
 
-    /* #wipe { transition: transform .38s cubic-bezier(.7,0,.3,1); } */
+    #wipe {
+      transition: transform .38s cubic-bezier(.7, 0, .3, 1);
+    }
+
     .logo-text {
       background: linear-gradient(90deg, #ff2e88, #00e5ff);
       -webkit-background-clip: text;
@@ -359,8 +362,11 @@
     <p class="font-mono text-[0.6rem] tracking-[0.4em] text-white/40">BOOTING LEONIDA…</p>
   </div>
   <div id="wipe"
-    class="fixed inset-0 z-[90] bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#12121c] pointer-events-none"
-    style="transform:translateY(100%)"></div>
+    class="fixed inset-0 z-[90] bg-gradient-to-br from-[#000] via-[#00003d] to-[#12121c] pointer-events-none"
+    style="transform:translateY(100%)">
+    <img src="/images/nobglogo.svg" alt="" aria-hidden="true"
+      class="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-25 mix-blend-screen select-none">
+  </div>
 
   <svg width="0" height="0" class="absolute" aria-hidden="true">
     <symbol id="palm" viewBox="0 0 100 140">
@@ -577,8 +583,8 @@
 
       <div class="mt-12 grid gap-8 md:grid-cols-2">
         <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
-          <h3 class="font-bold text-xl text-pill flex items-center gap-2">
-            <span>//</span> Real-Time Twitch Live Streams & VOD Archives
+          <h3 class="font-bold text-2xl text-vice-pink flex items-center gap-2">
+            <span>//</span> Real-Time Twitch Live Streams & VOD
           </h3>
           <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
             At IGV, our intelligent Twitch relay connects the Twitch Helix API directly to your screen. Track live
@@ -593,7 +599,7 @@
         </div>
 
         <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
-          <h3 class="font-bold text-xl text-vice-cyan flex items-center gap-2">
+          <h3 class="font-bold text-2xl text-vice-pink flex items-center gap-2">
             <span>//</span> Dynamic Search & Broadcaster Discovery
           </h3>
           <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
@@ -610,7 +616,7 @@
         </div>
 
         <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
-          <h3 class="font-bold text-xl text-cream flex items-center gap-2">
+          <h3 class="font-bold text-2xl text-vice-pink flex items-center gap-2">
             <span>//</span> Vice City & Leonida: The GTA VI Dispatch
           </h3>
           <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
@@ -626,8 +632,8 @@
         </div>
 
         <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
-          <h3 class="font-bold text-xl text-vice-pink flex items-center gap-2">
-            <span>//</span> Zero Paywalls, Pure Performance, 100% Free
+          <h3 class="font-bold text-2xl text-vice-pink flex items-center gap-2">
+            <span>//</span>Pure Performance
           </h3>
           <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
             IGV was designed with a performance-first mindset. Built with lightweight semantic markup, ultra-crisp SVG
@@ -974,7 +980,7 @@
             ${statusPill(ev.status)}
             <span class="text-white/40 uppercase">${ev.source || 'House Event'} · ${ev.game}</span>
           </div>
-          <h2 class="mt-4 font-cond font-semibold uppercase text-cream leading-[0.95] text-[clamp(2.2rem,7vw,4.5rem)]">${ev.name}</h2>
+          <h2 class="mt-4 font-cond font-semibold uppercase text-cream leading-[0.95] text-[clamp(1rem,1.5rem,2rem)]">${ev.name}</h2>
           <p class="mt-3 font-mono text-xs sm:text-sm text-white/60">◷ ${ev.date} &nbsp;·&nbsp; ◈ ${ev.location} &nbsp;·&nbsp; ◆ ${ev.prize}${ev.format ? ` &nbsp;·&nbsp; ${ev.format}` : ''}</p>
           ${ev.desc ? `<p class="mt-3 text-white/70 text-sm sm:text-base max-w-2xl">${ev.desc}</p>` : ''}
           <div class="mt-6 flex flex-wrap gap-3"><a href="#/event/0" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline">Full Details →</a>${eventCTA(ev)}</div>
