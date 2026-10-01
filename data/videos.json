@@ -1,0 +1,55 @@
+[
+  {
+    "_id": "vmupf5w9ifqa2h",
+    "title": "valorant Ticking away",
+    "type": "s3",
+    "sourceUrl": "/api/videos/stream?key=igv_videos%2F1790852157033_valorant_Ticking_away.mp4",
+    "fileKey": "igv_videos/1790852157033_valorant_Ticking_away.mp4",
+    "youtubeId": null,
+    "thumbnail": "/images/posters/poster_full.0az_iud2g3y4j.jpg",
+    "isAssignedTo": "home_gameplay",
+    "uploadedAt": "2026-10-01T10:56:43.926Z",
+    "placements": [
+      "home_gameplay",
+      "media_page"
+    ]
+  },
+  {
+    "_id": "vmupeli05eakaf",
+    "title": "Counter-Strike: Global Offensive Trailer",
+    "type": "youtube",
+    "sourceUrl": "https://www.youtube-nocookie.com/embed/edYCtaNueQY",
+    "fileKey": null,
+    "youtubeId": "edYCtaNueQY",
+    "thumbnail": "https://i.ytimg.com/vi/edYCtaNueQY/hqdefault.jpg",
+    "isAssignedTo": "home_trailer",
+    "uploadedAt": "2026-10-01T10:40:52.325Z",
+    "placements": [
+      "home_trailer"
+    ]
+  },
+  {
+    "_id": "v1",
+    "title": "GTA VI — Official Reveal Trailer 1",
+    "type": "youtube",
+    "sourceUrl": "https://www.youtube-nocookie.com/embed/QdBZY2fkU-0",
+    "youtubeId": "QdBZY2fkU-0",
+    "thumbnail": "https://i.ytimg.com/vi/QdBZY2fkU-0/hqdefault.jpg",
+    "isAssignedTo": "media_page",
+    "uploadedAt": "2026-10-01T00:00:00Z",
+    "placements": [
+      "media_page"
+    ]
+  },
+  {
+    "_id": "v2",
+    "title": "GTA VI — Vice City Gameplay Dispatch",
+    "type": "youtube",
+    "sourceUrl": "https://www.youtube-nocookie.com/embed/QdBZY2fkU-0",
+    "youtubeId": "QdBZY2fkU-0",
+    "thumbnail": "https://i.ytimg.com/vi/QdBZY2fkU-0/hqdefault.jpg",
+    "isAssignedTo": "none",
+    "uploadedAt": "2026-10-01T00:00:00Z",
+    "placements": []
+  }
+]

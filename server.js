@@ -2,6 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const compression = require('compression');
 const path = require('path');
+const multer = require('multer');
+const videoManager = require('./services/videoManager');
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 500 * 1024 * 1024 } // 500MB max file size
+});
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -69,6 +76,217 @@ app.get('/privacy', (req, res) => {
 
 app.get('/terms', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'terms.html'));
+});
+
+app.get('/videoadmin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'videoadmin.html'));
+});
+
+// Admin Authentication Middleware
+function requireAdminAuth(req, res, next) {
+  const password = req.headers['x-admin-password'] || req.query.password || (req.body && req.body.password);
+  const expected = process.env.VIDEO_ADMIN_PASSWORD || 'heyvideo';
+  if (password === expected) {
+    return next();
+  }
+  return res.status(401).json({ error: 'Unauthorized: invalid admin password' });
+}
+
+// Public Media Placement API
+app.get('/api/videos/active', async (req, res) => {
+  try {
+    const placement = req.query.placement || 'all';
+    const active = await videoManager.getActivePlacement(placement);
+    res.set('Cache-Control', 'public, max-age=10, stale-while-revalidate=30');
+    res.json(active);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/videos', async (req, res) => {
+  try {
+    const list = await videoManager.getAllVideos();
+    res.json(list);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// S3 & Local Video Stream Proxy with HTTP 206 Partial Content Chunked Retrieval
+app.get('/api/videos/stream', async (req, res) => {
+  try {
+    const key = req.query.key;
+    if (!key) return res.status(400).send('Missing key query parameter');
+    await videoManager.streamVideoChunk(key, req, res);
+  } catch (err) {
+    console.error('Video stream error:', err);
+    if (!res.headersSent) res.status(500).send(err.message);
+  }
+});
+
+// Direct assignment route (handles multiple placement selections or single toggle)
+app.post('/api/videos/assign', async (req, res) => {
+  try {
+    const { videoId, placements, targetPlacement, placement, toggle } = req.body || {};
+    if (!videoId) {
+      return res.status(400).json({ error: 'videoId is required' });
+    }
+    const target = placements !== undefined ? placements : (targetPlacement || placement);
+    const updated = await videoManager.assignVideoPlacement(videoId, target, { toggle });
+    res.status(200).json({ success: true, message: 'Placements updated successfully!', video: updated });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Admin Video API Endpoints
+app.post('/api/admin/login', (req, res) => {
+  const { password } = req.body || {};
+  const expected = process.env.VIDEO_ADMIN_PASSWORD || 'heyvideo';
+  if (password === expected) {
+    res.json({ success: true, message: 'Authenticated successfully' });
+  } else {
+    res.status(401).json({ error: 'Invalid admin password' });
+  }
+});
+
+app.get('/api/admin/videos', requireAdminAuth, async (req, res) => {
+  try {
+    const videos = await videoManager.getAllVideos();
+    res.json({
+      videos,
+      s3Config: videoManager.getS3Config(),
+      dbStatus: videoManager.getDbStatus()
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Upload Video + Optional Custom Thumbnail
+const videoUploadFields = upload.fields([
+  { name: 'videoFile', maxCount: 1 },
+  { name: 'thumbFile', maxCount: 1 }
+]);
+
+app.post('/api/admin/videos/upload', requireAdminAuth, videoUploadFields, async (req, res) => {
+  try {
+    const videoFile = req.files && req.files.videoFile ? req.files.videoFile[0] : null;
+    const thumbFile = req.files && req.files.thumbFile ? req.files.thumbFile[0] : null;
+
+    if (!videoFile) {
+      return res.status(400).json({ error: 'No video file provided' });
+    }
+
+    const title = req.body.title || videoFile.originalname;
+    const uploadResult = await videoManager.uploadMediaFile(videoFile.buffer, videoFile.originalname, videoFile.mimetype);
+
+    // Process custom thumbnail if uploaded or provided as URL
+    let finalThumbnail = req.body.thumbnailUrl || null;
+    if (thumbFile) {
+      finalThumbnail = await videoManager.uploadImageFile(thumbFile.buffer, thumbFile.originalname, thumbFile.mimetype);
+    }
+    if (!finalThumbnail) {
+      finalThumbnail = '/images/posters/poster_full.0az_iud2g3y4j.jpg';
+    }
+
+    // Process initial placements
+    let placements = [];
+    if (req.body.placements) {
+      try {
+        placements = typeof req.body.placements === 'string' ? JSON.parse(req.body.placements) : req.body.placements;
+      } catch (e) {
+        placements = [req.body.placements];
+      }
+    }
+
+    const newVideo = await videoManager.addVideo({
+      title,
+      type: uploadResult.type,
+      sourceUrl: uploadResult.sourceUrl,
+      fileKey: uploadResult.fileKey,
+      thumbnail: finalThumbnail,
+      placements
+    });
+
+    res.status(201).json({ success: true, video: newVideo, s3Used: uploadResult.s3Used });
+  } catch (err) {
+    console.error('Video upload error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Set or Update Thumbnail on Existing Video
+app.post('/api/admin/videos/:id/thumbnail', requireAdminAuth, upload.single('thumbFile'), async (req, res) => {
+  try {
+    const fileBuffer = req.file ? req.file.buffer : null;
+    const originalName = req.file ? req.file.originalname : null;
+    const mimeType = req.file ? req.file.mimetype : null;
+    const thumbnailUrl = req.body.thumbnailUrl || null;
+
+    const updated = await videoManager.updateVideoThumbnail(req.params.id, {
+      thumbnailUrl,
+      fileBuffer,
+      originalName,
+      mimeType
+    });
+
+    res.json({ success: true, message: 'Thumbnail updated successfully!', video: updated });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.post('/api/admin/videos/youtube', requireAdminAuth, async (req, res) => {
+  try {
+    const { title, url, thumbnailUrl, placements } = req.body || {};
+    if (!url) return res.status(400).json({ error: 'YouTube URL is required' });
+    const parsed = videoManager.parseYouTubeUrl(url);
+    if (!parsed) return res.status(400).json({ error: 'Invalid YouTube URL' });
+
+    let pArray = [];
+    if (Array.isArray(placements)) pArray = placements;
+    else if (typeof placements === 'string') {
+      try { pArray = JSON.parse(placements); } catch (e) { pArray = [placements]; }
+    }
+
+    const newVideo = await videoManager.addVideo({
+      title: title || 'YouTube Video',
+      type: 'youtube',
+      sourceUrl: parsed.embedUrl,
+      youtubeId: parsed.youtubeId,
+      thumbnail: thumbnailUrl || parsed.thumbnail,
+      placements: pArray
+    });
+    res.status(201).json({ success: true, video: newVideo });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/admin/videos/assign', requireAdminAuth, async (req, res) => {
+  try {
+    const { videoId, placements, targetPlacement, placement, toggle } = req.body || {};
+    if (!videoId) {
+      return res.status(400).json({ error: 'videoId is required' });
+    }
+    const target = placements !== undefined ? placements : (targetPlacement || placement);
+    const updated = await videoManager.assignVideoPlacement(videoId, target, { toggle });
+    res.json({ success: true, video: updated, message: 'Placements updated successfully!' });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.delete('/api/admin/videos/:id', requireAdminAuth, async (req, res) => {
+  try {
+    const deleted = await videoManager.deleteVideo(req.params.id);
+    if (!deleted) return res.status(404).json({ error: 'Video not found' });
+    res.json({ success: true, message: 'Video deleted successfully', video: deleted });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.get('/api/posts', (req, res) => {

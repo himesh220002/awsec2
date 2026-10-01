@@ -407,6 +407,7 @@
     .line-clamp-2 {
       display: -webkit-box;
       -webkit-line-clamp: 2;
+      line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -772,7 +773,7 @@
   <!-- watch detail -->
   <div id="watchDetail" class="hidden">
     <section class="bg-black">
-      <div class="max-w-[1800px] mx-auto px-4 py-8 sm:py-20">
+      <div class="max-w-7xl mx-auto px-4 py-8 sm:py-20">
         <button onclick="closeWatch()" class="ghost-btn font-bold text-sm text-white/70 hover:text-pill mb-4">← Back |
           Watch</button>
         <div id="detailPlayer" class="overflow-hidden rounded-[20px] border border-white/10 bg-inkdeep"></div>
@@ -1098,46 +1099,60 @@
 
     /* ---------- Rockstar-exact video cards ---------- */
     function videoCard(v) {
+      const vidKey = v.youtubeId || v._id;
+      const thumbHtml = v.type === 's3'
+        ? `<img src="${v.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg'}" alt="${(v.title || '').replace(/"/g, '')}" class="w-full h-full object-cover">`
+        : ytThumb(v.youtubeId, v.title);
       const badge18 = v.ageRestricted ? '<span class="rs-badge18">18+</span>' : '';
       const game = v.game ? `<span class="rs-game">${v.game}</span>` : '';
+      const s3Tag = v.type === 's3' ? '<span class="rs-badge18 !bg-vice-cyan/20 !border-vice-cyan !text-vice-cyan">S3 / MP4</span>' : '';
       return `
       <article class="rs-card">
-        <a href="#/watch/${v.youtubeId}" data-watch="${v.youtubeId}" class="block no-underline">
+        <a href="#/watch/${vidKey}" data-watch="${vidKey}" class="block no-underline">
           <span class="rs-thumb block">
-            ${ytThumb(v.youtubeId, v.title)}
+            ${thumbHtml}
             <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/95 flex items-center justify-center"><span class="text-inkdeep text-xl font-black pl-0.5">▶</span></span>
-            <span class="rs-dur">${v.duration}</span>
+            <span class="rs-dur">${v.duration || 'PLAY'}</span>
           </span>
         </a>
         <div class="rs-body">
-          <div class="flex items-center gap-2 flex-wrap">${game}</div>
-          <a href="#/watch/${v.youtubeId}" data-watch="${v.youtubeId}" class="rs-title no-underline hover:text-pill transition block mt-1">${v.title}${badge18}</a>
-          <p class="rs-date">${v.date}${v.channel ? ' · ' + v.channel : ''}</p>
+          <div class="flex items-center gap-2 flex-wrap">${game}${s3Tag}</div>
+          <a href="#/watch/${vidKey}" data-watch="${vidKey}" class="rs-title no-underline hover:text-pill transition block mt-1">${v.title}${badge18}</a>
+          <p class="rs-date">${v.date || 'Vault Broadcast'}${v.channel ? ' · ' + v.channel : ''}</p>
         </div>
       </article>`;
     }
     function menuCard(v) {
+      const vidKey = v.youtubeId || v._id;
+      const thumbHtml = v.type === 's3'
+        ? `<img src="${v.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg'}" alt="${(v.title || '').replace(/"/g, '')}" class="w-full h-full object-cover">`
+        : ytThumb(v.youtubeId, v.title);
       return `
-        <a href="/media#/watch/${v.youtubeId}" class="rs-card block no-underline group">
+        <a href="/media#/watch/${vidKey}" class="rs-card block no-underline group">
           <span class="rs-thumb block">
-            ${ytThumb(v.youtubeId, v.title)}
-            <span class="rs-dur">${v.duration}</span>
+            ${thumbHtml}
+            <span class="rs-dur">${v.duration || 'PLAY'}</span>
           </span>
           <span class="rs-body block">
             <span class="rs-title block group-hover:text-pill transition">${v.title}</span>
-            <span class="rs-date block">${v.date}</span>
+            <span class="rs-date block">${v.date || 'Vault Broadcast'}</span>
           </span>
         </a>`;
     }
 
     function renderLibrary(m) {
       const v0 = m.videos[0];
-      document.getElementById('featurePlayer').innerHTML = embed(v0.youtubeId, false);
+      if (v0.type === 's3') {
+        document.getElementById('featurePlayer').innerHTML = `<video src="${v0.sourceUrl}" class="w-full aspect-video object-cover" controls controlsList="nodownload" preload="metadata" poster="${v0.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg'}"></video>`;
+      } else {
+        document.getElementById('featurePlayer').innerHTML = embed(v0.youtubeId, false);
+      }
       document.getElementById('featureTitle').textContent = v0.title;
-      document.getElementById('featureDate').textContent = (v0.game ? v0.game + '  ·  ' : '') + v0.date + '  ·  ' + v0.duration;
-      document.getElementById('featureYT').href = 'https://www.youtube.com/watch?v=' + v0.youtubeId;
+      document.getElementById('featureDate').textContent = (v0.game ? v0.game + '  ·  ' : '') + (v0.date || 'Active Broadcast') + (v0.duration ? '  ·  ' + v0.duration : '');
+      document.getElementById('featureYT').href = v0.type === 's3' ? v0.sourceUrl : ('https://www.youtube.com/watch?v=' + v0.youtubeId);
       const frs = document.getElementById('featureRS');
       if (v0.rockstarUrl) { frs.href = v0.rockstarUrl; frs.classList.remove('hidden'); }
+      else { frs.classList.add('hidden'); }
       document.getElementById('featureAgeNote').classList.toggle('hidden', !v0.ageRestricted);
       document.getElementById('videoCount').textContent = m.videos.length + ' FILES';
       document.getElementById('shotCount').textContent = m.screenshots.length + ' FILES';
@@ -1713,16 +1728,20 @@
     }
 
     function openWatch(id, skipGate) {
-      const v = (MEDIA.videos || []).find(x => x.youtubeId === id) || MEDIA.videos[0];
-      if (!skipGate && needsGate(v)) { openAgeGate(v.youtubeId); return; }
+      const v = (MEDIA.videos || []).find(x => x.youtubeId === id || String(x._id) === String(id)) || MEDIA.videos[0];
+      if (!skipGate && needsGate(v)) { openAgeGate(v.youtubeId || v._id); return; }
       document.getElementById('library').classList.add('hidden');
       const wd = document.getElementById('watchDetail');
       wd.classList.remove('hidden');
-      document.getElementById('detailPlayer').innerHTML = embed(v.youtubeId, true);
+      if (v.type === 's3') {
+        document.getElementById('detailPlayer').innerHTML = `<video src="${v.sourceUrl}" class="w-full aspect-video object-cover" controls controlsList="nodownload" preload="metadata" autoplay poster="${v.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg'}"></video>`;
+      } else {
+        document.getElementById('detailPlayer').innerHTML = embed(v.youtubeId, true);
+      }
       document.getElementById('detailTitle').textContent = v.title;
-      document.getElementById('detailDate').textContent = (v.game ? v.game + '  ·  ' : '') + v.date + '  ·  ' + v.duration;
-      document.getElementById('detailDesc').textContent = 'Captured from official channels — streaming here via YouTube embed. ' + v.title + ' originally premiered ' + v.date + '.' + (v.ageRestricted ? ' YouTube age-gates this trailer: if the player says “age-restricted”, continue on YouTube (DOB / sign-in) or Rockstar.' : '');
-      const yt = 'https://www.youtube.com/watch?v=' + v.youtubeId;
+      document.getElementById('detailDate').textContent = (v.game ? v.game + '  ·  ' : '') + (v.date || 'Active Broadcast') + (v.duration ? '  ·  ' + v.duration : '');
+      document.getElementById('detailDesc').textContent = 'Captured from official channels — streaming here via ' + (v.type === 's3' ? 'high-definition storage' : 'YouTube embed') + '. ' + v.title + ' originally premiered ' + (v.date || 'recently') + '.' + (v.ageRestricted ? ' YouTube age-gates this trailer: if the player says “age-restricted”, continue on YouTube (DOB / sign-in) or Rockstar.' : '');
+      const yt = v.type === 's3' ? v.sourceUrl : ('https://www.youtube.com/watch?v=' + v.youtubeId);
       document.getElementById('detailYT').href = yt;
       document.getElementById('detailYT2').href = yt;
       const rs = document.getElementById('detailRS'), rs2 = document.getElementById('detailRS2');
@@ -1730,7 +1749,7 @@
       else { rs.classList.add('hidden'); rs2.classList.add('hidden'); }
       document.getElementById('ageFallback').classList.toggle('hidden', !v.ageRestricted);
       document.getElementById('detailVerified').classList.toggle('hidden', !(v.ageRestricted && isVerified()));
-      document.getElementById('moreGrid').innerHTML = MEDIA.videos.filter(x => x.youtubeId !== v.youtubeId).map(videoCard).join('');
+      document.getElementById('moreGrid').innerHTML = MEDIA.videos.filter(x => (x.youtubeId || x._id) !== (v.youtubeId || v._id)).map(videoCard).join('');
       bindWatchLinks();
       requestAnimationFrame(() => {
         const dp = document.getElementById('detailPlayer');
@@ -1849,13 +1868,75 @@
       }, 10000);
     }
 
-    fetch('/api/showcase').then(r => r.json()).then(s => {
+    Promise.all([
+      fetch('/api/showcase').then(r => r.json()),
+      fetch('/api/videos/active?placement=all').then(r => r.ok ? r.json() : null).catch(() => null)
+    ]).then(([s, dbMedia]) => {
       MEDIA = s.media; SHOWCASE = s;
-      renderLibrary(s.media);
+      if (dbMedia && MEDIA && Array.isArray(MEDIA.videos)) {
+        const dynamicVideos = [];
+        if (dbMedia.home_trailer) {
+          dynamicVideos.push({
+            _id: dbMedia.home_trailer._id,
+            title: dbMedia.home_trailer.title,
+            type: dbMedia.home_trailer.type,
+            sourceUrl: dbMedia.home_trailer.sourceUrl,
+            youtubeId: dbMedia.home_trailer.youtubeId || (dbMedia.home_trailer.type === 'youtube' ? 'QdBZY2fkU-0' : null),
+            thumbnail: dbMedia.home_trailer.thumbnail,
+            date: 'ACTIVE TRAILER',
+            duration: 'OFFICIAL',
+            game: 'GTA VI',
+            ageRestricted: false,
+            isDynamic: true
+          });
+        }
+        if (Array.isArray(dbMedia.media_page)) {
+          dbMedia.media_page.forEach(v => {
+            if (!dynamicVideos.some(x => String(x._id) === String(v._id))) {
+              dynamicVideos.push({
+                _id: v._id,
+                title: v.title,
+                type: v.type,
+                sourceUrl: v.sourceUrl,
+                youtubeId: v.youtubeId || null,
+                thumbnail: v.thumbnail,
+                date: 'MEDIA VAULT',
+                duration: 'BROADCAST',
+                game: 'FEATURED',
+                ageRestricted: false,
+                isDynamic: true
+              });
+            }
+          });
+        }
+        if (Array.isArray(dbMedia.home_gameplay)) {
+          dbMedia.home_gameplay.forEach(v => {
+            if (!dynamicVideos.some(x => String(x._id) === String(v._id))) {
+              dynamicVideos.push({
+                _id: v._id,
+                title: v.title,
+                type: v.type,
+                sourceUrl: v.sourceUrl,
+                youtubeId: v.youtubeId || null,
+                thumbnail: v.thumbnail,
+                date: 'GAMEPLAY RELAY',
+                duration: 'BROADCAST',
+                game: 'GAMEPLAY',
+                ageRestricted: false,
+                isDynamic: true
+              });
+            }
+          });
+        }
+        if (dynamicVideos.length) {
+          MEDIA.videos = [...dynamicVideos, ...MEDIA.videos.filter(x => !dynamicVideos.some(d => (d.youtubeId && d.youtubeId === x.youtubeId) || String(d._id) === String(x._id)))];
+        }
+      }
+      renderLibrary(MEDIA);
       initHeroCarousel();
       const mv = document.getElementById('menuVideos');
       mv.className = 'mt-5 grid sm:grid-cols-2 gap-4';
-      mv.innerHTML = s.media.videos.map(menuCard).join('');
+      mv.innerHTML = MEDIA.videos.map(menuCard).join('');
       route();
     }).catch(() => { });
   </script>

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IGV — Media Management & Video Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#12121c">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#191924', inkdeep: '#12121c', pill: '#f6a9c6', cream: '#f2ecdc',
+            panel: '#28283a', vice: { pink: '#ff2e88', cyan: '#00e5ff', purple: '#7b2ff7' }
+          },
+          fontFamily: { archivo: ['Archivo', 'system-ui', 'sans-serif'], mono: ['ui-monospace', 'Menlo', 'monospace'] }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Archivo', system-ui, sans-serif; background: #12121c; }
+    .font-cond { font-family: 'Oswald', 'Archivo Narrow', sans-serif; font-stretch: condensed; }
+    .pill-btn { transition: transform .2s ease, box-shadow .25s ease, filter .2s ease; }
+    .pill-btn:hover { transform: translateY(-2px); filter: brightness(1.07); box-shadow: 0 10px 28px rgba(246,169,198,.35); }
+    .pill-btn:active { transform: scale(.95); }
+    .ghost-btn { transition: transform .2s ease, border-color .2s, color .2s; }
+    .ghost-btn:hover { transform: translateY(-2px); }
+    .ghost-btn:active { transform: scale(.95); }
+    .card-glow:hover { box-shadow: 0 12px 35px rgba(255, 46, 136, 0.18); border-color: rgba(246, 169, 198, 0.4); }
+    .badge-trailer { background: rgba(255, 46, 136, 0.2); border: 1px solid #ff2e88; color: #ff2e88; }
+    .badge-gameplay { background: rgba(0, 229, 255, 0.2); border: 1px solid #00e5ff; color: #00e5ff; }
+    .badge-media { background: rgba(123, 47, 247, 0.2); border: 1px solid #7b2ff7; color: #d8b4fe; }
+    .badge-none { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.6); }
+  </style>
+</head>
+<body class="bg-inkdeep text-white min-h-screen flex flex-col justify-between antialiased selection:bg-pill selection:text-inkdeep">
+
+  <!-- Password Authentication Gate Modal -->
+  <div id="authGate" class="fixed inset-0 z-50 bg-[#0d0d16]/95 backdrop-blur-xl flex items-center justify-center p-4">
+    <div class="w-full max-w-md rounded-3xl bg-[#1b1b28] border border-white/15 p-8 text-center shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-24 -left-24 w-48 h-48 bg-vice-pink/30 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-vice-cyan/30 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="flex items-center justify-center gap-2 mb-4">
+        <img src="/images/logo.svg" alt="IGV" width="40" height="40" class="w-10 h-10 rounded-xl ring-1 ring-white/15">
+        <span class="font-black text-2xl tracking-tighter">IG<span class="text-pill">V</span> <span class="text-white/40 font-mono text-sm tracking-normal">| ADMIN</span></span>
+      </div>
+
+      <h1 class="text-2xl font-black text-cream uppercase font-cond tracking-wide">Media Command Center</h1>
+      <p class="mt-2 text-sm text-white/60">Enter the authorized admin password to manage video relays, thumbnails, and multi-placements.</p>
+
+      <form id="loginForm" class="mt-6 flex flex-col gap-4" onsubmit="event.preventDefault(); handleLogin();">
+        <div>
+          <input id="adminPassInput" type="password" placeholder="Admin Password" required autocomplete="current-password"
+            class="w-full rounded-2xl bg-white/5 border border-white/15 px-4 py-3.5 text-center text-lg font-mono text-white placeholder-white/30 outline-none focus:border-pill focus:ring-2 focus:ring-pill/20 transition">
+        </div>
+        <p id="authError" class="hidden text-xs font-bold text-red-400 font-mono"></p>
+        <button type="submit" id="loginBtn" class="pill-btn bg-pill text-inkdeep font-bold text-sm py-3.5 rounded-full uppercase tracking-wider cursor-pointer">
+          Unlock Media Console →
+        </button>
+      </form>
+      <p class="mt-5 text-[0.65rem] font-mono text-white/30 tracking-widest uppercase">DEFAULT KEY: heyvideo</p>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-inkdeep/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-4">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2.5 font-black text-2xl tracking-tighter text-white no-underline">
+          <img src="/images/logo.svg" alt="IGV" width="36" height="36" class="w-9 h-9 rounded-xl ring-1 ring-white/15">
+          <span>IG<span class="text-pill">V</span> <span class="text-white/40 font-mono text-xs sm:text-sm tracking-normal">/ Video Manager</span></span>
+        </a>
+        <span class="hidden md:inline-block font-mono text-[0.65rem] bg-white/10 text-white/70 px-2.5 py-1 rounded-full uppercase tracking-wider">v2.1 Multi-Slot</span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2.5">
+        <div id="mongoBadge" class="flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="mongoStatusText">MongoDB: Checking...</span>
+        </div>
+        <div id="s3Badge" class="flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-white/15 bg-white/5">
+          <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+          <span id="s3StatusText">Checking S3...</span>
+        </div>
+        <a href="/" target="_blank" class="ghost-btn font-bold text-xs uppercase tracking-wider text-white/70 hover:text-pill border border-white/20 px-4 py-2 rounded-full no-underline">View Site ↗</a>
+        <button onclick="handleLogout()" class="ghost-btn font-mono text-xs uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-500/20 px-3 py-2 rounded-full cursor-pointer">Lock</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-8 py-8 w-full flex-1">
+    
+    <!-- Top Stats Bar -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div class="rounded-2xl bg-ink border border-white/10 p-4">
+        <p class="font-mono text-[0.65rem] uppercase tracking-wider text-white/40">Home Trailers</p>
+        <p id="statTrailer" class="mt-1 font-black text-lg text-vice-pink truncate">0 Active</p>
+      </div>
+      <div class="rounded-2xl bg-ink border border-white/10 p-4">
+        <p class="font-mono text-[0.65rem] uppercase tracking-wider text-white/40">Gameplay Relays</p>
+        <p id="statGameplay" class="mt-1 font-black text-lg text-vice-cyan truncate">0 Active</p>
+      </div>
+      <div class="rounded-2xl bg-ink border border-white/10 p-4">
+        <p class="font-mono text-[0.65rem] uppercase tracking-wider text-white/40">Media Vault Videos</p>
+        <p id="statMedia" class="mt-1 font-black text-lg text-purple-400">0 Videos</p>
+      </div>
+      <div class="rounded-2xl bg-ink border border-white/10 p-4">
+        <p class="font-mono text-[0.65rem] uppercase tracking-wider text-white/40">Total Database</p>
+        <p id="statTotal" class="mt-1 font-black text-lg text-cream">0 Loaded</p>
+      </div>
+    </section>
+
+    <!-- Add Video Module -->
+    <section class="rounded-3xl bg-ink border border-white/15 p-6 sm:p-8 mb-10 shadow-xl relative overflow-hidden">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="font-cond font-bold text-2xl uppercase tracking-wide text-cream flex items-center gap-2">
+            <span>+</span> Add New Video
+          </h2>
+          <p class="text-xs text-white/60">Upload directly to Amazon S3 with custom thumbnail setter, or paste an official YouTube link.</p>
+        </div>
+
+        <!-- Mode Toggle -->
+        <div class="inline-flex rounded-xl bg-black/40 p-1 border border-white/10">
+          <button id="tabS3" onclick="switchUploadTab('s3')" type="button"
+            class="px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer">
+            📁 File Upload (S3)
+          </button>
+          <button id="tabYoutube" onclick="switchUploadTab('youtube')" type="button"
+            class="px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">
+            📺 YouTube Link
+          </button>
+        </div>
+      </div>
+
+      <!-- S3 File Upload Form -->
+      <form id="formS3" onsubmit="event.preventDefault(); submitS3Upload();" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">1. Video Title</label>
+          <input id="s3Title" type="text" placeholder="e.g., GTA VI Gameplay Relay 4K" required
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
+        </div>
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">2. Video File (.mp4, .webm, .mov)</label>
+          <input id="s3File" type="file" accept="video/mp4,video/webm,video/quicktime" required
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-xs text-white/70 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-white/10 file:text-white hover:file:bg-pill hover:file:text-inkdeep cursor-pointer">
+        </div>
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-vice-cyan mb-1.5">3. Thumbnail Image (Optional Setter)</label>
+          <input id="s3ThumbFile" type="file" accept="image/jpeg,image/png,image/webp"
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-xs text-white/70 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-vice-cyan/20 file:text-vice-cyan hover:file:bg-vice-cyan hover:file:text-inkdeep cursor-pointer">
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Assign Placement Spots (Multiple Selection)</label>
+          <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
+            <label class="flex items-center gap-2 cursor-pointer hover:text-vice-pink">
+              <input type="checkbox" id="s3PlaceTrailer" class="accent-vice-pink w-4 h-4 rounded"> Home Trailer
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer hover:text-vice-cyan">
+              <input type="checkbox" id="s3PlaceGameplay" class="accent-vice-cyan w-4 h-4 rounded"> Home Gameplay
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer hover:text-purple-400">
+              <input type="checkbox" id="s3PlaceMedia" class="accent-purple-400 w-4 h-4 rounded"> Media Vault Page
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" id="btnSubmitS3" class="w-full pill-btn bg-vice-cyan text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+            Upload Video to S3 ↗
+          </button>
+        </div>
+      </form>
+
+      <!-- YouTube Form -->
+      <form id="formYoutube" onsubmit="event.preventDefault(); submitYoutube();" class="hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Video Title</label>
+          <input id="ytTitle" type="text" placeholder="e.g., GTA VI Official Trailer 2" required
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
+        </div>
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">YouTube URL or ID</label>
+          <input id="ytUrl" type="text" placeholder="https://www.youtube.com/watch?v=..." required
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
+        </div>
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Custom Thumbnail URL (Optional)</label>
+          <input id="ytThumbUrl" type="text" placeholder="Auto-fetched or custom https://..."
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Assign Placement Spots (Multiple Selection)</label>
+          <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
+            <label class="flex items-center gap-2 cursor-pointer hover:text-vice-pink">
+              <input type="checkbox" id="ytPlaceTrailer" class="accent-vice-pink w-4 h-4 rounded"> Home Trailer
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer hover:text-vice-cyan">
+              <input type="checkbox" id="ytPlaceGameplay" class="accent-vice-cyan w-4 h-4 rounded"> Home Gameplay
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer hover:text-purple-400">
+              <input type="checkbox" id="ytPlaceMedia" class="accent-purple-400 w-4 h-4 rounded"> Media Vault Page
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" id="btnSubmitYt" class="w-full pill-btn bg-pill text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+            Add YouTube Relay
+          </button>
+        </div>
+      </form>
+
+      <div id="uploadProgress" class="hidden mt-4">
+        <div class="flex justify-between font-mono text-xs text-white/60 mb-1">
+          <span id="progressText">Uploading to Amazon S3...</span>
+          <span id="progressPercent">50%</span>
+        </div>
+        <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+          <div id="progressBar" class="h-full bg-gradient-to-r from-vice-pink to-vice-cyan transition-all duration-300 w-1/2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Videos Grid & Management Cards -->
+    <section>
+      <div class="flex items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="font-cond font-bold text-2xl uppercase tracking-wide text-white">Media Library & Placements</h2>
+          <p class="text-xs text-white/50">Assign videos to multiple placement spots simultaneously. Thumbnails can be edited anytime.</p>
+        </div>
+        <button onclick="loadVideos()" class="ghost-btn font-mono text-xs uppercase tracking-wider text-white/70 hover:text-pill border border-white/15 px-3 py-1.5 rounded-full cursor-pointer">↻ Refresh</button>
+      </div>
+
+      <!-- Video Cards Grid -->
+      <div id="videoGrid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Rendered dynamically -->
+        <p class="text-white/40 font-mono text-sm py-12 text-center col-span-full">Loading media library...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Video Preview Modal -->
+  <div id="previewModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="w-full max-w-4xl bg-[#1b1b26] border border-white/15 rounded-3xl p-6 relative">
+      <button onclick="closePreview()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition">✕</button>
+      <h3 id="previewTitle" class="font-bold text-lg text-cream mb-4 pr-10 truncate">Video Preview</h3>
+      <div id="previewContainer" class="aspect-video w-full rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+        <!-- Iframe or Video Tag -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Thumbnail Setter Modal -->
+  <div id="thumbModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-[#1b1b26] border border-white/15 rounded-3xl p-6 relative">
+      <button onclick="closeThumbModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition">✕</button>
+      
+      <h3 class="font-bold text-lg text-cream mb-1">Set Video Thumbnail</h3>
+      <p id="thumbModalVideoTitle" class="text-xs text-white/50 mb-4 truncate"></p>
+      
+      <!-- Current Thumbnail Preview -->
+      <div class="aspect-video w-full rounded-2xl overflow-hidden bg-black/80 mb-4 border border-white/10 relative">
+        <img id="thumbModalPreview" src="" alt="Thumbnail Preview" class="w-full h-full object-cover">
+        <span class="absolute bottom-2 left-2 text-[0.6rem] font-mono bg-black/70 px-2 py-0.5 rounded text-white/80">CURRENT PREVIEW</span>
+      </div>
+
+      <!-- Mode Tabs: File Upload vs URL vs Video Frame Capture -->
+      <div class="flex rounded-xl bg-white/5 p-1 border border-white/10 mb-4">
+        <button id="tTabFile" onclick="switchThumbTab('file')" class="flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-pill text-inkdeep cursor-pointer">Upload File</button>
+        <button id="tTabUrl" onclick="switchThumbTab('url')" class="flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition text-white/60 cursor-pointer">Image URL</button>
+        <button id="tTabCapture" onclick="switchThumbTab('capture')" class="flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition text-white/60 cursor-pointer">📸 Frame Capture</button>
+      </div>
+
+      <!-- Tab 1: File Upload -->
+      <div id="thumbPaneFile" class="space-y-3">
+        <input type="file" id="thumbFileInput" accept="image/jpeg,image/png,image/webp" 
+          class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-xs text-white/70 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-pill file:text-inkdeep cursor-pointer"
+          onchange="previewThumbFile(this)">
+        <button onclick="submitThumbFile()" id="btnSaveThumbFile" class="w-full pill-btn bg-pill text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+          Save Uploaded Thumbnail (S3)
+        </button>
+      </div>
+
+      <!-- Tab 2: URL -->
+      <div id="thumbPaneUrl" class="hidden space-y-3">
+        <input type="text" id="thumbUrlInput" placeholder="https://example.com/poster.jpg" 
+          class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-xs text-white placeholder-white/30 outline-none focus:border-pill"
+          oninput="previewThumbUrl(this.value)">
+        <button onclick="submitThumbUrl()" id="btnSaveThumbUrl" class="w-full pill-btn bg-vice-cyan text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+          Save Thumbnail URL
+        </button>
+      </div>
+
+      <!-- Tab 3: Capture Frame from Video -->
+      <div id="thumbPaneCapture" class="hidden space-y-3">
+        <p class="text-xs text-white/60">Loads the video, captures the video frame at 1.0s, and uploads it as the official thumbnail image.</p>
+        <button onclick="captureVideoFrame()" id="btnCaptureFrame" class="w-full pill-btn bg-purple-500 hover:bg-purple-400 text-white font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+          Capture & Save Frame
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 translate-y-24 opacity-0 transition-all duration-300 rounded-2xl bg-[#1f1f2e] border border-pill px-5 py-3 text-sm font-bold text-cream shadow-2xl flex items-center gap-3">
+    <span class="text-pill text-lg">✓</span>
+    <span id="toastMsg">Operation completed</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 bg-inkdeep py-6 mt-12 text-center text-xs font-mono text-white/40">
+    IGV Media Management System · &copy; 2026 igvictory.com · Authenticated Operator Session
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    let adminToken = localStorage.getItem('igv_admin_pass') || '';
+    let currentVideos = [];
+    let activeEditingVideoId = null;
+
+    // Toast notification helper
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3500);
+    }
+
+    // Switch between YouTube & S3 forms
+    function switchUploadTab(type) {
+      const formYt = document.getElementById('formYoutube');
+      const formS3 = document.getElementById('formS3');
+      const tabYt = document.getElementById('tabYoutube');
+      const tabS3 = document.getElementById('tabS3');
+
+      if (type === 'youtube') {
+        formYt.classList.remove('hidden');
+        formS3.classList.add('hidden');
+        tabYt.className = 'px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer';
+        tabS3.className = 'px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer';
+      } else {
+        formYt.classList.add('hidden');
+        formS3.classList.remove('hidden');
+        tabS3.className = 'px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer';
+        tabYt.className = 'px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer';
+      }
+    }
+
+    // Login Handler
+    async function handleLogin() {
+      const input = document.getElementById('adminPassInput');
+      const pass = input.value.trim();
+      const errBox = document.getElementById('authError');
+      const btn = document.getElementById('loginBtn');
+
+      if (!pass) return;
+
+      btn.disabled = true;
+      btn.innerText = 'Verifying...';
+      errBox.classList.add('hidden');
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pass })
+        });
+
+        if (res.ok) {
+          adminToken = pass;
+          localStorage.setItem('igv_admin_pass', pass);
+          document.getElementById('authGate').classList.add('hidden');
+          loadVideos();
+        } else {
+          errBox.innerText = 'Invalid Admin Key. Check .env configuration.';
+          errBox.classList.remove('hidden');
+        }
+      } catch (err) {
+        errBox.innerText = 'Network error connecting to backend.';
+        errBox.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Unlock Media Console →';
+      }
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('igv_admin_pass');
+      adminToken = '';
+      document.getElementById('authGate').classList.remove('hidden');
+      document.getElementById('adminPassInput').value = '';
+    }
+
+    // Load Videos & Status
+    async function loadVideos() {
+      if (!adminToken) {
+        document.getElementById('authGate').classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/admin/videos', {
+          headers: { 'x-admin-password': adminToken }
+        });
+
+        if (res.status === 401) {
+          handleLogout();
+          return;
+        }
+
+        const data = await res.json();
+        currentVideos = data.videos || [];
+        
+        // Render MongoDB Badge
+        const mongoStatus = document.getElementById('mongoStatusText');
+        const mongoBadge = document.getElementById('mongoBadge');
+        if (data.dbStatus && data.dbStatus.connected) {
+          mongoStatus.innerText = `MongoDB: Atlas (${data.dbStatus.database || 'igvDB'})`;
+          mongoStatus.className = 'text-emerald-300';
+          mongoBadge.className = 'flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/15 text-emerald-300';
+          mongoBadge.querySelector('span').className = 'w-2 h-2 rounded-full bg-emerald-400';
+        } else {
+          mongoStatus.innerText = 'Database: Local JSON Fallback';
+          mongoStatus.className = 'text-yellow-300';
+          mongoBadge.className = 'flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-yellow-500/40 bg-yellow-500/15 text-yellow-300';
+          mongoBadge.querySelector('span').className = 'w-2 h-2 rounded-full bg-yellow-400';
+        }
+
+        // Render S3 Badge
+        const s3Status = document.getElementById('s3StatusText');
+        const s3Badge = document.getElementById('s3Badge');
+        if (data.s3Config && data.s3Config.isConfigured) {
+          s3Status.innerText = `S3: Connected (${data.s3Config.bucket})`;
+          s3Status.className = 'text-green-400';
+          s3Badge.querySelector('span').className = 'w-2 h-2 rounded-full bg-green-400';
+        } else {
+          s3Status.innerText = 'S3: Ready for AWS .env (Local Fallback)';
+          s3Status.className = 'text-yellow-300';
+          s3Badge.querySelector('span').className = 'w-2 h-2 rounded-full bg-yellow-400';
+        }
+
+        updateStats(currentVideos);
+        renderVideoCards(currentVideos);
+      } catch (err) {
+        console.error('Failed to load videos:', err);
+      }
+    }
+
+    function hasPlacement(v, p) {
+      if (Array.isArray(v.placements) && v.placements.includes(p)) return true;
+      return v.isAssignedTo === p;
+    }
+
+    function updateStats(videos) {
+      const trailers = videos.filter(v => hasPlacement(v, 'home_trailer'));
+      const gameplay = videos.filter(v => hasPlacement(v, 'home_gameplay'));
+      const mediaVideos = videos.filter(v => hasPlacement(v, 'media_page'));
+
+      document.getElementById('statTrailer').innerText = `${trailers.length} Active`;
+      document.getElementById('statGameplay').innerText = `${gameplay.length} Active`;
+      document.getElementById('statMedia').innerText = `${mediaVideos.length} Videos`;
+      document.getElementById('statTotal').innerText = `${videos.length} Videos`;
+    }
+
+    function getPlacementBadges(v) {
+      const badges = [];
+      if (hasPlacement(v, 'home_trailer')) {
+        badges.push('<span class="badge-trailer px-2.5 py-0.5 rounded-md text-[0.6rem] font-bold uppercase tracking-wider">Home Trailer</span>');
+      }
+      if (hasPlacement(v, 'home_gameplay')) {
+        badges.push('<span class="badge-gameplay px-2.5 py-0.5 rounded-md text-[0.6rem] font-bold uppercase tracking-wider">Gameplay</span>');
+      }
+      if (hasPlacement(v, 'media_page')) {
+        badges.push('<span class="badge-media px-2.5 py-0.5 rounded-md text-[0.6rem] font-bold uppercase tracking-wider">Media Vault</span>');
+      }
+      if (badges.length === 0) {
+        badges.push('<span class="badge-none px-2.5 py-0.5 rounded-md text-[0.6rem] font-bold uppercase tracking-wider">Unassigned</span>');
+      }
+      return badges.join(' ');
+    }
+
+    function renderVideoCards(videos) {
+      const grid = document.getElementById('videoGrid');
+      if (!videos || videos.length === 0) {
+        grid.innerHTML = '<p class="text-white/40 font-mono text-sm py-12 text-center col-span-full">No videos found. Add your first video above!</p>';
+        return;
+      }
+
+      grid.innerHTML = videos.map((v, i) => {
+        const isS3 = v.type === 's3';
+        const thumb = v.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg';
+        const dateStr = v.uploadedAt ? new Date(v.uploadedAt).toLocaleDateString() : 'Recent';
+        const isTrailer = hasPlacement(v, 'home_trailer');
+        const isGameplay = hasPlacement(v, 'home_gameplay');
+        const isMedia = hasPlacement(v, 'media_page');
+
+        return `
+          <div class="card-glow rounded-3xl bg-ink border border-white/10 p-5 flex flex-col justify-between transition duration-200">
+            <div>
+              <!-- Video Preview Thumbnail & Badges -->
+              <div class="relative aspect-video rounded-2xl overflow-hidden bg-black/60 mb-4 group cursor-pointer" onclick="openPreview('${v._id}')">
+                <img src="${thumb}" alt="${v.title}" class="w-full h-full object-cover transition duration-300 group-hover:scale-105">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                  <span class="w-12 h-12 rounded-full bg-pill/90 text-inkdeep flex items-center justify-center font-bold text-lg shadow-lg">▶</span>
+                </div>
+                <div class="absolute top-3 left-3 flex gap-2">
+                  ${isS3 
+                    ? '<span class="bg-vice-cyan/90 text-inkdeep font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">S3 / MP4</span>'
+                    : '<span class="bg-red-600 text-white font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">YOUTUBE</span>'
+                  }
+                </div>
+                <div class="absolute bottom-3 right-3 font-mono text-[0.6rem] bg-black/75 px-2 py-0.5 rounded text-white/80">
+                  ${dateStr}
+                </div>
+              </div>
+
+              <!-- Title & Placement Badges -->
+              <div class="flex items-start justify-between gap-2 mb-2">
+                <h3 class="font-bold text-base text-cream leading-snug truncate" title="${v.title}">${v.title}</h3>
+              </div>
+              <div class="flex flex-wrap gap-1.5 mb-3">
+                ${getPlacementBadges(v)}
+              </div>
+
+              <p class="font-mono text-[0.65rem] text-white/40 truncate mb-4" title="${v.sourceUrl}">
+                ${v.sourceUrl}
+              </p>
+            </div>
+
+            <!-- Card Placement Multiple Selection Controls -->
+            <div class="border-t border-white/10 pt-4 mt-auto">
+              <label class="block font-mono text-[0.6rem] uppercase tracking-wider text-white/40 mb-2">Assign Placements (Multiple Selection):</label>
+              
+              <div class="grid grid-cols-3 gap-2 text-xs font-mono">
+                <label class="flex items-center gap-1.5 p-2 rounded-xl bg-white/5 border border-white/10 hover:border-vice-pink/60 cursor-pointer select-none transition">
+                  <input type="checkbox" ${isTrailer ? 'checked' : ''} 
+                    onchange="togglePlacement('${v._id}', 'home_trailer', this.checked)" class="w-4 h-4 rounded text-vice-pink focus:ring-0 cursor-pointer accent-[#ff2e88]">
+                  <span class="truncate text-[0.7rem] ${isTrailer ? 'text-vice-pink font-bold' : 'text-white/70'}">Trailer</span>
+                </label>
+
+                <label class="flex items-center gap-1.5 p-2 rounded-xl bg-white/5 border border-white/10 hover:border-vice-cyan/60 cursor-pointer select-none transition">
+                  <input type="checkbox" ${isGameplay ? 'checked' : ''} 
+                    onchange="togglePlacement('${v._id}', 'home_gameplay', this.checked)" class="w-4 h-4 rounded text-vice-cyan focus:ring-0 cursor-pointer accent-[#00e5ff]">
+                  <span class="truncate text-[0.7rem] ${isGameplay ? 'text-vice-cyan font-bold' : 'text-white/70'}">Gameplay</span>
+                </label>
+
+                <label class="flex items-center gap-1.5 p-2 rounded-xl bg-white/5 border border-white/10 hover:border-purple-400/60 cursor-pointer select-none transition">
+                  <input type="checkbox" ${isMedia ? 'checked' : ''} 
+                    onchange="togglePlacement('${v._id}', 'media_page', this.checked)" class="w-4 h-4 rounded text-purple-400 focus:ring-0 cursor-pointer accent-[#a855f7]">
+                  <span class="truncate text-[0.7rem] ${isMedia ? 'text-purple-300 font-bold' : 'text-white/70'}">Media Vault</span>
+                </label>
+              </div>
+
+              <!-- Delete, Thumbnail, & Preview Bar -->
+              <div class="flex items-center justify-between gap-2 mt-4 pt-3 border-t border-white/5">
+                <div class="flex items-center gap-2">
+                  <button onclick="openThumbModal('${v._id}')" class="text-xs text-pill/90 hover:text-pill font-mono cursor-pointer flex items-center gap-1">
+                    🖼️ Thumbnail
+                  </button>
+                  <button onclick="openPreview('${v._id}')" class="text-xs text-white/60 hover:text-white font-mono cursor-pointer flex items-center gap-1">
+                    👁 Preview
+                  </button>
+                </div>
+                <button onclick="deleteVideo('${v._id}', '${v.title.replace(/'/g, "\\'")}')" class="text-xs text-red-400/70 hover:text-red-400 font-mono cursor-pointer">
+                  🗑 Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Toggle Placement (Multiple Selection Support)
+    async function togglePlacement(videoId, placement, isChecked) {
+      try {
+        const res = await fetch('/api/admin/videos/assign', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': adminToken
+          },
+          body: JSON.stringify({ videoId, placement, toggle: isChecked })
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          alert('Placement update failed: ' + (err.error || 'Server error'));
+          return;
+        }
+
+        showToast(`Updated placement: ${placement}`);
+        loadVideos();
+      } catch (err) {
+        alert('Network error while assigning placement.');
+      }
+    }
+
+    // Submit YouTube Video
+    async function submitYoutube() {
+      const title = document.getElementById('ytTitle').value.trim();
+      const url = document.getElementById('ytUrl').value.trim();
+      const thumbnailUrl = document.getElementById('ytThumbUrl').value.trim() || null;
+      const btn = document.getElementById('btnSubmitYt');
+
+      const placements = [];
+      if (document.getElementById('ytPlaceTrailer').checked) placements.push('home_trailer');
+      if (document.getElementById('ytPlaceGameplay').checked) placements.push('home_gameplay');
+      if (document.getElementById('ytPlaceMedia').checked) placements.push('media_page');
+
+      btn.disabled = true;
+      btn.innerText = 'Adding...';
+
+      try {
+        const res = await fetch('/api/admin/videos/youtube', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': adminToken
+          },
+          body: JSON.stringify({ title, url, thumbnailUrl, placements })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          alert('Failed to add YouTube video: ' + (data.error || 'Invalid link'));
+          return;
+        }
+
+        document.getElementById('ytTitle').value = '';
+        document.getElementById('ytUrl').value = '';
+        document.getElementById('ytThumbUrl').value = '';
+        document.getElementById('ytPlaceTrailer').checked = false;
+        document.getElementById('ytPlaceGameplay').checked = false;
+        document.getElementById('ytPlaceMedia').checked = false;
+
+        showToast('YouTube video added successfully!');
+        loadVideos();
+      } catch (err) {
+        alert('Network error adding video');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Add YouTube Relay';
+      }
+    }
+
+    // Submit S3 Upload
+    async function submitS3Upload() {
+      const title = document.getElementById('s3Title').value.trim();
+      const fileInput = document.getElementById('s3File');
+      const thumbInput = document.getElementById('s3ThumbFile');
+      const file = fileInput.files[0];
+      const thumbFile = thumbInput.files[0];
+      const btn = document.getElementById('btnSubmitS3');
+
+      if (!file) {
+        alert('Please choose a video file first');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = 'Uploading to S3...';
+      const progressBox = document.getElementById('uploadProgress');
+      const progressBar = document.getElementById('progressBar');
+      const progressPercent = document.getElementById('progressPercent');
+      progressBox.classList.remove('hidden');
+      progressBar.style.width = '30%';
+      progressPercent.innerText = '30%';
+
+      const placements = [];
+      if (document.getElementById('s3PlaceTrailer').checked) placements.push('home_trailer');
+      if (document.getElementById('s3PlaceGameplay').checked) placements.push('home_gameplay');
+      if (document.getElementById('s3PlaceMedia').checked) placements.push('media_page');
+
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('videoFile', file);
+      if (thumbFile) {
+        formData.append('thumbFile', thumbFile);
+      }
+      formData.append('placements', JSON.stringify(placements));
+
+      try {
+        const res = await fetch('/api/admin/videos/upload', {
+          method: 'POST',
+          headers: {
+            'x-admin-password': adminToken
+          },
+          body: formData
+        });
+
+        progressBar.style.width = '100%';
+        progressPercent.innerText = '100%';
+
+        const data = await res.json();
+        if (!res.ok) {
+          alert('Upload failed: ' + (data.error || 'Server error'));
+          return;
+        }
+
+        document.getElementById('s3Title').value = '';
+        fileInput.value = '';
+        thumbInput.value = '';
+        document.getElementById('s3PlaceTrailer').checked = false;
+        document.getElementById('s3PlaceGameplay').checked = false;
+        document.getElementById('s3PlaceMedia').checked = false;
+
+        showToast(data.s3Used ? 'Uploaded to AWS S3 (Chunk-Streaming Ready)!' : 'Stored locally (Ready for S3)');
+        loadVideos();
+      } catch (err) {
+        alert('Upload network error: ' + err.message);
+      } finally {
+        setTimeout(() => {
+          progressBox.classList.add('hidden');
+          btn.disabled = false;
+          btn.innerText = 'Upload Video to S3 ↗';
+        }, 1200);
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Thumbnail Modal & Setter Logic
+    // -------------------------------------------------------------
+    function openThumbModal(videoId) {
+      const v = currentVideos.find(x => x._id === videoId);
+      if (!v) return;
+
+      activeEditingVideoId = videoId;
+      document.getElementById('thumbModalVideoTitle').innerText = v.title;
+      document.getElementById('thumbModalPreview').src = v.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg';
+      document.getElementById('thumbUrlInput').value = v.thumbnail || '';
+      document.getElementById('thumbFileInput').value = '';
+      
+      switchThumbTab('file');
+      document.getElementById('thumbModal').classList.remove('hidden');
+    }
+
+    function closeThumbModal() {
+      document.getElementById('thumbModal').classList.add('hidden');
+      activeEditingVideoId = null;
+    }
+
+    function switchThumbTab(tab) {
+      const pFile = document.getElementById('thumbPaneFile');
+      const pUrl = document.getElementById('thumbPaneUrl');
+      const pCap = document.getElementById('thumbPaneCapture');
+      const tFile = document.getElementById('tTabFile');
+      const tUrl = document.getElementById('tTabUrl');
+      const tCap = document.getElementById('tTabCapture');
+
+      pFile.classList.add('hidden');
+      pUrl.classList.add('hidden');
+      pCap.classList.add('hidden');
+      tFile.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition text-white/60 cursor-pointer';
+      tUrl.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition text-white/60 cursor-pointer';
+      tCap.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition text-white/60 cursor-pointer';
+
+      if (tab === 'file') {
+        pFile.classList.remove('hidden');
+        tFile.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-pill text-inkdeep cursor-pointer';
+      } else if (tab === 'url') {
+        pUrl.classList.remove('hidden');
+        tUrl.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-vice-cyan text-inkdeep cursor-pointer';
+      } else {
+        pCap.classList.remove('hidden');
+        tCap.className = 'flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-purple-500 text-white cursor-pointer';
+      }
+    }
+
+    function previewThumbFile(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          document.getElementById('thumbModalPreview').src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function previewThumbUrl(url) {
+      if (url && url.startsWith('http')) {
+        document.getElementById('thumbModalPreview').src = url;
+      }
+    }
+
+    async function submitThumbFile() {
+      if (!activeEditingVideoId) return;
+      const fileInput = document.getElementById('thumbFileInput');
+      const file = fileInput.files[0];
+      const btn = document.getElementById('btnSaveThumbFile');
+
+      if (!file) {
+        alert('Please choose an image file first');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = 'Saving to S3...';
+
+      const formData = new FormData();
+      formData.append('thumbFile', file);
+
+      try {
+        const res = await fetch(`/api/admin/videos/${activeEditingVideoId}/thumbnail`, {
+          method: 'POST',
+          headers: { 'x-admin-password': adminToken },
+          body: formData
+        });
+
+        if (res.ok) {
+          showToast('Thumbnail updated on S3 & Database!');
+          closeThumbModal();
+          loadVideos();
+        } else {
+          alert('Failed to save thumbnail');
+        }
+      } catch (err) {
+        alert('Network error saving thumbnail');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Save Uploaded Thumbnail (S3)';
+      }
+    }
+
+    async function submitThumbUrl() {
+      if (!activeEditingVideoId) return;
+      const url = document.getElementById('thumbUrlInput').value.trim();
+      const btn = document.getElementById('btnSaveThumbUrl');
+
+      if (!url) {
+        alert('Please enter an image URL');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = 'Saving...';
+
+      try {
+        const res = await fetch(`/api/admin/videos/${activeEditingVideoId}/thumbnail`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': adminToken
+          },
+          body: JSON.stringify({ thumbnailUrl: url })
+        });
+
+        if (res.ok) {
+          showToast('Thumbnail URL saved!');
+          closeThumbModal();
+          loadVideos();
+        } else {
+          alert('Failed to save thumbnail URL');
+        }
+      } catch (err) {
+        alert('Network error saving thumbnail URL');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Save Thumbnail URL';
+      }
+    }
+
+    // Auto-capture frame from video at 1.0s
+    async function captureVideoFrame() {
+      const v = currentVideos.find(x => x._id === activeEditingVideoId);
+      if (!v) return;
+
+      const btn = document.getElementById('btnCaptureFrame');
+      btn.disabled = true;
+      btn.innerText = 'Capturing frame at 1.0s...';
+
+      try {
+        const vid = document.createElement('video');
+        vid.crossOrigin = 'anonymous';
+        vid.src = v.sourceUrl;
+        vid.currentTime = 1.0;
+        vid.preload = 'metadata';
+
+        await new Promise((resolve, reject) => {
+          vid.onloadeddata = () => {
+            vid.currentTime = 1.0;
+          };
+          vid.onseeked = resolve;
+          vid.onerror = () => reject(new Error('Cannot load video for frame capture (CORS or codec)'));
+          setTimeout(() => reject(new Error('Timeout loading video stream')), 8000);
+        });
+
+        const canvas = document.createElement('canvas');
+        canvas.width = vid.videoWidth || 1280;
+        canvas.height = vid.videoHeight || 720;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
+
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.88));
+        if (!blob) throw new Error('Failed to extract image blob');
+
+        btn.innerText = 'Uploading captured frame to S3...';
+        const formData = new FormData();
+        formData.append('thumbFile', blob, `frame_${v._id}.jpg`);
+
+        const res = await fetch(`/api/admin/videos/${activeEditingVideoId}/thumbnail`, {
+          method: 'POST',
+          headers: { 'x-admin-password': adminToken },
+          body: formData
+        });
+
+        if (res.ok) {
+          showToast('Frame captured and saved as official thumbnail!');
+          closeThumbModal();
+          loadVideos();
+        } else {
+          alert('Server error saving captured frame');
+        }
+      } catch (err) {
+        alert('Frame capture notice: ' + err.message + '. Please use the "Upload File" or "Image URL" tab.');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Capture & Save Frame';
+      }
+    }
+
+    // Delete Video
+    async function deleteVideo(videoId, title) {
+      if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
+
+      try {
+        const res = await fetch(`/api/admin/videos/${videoId}`, {
+          method: 'DELETE',
+          headers: { 'x-admin-password': adminToken }
+        });
+
+        if (res.ok) {
+          showToast('Video deleted');
+          loadVideos();
+        } else {
+          alert('Failed to delete video');
+        }
+      } catch (err) {
+        alert('Network error while deleting video');
+      }
+    }
+
+    // Preview Modal (Uses chunk streaming for fast playback)
+    function openPreview(videoId) {
+      const v = currentVideos.find(x => x._id === videoId);
+      if (!v) return;
+
+      document.getElementById('previewTitle').innerText = v.title;
+      const c = document.getElementById('previewContainer');
+
+      if (v.type === 'youtube') {
+        c.innerHTML = `<iframe src="${v.sourceUrl}?autoplay=1" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      } else {
+        // HTTP 206 chunk-streaming playback
+        c.innerHTML = `<video src="${v.sourceUrl}" class="w-full h-full object-contain" controls autoplay preload="metadata" poster="${v.thumbnail || ''}" controlsList="nodownload"></video>`;
+      }
+
+      document.getElementById('previewModal').classList.remove('hidden');
+    }
+
+    function closePreview() {
+      document.getElementById('previewContainer').innerHTML = '';
+      document.getElementById('previewModal').classList.add('hidden');
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      if (adminToken) {
+        document.getElementById('authGate').classList.add('hidden');
+        loadVideos();
+      } else {
+        document.getElementById('authGate').classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

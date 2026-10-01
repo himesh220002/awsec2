@@ -14,15 +14,41 @@ jobs:
     steps:
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          VIDEO_ADMIN_PASSWORD: ${{ secrets.VIDEO_ADMIN_PASSWORD }}
+          TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+          TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          envs: MONGO_URI,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,AWS_S3_BUCKET,VIDEO_ADMIN_PASSWORD,TWITCH_CLIENT_ID,TWITCH_CLIENT_SECRET
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/testawsec2-blog:latest
             docker stop blog || true
             docker rm blog || true
-            docker run -d --name blog -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/testawsec2-blog:latest
+
+            ENV_FLAGS=""
+            if [ -f "$HOME/.env" ]; then
+              ENV_FLAGS="--env-file $HOME/.env"
+            fi
+
+            docker run -d --name blog $ENV_FLAGS \
+              ${MONGO_URI:+-e MONGO_URI="$MONGO_URI"} \
+              ${AWS_ACCESS_KEY_ID:+-e AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID"} \
+              ${AWS_SECRET_ACCESS_KEY:+-e AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY"} \
+              ${AWS_REGION:+-e AWS_REGION="$AWS_REGION"} \
+              ${AWS_S3_BUCKET:+-e AWS_S3_BUCKET="$AWS_S3_BUCKET"} \
+              ${VIDEO_ADMIN_PASSWORD:+-e VIDEO_ADMIN_PASSWORD="$VIDEO_ADMIN_PASSWORD"} \
+              ${TWITCH_CLIENT_ID:+-e TWITCH_CLIENT_ID="$TWITCH_CLIENT_ID"} \
+              ${TWITCH_CLIENT_SECRET:+-e TWITCH_CLIENT_SECRET="$TWITCH_CLIENT_SECRET"} \
+              -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/testawsec2-blog:latest
+
             docker ps
             sleep 3
             curl -f http://localhost:8080/ || true
