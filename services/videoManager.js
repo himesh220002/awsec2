@@ -148,52 +148,35 @@ function getSecret(key) {
 }
 
 let isMongoConnected = false;
+let mongoPromise = null;
+
+// Ensure MongoDB connection in both persistent servers and serverless functions (Vercel)
+async function ensureMongo() {
+  if (isMongoConnected && mongoose.connection.readyState === 1) return true;
+  const mongoUri = getSecret('MONGO_URI');
+  if (!mongoUri) return false;
+
+  if (!mongoPromise) {
+    mongoPromise = mongoose.connect(mongoUri, {
+      serverSelectionTimeoutMS: 5000,
+      bufferCommands: false
+    }).then(async () => {
+      isMongoConnected = true;
+      console.log('[MediaManager] Connected to MongoDB Atlas cluster (igvDB.videos)');
+      return true;
+    }).catch(err => {
+      mongoPromise = null;
+      isMongoConnected = false;
+      console.warn('[MediaManager] MongoDB connection warning:', err.message);
+      return false;
+    });
+  }
+  return mongoPromise;
+}
 
 // Connect to MongoDB if MONGO_URI is set
 async function initMongo() {
-  const mongoUri = getSecret('MONGO_URI');
-  if (!mongoUri) {
-    console.log('[MediaManager] No MONGO_URI set; using local JSON database.');
-    return false;
-  }
-
-  try {
-    await mongoose.connect(mongoUri, {
-      serverSelectionTimeoutMS: 5000
-    });
-    isMongoConnected = true;
-    console.log('[MediaManager] Connected to MongoDB Atlas cluster (igvDB.videos)');
-
-    // Seed default records if collection is completely empty
-    const count = await Video.countDocuments();
-    if (count === 0 && fallbackVideos.length > 0) {
-      console.log(`[MediaManager] Seeding ${fallbackVideos.length} initial videos into MongoDB...`);
-      for (const v of fallbackVideos) {
-        const pArray = Array.isArray(v.placements)
-          ? v.placements
-          : (v.isAssignedTo && v.isAssignedTo !== 'none' ? [v.isAssignedTo] : []);
-        await Video.create({
-          _id: v._id || new mongoose.Types.ObjectId().toString(),
-          title: v.title,
-          type: v.type,
-          sourceUrl: v.sourceUrl,
-          fileKey: v.fileKey || null,
-          youtubeId: v.youtubeId || null,
-          thumbnail: v.thumbnail || null,
-          placements: pArray,
-          isAssignedTo: v.isAssignedTo || (pArray[0] || 'none'),
-          uploadedAt: v.uploadedAt ? new Date(v.uploadedAt) : new Date()
-        });
-      }
-      console.log('[MediaManager] Seeding complete.');
-    }
-
-    return true;
-  } catch (err) {
-    console.warn('[MediaManager] MongoDB connection warning:', err.message);
-    isMongoConnected = false;
-    return false;
-  }
+  return ensureMongo();
 }
 
 mongoose.connection.on('connected', () => {
@@ -201,6 +184,7 @@ mongoose.connection.on('connected', () => {
 });
 mongoose.connection.on('disconnected', () => {
   isMongoConnected = false;
+  mongoPromise = null;
   console.warn('[MediaManager] MongoDB disconnected, using JSON fallback.');
 });
 mongoose.connection.on('error', (err) => {
@@ -316,64 +300,26 @@ async function streamVideoChunk(fileKey, req, res) {
 
   if (s3 && fileKey && fileKey.startsWith('igv_videos/')) {
     try {
-      // 1. Query metadata for Content-Length and Content-Type
-      const head = await s3.send(new HeadObjectCommand({
+      // 1. Verify existence in S3 bucket
+      await s3.send(new HeadObjectCommand({
         Bucket: s3Config.bucket,
         Key: fileKey
       }));
 
-      const totalSize = head.ContentLength;
-      const contentType = head.ContentType || 'video/mp4';
-      const range = req.headers.range;
-      const CHUNK_SIZE = 1024 * 1024 * 2; // 2MB chunk window
-
-      if (range) {
-        const parts = range.replace(/bytes=/, '').split('-');
-        const start = parseInt(parts[0], 10);
-        let end = parts[1] ? parseInt(parts[1], 10) : start + CHUNK_SIZE - 1;
-        if (end >= totalSize) end = totalSize - 1;
-
-        const contentLength = end - start + 1;
-        const s3Range = `bytes=${start}-${end}`;
-
-        const s3Obj = await s3.send(new GetObjectCommand({
-          Bucket: s3Config.bucket,
-          Key: fileKey,
-          Range: s3Range
-        }));
-
-        res.writeHead(206, {
-          'Content-Range': `bytes ${start}-${end}/${totalSize}`,
-          'Accept-Ranges': 'bytes',
-          'Content-Length': contentLength,
-          'Content-Type': contentType,
-          'Cache-Control': 'public, max-age=86400, stale-while-revalidate=604800'
-        });
-
-        return s3Obj.Body.pipe(res);
-      } else {
-        // Send initial chunk
-        const end = Math.min(CHUNK_SIZE - 1, totalSize - 1);
-        const s3Obj = await s3.send(new GetObjectCommand({
-          Bucket: s3Config.bucket,
-          Key: fileKey,
-          Range: `bytes=0-${end}`
-        }));
-
-        res.writeHead(206, {
-          'Content-Range': `bytes 0-${end}/${totalSize}`,
-          'Accept-Ranges': 'bytes',
-          'Content-Length': end + 1,
-          'Content-Type': contentType,
-          'Cache-Control': 'public, max-age=86400'
-        });
-
-        return s3Obj.Body.pipe(res);
+      // 2. High-speed Direct S3 Playback:
+      // Redirect directly to S3 Mumbai (ap-south-1) with a presigned GET URL.
+      // This completely bypasses transatlantic serverless hops through Vercel Washington D.C.,
+      // giving instant, zero-buffer, multi-megabit domestic streaming directly to the browser!
+      const signed = await getS3SignedPlaybackUrl(fileKey, 7200);
+      if (signed) {
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+        return res.redirect(302, signed);
       }
     } catch (err) {
-      console.error('[MediaManager] S3 Range Stream Error, falling back to presigned redirect:', err.message);
-      const signed = await getS3SignedPlaybackUrl(fileKey, 3600);
-      if (signed) return res.redirect(signed);
+      if (err.name === 'NotFound' || err.$metadata?.httpStatusCode === 404) {
+        return res.status(404).send('Video file not found in current S3 storage bucket. (The file may belong to an older deleted storage bucket).');
+      }
+      console.error('[MediaManager] S3 Stream Error:', err.message);
     }
   }
 
@@ -539,6 +485,7 @@ function normalizeDoc(doc) {
 }
 
 async function getAllVideos() {
+  await ensureMongo();
   if (isMongoConnected) {
     try {
       const list = await Video.find().sort({ uploadedAt: -1 }).lean();
@@ -551,6 +498,7 @@ async function getAllVideos() {
 }
 
 async function getVideoById(id) {
+  await ensureMongo();
   if (isMongoConnected) {
     try {
       const v = await Video.findById(id).lean();
@@ -563,6 +511,7 @@ async function getVideoById(id) {
 }
 
 async function addVideo({ title, type, sourceUrl, fileKey, youtubeId, thumbnail, placements }) {
+  await ensureMongo();
   // Prevent duplicate entries if both direct browser upload and S3-triggered Lambda submit the same fileKey
   if (fileKey) {
     if (isMongoConnected) {
@@ -620,6 +569,7 @@ async function addVideo({ title, type, sourceUrl, fileKey, youtubeId, thumbnail,
 // Update Video Thumbnail (Image file or URL)
 // -------------------------------------------------------------
 async function updateVideoThumbnail(videoId, { thumbnailUrl, fileBuffer, originalName, mimeType }) {
+  await ensureMongo();
   let finalThumbUrl = thumbnailUrl;
 
   if (fileBuffer) {
@@ -729,6 +679,7 @@ async function assignVideoPlacement(videoId, targetPlacement, options = {}) {
 }
 
 async function deleteVideo(videoId) {
+  await ensureMongo();
   let deleted = null;
 
   if (isMongoConnected) {
