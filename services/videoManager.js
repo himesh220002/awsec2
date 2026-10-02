@@ -563,6 +563,18 @@ async function getVideoById(id) {
 }
 
 async function addVideo({ title, type, sourceUrl, fileKey, youtubeId, thumbnail, placements }) {
+  // Prevent duplicate entries if both direct browser upload and S3-triggered Lambda submit the same fileKey
+  if (fileKey) {
+    if (isMongoConnected) {
+      try {
+        const existing = await Video.findOne({ fileKey }).lean();
+        if (existing) return normalizeDoc(existing);
+      } catch (e) {}
+    }
+    const local = fallbackVideos.find(v => v.fileKey === fileKey);
+    if (local) return local;
+  }
+
   const newId = 'v' + (Date.now().toString(36) + Math.random().toString(36).substr(2, 5));
   const validPlacements = ['home_trailer', 'home_gameplay', 'media_page'];
   let pArray = [];
