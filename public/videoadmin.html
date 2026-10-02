@@ -71,6 +71,30 @@
     </div>
   </div>
 
+  <!-- Local 4-Pin Terminal Safeguard (Layer 2 Quick-Lock Wall) -->
+  <div id="pinGate" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
+    <div class="relative w-full max-w-sm rounded-3xl bg-[#171722] border border-red-500/30 p-8 text-center shadow-[0_20px_80px_rgba(239,68,68,0.25)]">
+      <div class="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-500 flex items-center justify-center mx-auto mb-4 text-xl">
+        🔒
+      </div>
+      <h2 class="text-xl font-bold font-cond tracking-wide text-red-500 uppercase">Local Safeguard</h2>
+      <p class="text-xs text-white/50 mt-1 mb-6">Enter your 4-digit terminal code to unlock the video management console.</p>
+
+      <form onsubmit="event.preventDefault(); verifyPin();" class="space-y-4">
+        <input id="pinInput" type="password" maxlength="4" pattern="\d*" inputmode="numeric" placeholder="••••" autofocus
+          class="w-full text-center text-3xl font-mono tracking-[0.5em] bg-black/60 border border-red-500/30 rounded-2xl p-3.5 focus:outline-none focus:border-red-500 text-white placeholder-white/20 transition">
+        <p id="pinError" class="hidden text-xs font-mono font-bold text-red-400"></p>
+        <button type="submit" id="btnUnlockPin" class="w-full pill-btn bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl cursor-pointer transition">
+          Unlock Terminal
+        </button>
+      </form>
+      <div class="mt-5 flex justify-between items-center text-[10px] font-mono text-white/30">
+        <span>DEFAULT PIN: 1234</span>
+        <button type="button" onclick="handleLogout()" class="hover:text-red-400 cursor-pointer">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-inkdeep/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-4">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -92,7 +116,8 @@
           <span id="s3StatusText">Checking S3...</span>
         </div>
         <a href="/" target="_blank" class="ghost-btn font-bold text-xs uppercase tracking-wider text-white/70 hover:text-pill border border-white/20 px-4 py-2 rounded-full no-underline">View Site ↗</a>
-        <button onclick="handleLogout()" class="ghost-btn font-mono text-xs uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-500/20 px-3 py-2 rounded-full cursor-pointer">Lock</button>
+        <button onclick="lockTerminal()" class="ghost-btn font-mono text-xs uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-500/20 px-3 py-2 rounded-full cursor-pointer">🔒 Quick Lock</button>
+        <button onclick="handleLogout()" class="ghost-btn font-mono text-xs uppercase tracking-wider text-white/40 hover:text-white border border-white/10 px-3 py-2 rounded-full cursor-pointer">Sign Out</button>
       </div>
     </div>
   </header>
@@ -390,7 +415,24 @@
       }
     }
 
-    // Login Handler
+    let isPinVerified = false; // In-memory safeguard: resets on page reload/tab close for maximum physical security
+
+    function initSecurity() {
+      if (!adminToken) {
+        document.getElementById('authGate').classList.remove('hidden');
+        document.getElementById('pinGate').classList.add('hidden');
+      } else if (!isPinVerified) {
+        document.getElementById('authGate').classList.add('hidden');
+        document.getElementById('pinGate').classList.remove('hidden');
+        setTimeout(() => document.getElementById('pinInput').focus(), 150);
+      } else {
+        document.getElementById('authGate').classList.add('hidden');
+        document.getElementById('pinGate').classList.add('hidden');
+        loadVideos();
+      }
+    }
+
+    // Layer 1: Master Admin Password Login Handler
     async function handleLogin() {
       const input = document.getElementById('adminPassInput');
       const pass = input.value.trim();
@@ -414,7 +456,9 @@
           adminToken = pass;
           localStorage.setItem('igv_admin_pass', pass);
           document.getElementById('authGate').classList.add('hidden');
-          loadVideos();
+          // Proceed to Layer 2 Terminal PIN Check
+          document.getElementById('pinGate').classList.remove('hidden');
+          setTimeout(() => document.getElementById('pinInput').focus(), 150);
         } else {
           errBox.innerText = 'Invalid Admin Key. Check .env configuration.';
           errBox.classList.remove('hidden');
@@ -428,17 +472,64 @@
       }
     }
 
+    // Layer 2: 4-Digit Quick-Lock Terminal Safeguard
+    async function verifyPin() {
+      const pinInput = document.getElementById('pinInput');
+      const pin = pinInput.value.trim();
+      const errBox = document.getElementById('pinError');
+      const btn = document.getElementById('btnUnlockPin');
+
+      if (!pin) return;
+      btn.disabled = true;
+      btn.innerText = 'Verifying PIN...';
+      errBox.classList.add('hidden');
+
+      try {
+        const res = await fetch('/api/admin/verify-pin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin })
+        });
+
+        if (res.ok) {
+          isPinVerified = true;
+          document.getElementById('pinGate').classList.add('hidden');
+          loadVideos();
+        } else {
+          errBox.innerText = 'Invalid Access PIN. Default is 1234.';
+          errBox.classList.remove('hidden');
+          pinInput.value = '';
+          pinInput.focus();
+        }
+      } catch (e) {
+        errBox.innerText = 'Network error checking PIN.';
+        errBox.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Unlock Terminal';
+      }
+    }
+
+    function lockTerminal() {
+      isPinVerified = false;
+      document.getElementById('pinGate').classList.remove('hidden');
+      document.getElementById('pinInput').value = '';
+      setTimeout(() => document.getElementById('pinInput').focus(), 150);
+    }
+
     function handleLogout() {
       localStorage.removeItem('igv_admin_pass');
       adminToken = '';
+      isPinVerified = false;
+      document.getElementById('pinGate').classList.add('hidden');
       document.getElementById('authGate').classList.remove('hidden');
       document.getElementById('adminPassInput').value = '';
     }
 
     // Load Videos & Status
     async function loadVideos() {
-      if (!adminToken) {
-        document.getElementById('authGate').classList.remove('hidden');
+      if (!adminToken || !isPinVerified) {
+        initSecurity();
         return;
       }
 
@@ -688,7 +779,7 @@
       }
     }
 
-    // Submit S3 Upload
+    // Submit S3 Upload: Direct Browser-to-S3 Presigned Upload (bypasses 4.5MB Vercel & server limits)
     async function submitS3Upload() {
       const title = document.getElementById('s3Title').value.trim();
       const fileInput = document.getElementById('s3File');
@@ -703,43 +794,117 @@
       }
 
       btn.disabled = true;
-      btn.innerText = 'Uploading to S3...';
+      btn.innerText = 'Initializing S3 upload...';
       const progressBox = document.getElementById('uploadProgress');
       const progressBar = document.getElementById('progressBar');
       const progressPercent = document.getElementById('progressPercent');
+      const progressText = document.getElementById('progressText');
       progressBox.classList.remove('hidden');
-      progressBar.style.width = '30%';
-      progressPercent.innerText = '30%';
+      progressBar.style.width = '5%';
+      progressPercent.innerText = '5%';
+      progressText.innerText = 'Requesting secure S3 Presigned URL...';
 
       const placements = [];
       if (document.getElementById('s3PlaceTrailer').checked) placements.push('home_trailer');
       if (document.getElementById('s3PlaceGameplay').checked) placements.push('home_gameplay');
       if (document.getElementById('s3PlaceMedia').checked) placements.push('media_page');
 
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('videoFile', file);
-      if (thumbFile) {
-        formData.append('thumbFile', thumbFile);
-      }
-      formData.append('placements', JSON.stringify(placements));
-
       try {
-        const res = await fetch('/api/admin/videos/upload', {
+        // Step 1: Request S3 Presigned PUT URL
+        const presignRes = await fetch('/api/admin/videos/presign', {
           method: 'POST',
           headers: {
+            'Content-Type': 'application/json',
             'x-admin-password': adminToken
           },
-          body: formData
+          body: JSON.stringify({ fileName: file.name, contentType: file.type || 'video/mp4' })
         });
 
-        progressBar.style.width = '100%';
-        progressPercent.innerText = '100%';
+        if (presignRes.ok) {
+          const presign = await presignRes.json();
+          // Step 2: Direct Browser-to-S3 Upload with real-time XHR byte progress
+          btn.innerText = 'Streaming to AWS S3...';
+          await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('PUT', presign.uploadUrl, true);
+            xhr.setRequestHeader('Content-Type', file.type || 'video/mp4');
+            xhr.upload.onprogress = (e) => {
+              if (e.lengthComputable) {
+                const percent = Math.round((e.loaded / e.total) * 100);
+                progressBar.style.width = percent + '%';
+                progressPercent.innerText = percent + '%';
+                const mbLoaded = (e.loaded / (1024 * 1024)).toFixed(1);
+                const mbTotal = (e.total / (1024 * 1024)).toFixed(1);
+                progressText.innerText = `Direct S3: ${mbLoaded}MB / ${mbTotal}MB (${percent}%)`;
+              }
+            };
+            xhr.onload = () => {
+              if (xhr.status >= 200 && xhr.status < 300) resolve();
+              else reject(new Error('S3 direct upload rejected with status ' + xhr.status + '. (Verify S3 CORS policy).'));
+            };
+            xhr.onerror = () => reject(new Error('Network error uploading directly to S3. Please verify S3 CORS settings.'));
+            xhr.send(file);
+          });
 
-        const data = await res.json();
-        if (!res.ok) {
-          alert('Upload failed: ' + (data.error || 'Server error'));
-          return;
+          // Step 3: Handle optional thumbnail upload
+          let finalThumbUrl = null;
+          if (thumbFile) {
+            progressText.innerText = 'Uploading custom thumbnail...';
+            const thumbForm = new FormData();
+            thumbForm.append('thumbFile', thumbFile);
+            const thumbRes = await fetch('/api/admin/videos/upload-thumb', {
+              method: 'POST',
+              headers: { 'x-admin-password': adminToken },
+              body: thumbForm
+            }).catch(() => null);
+            if (thumbRes && thumbRes.ok) {
+              const td = await thumbRes.json();
+              finalThumbUrl = td.thumbnailUrl;
+            }
+          }
+
+          // Step 4: Complete direct upload and register with CloudFront & MongoDB
+          progressText.innerText = 'Saving to MongoDB & CloudFront...';
+          const completeRes = await fetch('/api/admin/videos/complete-direct-upload', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-admin-password': adminToken
+            },
+            body: JSON.stringify({
+              title: title || file.name,
+              fileKey: presign.fileKey,
+              thumbnailUrl: finalThumbUrl,
+              placements
+            })
+          });
+
+          if (!completeRes.ok) {
+            const errData = await completeRes.json();
+            throw new Error(errData.error || 'Failed to register video in database');
+          }
+
+          progressBar.style.width = '100%';
+          progressPercent.innerText = '100%';
+          showToast('Uploaded directly to AWS S3 & CloudFront! Bypassed all server limits.');
+        } else {
+          // Fallback to server-side multipart upload if S3 presigning is not configured
+          progressText.innerText = 'Uploading via server fallback...';
+          const formData = new FormData();
+          formData.append('title', title);
+          formData.append('videoFile', file);
+          if (thumbFile) formData.append('thumbFile', thumbFile);
+          formData.append('placements', JSON.stringify(placements));
+
+          const res = await fetch('/api/admin/videos/upload', {
+            method: 'POST',
+            headers: { 'x-admin-password': adminToken },
+            body: formData
+          });
+
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Server upload error');
+          showToast(data.s3Used ? 'Uploaded to AWS S3!' : 'Stored locally');
         }
 
         document.getElementById('s3Title').value = '';
@@ -749,10 +914,9 @@
         document.getElementById('s3PlaceGameplay').checked = false;
         document.getElementById('s3PlaceMedia').checked = false;
 
-        showToast(data.s3Used ? 'Uploaded to AWS S3 (Chunk-Streaming Ready)!' : 'Stored locally (Ready for S3)');
         loadVideos();
       } catch (err) {
-        alert('Upload network error: ' + err.message);
+        alert('Upload Notice: ' + err.message);
       } finally {
         setTimeout(() => {
           progressBox.classList.add('hidden');
@@ -1134,12 +1298,7 @@
 
     // Initialize on page load
     window.addEventListener('DOMContentLoaded', () => {
-      if (adminToken) {
-        document.getElementById('authGate').classList.add('hidden');
-        loadVideos();
-      } else {
-        document.getElementById('authGate').classList.remove('hidden');
-      }
+      initSecurity();
     });
   </script>
 </body>

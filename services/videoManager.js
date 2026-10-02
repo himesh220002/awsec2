@@ -253,6 +253,43 @@ function getS3Client() {
   });
 }
 
+// Generate presigned PUT URL for direct browser-to-S3 upload
+// Completely bypasses Vercel/server 4.5MB payload limits (supports 500MB+ files)
+async function getS3UploadPresignedUrl(fileName, contentType = 'video/mp4', expiresIn = 3600) {
+  const s3Config = getS3Config();
+  const s3 = getS3Client();
+  if (!s3 || !s3Config.isConfigured) {
+    throw new Error('AWS S3 is not configured. Please add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, and AWS_S3_BUCKET.');
+  }
+
+  const ext = path.extname(fileName) || '.mp4';
+  const cleanBase = path.basename(fileName, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
+  const fileKey = `igv_videos/${Date.now()}_${cleanBase}${ext}`;
+
+  const command = new PutObjectCommand({
+    Bucket: s3Config.bucket,
+    Key: fileKey,
+    ContentType: contentType
+  });
+
+  const uploadUrl = await getSignedUrl(s3, command, { expiresIn });
+  const cloudFrontDomain = getSecret('CLOUDFRONT_DOMAIN') || '';
+  const cleanDomain = cloudFrontDomain.replace(/^https?:\/\//, '').replace(/\/$/, '');
+
+  const playbackUrl = cleanDomain
+    ? `https://${cleanDomain}/${fileKey}`
+    : `/api/videos/stream?key=${encodeURIComponent(fileKey)}`;
+
+  return {
+    uploadUrl,
+    fileKey,
+    playbackUrl,
+    cloudFrontDomain: cleanDomain || null,
+    bucket: s3Config.bucket,
+    region: s3Config.region
+  };
+}
+
 // Generate presigned URL for private S3 buckets
 async function getS3SignedPlaybackUrl(fileKey, expiresIn = 7200) {
   const s3Config = getS3Config();
@@ -747,6 +784,7 @@ module.exports = {
   updateVideoThumbnail,
   streamVideoChunk,
   getS3SignedPlaybackUrl,
+  getS3UploadPresignedUrl,
   parseYouTubeUrl,
   getAllVideos,
   getVideoById,

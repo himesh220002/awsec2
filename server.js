@@ -217,6 +217,72 @@ app.post('/api/admin/videos/upload', requireAdminAuth, videoUploadFields, async 
   }
 });
 
+// S3 Presigned URL for Direct Browser-to-S3 Uploads (Bypasses Vercel/Server payload limits)
+app.post('/api/admin/videos/presign', requireAdminAuth, async (req, res) => {
+  try {
+    const { fileName, contentType } = req.body || {};
+    if (!fileName) return res.status(400).json({ error: 'fileName is required' });
+    const presigned = await videoManager.getS3UploadPresignedUrl(fileName, contentType || 'video/mp4');
+    res.json(presigned);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Complete direct S3 upload: write metadata to MongoDB with CloudFront playback URL
+app.post('/api/admin/videos/complete-direct-upload', requireAdminAuth, async (req, res) => {
+  try {
+    const { title, fileKey, thumbnailUrl, placements } = req.body || {};
+    if (!fileKey) return res.status(400).json({ error: 'fileKey is required' });
+
+    let finalPlacements = [];
+    if (placements) {
+      finalPlacements = Array.isArray(placements) ? placements : [placements];
+    }
+
+    const cloudFrontDomain = (videoManager.getSecret ? videoManager.getSecret('CLOUDFRONT_DOMAIN') : process.env.CLOUDFRONT_DOMAIN) || '';
+    const cleanDomain = cloudFrontDomain.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    const sourceUrl = cleanDomain
+      ? `https://${cleanDomain}/${fileKey}`
+      : `/api/videos/stream?key=${encodeURIComponent(fileKey)}`;
+
+    const newVideo = await videoManager.addVideo({
+      title: title || 'S3 Video Relay',
+      type: 's3',
+      sourceUrl,
+      fileKey,
+      thumbnail: thumbnailUrl || '/images/posters/poster_full.0az_iud2g3y4j.jpg',
+      placements: finalPlacements
+    });
+
+    res.status(201).json({ success: true, video: newVideo });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Verify 4-Digit Quick-Lock Safeguard PIN
+app.post('/api/admin/verify-pin', (req, res) => {
+  const { pin } = req.body || {};
+  const expectedPin = (videoManager.getSecret ? videoManager.getSecret('VIDEO_ADMIN_PIN') : process.env.VIDEO_ADMIN_PIN) || '1234';
+  if (pin && String(pin).trim() === String(expectedPin).trim()) {
+    res.json({ success: true, message: 'Terminal unlocked' });
+  } else {
+    res.status(401).json({ error: 'Invalid terminal PIN' });
+  }
+});
+
+// Upload standalone thumbnail to S3/local
+app.post('/api/admin/videos/upload-thumb', requireAdminAuth, upload.single('thumbFile'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'No thumbnail file provided' });
+    const thumbnailUrl = await videoManager.uploadImageFile(req.file.buffer, req.file.originalname, req.file.mimetype);
+    res.json({ success: true, thumbnailUrl });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Set or Update Thumbnail on Existing Video
 app.post('/api/admin/videos/:id/thumbnail', requireAdminAuth, upload.single('thumbFile'), async (req, res) => {
   try {
