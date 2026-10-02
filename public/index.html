@@ -386,7 +386,8 @@
 
   <canvas id="bg3d" class="fixed inset-0 -z-[15] pointer-events-none opacity-60"></canvas>
 
-  <header class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4 ">
+  <header
+    class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4 bg-ink/85 backdrop-blur-xl border-b border-white/10">
     <a href="/"
       class="flex items-center gap-2.5 font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white"><img
         src="/images/logo.svg" alt="IGV logo" width="40" height="40"
@@ -507,20 +508,28 @@
     </div>
     <div class="reveal flex flex-col sm:flex-row sm:items-end justify-between gap-4">
       <div>
-        <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Trailers &amp; Gameplay</h2>
+        <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Trailers &amp;
+          Gameplay</h2>
         <p class="mt-2 text-white/60 text-sm sm:text-base">Real-time media relay powered by IGV Dynamic Database.</p>
       </div>
-      <a href="/media" class="ghost-btn font-bold text-xs uppercase tracking-widest text-pill border border-pill/30 px-5 py-2.5 rounded-full no-underline hover:bg-pill/10">All Media Vault →</a>
+      <a href="/media"
+        class="ghost-btn font-bold text-xs uppercase tracking-widest text-pill border border-pill/30 px-5 py-2.5 rounded-full no-underline hover:bg-pill/10">All
+        Media Vault →</a>
     </div>
 
     <!-- Active Media Showcase Player (Dynamically queries /api/videos/active?placement=home_trailer) -->
-    <div id="activeMediaContainer" class="reveal mt-8 mb-10 overflow-hidden rounded-[28px] bg-ink border-2 border-panel shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+    <div id="activeMediaContainer"
+      class="reveal mt-8 mb-10 overflow-hidden rounded-[28px] bg-ink border-2 border-panel shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
       <div class="flex items-center justify-between px-6 py-4 bg-white/[0.03] border-b border-white/10">
         <div class="flex items-center gap-2">
           <span class="w-2.5 h-2.5 rounded-full bg-vice-pink animate-pulse"></span>
-          <span id="activeBadgeText" class="font-mono text-[0.65rem] tracking-[0.2em] font-bold uppercase text-vice-pink">Active Trailer Relay</span>
+          <span id="activeBadgeText"
+            class="font-mono text-[0.65rem] tracking-[0.2em] font-bold uppercase text-vice-pink">Active Trailer
+            Relay</span>
         </div>
-        <span id="activeSourceBadge" class="font-mono text-[0.6rem] bg-white/10 text-white/70 px-2.5 py-1 rounded-full uppercase tracking-wider">Database Stream</span>
+        <span id="activeSourceBadge"
+          class="font-mono text-[0.6rem] bg-white/10 text-white/70 px-2.5 py-1 rounded-full uppercase tracking-wider">Database
+          Stream</span>
       </div>
       <div id="activePlayerBox" class="relative w-full aspect-video bg-black/80 flex items-center justify-center">
         <p class="text-white/40 font-mono text-sm animate-pulse">Loading active media relay…</p>
@@ -531,7 +540,8 @@
           <p id="activeMetaText" class="mt-1 font-mono text-xs text-white/50 tracking-wider">OFFICIAL FEED</p>
         </div>
         <div class="flex items-center gap-3">
-          <a id="activeExternalLink" href="/media" class="pill-btn bg-pill text-inkdeep font-bold text-xs px-6 py-2.5 rounded-full no-underline uppercase tracking-wider">
+          <a id="activeExternalLink" href="/media"
+            class="pill-btn bg-pill text-inkdeep font-bold text-xs px-6 py-2.5 rounded-full no-underline uppercase tracking-wider">
             Open in Media Vault →
           </a>
         </div>
@@ -541,9 +551,15 @@
     <!-- Filter Pills for Elastic Nature: All / Gameplay Showcases / Official Trailers -->
     <div class="reveal flex flex-wrap items-center justify-between gap-4 mb-6">
       <div class="inline-flex rounded-full bg-white/5 p-1 border border-white/10" id="watchFilterBar">
-        <button onclick="setWatchTab('all')" id="wTabAll" class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer">All Relays</button>
-        <button onclick="setWatchTab('gameplay')" id="wTabGameplay" class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎮 Gameplay Relays</button>
-        <button onclick="setWatchTab('trailers')" id="wTabTrailers" class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎬 Official Trailers</button>
+        <button onclick="setWatchTab('all')" id="wTabAll"
+          class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer">All
+          Relays</button>
+        <button onclick="setWatchTab('gameplay')" id="wTabGameplay"
+          class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎮
+          Gameplay Relays</button>
+        <button onclick="setWatchTab('trailers')" id="wTabTrailers"
+          class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎬
+          Official Trailers</button>
       </div>
       <span id="watchCountText" class="font-mono text-xs text-white/50">Showing all broadcasts</span>
     </div>
@@ -578,7 +594,7 @@
     </div>
   </div>
 
-  <section class="reveal max-w-7xl mx-auto px-4 sm:px-0 pb-12 sm:pb-16">
+  <section class="reveal max-w-7xl mx-auto px-4 pb-12 sm:pb-16">
     <div class="rounded-[24px] bg-inkdeep border border-panel p-6 sm:p-10">
       <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Everywhere&nbsp;You&nbsp;Play</p>
       <div
@@ -910,6 +926,7 @@
     document.getElementById('menuWatchBtn').onclick = () => { menuMain.classList.add('hidden'); menuWatch.classList.remove('hidden'); };
     document.getElementById('menuBackBtn').onclick = showMenuMain;
     addEventListener('keydown', e => { if (e.key === 'Escape' && !rmenu.classList.contains('hidden')) setMenu(false); });
+
     fetch('/api/showcase').then(r => r.json()).then(s => {
       const mv = document.getElementById('menuVideos');
       mv.className = 'mt-5 grid sm:grid-cols-2 gap-4';
@@ -1146,11 +1163,11 @@
       const safeTitle = (v.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
       const safeThumb = (thumb || '').replace(/'/g, "\\'");
       const safeUrl = (v.sourceUrl || '').replace(/'/g, "\\'");
-      const clickAction = isS3 
+      const clickAction = isS3
         ? `playS3Video('${safeUrl}', '${safeTitle}', '${safeThumb}')`
         : `location.href='/media#/watch/${v.youtubeId}'`;
-      const playBadge = isS3 
-        ? '<span class="bg-vice-cyan/90 text-inkdeep font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">S3 CHUNK STREAM</span>' 
+      const playBadge = isS3
+        ? '<span class="bg-vice-cyan/90 text-inkdeep font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">S3 CHUNK STREAM</span>'
         : '<span class="bg-red-600 text-white font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">YOUTUBE</span>';
 
       return `
@@ -1361,8 +1378,8 @@
           }
 
           if (activeTrailer.type === 'youtube') {
-            const embedUrl = activeTrailer.sourceUrl.includes('embed') 
-              ? activeTrailer.sourceUrl 
+            const embedUrl = activeTrailer.sourceUrl.includes('embed')
+              ? activeTrailer.sourceUrl
               : `https://www.youtube-nocookie.com/embed/${activeTrailer.youtubeId || ''}`;
             box.innerHTML = `<iframe src="${embedUrl}" title="${activeTrailer.title}" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
           } else {
