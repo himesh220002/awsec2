@@ -141,451 +141,994 @@
   ],
   "events": [
     {
-      "name": "Trident Ignite 2026 — BGMI",
-      "game": "BGMI",
-      "date": "2026 Season — Road to Masters",
-      "location": "India — LAN + Online",
-      "prize": "Pro Circuit",
+      "id": "t_vct_masters_toronto",
+      "_id": "t_vct_masters_toronto",
+      "name": "VCT Masters Toronto 2026",
+      "game": "Valorant",
+      "date": "10 — 25 Jun 2026",
+      "location": "Scotiabank Arena, Toronto, Canada",
+      "prize": "$1,000,000",
       "status": "live",
-      "format": "Challengers vs Masters",
-      "desc": "iQOO Revenant Xspark lit the first spark — Challengers vs Masters face-off on the road to Masters.",
-      "source": "Krafton India Esports",
-      "url": "https://kraftonindiaesports.com/",
-      "start": "2026 Season",
-      "end": "2026 Season",
-      "teams": "Challengers + Masters",
-      "prizePool": "Road to Masters",
-      "about": "Trident Ignite 2026 lights the BGMI season — challenger squads face invited masters for a road-to-Masters run.",
+      "format": "Swiss Stage → Knockout Bracket",
+      "desc": "The top 12 international Valorant powerhouses clash in Toronto — Champions qualification points and $1,000,000 on the line.",
+      "source": "Riot Games",
+      "url": "https://valorantesports.com/",
+      "start": "10 Jun 2026",
+      "end": "25 Jun 2026",
+      "teams": "12",
+      "prizePool": "$1,000,000 USD",
+      "about": "The high-stakes international Masters event of the 2026 VCT season. Hosted at Scotiabank Arena, regional champions battle through Swiss rounds to reach double-elimination bracket glory.",
       "stages": [
         {
-          "name": "Challengers vs Masters Face-off",
-          "dates": "2026 Season",
-          "region": "India",
-          "slots": "Open + Invite",
+          "name": "Swiss Stage",
+          "dates": "Jun 10 — 16",
+          "region": "Toronto",
+          "slots": "8 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Knockout Bracket",
+          "dates": "Jun 18 — 23",
+          "region": "Toronto",
+          "slots": "8 teams",
           "status": "live"
         },
         {
-          "name": "Road to Masters",
-          "dates": "2026 Season",
-          "region": "India",
-          "slots": "Qualified",
-          "status": "upcoming"
-        }
-      ]
-    },
-    {
-      "name": "Valorant Cypher Cup",
-      "game": "Valorant",
-      "date": "2026-11-15",
-      "location": "Online",
-      "prize": "$10,000",
-      "status": "upcoming",
-      "format": "Open Qualifier",
-      "desc": "Open qualifiers online — read the qualifier guide, then register your stack.",
-      "url": "/blog#/post/4",
-      "start": "15 Nov 2026",
-      "end": "15 Nov 2026",
-      "teams": "Open",
-      "prizePool": "$10,000",
-      "about": "The Valorant Cypher Cup opens its qualifiers online — five-plus-one rosters, three comfort maps and one anti-eco protocol. Preparation beats raw aim at this level.",
-      "stages": [
-        {
-          "name": "Open Qualifiers",
-          "dates": "15 Nov 2026",
-          "region": "Online",
-          "slots": "Open",
-          "status": "upcoming"
-        },
-        {
-          "name": "Group Stage",
-          "dates": "TBA",
-          "region": "Online",
-          "slots": "8 teams",
-          "status": "upcoming"
-        },
-        {
-          "name": "Grand Final",
-          "dates": "TBA",
-          "region": "Online",
-          "slots": "2 teams",
-          "status": "upcoming"
-        }
-      ]
-    },
-    {
-      "name": "CS2 Global Clash",
-      "game": "Counter-Strike 2",
-      "date": "2026-12-01",
-      "location": "LAN — Mumbai",
-      "prize": "$25,000",
-      "status": "upcoming",
-      "format": "GSL Groups → Playoffs",
-      "desc": "Eight squads, GSL groups into single-elim playoffs under arena lights.",
-      "url": "/blog#/post/3",
-      "start": "1 Dec 2026",
-      "end": "1 Dec 2026",
-      "teams": "8",
-      "prizePool": "$25,000",
-      "about": "The CS2 Global Clash lands in Mumbai with $25,000 on the line — GSL groups into a single-elimination playoff bracket and a best-of-five grand final.",
-      "stages": [
-        {
-          "name": "GSL Group Stage",
-          "dates": "1 Dec 2026",
-          "region": "Mumbai LAN",
-          "slots": "8 teams",
-          "status": "upcoming"
-        },
-        {
-          "name": "Playoffs",
-          "dates": "1 Dec 2026",
-          "region": "Mumbai LAN",
+          "name": "Grand Finals Weekend",
+          "dates": "Jun 24 — 25 · Scotiabank Arena",
+          "region": "Toronto",
           "slots": "4 teams",
           "status": "upcoming"
+        }
+      ],
+      "standings": [
+        {
+          "rank": "TBD",
+          "team": "Sentinels",
+          "prize": "In contention",
+          "points": "Playoffs"
         },
         {
-          "name": "Grand Final — BO5",
-          "dates": "1 Dec 2026",
-          "region": "Mumbai LAN",
-          "slots": "2 teams",
-          "status": "upcoming"
+          "rank": "TBD",
+          "team": "Paper Rex",
+          "prize": "In contention",
+          "points": "Playoffs"
+        },
+        {
+          "rank": "TBD",
+          "team": "Team Heretics",
+          "prize": "In contention",
+          "points": "Playoffs"
+        },
+        {
+          "rank": "TBD",
+          "team": "Gen.G Esports",
+          "prize": "In contention",
+          "points": "Playoffs"
+        }
+      ],
+      "news": [
+        {
+          "title": "Sentinels and Paper Rex face off in thrilling Upper Bracket Final",
+          "date": "2026"
         }
       ]
     },
     {
-      "name": "EWC 2026 — Counter-Strike 2",
-      "game": "Counter-Strike 2",
-      "date": "12 — 23 Aug 2026",
-      "location": "Paris",
-      "prize": "$600,000",
+      "id": "t_bgmi_pro_series_2026",
+      "_id": "t_bgmi_pro_series_2026",
+      "name": "Battlegrounds Mobile India Series (BGIS) 2026",
+      "game": "BGMI",
+      "date": "15 May — 2 Jun 2026",
+      "location": "Hitex Exhibition Center, Hyderabad, India",
+      "prize": "₹2,50,00,000",
+      "status": "live",
+      "format": "Open Qualifiers → Semi Finals → LAN Grand Finals",
+      "desc": "GodLike, Team Soul, XSpark and Versatile clash in the 16-team grand finals at Hitex Hyderabad for the ₹2.5 Crore crown.",
+      "source": "Krafton India Esports",
+      "url": "https://kraftonindiaesports.com/",
+      "start": "15 May 2026",
+      "end": "2 Jun 2026",
+      "teams": "1024+ (16 in LAN)",
+      "prizePool": "₹2,50,00,000 (₹2.5 Crore INR)",
+      "about": "India's flagship official esports championship hosted by Krafton India Esports. The Grand Finals features live spectators, multi-feed regional broadcasts, and real-time pick'em competitions.",
+      "stages": [
+        {
+          "name": "In-Game Open Qualifiers",
+          "dates": "May 15 — 18",
+          "region": "India",
+          "slots": "Open",
+          "status": "completed"
+        },
+        {
+          "name": "Round 1-3 Online Brackets",
+          "dates": "May 20 — 28",
+          "region": "India",
+          "slots": "1024 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Grand Finals LAN",
+          "dates": "May 30 — Jun 2 · Hyderabad",
+          "region": "Hyderabad",
+          "slots": "16 teams",
+          "status": "live"
+        }
+      ],
+      "standings": [
+        {
+          "rank": "1st (Live)",
+          "team": "Hero Xtreme GodLike",
+          "prize": "In contention",
+          "points": "142 pts"
+        },
+        {
+          "rank": "2nd (Live)",
+          "team": "Team Soul",
+          "prize": "In contention",
+          "points": "136 pts"
+        },
+        {
+          "rank": "3rd (Live)",
+          "team": "Team XSpark",
+          "prize": "In contention",
+          "points": "128 pts"
+        },
+        {
+          "rank": "4th (Live)",
+          "team": "Team Versatile",
+          "prize": "In contention",
+          "points": "119 pts"
+        }
+      ],
+      "news": [
+        {
+          "title": "BGIS 2026 Grand Finals Day 3 live from Hyderabad arena",
+          "date": "2026"
+        }
+      ]
+    },
+    {
+      "id": "bgis-2025",
+      "_id": "bgis-2025",
+      "name": "BGIS 2025 — Battlegrounds Mobile India Series",
+      "game": "BGMI",
+      "date": "10 Mar — 18 May 2025",
+      "location": "Biswa Bangla Mela Prangan, Kolkata, India",
+      "prize": "₹3,21,00,000",
       "status": "completed",
-      "format": "Groups → Playoffs",
-      "desc": "Team Spirit defeated FUT Esports 3-1 in the grand final — MVP donk, $600,000 and 1,000 club points.",
-      "source": "Esports World Cup",
-      "url": "https://esportsworldcup.com/en",
-      "start": "12 Aug 2026",
-      "end": "23 Aug 2026",
-      "teams": "32",
-      "prizePool": "$600,000 + CC points",
-      "about": "Counter-Strike 2 at the Esports World Cup 2026 — 32 clubs qualified through regional leagues and rankings, closing with Team Spirit lifting the trophy in Paris.",
+      "format": "Open In-Game → Knockouts → Kolkata LAN Finals",
+      "desc": "Team Versatile clinched the title with 169 points — edging Hero Xtreme GodLike (152 pts) to take home ₹1,00,00,000 in front of the Kolkata crowd.",
+      "source": "Krafton India Esports",
+      "url": "https://kraftonindiaesports.com/",
+      "start": "10 Mar 2025",
+      "end": "18 May 2025",
+      "teams": "1024+ (16 in LAN Finals)",
+      "prizePool": "₹3,21,00,000 (₹3.21 Crore INR)",
+      "about": "Krafton's flagship BGIS tournament expanded in 2025 to a massive ₹3.21 Crore prize pool. Staged at the Biswa Bangla Mela Prangan indoor arena in Kolkata, Team Versatile captured the title following a fiercely contested 18-match final.",
       "winner": {
-        "team": "Team Spirit",
-        "prize": "$600,000",
-        "note": "def. FUT Esports 3-1 · MVP donk · +1,000 CC points"
+        "team": "Team Versatile",
+        "prize": "₹1,00,00,000",
+        "note": "169 pts · 3 Chicken Dinners · MVP Saumraj · Trophy lifted in Kolkata"
       },
       "standings": [
         {
           "rank": "1st",
-          "team": "Team Spirit",
+          "team": "Team Versatile",
+          "prize": "₹1,00,00,000",
+          "points": "169 pts"
+        },
+        {
+          "rank": "2nd",
+          "team": "Hero Xtreme GodLike",
+          "prize": "₹50,00,000",
+          "points": "152 pts"
+        },
+        {
+          "rank": "3rd",
+          "team": "iQOO Orangutan",
+          "prize": "₹30,00,000",
+          "points": "143 pts"
+        },
+        {
+          "rank": "4th",
+          "team": "iQOO Reckoning Esports",
+          "prize": "₹20,00,000",
+          "points": "132 pts"
+        },
+        {
+          "rank": "5th",
+          "team": "True Rippers x Infinix",
+          "prize": "₹15,00,000",
+          "points": "118 pts"
+        },
+        {
+          "rank": "6th",
+          "team": "Carnival Gaming",
+          "prize": "₹12,00,000",
+          "points": "111 pts"
+        }
+      ],
+      "stages": [
+        {
+          "name": "Open Qualifiers",
+          "dates": "Mar 10 — 18",
+          "region": "India",
+          "slots": "Open",
+          "status": "completed"
+        },
+        {
+          "name": "Round 1-3 Online Brackets",
+          "dates": "Mar 22 — Apr 20",
+          "region": "India",
+          "slots": "1024 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Semi Finals Survival",
+          "dates": "Apr 24 — May 4",
+          "region": "India",
+          "slots": "32 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Kolkata Grand Finals",
+          "dates": "May 16 — 18 · Kolkata",
+          "region": "Kolkata",
+          "slots": "16 teams",
+          "status": "completed"
+        }
+      ],
+      "news": [
+        {
+          "title": "Team Versatile triumphs at BGIS 2025 Grand Finals in Kolkata",
+          "date": "May 2025"
+        },
+        {
+          "title": "Hero Xtreme GodLike secure runner-up podium in electrifying comeback",
+          "date": "May 2025"
+        }
+      ]
+    },
+    {
+      "id": "bmps-2024",
+      "_id": "bmps-2024",
+      "name": "BMPS 2024 — Battlegrounds Mobile Pro Series",
+      "game": "BGMI",
+      "date": "20 Aug — 29 Sep 2024",
+      "location": "Adlux International Convention Centre, Kochi, Kerala, India",
+      "prize": "₹2,00,00,000",
+      "status": "completed",
+      "format": "League Round 1 (128 Teams) → Round 2 (64 Teams) → Semi Finals → LAN Grand Finals",
+      "desc": "iQOO Revenant XSpark secured back-to-back Krafton major titles with 158 points, taking home ₹75,00,000 at the Kochi LAN arena.",
+      "source": "Krafton India Esports",
+      "url": "https://kraftonindiaesports.com/",
+      "start": "20 Aug 2024",
+      "end": "29 Sep 2024",
+      "teams": "128 (16 in LAN Finals)",
+      "prizePool": "₹2,00,00,000 (₹2 Crore INR)",
+      "about": "The premier professional league for BGMI featured 128 invited and qualified elite teams competing through gruelling double-round league phases before culminating at the Adlux Convention Centre in Kochi, Kerala.",
+      "winner": {
+        "team": "iQOO Revenant XSpark",
+        "prize": "₹75,00,000",
+        "note": "158 pts · MVP Spraygod · Second major championship in 2024"
+      },
+      "standings": [
+        {
+          "rank": "1st",
+          "team": "iQOO Revenant XSpark",
+          "prize": "₹75,00,000",
+          "points": "158 pts"
+        },
+        {
+          "rank": "2nd",
+          "team": "Team Forever",
+          "prize": "₹30,00,000",
+          "points": "145 pts"
+        },
+        {
+          "rank": "3rd",
+          "team": "Hero Xtreme GodLike",
+          "prize": "₹20,00,000",
+          "points": "144 pts"
+        },
+        {
+          "rank": "4th",
+          "team": "Numen Gaming",
+          "prize": "₹15,00,000",
+          "points": "135 pts"
+        },
+        {
+          "rank": "5th",
+          "team": "Team World of Battle",
+          "prize": "₹10,00,000",
+          "points": "128 pts"
+        }
+      ],
+      "stages": [
+        {
+          "name": "League Round 1",
+          "dates": "Aug 20 — 29",
+          "region": "India",
+          "slots": "128 teams",
+          "status": "completed"
+        },
+        {
+          "name": "League Round 2",
+          "dates": "Sep 7 — 12",
+          "region": "India",
+          "slots": "64 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Semi Finals",
+          "dates": "Sep 15 — 22",
+          "region": "India",
+          "slots": "24 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Grand Finals LAN",
+          "dates": "Sep 27 — 29 · Kochi",
+          "region": "Kochi",
+          "slots": "16 teams",
+          "status": "completed"
+        }
+      ],
+      "news": [
+        {
+          "title": "iQOO Revenant XSpark dominate BMPS 2024 in Kochi",
+          "date": "Sep 2024"
+        }
+      ]
+    },
+    {
+      "id": "ewc-cod-2024",
+      "_id": "ewc-cod-2024",
+      "name": "Esports World Cup 2024 — Call of Duty: MW3",
+      "game": "Call of Duty",
+      "date": "15 — 18 Aug 2024",
+      "location": "SEF Arena, Boulevard Riyadh City, Saudi Arabia",
+      "prize": "$1,800,000",
+      "status": "completed",
+      "format": "GSL Groups → Single-Elimination Playoffs",
+      "desc": "Atlanta FaZe dominated the EWC Call of Duty championship, defeating 100 Thieves 4-2 in the grand final to take the $600,000 top prize.",
+      "source": "Esports World Cup",
+      "url": "https://esportsworldcup.com/en",
+      "start": "15 Aug 2024",
+      "end": "18 Aug 2024",
+      "teams": "16",
+      "prizePool": "$1,800,000 USD",
+      "about": "The world's top Call of Duty franchises assembled in Riyadh for the inaugural Esports World Cup MW3 title event with $1,800,000 on the line and crucial Club Championship points.",
+      "winner": {
+        "team": "Atlanta FaZe",
+        "prize": "$600,000",
+        "note": "def. 100 Thieves 4-2 · MVP Simp · +1,000 Club Championship Points"
+      },
+      "standings": [
+        {
+          "rank": "1st",
+          "team": "Atlanta FaZe",
           "prize": "$600,000",
           "points": "+1,000"
         },
         {
           "rank": "2nd",
-          "team": "FUT Esports",
-          "prize": "$340,000",
-          "points": "+750"
+          "team": "100 Thieves",
+          "prize": "$320,000",
+          "points": "+600"
         },
         {
-          "rank": "3rd",
-          "team": "Legacy",
-          "prize": "$190,000",
-          "points": "+500"
+          "rank": "3rd-4th",
+          "team": "OpTic Texas",
+          "prize": "$160,000",
+          "points": "+350"
         },
         {
-          "rank": "4th",
-          "team": "FURIA",
-          "prize": "$110,000",
-          "points": "+300"
+          "rank": "3rd-4th",
+          "team": "Vancouver Surge",
+          "prize": "$160,000",
+          "points": "+350"
         },
         {
-          "rank": "5th",
-          "team": "Team Vitality · Falcons · MOUZ · G2",
-          "prize": "$60,000",
+          "rank": "5th-8th",
+          "team": "Toronto Ultra",
+          "prize": "$80,000",
           "points": "+200"
         },
         {
-          "rank": "9th",
-          "team": "MongolZ · NAVI · Aurora · GamerLegion · Astralis · magic · FaZe · BB",
-          "prize": "$35,000",
-          "points": "–"
+          "rank": "5th-8th",
+          "team": "Cloud9",
+          "prize": "$80,000",
+          "points": "+200"
         }
       ],
       "stages": [
         {
-          "name": "Asian Champions League",
-          "dates": "May 11 — 17",
+          "name": "Global Qualifiers",
+          "dates": "Jul 2024",
+          "region": "Global",
+          "slots": "16 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Group Stage",
+          "dates": "Aug 15 — 16 · Riyadh",
+          "region": "Riyadh",
+          "slots": "16 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Quarterfinals & Semifinals",
+          "dates": "Aug 17 · Riyadh",
+          "region": "Riyadh",
+          "slots": "8 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Grand Finals",
+          "dates": "Aug 18 · Riyadh",
+          "region": "Riyadh",
+          "slots": "2 teams",
+          "status": "completed"
+        }
+      ],
+      "news": [
+        {
+          "title": "Atlanta FaZe lift inaugural EWC Call of Duty championship trophy in Riyadh",
+          "date": "Aug 2024"
+        }
+      ]
+    },
+    {
+      "id": "vct-champions-2024",
+      "_id": "vct-champions-2024",
+      "name": "VCT Champions 2024 Seoul — Valorant",
+      "game": "Valorant",
+      "date": "1 — 25 Aug 2024",
+      "location": "INSPIRE Arena, Incheon & COEX Artium, Seoul, South Korea",
+      "prize": "$2,250,000",
+      "status": "completed",
+      "format": "GSL Groups → Double-Elimination Playoffs",
+      "desc": "EDward Gaming made history as China's first international Valorant champions, defeating Team Heretics 3-2 behind ZmjjKK's historic 111-kill performance.",
+      "source": "Riot Games",
+      "url": "https://valorantesports.com/",
+      "start": "1 Aug 2024",
+      "end": "25 Aug 2024",
+      "teams": "16",
+      "prizePool": "$2,250,000 USD",
+      "about": "The world championship of the Valorant Champions Tour. Sixteen premier squads from Americas, EMEA, Pacific, and China battled in South Korea. EDward Gaming surged through lower brackets to claim the trophy.",
+      "winner": {
+        "team": "EDward Gaming",
+        "prize": "$1,00,000",
+        "note": "def. Team Heretics 3-2 · Finals MVP ZmjjKK (111 kills) · First Champions trophy for China"
+      },
+      "standings": [
+        {
+          "rank": "1st",
+          "team": "EDward Gaming",
+          "prize": "$1,000,000",
+          "points": "Champions"
+        },
+        {
+          "rank": "2nd",
+          "team": "Team Heretics",
+          "prize": "$400,000",
+          "points": "Finalist"
+        },
+        {
+          "rank": "3rd",
+          "team": "LEVIATÁN",
+          "prize": "$250,000",
+          "points": "3rd Place"
+        },
+        {
+          "rank": "4th",
+          "team": "Sentinels",
+          "prize": "$130,000",
+          "points": "4th Place"
+        },
+        {
+          "rank": "5th-6th",
+          "team": "DRX",
+          "prize": "$85,000",
+          "points": "Top 6"
+        },
+        {
+          "rank": "5th-6th",
+          "team": "FNATIC",
+          "prize": "$85,000",
+          "points": "Top 6"
+        }
+      ],
+      "stages": [
+        {
+          "name": "Group Stage",
+          "dates": "Aug 1 — 11",
+          "region": "Seoul",
+          "slots": "16 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Playoffs Round 1 & 2",
+          "dates": "Aug 14 — 18",
+          "region": "Seoul",
+          "slots": "8 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Finals Weekend",
+          "dates": "Aug 23 — 25 · INSPIRE Arena",
+          "region": "Incheon",
+          "slots": "4 teams",
+          "status": "completed"
+        }
+      ],
+      "news": [
+        {
+          "title": "EDward Gaming defeat Team Heretics 3-2 to win VCT Champions 2024",
+          "date": "Aug 2024"
+        },
+        {
+          "title": "ZmjjKK shatters international record with 111 kills in Grand Finals",
+          "date": "Aug 2024"
+        }
+      ]
+    },
+    {
+      "id": "cdl-championship-2024",
+      "_id": "cdl-championship-2024",
+      "name": "Call of Duty League Championship 2024",
+      "game": "Call of Duty",
+      "date": "18 — 21 Jul 2024",
+      "location": "Credit Union of Texas Event Center, Allen, Texas, USA",
+      "prize": "$2,000,000",
+      "status": "completed",
+      "format": "8-Team Double Elimination (Best of 5, Finals Best of 9)",
+      "desc": "OpTic Texas captured their first CDL Championship ring, defeating defending champions New York Subliners 5-1 in the grand final behind MVP Shotzzy.",
+      "source": "Activision / Call of Duty League",
+      "url": "https://callofdutyleague.com/",
+      "start": "18 Jul 2024",
+      "end": "21 Jul 2024",
+      "teams": "8",
+      "prizePool": "$2,000,000 USD",
+      "about": "The pinnacle of competitive Call of Duty: Modern Warfare III. The top eight franchises in the regular season standings battled double-elimination brackets in Texas for the championship rings and $800,000 first prize.",
+      "winner": {
+        "team": "OpTic Texas",
+        "prize": "$800,000",
+        "note": "def. New York Subliners 5-1 · Tournament MVP Shotzzy · First CDL ring for OpTic"
+      },
+      "standings": [
+        {
+          "rank": "1st",
+          "team": "OpTic Texas",
+          "prize": "$800,000",
+          "points": "Champions"
+        },
+        {
+          "rank": "2nd",
+          "team": "New York Subliners",
+          "prize": "$480,000",
+          "points": "Finalist"
+        },
+        {
+          "rank": "3rd",
+          "team": "Toronto Ultra",
+          "prize": "$320,000",
+          "points": "3rd Place"
+        },
+        {
+          "rank": "4th",
+          "team": "Los Angeles Thieves",
+          "prize": "$160,000",
+          "points": "4th Place"
+        },
+        {
+          "rank": "5th-6th",
+          "team": "Atlanta FaZe",
+          "prize": "$80,000",
+          "points": "5th-6th"
+        },
+        {
+          "rank": "5th-6th",
+          "team": "Miami Heretics",
+          "prize": "$80,000",
+          "points": "5th-6th"
+        }
+      ],
+      "stages": [
+        {
+          "name": "Regular Season Majors 1-4",
+          "dates": "Jan — Jun 2024",
+          "region": "North America",
+          "slots": "12 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Winners Bracket Round 1 & 2",
+          "dates": "Jul 18 — 19",
+          "region": "Texas",
+          "slots": "8 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Elimination Bracket",
+          "dates": "Jul 20",
+          "region": "Texas",
+          "slots": "6 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Grand Finals BO9",
+          "dates": "Jul 21 · Allen Event Center",
+          "region": "Texas",
+          "slots": "2 teams",
+          "status": "completed"
+        }
+      ],
+      "news": [
+        {
+          "title": "OpTic Texas crowned CDL 2024 champions after 5-1 routing of Subliners",
+          "date": "Jul 2024"
+        }
+      ]
+    },
+    {
+      "id": "ewc-cs2-2024",
+      "_id": "ewc-cs2-2024",
+      "name": "Esports World Cup 2024 — Counter-Strike 2",
+      "game": "Counter-Strike 2",
+      "date": "17 — 21 Jul 2024",
+      "location": "SEF Arena, Boulevard Riyadh City, Saudi Arabia",
+      "prize": "$1,050,000",
+      "status": "completed",
+      "format": "Opening Stage → Single-Elim Playoffs",
+      "desc": "Natus Vincere defeated G2 Esports 2-1 in the grand final — MVP b1t, $400,000 first prize, and 1,000 Club Championship points.",
+      "source": "Esports World Cup",
+      "url": "https://esportsworldcup.com/en",
+      "start": "17 Jul 2024",
+      "end": "21 Jul 2024",
+      "teams": "15",
+      "prizePool": "$1,050,000 USD",
+      "about": "The inaugural Esports World Cup Counter-Strike 2 championship gathered 15 of the world's highest-ranked squads at the Boulevard Riyadh City. After intense opening brackets and high-octane single-elimination playoffs, Natus Vincere lifted the trophy in Riyadh.",
+      "winner": {
+        "team": "Natus Vincere",
+        "prize": "$400,000",
+        "note": "def. G2 Esports 2-1 (Ancient 14-16, Nuke 13-6, Inferno 13-6) · MVP b1t · +1,000 Club Points"
+      },
+      "standings": [
+        {
+          "rank": "1st",
+          "team": "Natus Vincere",
+          "prize": "$400,000",
+          "points": "+1,000"
+        },
+        {
+          "rank": "2nd",
+          "team": "G2 Esports",
+          "prize": "$175,000",
+          "points": "+600"
+        },
+        {
+          "rank": "3rd-4th",
+          "team": "MOUZ",
+          "prize": "$85,000",
+          "points": "+350"
+        },
+        {
+          "rank": "3rd-4th",
+          "team": "Virtus.pro",
+          "prize": "$85,000",
+          "points": "+350"
+        },
+        {
+          "rank": "5th-8th",
+          "team": "Team Vitality",
+          "prize": "$40,000",
+          "points": "+200"
+        },
+        {
+          "rank": "5th-8th",
+          "team": "Team Spirit",
+          "prize": "$40,000",
+          "points": "+200"
+        },
+        {
+          "rank": "5th-8th",
+          "team": "FaZe Clan",
+          "prize": "$40,000",
+          "points": "+200"
+        },
+        {
+          "rank": "5th-8th",
+          "team": "FURIA Esports",
+          "prize": "$40,000",
+          "points": "+200"
+        },
+        {
+          "rank": "9th",
+          "team": "The MongolZ",
+          "prize": "$25,000",
+          "points": "+100"
+        }
+      ],
+      "stages": [
+        {
+          "name": "European Qualifier",
+          "dates": "May 19 — 21",
+          "region": "Europe",
+          "slots": "1 club",
+          "status": "completed"
+        },
+        {
+          "name": "North American Qualifier",
+          "dates": "May 18 — 19",
+          "region": "Americas",
+          "slots": "1 club",
+          "status": "completed"
+        },
+        {
+          "name": "South American Qualifier",
+          "dates": "May 18 — 19",
+          "region": "Americas",
+          "slots": "1 club",
+          "status": "completed"
+        },
+        {
+          "name": "Asian Qualifier",
+          "dates": "May 18 — 19",
           "region": "Asia",
           "slots": "1 club",
           "status": "completed"
         },
         {
-          "name": "VRS Asia Ranking",
-          "dates": "Jun 2",
-          "region": "Asia",
-          "slots": "2 clubs",
-          "status": "completed"
-        },
-        {
-          "name": "VRS Global Ranking",
-          "dates": "Jun 2",
+          "name": "VRS Global Direct Invites",
+          "dates": "Jun 11",
           "region": "Global",
-          "slots": "21 clubs",
+          "slots": "9 clubs",
           "status": "completed"
         },
         {
-          "name": "VRS NA Ranking",
-          "dates": "Jun 2",
-          "region": "Americas",
-          "slots": "2 clubs",
-          "status": "completed"
-        },
-        {
-          "name": "VRS SA Ranking",
-          "dates": "Jun 2",
-          "region": "Americas",
-          "slots": "2 clubs",
-          "status": "completed"
-        },
-        {
-          "name": "EWC Last Chance Qualifier",
-          "dates": "Aug 7 — 8 · Paris",
-          "region": "Paris",
-          "slots": "4 clubs",
+          "name": "Opening Stage & Playoffs",
+          "dates": "Jul 17 — 21 · Riyadh",
+          "region": "Riyadh",
+          "slots": "15 clubs",
           "status": "completed"
         }
       ],
       "news": [
         {
-          "title": "Counter-Strike 2 returns to the Esports World Cup in 2027 and 2028",
-          "date": "2026"
+          "title": "NAVI become first-ever Esports World Cup CS2 champions in Riyadh",
+          "date": "Jul 2024"
         },
         {
-          "title": "2026 Esports World Cup in numbers",
-          "date": "2026"
+          "title": "b1t claims tournament MVP with 1.33 playoff rating",
+          "date": "Jul 2024"
         },
         {
-          "title": "Esports World Cup trophy ceremony crowns AG.AL",
-          "date": "2026"
-        },
-        {
-          "title": "Notable stories of EWC 26 — Week 7",
-          "date": "2026"
+          "title": "Esports World Cup confirms CS2 multi-year return through 2027",
+          "date": "Aug 2024"
         }
       ]
     },
     {
-      "name": "Naye Khiladi 2026 — BGMI",
+      "id": "bgis-2024",
+      "_id": "bgis-2024",
+      "name": "BGIS 2024 — Battlegrounds Mobile India Series",
       "game": "BGMI",
-      "date": "15 Jun — 26 Jul 2026",
-      "location": "Online",
-      "prize": "₹10,00,000",
+      "date": "2 May — 30 Jun 2024",
+      "location": "Hitex Exhibition Centre, Hyderabad, India",
+      "prize": "₹2,00,00,000",
       "status": "completed",
-      "format": "Grassroots Open",
-      "desc": "HEXWORA turned #AbTeriBaari into glory — inaugural champions from 8,000+ competitors, winning ₹3,50,000 and a Road to BGMS 2026 Grand Finals slot.",
+      "format": "The Grind → Open Qualifiers → Semi Finals → LAN Grand Finals",
+      "desc": "Team XSpark claimed the BGIS 2024 crown with 162 points — Sarang won MVP as XSpark took home ₹60,00,000 at the Hitex Exhibition Centre LAN.",
       "source": "Krafton India Esports",
       "url": "https://kraftonindiaesports.com/",
-      "start": "15 Jun 2026",
-      "end": "26 Jul 2026",
-      "teams": "1024",
-      "prizePool": "₹10,00,000",
-      "about": "A grassroots BGMI tournament powered by Krafton India Esports to discover the next generation of talent — 8,000+ registered competitors, 1024 teams.",
+      "start": "2 May 2024",
+      "end": "30 Jun 2024",
+      "teams": "1024+ (16 in LAN Finals)",
+      "prizePool": "₹2,00,00,000 (₹2 Crore INR)",
+      "about": "Official tier-1 national championship hosted by Krafton India Esports. Over 100,000 athletes entered across India through open in-game qualifiers before 16 elite finalists battled in front of a live arena crowd at Hitex Hyderabad.",
       "winner": {
-        "team": "HEXVORA",
-        "prize": "₹3,50,000",
-        "note": "inaugural champions · Road to BGMS 2026 Grand Finals slot"
+        "team": "Team XSpark",
+        "prize": "₹60,00,000",
+        "note": "162 pts · 99 finishes · MVP Sarang (32 kills) · Qualified to Global Circuit"
       },
       "standings": [
         {
-          "rank": "1",
-          "team": "HEXVORA",
-          "prize": "₹3,50,000",
-          "points": ""
+          "rank": "1st",
+          "team": "Team XSpark",
+          "prize": "₹60,00,000",
+          "points": "162 pts"
         },
         {
-          "rank": "2",
-          "team": "Zero Ark Official",
-          "prize": "₹1,80,000",
-          "points": ""
+          "rank": "2nd",
+          "team": "Global Esports",
+          "prize": "₹30,00,000",
+          "points": "153 pts"
         },
         {
-          "rank": "3",
-          "team": "Team Free Agents",
-          "prize": "₹1,00,000",
-          "points": ""
+          "rank": "3rd",
+          "team": "FS Esports",
+          "prize": "₹20,00,000",
+          "points": "140 pts"
         },
         {
-          "rank": "4",
-          "team": "X4RCE",
-          "prize": "₹60,000",
-          "points": ""
+          "rank": "4th",
+          "team": "Team Soul",
+          "prize": "₹15,00,000",
+          "points": "137 pts"
         },
         {
-          "rank": "5",
-          "team": "Troy Tamilan eSports",
-          "prize": "₹40,000",
-          "points": ""
+          "rank": "5th",
+          "team": "Team Tamilas",
+          "prize": "₹12,50,000",
+          "points": "129 pts"
         },
         {
-          "rank": "6",
-          "team": "TEAM ACS",
-          "prize": "₹40,000",
-          "points": ""
+          "rank": "6th",
+          "team": "Ravenx Esports",
+          "prize": "₹10,00,000",
+          "points": "122 pts"
         },
         {
-          "rank": "7",
-          "team": "DCxSCR Esports",
-          "prize": "₹40,000",
-          "points": ""
+          "rank": "7th",
+          "team": "Hero Xtreme GodLike",
+          "prize": "₹9,00,000",
+          "points": "115 pts"
         },
         {
-          "rank": "8",
-          "team": "K9Esports",
-          "prize": "₹40,000",
-          "points": ""
-        },
-        {
-          "rank": "9",
-          "team": "ESPORT SOCIAL",
-          "prize": "₹25,000",
-          "points": ""
-        },
-        {
-          "rank": "10",
-          "team": "THUNDER GODS ESPORTS",
-          "prize": "₹25,000",
-          "points": ""
-        },
-        {
-          "rank": "11",
-          "team": "BLD Esports",
-          "prize": "₹25,000",
-          "points": ""
-        },
-        {
-          "rank": "12",
-          "team": "7Gods Esports",
-          "prize": "₹25,000",
-          "points": ""
-        },
-        {
-          "rank": "13",
-          "team": "Santa Godsent",
-          "prize": "₹10,000",
-          "points": ""
-        },
-        {
-          "rank": "14",
-          "team": "Aura X Esports",
-          "prize": "₹10,000",
-          "points": ""
-        },
-        {
-          "rank": "15",
-          "team": "TEAM ERA ESPORTS",
-          "prize": "₹10,000",
-          "points": ""
-        },
-        {
-          "rank": "MVP",
-          "team": "HEXVORA",
-          "prize": "₹10,000",
-          "points": "special award"
+          "rank": "8th",
+          "team": "Reckoning Esports",
+          "prize": "₹8,00,000",
+          "points": "108 pts"
         }
-      ]
-    },
-    {
-      "name": "Esports World Cup 2027",
-      "game": "Multi-Title",
-      "date": "July — August 2027",
-      "location": "Riyadh",
-      "prize": "TBA",
-      "status": "upcoming",
-      "format": "Club Championship",
-      "desc": "The 2026 edition closed with a $75,000,000 pool and AG.AL as club champions. Next: Riyadh 2027.",
-      "source": "Esports World Cup",
-      "url": "https://esportsworldcup.com/en",
-      "start": "July 2027",
-      "end": "August 2027",
-      "teams": "TBA",
-      "prizePool": "TBA",
-      "about": "The next edition of the Esports World Cup returns to Riyadh — multi-title festival with the Club Championship on the line. Counter-Strike 2 is confirmed for 2027 and 2028.",
+      ],
       "stages": [
         {
-          "name": "Road to EWC — Rankings",
-          "dates": "2027 Season",
-          "region": "Global",
-          "slots": "TBA",
-          "status": "upcoming"
+          "name": "The Grind",
+          "dates": "Apr 4 — 28",
+          "region": "India",
+          "slots": "256 teams",
+          "status": "completed"
         },
         {
-          "name": "Last Chance Qualifier",
-          "dates": "2027",
-          "region": "TBA",
-          "slots": "TBA",
-          "status": "upcoming"
+          "name": "In-Game Open Qualifiers",
+          "dates": "May 2 — 5",
+          "region": "India",
+          "slots": "Open",
+          "status": "completed"
         },
         {
-          "name": "Main Event",
-          "dates": "July — August 2027",
-          "region": "Riyadh",
-          "slots": "TBA",
-          "status": "upcoming"
+          "name": "Rounds 1 to 4 Qualifiers",
+          "dates": "May 9 — Jun 2",
+          "region": "India",
+          "slots": "1024 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Semi Finals Week 1 & 2",
+          "dates": "Jun 4 — 16",
+          "region": "India",
+          "slots": "32 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Grand Finals LAN",
+          "dates": "Jun 28 — 30 · Hyderabad",
+          "region": "Hyderabad",
+          "slots": "16 teams",
+          "status": "completed"
         }
       ],
       "news": [
         {
-          "title": "Counter-Strike 2 returns to the Esports World Cup in 2027 and 2028",
-          "date": "2026"
+          "title": "Team XSpark crowned champions of BGIS 2024 in thrilling final match",
+          "date": "Jun 2024"
+        },
+        {
+          "title": "Hitex Hyderabad packed as over 600k concurrent fans watch Grand Finals",
+          "date": "Jun 2024"
         }
       ]
     },
     {
-      "name": "BGIS 2026",
-      "game": "BGMI",
-      "date": "15 Dec 2025 — 29 Mar 2026",
-      "location": "India",
-      "prize": "Pro Circuit",
+      "id": "pgl-major-copenhagen-2024",
+      "_id": "pgl-major-copenhagen-2024",
+      "name": "PGL Major Copenhagen 2024 — CS2",
+      "game": "Counter-Strike 2",
+      "date": "17 — 31 Mar 2024",
+      "location": "Royal Arena, Copenhagen, Denmark",
+      "prize": "$1,250,000",
       "status": "completed",
-      "format": "Open + Invite",
-      "desc": "Battlegrounds Mobile India Series 2026 — open qualifiers into invited finals.",
-      "source": "Krafton India Esports",
-      "url": "https://kraftonindiaesports.com/"
-    },
-    {
-      "name": "Dell Campus Quest — Forza Horizon 6",
-      "game": "Forza Horizon 6",
-      "date": "2026 Season",
-      "location": "Campus — India",
-      "prize": "₹20,000 Vouchers",
-      "status": "upcoming",
-      "format": "Campus Open",
-      "desc": "Collegiate time-attack circuit — Amazon vouchers on the line.",
-      "source": "The Esports Club",
-      "url": "https://theesports.club/tournaments"
-    },
-    {
-      "name": "BMPS 2025",
-      "game": "BGMI",
-      "date": "22 May — 6 Jul 2025",
-      "location": "India",
-      "prize": "Pro Series",
-      "status": "completed",
-      "format": "Invite",
-      "desc": "Battlegrounds Mobile Pro Series 2025 — invited lobby finals.",
-      "source": "Krafton India Esports",
-      "url": "https://kraftonindiaesports.com/"
-    },
-    {
-      "name": "Acer Gaming Weekender — EA FC 26",
-      "game": "EA Sports FC 26",
-      "date": "2026 Season",
-      "location": "LAN — Ranchi",
-      "prize": "₹10,000 + Goodies",
-      "status": "upcoming",
-      "format": "Weekender LAN",
-      "desc": "Community LAN weekend — FC 26 brackets plus Mortal Kombat 1 sides.",
-      "source": "The Esports Club",
-      "url": "https://theesports.club/tournaments"
+      "format": "Opening Stage → Elimination Stage → Champions Stage (Single Elim BO3)",
+      "desc": "Natus Vincere captured the first Counter-Strike 2 Major championship in history, overcoming FaZe Clan 2-1 in front of 16,000 roaring fans in Copenhagen.",
+      "source": "Valve / PGL",
+      "url": "https://www.pglesports.com/",
+      "start": "17 Mar 2024",
+      "end": "31 Mar 2024",
+      "teams": "24",
+      "prizePool": "$1,250,000 USD",
+      "about": "The historic first-ever Major in Counter-Strike 2 took place at the Royal Arena in Copenhagen, Denmark. 24 teams qualified across European, American, and Asia-Pacific RMRs.",
+      "winner": {
+        "team": "Natus Vincere",
+        "prize": "$500,000",
+        "note": "def. FaZe Clan 2-1 (Ancient 13-9, Mirage 2-13, Inferno 13-3) · Major MVP jL"
+      },
+      "standings": [
+        {
+          "rank": "1st",
+          "team": "Natus Vincere",
+          "prize": "$500,000",
+          "points": "Major Winner"
+        },
+        {
+          "rank": "2nd",
+          "team": "FaZe Clan",
+          "prize": "$170,000",
+          "points": "Finalist"
+        },
+        {
+          "rank": "3rd-4th",
+          "team": "Team Vitality",
+          "prize": "$80,000",
+          "points": "Semifinalist"
+        },
+        {
+          "rank": "3rd-4th",
+          "team": "G2 Esports",
+          "prize": "$80,000",
+          "points": "Semifinalist"
+        },
+        {
+          "rank": "5th-8th",
+          "team": "Cloud9",
+          "prize": "$45,000",
+          "points": "Quarterfinalist"
+        },
+        {
+          "rank": "5th-8th",
+          "team": "Team Spirit",
+          "prize": "$45,000",
+          "points": "Quarterfinalist"
+        }
+      ],
+      "stages": [
+        {
+          "name": "European RMR A & B",
+          "dates": "Feb 14 — 22",
+          "region": "Europe",
+          "slots": "32 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Major Opening Stage",
+          "dates": "Mar 17 — 20",
+          "region": "Copenhagen",
+          "slots": "16 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Major Elimination Stage",
+          "dates": "Mar 21 — 24",
+          "region": "Copenhagen",
+          "slots": "16 teams",
+          "status": "completed"
+        },
+        {
+          "name": "Champions Stage LAN",
+          "dates": "Mar 28 — 31 · Royal Arena",
+          "region": "Copenhagen",
+          "slots": "8 teams",
+          "status": "completed"
+        }
+      ],
+      "news": [
+        {
+          "title": "NAVI reign supreme at PGL Copenhagen as first CS2 Major champions",
+          "date": "Mar 2024"
+        }
+      ]
     }
   ],
   "media": {

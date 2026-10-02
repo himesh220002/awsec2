@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>500 — Server Relay Fault | IGV (igvictory.com)</title>
-  <meta name="description" content="Relay failure. The server encountered an internal glitch while routing your request on IGV (igvictory.com).">
+  <meta name="description"
+    content="Relay failure. The server encountered an internal glitch while routing your request on IGV (igvictory.com).">
   <meta name="robots" content="noindex, follow">
   <meta property="og:image" content="https://igvictory.com/images/og-image.png">
   <meta name="twitter:image" content="https://igvictory.com/images/og-image.png">
@@ -20,7 +22,7 @@
       theme: {
         extend: {
           colors: {
-            ink: '#191924', inkdeep: '#12121c', pill: '#f6a9c6', cream: '#f2ecdc',
+            ink: '#191924', inkdeep: '#12121c', pill: '#3F9AAE', cream: '#f2ecdc',
             panel: '#4a2b6b', vice: { pink: '#ff2e88', cyan: '#00e5ff', purple: '#7b2ff7' }
           },
           fontFamily: { archivo: ['Archivo', 'system-ui', 'sans-serif'], mono: ['ui-monospace', 'Menlo', 'monospace'] }
@@ -28,38 +30,91 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Oswald:wght@500;600;700&display=swap"
+    rel="stylesheet">
   <style>
-    body { font-family: 'Archivo', system-ui, sans-serif; background: #191924; }
-    .kicker { letter-spacing: 0.55em; }
-    .pill-btn { transition: transform .2s ease, box-shadow .25s ease, filter .2s ease; }
-    .pill-btn:hover { transform: translateY(-2px); filter: brightness(1.07); box-shadow: 0 10px 28px rgba(246,169,198,.35); }
-    .pill-btn:active { transform: scale(.95); }
-    .ghost-btn { transition: transform .2s ease, border-color .2s, color .2s; }
-    .ghost-btn:hover { transform: translateY(-2px); }
-    .ghost-btn:active { transform: scale(.95); }
-    .font-cond { font-family: 'Oswald', 'Archivo Narrow', sans-serif; font-stretch: condensed; }
+    body {
+      font-family: 'Archivo', system-ui, sans-serif;
+      background: #191924;
+    }
+
+    .kicker {
+      letter-spacing: 0.55em;
+    }
+
+    .pill-btn {
+      transition: transform .2s ease, box-shadow .25s ease, filter .2s ease;
+    }
+
+    .pill-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.07);
+      box-shadow: 0 10px 28px rgba(246, 169, 198, .35);
+    }
+
+    .pill-btn:active {
+      transform: scale(.95);
+    }
+
+    .ghost-btn {
+      transition: transform .2s ease, border-color .2s, color .2s;
+    }
+
+    .ghost-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .ghost-btn:active {
+      transform: scale(.95);
+    }
+
+    .font-cond {
+      font-family: 'Oswald', 'Archivo Narrow', sans-serif;
+      font-stretch: condensed;
+    }
+
     .glitch-text {
       background: linear-gradient(135deg, #ff2e88 0%, #00e5ff 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
+    /* overlay nav: transparent at top, solid dark glass after scroll */
+    #siteHeader {
+      transition: background .3s ease, backdrop-filter .3s ease, border-color .3s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    #siteHeader.header-solid {
+      background: rgba(25, 25, 36, .88);
+      backdrop-filter: blur(16px);
+      border-bottom-color: rgba(255, 255, 255, .08);
+    }
   </style>
 </head>
+
 <body class="bg-ink text-white min-h-screen overflow-x-hidden antialiased flex flex-col justify-between">
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4 bg-ink/85 backdrop-blur-xl border-b border-white/10">
-    <a href="/" class="flex items-center gap-2.5 font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white">
-      <img src="/images/logo.svg" alt="IGV logo" width="40" height="40" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15">
+  <header id="siteHeader"
+    class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-3">
+    <a href="/"
+      class="flex items-center gap-2.5 font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white">
+      <img src="/images/logo.svg" alt="IGV logo" width="40" height="40"
+        class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15">
       <span>IG<span class="text-pill">V</span></span>
     </a>
     <div class="flex items-center gap-2 sm:gap-4">
-      <a href="/media" class="text-xs font-bold uppercase tracking-wider text-white/70 hover:text-pill transition no-underline">Media</a>
-      <a href="/blog" class="text-xs font-bold uppercase tracking-wider text-white/70 hover:text-pill transition no-underline">Blog</a>
-      <a href="/about" class="text-xs font-bold uppercase tracking-wider text-white/70 hover:text-pill transition no-underline">About</a>
-      <a href="/contact" class="pill-btn bg-pill text-inkdeep font-bold text-xs px-5 py-2 rounded-full no-underline">Contact</a>
+      <a href="/media"
+        class="text-xs font-bold uppercase tracking-wider text-white/70 hover:text-pill transition no-underline">Media</a>
+      <a href="/blog"
+        class="text-xs font-bold uppercase tracking-wider text-white/70 hover:text-pill transition no-underline">Blog</a>
+      <a href="/about"
+        class="text-xs font-bold uppercase tracking-wider text-white/70 hover:text-pill transition no-underline">About</a>
+      <a href="/contact"
+        class="pill-btn bg-pill text-inkdeep font-bold text-xs px-5 py-2 rounded-full no-underline">Contact</a>
     </div>
   </header>
 
@@ -69,13 +124,20 @@
     <h1 class="mt-2 font-cond font-black text-8xl sm:text-9xl tracking-tight glitch-text">500</h1>
     <h2 class="mt-4 font-bold text-2xl sm:text-3xl text-cream uppercase tracking-wide">Internal Relay Glitch</h2>
     <p class="mt-4 text-white/65 text-base sm:text-lg max-w-lg leading-relaxed">
-      A power surge compromised the server relay while fetching live broadcast streams. Our engineering operatives have been alerted and are calibrating the connection.
+      A power surge compromised the server relay while fetching live broadcast streams. Our engineering operatives have
+      been alerted and are calibrating the connection.
     </p>
 
     <div class="mt-8 flex flex-wrap justify-center gap-4">
-      <button onclick="location.reload()" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-8 py-3.5 rounded-full cursor-pointer">Re-synchronize Relay</button>
-      <a href="/" class="ghost-btn font-bold text-sm px-7 py-3.5 rounded-full no-underline border border-white/20 text-white/80 hover:border-pill hover:text-pill">Main Terminal</a>
-      <a href="/contact" class="ghost-btn font-bold text-sm px-7 py-3.5 rounded-full no-underline border border-white/20 text-white/80 hover:border-pill hover:text-pill">Report Transmission</a>
+      <button onclick="location.reload()"
+        class="pill-btn bg-pill text-inkdeep font-bold text-sm px-8 py-3.5 rounded-full cursor-pointer">Re-synchronize
+        Relay</button>
+      <a href="/"
+        class="ghost-btn font-bold text-sm px-7 py-3.5 rounded-full no-underline border border-white/20 text-white/80 hover:border-pill hover:text-pill">Main
+        Terminal</a>
+      <a href="/contact"
+        class="ghost-btn font-bold text-sm px-7 py-3.5 rounded-full no-underline border border-white/20 text-white/80 hover:border-pill hover:text-pill">Report
+        Transmission</a>
     </div>
   </main>
 
@@ -83,10 +145,12 @@
   <footer class="border-t border-white/10 bg-inkdeep/60">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2 font-black text-xl tracking-tighter">
-        <img src="/images/logo.svg" alt="IGV logo" width="32" height="32" class="w-8 h-8 rounded-lg ring-1 ring-white/15">
+        <img src="/images/logo.svg" alt="IGV logo" width="32" height="32"
+          class="w-8 h-8 rounded-lg ring-1 ring-white/15">
         <span>IG<span class="text-pill">V</span></span>
       </div>
-      <div class="flex flex-wrap items-center justify-center gap-6 text-xs font-bold uppercase tracking-wider text-white/60">
+      <div
+        class="flex flex-wrap items-center justify-center gap-6 text-xs font-bold uppercase tracking-wider text-white/60">
         <a href="/" class="hover:text-pill transition no-underline">Home</a>
         <a href="/media" class="hover:text-pill transition no-underline">Media</a>
         <a href="/blog" class="hover:text-pill transition no-underline">Blog</a>
@@ -99,5 +163,13 @@
     </div>
   </footer>
 
+  <script>
+    // overlay header: transparent over fullscreen hero, solid after scroll
+    const siteHeader = document.getElementById('siteHeader');
+    const syncHeader = () => siteHeader && siteHeader.classList.toggle('header-solid', scrollY > 40);
+    addEventListener('scroll', syncHeader, { passive: true });
+    syncHeader();
+  </script>
 </body>
+
 </html>

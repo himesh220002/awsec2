@@ -1,9 +1,11 @@
 require('dotenv').config();
+const fs = require('fs');
 const express = require('express');
 const compression = require('compression');
 const path = require('path');
 const multer = require('multer');
 const videoManager = require('./services/videoManager');
+const tournamentManager = require('./services/tournamentManager');
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -355,6 +357,117 @@ app.delete('/api/admin/videos/:id', requireAdminAuth, async (req, res) => {
   }
 });
 
+// -------------------------------------------------------------
+// Interactive Tournament Hub & Match Pick'em Routes
+// -------------------------------------------------------------
+app.get('/api/tournaments', async (req, res) => {
+  try {
+    const { region, game, status } = req.query;
+    const list = await tournamentManager.getTournaments({ region, game, status });
+    res.set('Cache-Control', 'public, max-age=60, stale-while-revalidate=120');
+    res.json(list);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/tournaments/:id', async (req, res) => {
+  try {
+    const item = await tournamentManager.getTournamentById(req.params.id);
+    if (!item) return res.status(404).json({ error: 'Tournament not found' });
+    res.json(item);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/matches', async (req, res) => {
+  try {
+    const { tournamentId, status, limit } = req.query;
+    const list = await tournamentManager.getMatches({ tournamentId, status, limit });
+    res.set('Cache-Control', 'public, max-age=15, stale-while-revalidate=30');
+    res.json(list);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/matches/ticker', async (req, res) => {
+  try {
+    const ticker = await tournamentManager.getTickerData();
+    res.set('Cache-Control', 'public, max-age=10, stale-while-revalidate=20');
+    res.json(ticker);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Zero-Lag Pick'em Vote Action
+app.post('/api/matches/vote', async (req, res) => {
+  try {
+    const { matchId, selectedTeam } = req.body || {};
+    if (!matchId || !selectedTeam) {
+      return res.status(400).json({ error: 'matchId and selectedTeam (teamA or teamB) required' });
+    }
+    const result = await tournamentManager.recordVote(matchId, selectedTeam);
+    res.json(result);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Team Hype & Popularity Leaderboard
+app.get('/api/teams/hype', async (req, res) => {
+  try {
+    const limit = req.query.limit || 10;
+    const teams = await tournamentManager.getTeamHypes(limit);
+    res.set('Cache-Control', 'public, max-age=30, stale-while-revalidate=60');
+    res.json(teams);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Cheer / Hype Accelerator Click
+app.post('/api/teams/hype', async (req, res) => {
+  try {
+    const { teamId } = req.body || {};
+    if (!teamId) return res.status(400).json({ error: 'teamId required' });
+    const result = await tournamentManager.recordTeamHype(teamId);
+    res.json(result);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Admin tournament creation & overrides
+app.post('/api/admin/tournaments', requireAdminAuth, async (req, res) => {
+  try {
+    const created = await tournamentManager.createTournament(req.body);
+    res.status(201).json({ success: true, tournament: created });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.post('/api/admin/matches', requireAdminAuth, async (req, res) => {
+  try {
+    const created = await tournamentManager.createMatch(req.body);
+    res.status(201).json({ success: true, match: created });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.put('/api/admin/matches/:id/score', requireAdminAuth, async (req, res) => {
+  try {
+    const updated = await tournamentManager.updateMatchScore(req.params.id, req.body);
+    res.json({ success: true, match: updated });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 app.get('/api/posts', (req, res) => {
   res.json(posts);
 });
@@ -366,9 +479,13 @@ app.get('/api/posts/:id', (req, res) => {
 });
 
 app.get('/api/showcase', (req, res) => {
-  // small stale-while-revalidate so grids + hero paint fast on repeat visits
-  res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
-  res.json(showcase);
+  res.set('Cache-Control', 'public, max-age=30, stale-while-revalidate=60');
+  try {
+    const sc = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'showcase.json'), 'utf8'));
+    res.json(sc);
+  } catch (e) {
+    res.json(showcase);
+  }
 });
 
 // ---- IGDB proxy (server-side only: secrets never reach the browser) ----

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,7 @@
       theme: {
         extend: {
           colors: {
-            ink: '#191924', inkdeep: '#12121c', pill: '#f6a9c6', cream: '#f2ecdc',
+            ink: '#191924', inkdeep: '#12121c', pill: '#3F9AAE', cream: '#f2ecdc',
             panel: '#28283a', vice: { pink: '#ff2e88', cyan: '#00e5ff', purple: '#7b2ff7' }
           },
           fontFamily: { archivo: ['Archivo', 'system-ui', 'sans-serif'], mono: ['ui-monospace', 'Menlo', 'monospace'] }
@@ -24,46 +25,107 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Oswald:wght@500;600;700&display=swap"
+    rel="stylesheet">
   <style>
-    body { font-family: 'Archivo', system-ui, sans-serif; background: #12121c; }
-    .font-cond { font-family: 'Oswald', 'Archivo Narrow', sans-serif; font-stretch: condensed; }
-    .pill-btn { transition: transform .2s ease, box-shadow .25s ease, filter .2s ease; }
-    .pill-btn:hover { transform: translateY(-2px); filter: brightness(1.07); box-shadow: 0 10px 28px rgba(246,169,198,.35); }
-    .pill-btn:active { transform: scale(.95); }
-    .ghost-btn { transition: transform .2s ease, border-color .2s, color .2s; }
-    .ghost-btn:hover { transform: translateY(-2px); }
-    .ghost-btn:active { transform: scale(.95); }
-    .card-glow:hover { box-shadow: 0 12px 35px rgba(255, 46, 136, 0.18); border-color: rgba(246, 169, 198, 0.4); }
-    .badge-trailer { background: rgba(255, 46, 136, 0.2); border: 1px solid #ff2e88; color: #ff2e88; }
-    .badge-gameplay { background: rgba(0, 229, 255, 0.2); border: 1px solid #00e5ff; color: #00e5ff; }
-    .badge-media { background: rgba(123, 47, 247, 0.2); border: 1px solid #7b2ff7; color: #d8b4fe; }
-    .badge-none { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.6); }
+    body {
+      font-family: 'Archivo', system-ui, sans-serif;
+      background: #12121c;
+    }
+
+    .font-cond {
+      font-family: 'Oswald', 'Archivo Narrow', sans-serif;
+      font-stretch: condensed;
+    }
+
+    .pill-btn {
+      transition: transform .2s ease, box-shadow .25s ease, filter .2s ease;
+    }
+
+    .pill-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.07);
+      box-shadow: 0 10px 28px rgba(246, 169, 198, .35);
+    }
+
+    .pill-btn:active {
+      transform: scale(.95);
+    }
+
+    .ghost-btn {
+      transition: transform .2s ease, border-color .2s, color .2s;
+    }
+
+    .ghost-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .ghost-btn:active {
+      transform: scale(.95);
+    }
+
+    .card-glow:hover {
+      box-shadow: 0 12px 35px rgba(255, 46, 136, 0.18);
+      border-color: rgba(246, 169, 198, 0.4);
+    }
+
+    .badge-trailer {
+      background: rgba(255, 46, 136, 0.2);
+      border: 1px solid #ff2e88;
+      color: #ff2e88;
+    }
+
+    .badge-gameplay {
+      background: rgba(0, 229, 255, 0.2);
+      border: 1px solid #00e5ff;
+      color: #00e5ff;
+    }
+
+    .badge-media {
+      background: rgba(123, 47, 247, 0.2);
+      border: 1px solid #7b2ff7;
+      color: #d8b4fe;
+    }
+
+    .badge-none {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.6);
+    }
   </style>
 </head>
-<body class="bg-inkdeep text-white min-h-screen flex flex-col justify-between antialiased selection:bg-pill selection:text-inkdeep">
+
+<body
+  class="bg-inkdeep text-white min-h-screen flex flex-col justify-between antialiased selection:bg-pill selection:text-inkdeep">
 
   <!-- Password Authentication Gate Modal -->
   <div id="authGate" class="fixed inset-0 z-50 bg-[#0d0d16]/95 backdrop-blur-xl flex items-center justify-center p-4">
-    <div class="w-full max-w-md rounded-3xl bg-[#1b1b28] border border-white/15 p-8 text-center shadow-2xl relative overflow-hidden">
+    <div
+      class="w-full max-w-md rounded-3xl bg-[#1b1b28] border border-white/15 p-8 text-center shadow-2xl relative overflow-hidden">
       <div class="absolute -top-24 -left-24 w-48 h-48 bg-vice-pink/30 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-vice-cyan/30 rounded-full blur-3xl pointer-events-none"></div>
-      
+      <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-vice-cyan/30 rounded-full blur-3xl pointer-events-none">
+      </div>
+
       <div class="flex items-center justify-center gap-2 mb-4">
         <img src="/images/logo.svg" alt="IGV" width="40" height="40" class="w-10 h-10 rounded-xl ring-1 ring-white/15">
-        <span class="font-black text-2xl tracking-tighter">IG<span class="text-pill">V</span> <span class="text-white/40 font-mono text-sm tracking-normal">| ADMIN</span></span>
+        <span class="font-black text-2xl tracking-tighter">IG<span class="text-pill">V</span> <span
+            class="text-white/40 font-mono text-sm tracking-normal">| ADMIN</span></span>
       </div>
 
       <h1 class="text-2xl font-black text-cream uppercase font-cond tracking-wide">Media Command Center</h1>
-      <p class="mt-2 text-sm text-white/60">Enter the authorized admin password to manage video relays, thumbnails, and multi-placements.</p>
+      <p class="mt-2 text-sm text-white/60">Enter the authorized admin password to manage video relays, thumbnails, and
+        multi-placements.</p>
 
       <form id="loginForm" class="mt-6 flex flex-col gap-4" onsubmit="event.preventDefault(); handleLogin();">
         <div>
-          <input id="adminPassInput" type="password" placeholder="Admin Password" required autocomplete="current-password"
+          <input id="adminPassInput" type="password" placeholder="Admin Password" required
+            autocomplete="current-password"
             class="w-full rounded-2xl bg-white/5 border border-white/15 px-4 py-3.5 text-center text-lg font-mono text-white placeholder-white/30 outline-none focus:border-pill focus:ring-2 focus:ring-pill/20 transition">
         </div>
         <p id="authError" class="hidden text-xs font-bold text-red-400 font-mono"></p>
-        <button type="submit" id="loginBtn" class="pill-btn bg-pill text-inkdeep font-bold text-sm py-3.5 rounded-full uppercase tracking-wider cursor-pointer">
+        <button type="submit" id="loginBtn"
+          class="pill-btn bg-pill text-inkdeep font-bold text-sm py-3.5 rounded-full uppercase tracking-wider cursor-pointer">
           Unlock Media Console →
         </button>
       </form>
@@ -73,18 +135,23 @@
 
   <!-- Local 4-Pin Terminal Safeguard (Layer 2 Quick-Lock Wall) -->
   <div id="pinGate" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
-    <div class="relative w-full max-w-sm rounded-3xl bg-[#171722] border border-red-500/30 p-8 text-center shadow-[0_20px_80px_rgba(239,68,68,0.25)]">
-      <div class="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-500 flex items-center justify-center mx-auto mb-4 text-xl">
+    <div
+      class="relative w-full max-w-sm rounded-3xl bg-[#171722] border border-red-500/30 p-8 text-center shadow-[0_20px_80px_rgba(239,68,68,0.25)]">
+      <div
+        class="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-500 flex items-center justify-center mx-auto mb-4 text-xl">
         🔒
       </div>
       <h2 class="text-xl font-bold font-cond tracking-wide text-red-500 uppercase">Local Safeguard</h2>
-      <p class="text-xs text-white/50 mt-1 mb-6">Enter your 4-digit terminal code to unlock the video management console.</p>
+      <p class="text-xs text-white/50 mt-1 mb-6">Enter your 4-digit terminal code to unlock the video management
+        console.</p>
 
       <form onsubmit="event.preventDefault(); verifyPin();" class="space-y-4">
-        <input id="pinInput" type="password" maxlength="4" pattern="\d*" inputmode="numeric" placeholder="••••" autofocus
+        <input id="pinInput" type="password" maxlength="4" pattern="\d*" inputmode="numeric" placeholder="••••"
+          autofocus
           class="w-full text-center text-3xl font-mono tracking-[0.5em] bg-black/60 border border-red-500/30 rounded-2xl p-3.5 focus:outline-none focus:border-red-500 text-white placeholder-white/20 transition">
         <p id="pinError" class="hidden text-xs font-mono font-bold text-red-400"></p>
-        <button type="submit" id="btnUnlockPin" class="w-full pill-btn bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl cursor-pointer transition">
+        <button type="submit" id="btnUnlockPin"
+          class="w-full pill-btn bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl cursor-pointer transition">
           Unlock Terminal
         </button>
       </form>
@@ -101,30 +168,41 @@
       <div class="flex items-center gap-3">
         <a href="/" class="flex items-center gap-2.5 font-black text-2xl tracking-tighter text-white no-underline">
           <img src="/images/logo.svg" alt="IGV" width="36" height="36" class="w-9 h-9 rounded-xl ring-1 ring-white/15">
-          <span>IG<span class="text-pill">V</span> <span class="text-white/40 font-mono text-xs sm:text-sm tracking-normal">/ Video Manager</span></span>
+          <span>IG<span class="text-pill">V</span> <span
+              class="text-white/40 font-mono text-xs sm:text-sm tracking-normal">/ Video Manager</span></span>
         </a>
-        <span class="hidden md:inline-block font-mono text-[0.65rem] bg-white/10 text-white/70 px-2.5 py-1 rounded-full uppercase tracking-wider">v2.1 Multi-Slot</span>
+        <span
+          class="hidden md:inline-block font-mono text-[0.65rem] bg-white/10 text-white/70 px-2.5 py-1 rounded-full uppercase tracking-wider">v2.1
+          Multi-Slot</span>
       </div>
 
       <div class="flex flex-wrap items-center gap-2.5">
-        <div id="mongoBadge" class="flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
+        <div id="mongoBadge"
+          class="flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           <span id="mongoStatusText">MongoDB: Checking...</span>
         </div>
-        <div id="s3Badge" class="flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-white/15 bg-white/5">
+        <div id="s3Badge"
+          class="flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-white/15 bg-white/5">
           <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
           <span id="s3StatusText">Checking S3...</span>
         </div>
-        <a href="/" target="_blank" class="ghost-btn font-bold text-xs uppercase tracking-wider text-white/70 hover:text-pill border border-white/20 px-4 py-2 rounded-full no-underline">View Site ↗</a>
-        <button onclick="lockTerminal()" class="ghost-btn font-mono text-xs uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-500/20 px-3 py-2 rounded-full cursor-pointer">🔒 Quick Lock</button>
-        <button onclick="handleLogout()" class="ghost-btn font-mono text-xs uppercase tracking-wider text-white/40 hover:text-white border border-white/10 px-3 py-2 rounded-full cursor-pointer">Sign Out</button>
+        <a href="/" target="_blank"
+          class="ghost-btn font-bold text-xs uppercase tracking-wider text-white/70 hover:text-pill border border-white/20 px-4 py-2 rounded-full no-underline">View
+          Site ↗</a>
+        <button onclick="lockTerminal()"
+          class="ghost-btn font-mono text-xs uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-500/20 px-3 py-2 rounded-full cursor-pointer">🔒
+          Quick Lock</button>
+        <button onclick="handleLogout()"
+          class="ghost-btn font-mono text-xs uppercase tracking-wider text-white/40 hover:text-white border border-white/10 px-3 py-2 rounded-full cursor-pointer">Sign
+          Out</button>
       </div>
     </div>
   </header>
 
   <!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-8 py-8 w-full flex-1">
-    
+
     <!-- Top Stats Bar -->
     <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
       <div class="rounded-2xl bg-ink border border-white/10 p-4">
@@ -152,7 +230,8 @@
           <h2 class="font-cond font-bold text-2xl uppercase tracking-wide text-cream flex items-center gap-2">
             <span>+</span> Add New Video
           </h2>
-          <p class="text-xs text-white/60">Upload directly to Amazon S3 with custom thumbnail setter, or paste an official YouTube link.</p>
+          <p class="text-xs text-white/60">Upload directly to Amazon S3 with custom thumbnail setter, or paste an
+            official YouTube link.</p>
         </div>
 
         <!-- Mode Toggle -->
@@ -169,26 +248,32 @@
       </div>
 
       <!-- S3 File Upload Form -->
-      <form id="formS3" onsubmit="event.preventDefault(); submitS3Upload();" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
+      <form id="formS3" onsubmit="event.preventDefault(); submitS3Upload();"
+        class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">1. Video Title</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">1. Video
+            Title</label>
           <input id="s3Title" type="text" placeholder="e.g., GTA VI Gameplay Relay 4K" required
             class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
         </div>
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">2. Video File (.mp4, .webm, .mov)</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">2. Video File
+            (.mp4, .webm, .mov)</label>
           <input id="s3File" type="file" accept="video/mp4,video/webm,video/quicktime" required
             class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-xs text-white/70 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-white/10 file:text-white hover:file:bg-pill hover:file:text-inkdeep cursor-pointer">
         </div>
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-vice-cyan mb-1.5">3. Thumbnail Image (Optional Setter)</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-vice-cyan mb-1.5">3. Thumbnail
+            Image (Optional Setter)</label>
           <input id="s3ThumbFile" type="file" accept="image/jpeg,image/png,image/webp"
             class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-xs text-white/70 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-vice-cyan/20 file:text-vice-cyan hover:file:bg-vice-cyan hover:file:text-inkdeep cursor-pointer">
         </div>
 
         <div class="sm:col-span-2">
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Assign Placement Spots (Multiple Selection)</label>
-          <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Assign Placement
+            Spots (Multiple Selection)</label>
+          <div
+            class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
             <label class="flex items-center gap-2 cursor-pointer hover:text-vice-pink">
               <input type="checkbox" id="s3PlaceTrailer" class="accent-vice-pink w-4 h-4 rounded"> Home Trailer
             </label>
@@ -202,33 +287,40 @@
         </div>
 
         <div>
-          <button type="submit" id="btnSubmitS3" class="w-full pill-btn bg-vice-cyan text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+          <button type="submit" id="btnSubmitS3"
+            class="w-full pill-btn bg-vice-cyan text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
             Upload Video to S3 ↗
           </button>
         </div>
       </form>
 
       <!-- YouTube Form -->
-      <form id="formYoutube" onsubmit="event.preventDefault(); submitYoutube();" class="hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
+      <form id="formYoutube" onsubmit="event.preventDefault(); submitYoutube();"
+        class="hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Video Title</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Video
+            Title</label>
           <input id="ytTitle" type="text" placeholder="e.g., GTA VI Official Trailer 2" required
             class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
         </div>
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">YouTube URL or ID</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">YouTube URL or
+            ID</label>
           <input id="ytUrl" type="text" placeholder="https://www.youtube.com/watch?v=..." required
             class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
         </div>
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Custom Thumbnail URL (Optional)</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Custom Thumbnail
+            URL (Optional)</label>
           <input id="ytThumbUrl" type="text" placeholder="Auto-fetched or custom https://..."
             class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
         </div>
 
         <div class="sm:col-span-2">
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Assign Placement Spots (Multiple Selection)</label>
-          <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Assign Placement
+            Spots (Multiple Selection)</label>
+          <div
+            class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
             <label class="flex items-center gap-2 cursor-pointer hover:text-vice-pink">
               <input type="checkbox" id="ytPlaceTrailer" class="accent-vice-pink w-4 h-4 rounded"> Home Trailer
             </label>
@@ -242,7 +334,8 @@
         </div>
 
         <div>
-          <button type="submit" id="btnSubmitYt" class="w-full pill-btn bg-pill text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+          <button type="submit" id="btnSubmitYt"
+            class="w-full pill-btn bg-pill text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
             Add YouTube Relay
           </button>
         </div>
@@ -254,7 +347,8 @@
           <span id="progressPercent">50%</span>
         </div>
         <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-          <div id="progressBar" class="h-full bg-gradient-to-r from-vice-pink to-vice-cyan transition-all duration-300 w-1/2"></div>
+          <div id="progressBar"
+            class="h-full bg-gradient-to-r from-vice-pink to-vice-cyan transition-all duration-300 w-1/2"></div>
         </div>
       </div>
     </section>
@@ -264,9 +358,12 @@
       <div class="flex items-center justify-between gap-4 mb-6">
         <div>
           <h2 class="font-cond font-bold text-2xl uppercase tracking-wide text-white">Media Library & Placements</h2>
-          <p class="text-xs text-white/50">Assign videos to multiple placement spots simultaneously. Thumbnails can be edited anytime.</p>
+          <p class="text-xs text-white/50">Assign videos to multiple placement spots simultaneously. Thumbnails can be
+            edited anytime.</p>
         </div>
-        <button onclick="loadVideos()" class="ghost-btn font-mono text-xs uppercase tracking-wider text-white/70 hover:text-pill border border-white/15 px-3 py-1.5 rounded-full cursor-pointer">↻ Refresh</button>
+        <button onclick="loadVideos()"
+          class="ghost-btn font-mono text-xs uppercase tracking-wider text-white/70 hover:text-pill border border-white/15 px-3 py-1.5 rounded-full cursor-pointer">↻
+          Refresh</button>
       </div>
 
       <!-- Video Cards Grid -->
@@ -276,57 +373,235 @@
       </div>
     </section>
 
+    <!-- Esports Tournament & Match Live Controls -->
+    <section class="mt-14 pt-10 border-t border-white/10">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="font-cond font-bold text-2xl uppercase tracking-wide text-cream flex items-center gap-2">
+            <span>⚔️</span> Esports Tournaments & Live Score Relays
+          </h2>
+          <p class="text-xs text-white/50">Update live scores, create custom matches, manage tournament stages, and
+            monitor community pick'em votes.</p>
+        </div>
+        <button onclick="loadAdminMatches()"
+          class="ghost-btn font-mono text-xs uppercase tracking-wider text-vice-cyan hover:text-white border border-vice-cyan/30 px-3.5 py-1.5 rounded-full cursor-pointer">↻
+          Refresh Matches</button>
+      </div>
+
+      <!-- Live Matches Management Grid -->
+      <div id="adminMatchGrid" class="grid gap-6 sm:grid-cols-2 mb-10">
+        <!-- Rendered dynamically -->
+        <p class="text-white/40 font-mono text-sm py-8 text-center col-span-full">Loading match feeds...</p>
+      </div>
+
+      <!-- Quick Add Tournament & Match Forms -->
+      <div class="grid gap-6 lg:grid-cols-2">
+        <!-- Create Match Card -->
+        <div class="rounded-3xl bg-ink border border-white/15 p-6 shadow-xl">
+          <h3 class="font-cond font-bold text-xl uppercase tracking-wide text-cream mb-1 flex items-center gap-2">
+            <span>+</span> Schedule New Match
+          </h3>
+          <p class="text-xs text-white/50 mb-5 font-mono">Deploy a live or upcoming matchup to the IGV Pick'ems arena.
+          </p>
+
+          <form id="formNewMatch" onsubmit="event.preventDefault(); submitNewMatch();"
+            class="space-y-4 text-xs font-mono">
+            <div>
+              <label class="block text-white/50 uppercase tracking-wider mb-1">Tournament</label>
+              <select id="nmTournamentSelect"
+                class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2.5 text-white outline-none focus:border-pill">
+                <option value="t_bgmi_pro_series_2026">Battlegrounds Mobile India Series (BGIS) 2026</option>
+                <option value="t_vct_masters_toronto">VCT Masters Toronto 2026</option>
+                <option value="t_cs2_austin_major_2026">PGL CS2 Austin Major 2026</option>
+                <option value="t_lol_worlds_2026">League of Legends World Championship 2026</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-white/50 uppercase tracking-wider mb-1">Team A (Name & Tag)</label>
+                <input id="nmTeamAName" type="text" placeholder="e.g. Sentinels" required
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none mb-1">
+                <input id="nmTeamATag" type="text" placeholder="TAG: SEN" required
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-white outline-none uppercase">
+              </div>
+              <div>
+                <label class="block text-white/50 uppercase tracking-wider mb-1">Team B (Name & Tag)</label>
+                <input id="nmTeamBName" type="text" placeholder="e.g. Paper Rex" required
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none mb-1">
+                <input id="nmTeamBTag" type="text" placeholder="TAG: PRX" required
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-white outline-none uppercase">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-white/50 uppercase tracking-wider mb-1">Round / Stage</label>
+                <input id="nmRound" type="text" placeholder="e.g. Grand Finals (BO5)" required
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none">
+              </div>
+              <div>
+                <label class="block text-white/50 uppercase tracking-wider mb-1">Status</label>
+                <select id="nmStatus"
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none">
+                  <option value="upcoming">Upcoming</option>
+                  <option value="live">Live Now</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="block text-white/50 uppercase tracking-wider mb-1">Stream Link</label>
+              <input id="nmStreamUrl" type="url" placeholder="https://twitch.tv/... or https://youtube.com/..."
+                class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none">
+            </div>
+            <button type="submit" id="btnSubmitMatch"
+              class="w-full pill-btn bg-pill text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+              Deploy Match to Arena →
+            </button>
+          </form>
+        </div>
+
+        <!-- Create Tournament Card -->
+        <div class="rounded-3xl bg-ink border border-white/15 p-6 shadow-xl">
+          <h3 class="font-cond font-bold text-xl uppercase tracking-wide text-cream mb-1 flex items-center gap-2">
+            <span>🏆</span> Register New Championship
+          </h3>
+          <p class="text-xs text-white/50 mb-5 font-mono">Add an international Major or regional LAN circuit.</p>
+
+          <form id="formNewTourney" onsubmit="event.preventDefault(); submitNewTourney();"
+            class="space-y-4 text-xs font-mono">
+            <div>
+              <label class="block text-white/50 uppercase tracking-wider mb-1">Tournament Name</label>
+              <input id="ntName" type="text" placeholder="e.g. DreamHack Hyderabad LAN 2026" required
+                class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2.5 text-white outline-none focus:border-pill">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-white/50 uppercase tracking-wider mb-1">Game</label>
+                <select id="ntGame"
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none">
+                  <option value="Valorant">Valorant</option>
+                  <option value="BGMI">BGMI</option>
+                  <option value="Counter-Strike 2">Counter-Strike 2</option>
+                  <option value="League of Legends">League of Legends</option>
+                  <option value="Apex Legends">Apex Legends</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-white/50 uppercase tracking-wider mb-1">Region</label>
+                <select id="ntRegion"
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none">
+                  <option value="India">India</option>
+                  <option value="Global">Global</option>
+                  <option value="APAC">APAC</option>
+                  <option value="EMEA">EMEA</option>
+                  <option value="Americas">Americas</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-white/50 uppercase tracking-wider mb-1">Prize Pool</label>
+                <input id="ntPrize" type="text" placeholder="e.g. ₹50,00,000 or $500,000" required
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none">
+              </div>
+              <div>
+                <label class="block text-white/50 uppercase tracking-wider mb-1">Tier</label>
+                <select id="ntTier"
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none">
+                  <option value="S-Tier">S-Tier</option>
+                  <option value="A-Tier">A-Tier</option>
+                  <option value="Grassroots / LAN">Grassroots / LAN</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-white/50 uppercase tracking-wider mb-1">Venue & City</label>
+                <input id="ntVenue" type="text" placeholder="e.g. Hitex Arena, Hyderabad"
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none">
+              </div>
+              <div>
+                <label class="block text-white/50 uppercase tracking-wider mb-1">Organizer</label>
+                <input id="ntOrganizer" type="text" placeholder="e.g. Nodwin Gaming"
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none">
+              </div>
+            </div>
+            <button type="submit" id="btnSubmitTourney"
+              class="w-full pill-btn bg-vice-cyan text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+              Register Championship →
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Video Preview Modal -->
-  <div id="previewModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+  <div id="previewModal"
+    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
     <div class="w-full max-w-4xl bg-[#1b1b26] border border-white/15 rounded-3xl p-6 relative">
-      <button onclick="closePreview()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition">✕</button>
+      <button onclick="closePreview()"
+        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition">✕</button>
       <h3 id="previewTitle" class="font-bold text-lg text-cream mb-4 pr-10 truncate">Video Preview</h3>
-      <div id="previewContainer" class="aspect-video w-full rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+      <div id="previewContainer"
+        class="aspect-video w-full rounded-2xl overflow-hidden bg-black flex items-center justify-center">
         <!-- Iframe or Video Tag -->
       </div>
     </div>
   </div>
 
   <!-- Thumbnail Setter Modal -->
-  <div id="thumbModal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+  <div id="thumbModal"
+    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
     <div class="w-full max-w-lg bg-[#1b1b26] border border-white/15 rounded-3xl p-6 relative">
-      <button onclick="closeThumbModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition">✕</button>
-      
+      <button onclick="closeThumbModal()"
+        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition">✕</button>
+
       <h3 class="font-bold text-lg text-cream mb-1">Set Video Thumbnail</h3>
       <p id="thumbModalVideoTitle" class="text-xs text-white/50 mb-4 truncate"></p>
-      
+
       <!-- Current Thumbnail / Live Video Scrubber Preview -->
-      <div class="aspect-video w-full rounded-2xl overflow-hidden bg-black/80 mb-4 border border-white/10 relative flex items-center justify-center">
+      <div
+        class="aspect-video w-full rounded-2xl overflow-hidden bg-black/80 mb-4 border border-white/10 relative flex items-center justify-center">
         <img id="thumbModalPreview" src="" alt="Thumbnail Preview" class="w-full h-full object-cover">
-        <video id="thumbCaptureVideo" class="hidden w-full h-full object-cover" crossOrigin="anonymous" playsinline preload="metadata" muted></video>
-        <span id="previewBadge" class="absolute bottom-2 left-2 text-[0.6rem] font-mono bg-black/70 px-2 py-0.5 rounded text-white/80">CURRENT PREVIEW</span>
+        <video id="thumbCaptureVideo" class="hidden w-full h-full object-cover" crossOrigin="anonymous" playsinline
+          preload="metadata" muted></video>
+        <span id="previewBadge"
+          class="absolute bottom-2 left-2 text-[0.6rem] font-mono bg-black/70 px-2 py-0.5 rounded text-white/80">CURRENT
+          PREVIEW</span>
       </div>
 
       <!-- Mode Tabs: File Upload vs URL vs Video Frame Capture -->
       <div class="flex rounded-xl bg-white/5 p-1 border border-white/10 mb-4">
-        <button id="tTabFile" onclick="switchThumbTab('file')" class="flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-pill text-inkdeep cursor-pointer">Upload File</button>
-        <button id="tTabUrl" onclick="switchThumbTab('url')" class="flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition text-white/60 cursor-pointer">Image URL</button>
-        <button id="tTabCapture" onclick="switchThumbTab('capture')" class="flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition text-white/60 cursor-pointer">📸 Frame Capture</button>
+        <button id="tTabFile" onclick="switchThumbTab('file')"
+          class="flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition bg-pill text-inkdeep cursor-pointer">Upload
+          File</button>
+        <button id="tTabUrl" onclick="switchThumbTab('url')"
+          class="flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition text-white/60 cursor-pointer">Image
+          URL</button>
+        <button id="tTabCapture" onclick="switchThumbTab('capture')"
+          class="flex-1 py-1.5 rounded-lg text-xs font-bold uppercase transition text-white/60 cursor-pointer">📸 Frame
+          Capture</button>
       </div>
 
       <!-- Tab 1: File Upload -->
       <div id="thumbPaneFile" class="space-y-3">
-        <input type="file" id="thumbFileInput" accept="image/jpeg,image/png,image/webp" 
+        <input type="file" id="thumbFileInput" accept="image/jpeg,image/png,image/webp"
           class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-xs text-white/70 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-pill file:text-inkdeep cursor-pointer"
           onchange="previewThumbFile(this)">
-        <button onclick="submitThumbFile()" id="btnSaveThumbFile" class="w-full pill-btn bg-pill text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+        <button onclick="submitThumbFile()" id="btnSaveThumbFile"
+          class="w-full pill-btn bg-pill text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
           Save Uploaded Thumbnail (S3)
         </button>
       </div>
 
       <!-- Tab 2: URL -->
       <div id="thumbPaneUrl" class="hidden space-y-3">
-        <input type="text" id="thumbUrlInput" placeholder="https://example.com/poster.jpg" 
+        <input type="text" id="thumbUrlInput" placeholder="https://example.com/poster.jpg"
           class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-xs text-white placeholder-white/30 outline-none focus:border-pill"
           oninput="previewThumbUrl(this.value)">
-        <button onclick="submitThumbUrl()" id="btnSaveThumbUrl" class="w-full pill-btn bg-vice-cyan text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+        <button onclick="submitThumbUrl()" id="btnSaveThumbUrl"
+          class="w-full pill-btn bg-vice-cyan text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
           Save Thumbnail URL
         </button>
       </div>
@@ -336,15 +611,23 @@
         <!-- If S3 or local video: interactive video scrubber -->
         <div id="s3ScrubberControls" class="space-y-2.5">
           <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-white/70">Frame: <strong id="scrubberTimeDisplay" class="text-pill font-bold">00:01.0</strong> / <span id="scrubberDurationDisplay" class="text-white/40">--:--</span></span>
+            <span class="text-white/70">Frame: <strong id="scrubberTimeDisplay"
+                class="text-pill font-bold">00:01.0</strong> / <span id="scrubberDurationDisplay"
+                class="text-white/40">--:--</span></span>
             <div class="flex items-center gap-1.5">
-              <button type="button" onclick="stepVideoScrubber(-1)" class="px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-[11px] font-mono transition cursor-pointer">⏮ -1s</button>
-              <button type="button" onclick="toggleVideoScrubberPlay()" id="btnPlayScrubber" class="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-[11px] font-mono transition cursor-pointer">▶ Play</button>
-              <button type="button" onclick="stepVideoScrubber(1)" class="px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-[11px] font-mono transition cursor-pointer">+1s ⏭</button>
+              <button type="button" onclick="stepVideoScrubber(-1)"
+                class="px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-[11px] font-mono transition cursor-pointer">⏮
+                -1s</button>
+              <button type="button" onclick="toggleVideoScrubberPlay()" id="btnPlayScrubber"
+                class="px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-[11px] font-mono transition cursor-pointer">▶
+                Play</button>
+              <button type="button" onclick="stepVideoScrubber(1)"
+                class="px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-[11px] font-mono transition cursor-pointer">+1s
+                ⏭</button>
             </div>
           </div>
-          
-          <input type="range" id="frameScrubberSlider" min="0" max="100" step="0.05" value="1.0" 
+
+          <input type="range" id="frameScrubberSlider" min="0" max="100" step="0.05" value="1.0"
             class="w-full accent-pill h-2 bg-white/10 rounded-lg cursor-pointer transition"
             oninput="onScrubberSlide(this.value)">
 
@@ -352,7 +635,8 @@
             Scrub the timeline or play to the exact moment you want, then click capture.
           </p>
 
-          <button onclick="captureCurrentVideoFrame()" id="btnCaptureFrame" class="w-full pill-btn bg-purple-500 hover:bg-purple-400 text-white font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+          <button onclick="captureCurrentVideoFrame()" id="btnCaptureFrame"
+            class="w-full pill-btn bg-purple-500 hover:bg-purple-400 text-white font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
             📸 Capture Selected Frame (<span id="btnFrameTime">00:01.0</span>) & Save (S3)
           </button>
         </div>
@@ -367,7 +651,8 @@
   </div>
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 translate-y-24 opacity-0 transition-all duration-300 rounded-2xl bg-[#1f1f2e] border border-pill px-5 py-3 text-sm font-bold text-cream shadow-2xl flex items-center gap-3">
+  <div id="toast"
+    class="fixed bottom-6 right-6 z-50 translate-y-24 opacity-0 transition-all duration-300 rounded-2xl bg-[#1f1f2e] border border-pill px-5 py-3 text-sm font-bold text-cream shadow-2xl flex items-center gap-3">
     <span class="text-pill text-lg">✓</span>
     <span id="toastMsg">Operation completed</span>
   </div>
@@ -545,7 +830,7 @@
 
         const data = await res.json();
         currentVideos = data.videos || [];
-        
+
         // Render MongoDB Badge
         const mongoStatus = document.getElementById('mongoStatusText');
         const mongoBadge = document.getElementById('mongoBadge');
@@ -576,8 +861,201 @@
 
         updateStats(currentVideos);
         renderVideoCards(currentVideos);
+        loadAdminMatches();
       } catch (err) {
         console.error('Failed to load videos:', err);
+      }
+    }
+
+    let adminMatches = [];
+
+    async function loadAdminMatches() {
+      const grid = document.getElementById('adminMatchGrid');
+      if (!grid) return;
+      try {
+        const res = await fetch('/api/matches');
+        const matches = await res.json();
+        adminMatches = matches || [];
+        renderAdminMatches(adminMatches);
+      } catch (e) {
+        grid.innerHTML = '<p class="text-red-400 font-mono text-sm py-4">Failed to load matches.</p>';
+      }
+    }
+
+    function renderAdminMatches(matches) {
+      const grid = document.getElementById('adminMatchGrid');
+      if (!grid) return;
+      if (!matches.length) {
+        grid.innerHTML = '<p class="text-white/40 font-mono text-sm py-8 text-center col-span-full">No active matches found. Create one below!</p>';
+        return;
+      }
+
+      grid.innerHTML = matches.map(m => {
+        const scoreA = m.teamA?.score ?? 0;
+        const scoreB = m.teamB?.score ?? 0;
+        return `
+          <div class="rounded-2xl bg-black/40 border border-white/10 p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between font-mono text-[10px] mb-3">
+                <span class="text-vice-pink font-bold uppercase">${m.tournamentName || m.game} · ${m.round}</span>
+                <span class="px-2 py-0.5 rounded-full ${m.status === 'live' ? 'bg-red-500/20 text-red-400 border border-red-500/40' : 'bg-white/10 text-white/60'} font-bold uppercase">${m.status}</span>
+              </div>
+              <div class="flex items-center justify-between gap-4 py-2">
+                <div class="flex-1 text-center font-mono">
+                  <p class="font-bold text-sm text-white">${m.teamA?.name}</p>
+                  <p class="text-[10px] text-white/40 uppercase">${m.teamA?.tag}</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <input id="scoreA_${m._id}" type="number" min="0" value="${scoreA}" class="w-12 text-center bg-white/10 border border-white/20 rounded-lg p-1.5 font-mono text-base font-black text-vice-cyan">
+                  <span class="font-mono text-white/40">:</span>
+                  <input id="scoreB_${m._id}" type="number" min="0" value="${scoreB}" class="w-12 text-center bg-white/10 border border-white/20 rounded-lg p-1.5 font-mono text-base font-black text-vice-pink">
+                </div>
+                <div class="flex-1 text-center font-mono">
+                  <p class="font-bold text-sm text-white">${m.teamB?.name}</p>
+                  <p class="text-[10px] text-white/40 uppercase">${m.teamB?.tag}</p>
+                </div>
+              </div>
+              <div class="mt-3 grid grid-cols-2 gap-2 text-xs font-mono">
+                <input id="map_${m._id}" type="text" value="${m.currentMap || ''}" placeholder="Current Map" class="bg-white/5 border border-white/10 rounded-lg px-2.5 py-1.5 text-white/80">
+                <select id="status_${m._id}" class="bg-white/5 border border-white/10 rounded-lg px-2 py-1.5 text-white/80">
+                  <option value="upcoming" ${m.status === 'upcoming' ? 'selected' : ''}>Upcoming</option>
+                  <option value="live" ${m.status === 'live' ? 'selected' : ''}>Live</option>
+                  <option value="completed" ${m.status === 'completed' ? 'selected' : ''}>Completed</option>
+                </select>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+              <span class="font-mono text-[10px] text-white/40">Votes: A: ${m.votes?.teamA || 0} | B: ${m.votes?.teamB || 0}</span>
+              <button onclick="saveMatchScore('${m._id}')" class="pill-btn bg-white/15 hover:bg-pill hover:text-inkdeep font-mono text-xs font-bold px-4 py-1.5 rounded-lg cursor-pointer">
+                Save Updates
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function saveMatchScore(id) {
+      const scoreA = document.getElementById('scoreA_' + id)?.value;
+      const scoreB = document.getElementById('scoreB_' + id)?.value;
+      const currentMap = document.getElementById('map_' + id)?.value;
+      const status = document.getElementById('status_' + id)?.value;
+
+      try {
+        const res = await fetch(`/api/admin/matches/${id}/score`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': adminToken
+          },
+          body: JSON.stringify({ scoreA, scoreB, currentMap, status })
+        });
+        if (res.ok) {
+          alert('Match updated successfully!');
+          loadAdminMatches();
+        } else {
+          alert('Failed to update score.');
+        }
+      } catch (e) {
+        alert('Network error updating score.');
+      }
+    }
+
+    async function submitNewMatch() {
+      const tournamentId = document.getElementById('nmTournamentSelect').value;
+      const tName = document.getElementById('nmTournamentSelect').selectedOptions[0].text;
+      const teamAName = document.getElementById('nmTeamAName').value.trim();
+      const teamATag = document.getElementById('nmTeamATag').value.trim();
+      const teamBName = document.getElementById('nmTeamBName').value.trim();
+      const teamBTag = document.getElementById('nmTeamBTag').value.trim();
+      const round = document.getElementById('nmRound').value.trim();
+      const status = document.getElementById('nmStatus').value;
+      const streamUrl = document.getElementById('nmStreamUrl').value.trim();
+
+      const btn = document.getElementById('btnSubmitMatch');
+      btn.disabled = true;
+      btn.innerText = 'Deploying Match...';
+
+      try {
+        const res = await fetch('/api/admin/matches', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': adminToken
+          },
+          body: JSON.stringify({
+            tournamentId,
+            tournamentName: tName,
+            round,
+            status,
+            scheduledAt: new Date(),
+            teamA: { name: teamAName, tag: teamATag, score: 0 },
+            teamB: { name: teamBName, tag: teamBTag, score: 0 },
+            streamUrl,
+            votes: { teamA: 10, teamB: 10 }
+          })
+        });
+
+        if (res.ok) {
+          alert('Match successfully scheduled and published!');
+          document.getElementById('formNewMatch').reset();
+          loadAdminMatches();
+        } else {
+          alert('Failed to schedule match.');
+        }
+      } catch (e) {
+        alert('Network error scheduling match.');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Deploy Match to Arena →';
+      }
+    }
+
+    async function submitNewTourney() {
+      const name = document.getElementById('ntName').value.trim();
+      const game = document.getElementById('ntGame').value;
+      const region = document.getElementById('ntRegion').value;
+      const prizePool = document.getElementById('ntPrize').value.trim();
+      const tier = document.getElementById('ntTier').value;
+      const venueCity = document.getElementById('ntVenue').value.trim();
+      const organizer = document.getElementById('ntOrganizer').value.trim();
+
+      const btn = document.getElementById('btnSubmitTourney');
+      btn.disabled = true;
+      btn.innerText = 'Registering Championship...';
+
+      try {
+        const res = await fetch('/api/admin/tournaments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': adminToken
+          },
+          body: JSON.stringify({
+            name,
+            game,
+            region,
+            prizePool,
+            tier,
+            organizer: organizer || 'Official',
+            locationDetails: { venue: venueCity || 'Main Arena', city: venueCity || 'TBA', country: region },
+            dates: { start: new Date(), end: new Date(Date.now() + 14 * 86400000) },
+            stages: [{ stageId: 'stg_main', name: 'Grand Stage', isActive: true }],
+            status: 'live'
+          })
+        });
+
+        if (res.ok) {
+          alert('Tournament successfully registered!');
+          document.getElementById('formNewTourney').reset();
+        } else {
+          alert('Failed to register tournament.');
+        }
+      } catch (e) {
+        alert('Network error registering tournament.');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Register Championship →';
       }
     }
 
@@ -639,10 +1117,10 @@
                   <span class="w-12 h-12 rounded-full bg-pill/90 text-inkdeep flex items-center justify-center font-bold text-lg shadow-lg">▶</span>
                 </div>
                 <div class="absolute top-3 left-3 flex gap-2">
-                  ${isS3 
-                    ? '<span class="bg-vice-cyan/90 text-inkdeep font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">S3 / MP4</span>'
-                    : '<span class="bg-red-600 text-white font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">YOUTUBE</span>'
-                  }
+                  ${isS3
+            ? '<span class="bg-vice-cyan/90 text-inkdeep font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">S3 / MP4</span>'
+            : '<span class="bg-red-600 text-white font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">YOUTUBE</span>'
+          }
                 </div>
                 <div class="absolute bottom-3 right-3 font-mono text-[0.6rem] bg-black/75 px-2 py-0.5 rounded text-white/80">
                   ${dateStr}
@@ -1302,4 +1780,5 @@
     });
   </script>
 </body>
+
 </html>

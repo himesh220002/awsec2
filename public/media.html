@@ -42,7 +42,7 @@
       theme: {
         extend: {
           colors: {
-            ink: '#191924', inkdeep: '#12121c', pill: '#f6a9c6', cream: '#f2ecdc',
+            ink: '#191924', inkdeep: '#12121c', pill: '#3F9AAE', cream: '#f2ecdc',
             panel: '#4a2b6b', vice: { pink: '#ff2e88', cyan: '#00e5ff', purple: '#7b2ff7' }
           },
           fontFamily: { archivo: ['Archivo', 'system-ui', 'sans-serif'], mono: ['ui-monospace', 'Menlo', 'monospace'] }
@@ -400,8 +400,8 @@
 
     .quick-pill.active-quick {
       background: rgba(246, 169, 198, .16);
-      border-color: #f6a9c6 !important;
-      color: #f6a9c6 !important;
+      border-color: #3F9AAE !important;
+      color: #3F9AAE !important;
     }
 
     .line-clamp-2 {
@@ -414,6 +414,146 @@
 
     #ageGate {
       transition: opacity .3s ease;
+    }
+
+    /* ---- Enhanced Tournament Cyberpunk Glitch & Transmission Reveal ---- */
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    .glitching::before {
+      color: #00e5ff;
+      animation: gl1 .55s steps(2) both;
+      text-shadow: -2px 0 #00e5ff;
+    }
+
+    .glitching::after {
+      color: #ff2e88;
+      animation: gl2 .55s steps(2) both;
+      text-shadow: 2px 0 #ff2e88;
+    }
+
+    .glitching {
+      animation: gskew .55s steps(3) both, glHolo .55s ease both;
+    }
+
+    @keyframes glHolo {
+      0% {
+        filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.8)) brightness(1.4);
+      }
+
+      50% {
+        filter: drop-shadow(0 0 25px rgba(255, 46, 136, 0.9)) brightness(1.6);
+      }
+
+      100% {
+        filter: none;
+      }
+    }
+
+    @keyframes gl1 {
+      0% {
+        clip-path: inset(10% 0 60% 0);
+        transform: translate(-7px, -3px);
+        opacity: 1;
+      }
+
+      25% {
+        clip-path: inset(55% 0 12% 0);
+        transform: translate(6px, 2px);
+        opacity: 1;
+      }
+
+      50% {
+        clip-path: inset(28% 0 45% 0);
+        transform: translate(-5px, 1px);
+        opacity: 1;
+      }
+
+      75% {
+        clip-path: inset(70% 0 5% 0);
+        transform: translate(5px, -2px);
+        opacity: 1;
+      }
+
+      100% {
+        clip-path: inset(50% 0 50% 0);
+        transform: none;
+        opacity: 0;
+      }
+    }
+
+    @keyframes gl2 {
+      0% {
+        clip-path: inset(60% 0 8% 0);
+        transform: translate(7px, 3px);
+        opacity: 1;
+      }
+
+      25% {
+        clip-path: inset(12% 0 70% 0);
+        transform: translate(-6px, -2px);
+        opacity: 1;
+      }
+
+      50% {
+        clip-path: inset(45% 0 30% 0);
+        transform: translate(5px, -1px);
+        opacity: 1;
+      }
+
+      75% {
+        clip-path: inset(5% 0 82% 0);
+        transform: translate(-5px, 2px);
+        opacity: 1;
+      }
+
+      100% {
+        clip-path: inset(50% 0 50% 0);
+        transform: none;
+        opacity: 0;
+      }
+    }
+
+    @keyframes gskew {
+
+      0%,
+      100% {
+        transform: skewX(0);
+      }
+
+      20% {
+        transform: skewX(-4deg);
+      }
+
+      40% {
+        transform: skewX(3deg);
+      }
+
+      60% {
+        transform: skewX(-2deg);
+      }
+    }
+
+    /* CRT scanline holographic subtle grid */
+    .crt-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(18, 16, 26, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 229, 255, 0.03));
+      background-size: 100% 4px, 6px 100%;
+      pointer-events: none;
+      opacity: 0.55;
     }
   </style>
 </head>
@@ -455,7 +595,8 @@
       <a href="/"
         class="flex items-center gap-2.5 font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white drop-shadow-lg"><img
           src="/images/logo.svg" alt="IGV logo" width="40" height="40"
-          class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span class="text-pill">V</span>
+          class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span
+            class="text-pill">Victory</span>
           <span class="text-white/70 font-bold text-base sm:text-lg tracking-normal">| Media</span></span></a>
       <nav class="nav-pills hidden lg:flex items-center gap-1" aria-label="Media sections">
         <a href="#featured" data-sub="featured"
@@ -548,6 +689,7 @@
 
   <!-- hero carousel — fullscreen, nav floats above (Rockstar media style) -->
   <section class="page-in relative overflow-hidden min-h-[100svh] flex items-end">
+    <div class="crt-overlay"></div>
     <img id="heroBgA"
       src="https://www.rockstargames.com/VI/_next/static/media/poster_full.0az_iud2g3y4j.jpg?akim=1&imdensity=1&imwidth=1920"
       alt="Vice City artwork" fetchpriority="high" decoding="async"
@@ -555,11 +697,24 @@
     <img id="heroBgB" src="" alt="" decoding="async"
       class="hero-fade absolute inset-0 w-full h-full object-cover object-center opacity-0">
     <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/35 to-ink/5 pointer-events-none"></div>
-    <div class="relative max-w-[1600px] mx-auto px-4 sm:px-20 pb-12 sm:pb-16 pt-40 w-full">
+    <div class="relative max-w-[1600px] mx-auto px-4 sm:px-20 pb-12 sm:pb-16 pt-40 w-full z-10">
+      <!-- Cyberpunk Transmission Decryption Bar (Tournament Page Style) -->
+      <div class="flex items-center justify-between gap-4 flex-wrap pb-3 mb-4 border-b border-white/10 max-w-2xl">
+        <!-- <div class="flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.25em] text-vice-cyan uppercase">
+          <span class="inline-block w-2 h-2 rounded-full bg-vice-cyan animate-ping mr-1"></span>
+          BROADCAST // MEDIA VAULT DECRYPTED — PROTOCOL [IGV OPTIC]
+        </div> -->
+        <div class="flex items-center gap-2 font-mono text-[0.62rem] text-emerald-400 tracking-widest uppercase">
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          HIGH-DEFINITION RELAY
+        </div>
+      </div>
+
       <p id="heroKicker" class="font-mono text-[0.62rem] tracking-[0.3em] text-white/60 uppercase">Featured — GTA VI</p>
-      <h1 id="heroTitle"
-        class="font-cond font-semibold uppercase leading-[0.95] text-cream text-[clamp(2.6rem,8vw,5.5rem)]">Explore
-        Vice<br>City and Beyond</h1>
+      <h1 class="mt-2 font-cond font-semibold uppercase leading-[0.95] text-cream text-[clamp(2.6rem,8vw,5.5rem)]">
+        <span id="heroTitle" class="glitch cursor-default inline-block" data-text="EXPLORE VICE CITY AND BEYOND">Explore
+          Vice<br>City and Beyond</span>
+      </h1>
       <p id="heroSub" class="mt-4 text-white/80 text-base sm:text-lg font-medium">Download and share trailers, imagery,
         and more.</p>
     </div>
@@ -870,7 +1025,7 @@
       <div>
         <p class="flex items-center gap-2.5 font-black text-2xl tracking-tighter"><img src="/images/logo.svg"
             alt="IGV logo" width="40" height="40" loading="lazy" decoding="async"
-            class="w-10 h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span class="text-pill">V</span></span></p>
+            class="w-10 h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span class="text-pill">Victory</span></span></p>
         <p class="mt-3 text-white/55 text-sm max-w-xs">Next-gen console coverage — trailers, esports, guides and reviews
           from the neon coast.</p>
         <div class="mt-4 flex flex-wrap gap-2 font-mono text-[0.62rem] font-bold tracking-[0.2em]">
@@ -1727,8 +1882,96 @@
       });
     }
 
+    function runGlitchScramble(el, text, isHtml, onComplete) {
+      if (!el || !text) return;
+      if (el._glitchTimer) clearInterval(el._glitchTimer);
+      if (el._glitchTimeout) clearTimeout(el._glitchTimeout);
+      el.classList.remove('glitching');
+      void el.offsetWidth;
+      el.classList.add('glitching');
+
+      const plainText = text.replace(/<br\s*\/?>/gi, '\n');
+      const chars = '█▓▒░#$!%&01/<>*+▲▼◆◇';
+      let iteration = 0;
+      const maxIterations = 16;
+      el._glitchTimer = setInterval(() => {
+        const scrambled = plainText.split('').map((char, index) => {
+          if (index < (iteration / maxIterations) * plainText.length) {
+            return plainText[index];
+          }
+          if (char === ' ' || char === '\n' || char === '—' || char === '-') return char;
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+
+        if (isHtml || text.includes('<br')) {
+          el.innerHTML = scrambled.replace(/\n/g, '<br>');
+        } else {
+          el.innerText = scrambled;
+        }
+        el.dataset.text = scrambled.replace(/\n/g, ' ');
+
+        iteration++;
+        if (iteration > maxIterations) {
+          clearInterval(el._glitchTimer);
+          el._glitchTimer = null;
+          if (isHtml || text.includes('<br')) {
+            el.innerHTML = text;
+          } else {
+            el.innerText = text;
+          }
+          el.dataset.text = plainText.replace(/\n/g, ' ');
+          el._glitchTimeout = setTimeout(() => {
+            el.classList.remove('glitching');
+            if (typeof onComplete === 'function') onComplete();
+          }, 400);
+        }
+      }, 24);
+    }
+
+    function stopGlitchScramble(el, text, isHtml) {
+      if (!el) return;
+      if (el._glitchTimer) {
+        clearInterval(el._glitchTimer);
+        el._glitchTimer = null;
+      }
+      if (el._glitchTimeout) {
+        clearTimeout(el._glitchTimeout);
+        el._glitchTimeout = null;
+      }
+      el.classList.remove('glitching');
+      if (text) {
+        if (isHtml || text.includes('<br')) {
+          el.innerHTML = text;
+        } else {
+          el.innerText = text;
+        }
+        const plainText = text.replace(/<br\s*\/?>/gi, '\n');
+        el.dataset.text = plainText.replace(/\n/g, ' ');
+      }
+    }
+
     function openWatch(id, skipGate) {
-      const v = (MEDIA.videos || []).find(x => x.youtubeId === id || String(x._id) === String(id)) || MEDIA.videos[0];
+      let v = (MEDIA.videos || []).find(x => x.youtubeId === id || String(x._id) === String(id));
+      if (!v && id) {
+        v = {
+          _id: id,
+          youtubeId: id,
+          title: 'Official Trailer / Stream',
+          type: 'youtube',
+          sourceUrl: 'https://www.youtube-nocookie.com/embed/' + id,
+          thumbnail: 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg',
+          date: 'ACTIVE STREAM',
+          duration: 'OFFICIAL',
+          game: 'FEATURED',
+          ageRestricted: false,
+          isDynamic: true
+        };
+        if (MEDIA && Array.isArray(MEDIA.videos)) {
+          MEDIA.videos.unshift(v);
+        }
+      }
+      if (!v && MEDIA && Array.isArray(MEDIA.videos)) v = MEDIA.videos[0];
+      if (!v) return;
       if (!skipGate && needsGate(v)) { openAgeGate(v.youtubeId || v._id); return; }
       document.getElementById('library').classList.add('hidden');
       const wd = document.getElementById('watchDetail');
@@ -1738,7 +1981,11 @@
       } else {
         document.getElementById('detailPlayer').innerHTML = embed(v.youtubeId, true);
       }
-      document.getElementById('detailTitle').textContent = v.title;
+      const titleEl = document.getElementById('detailTitle');
+      if (titleEl) {
+        titleEl.textContent = v.title;
+        runGlitchScramble(titleEl, v.title);
+      }
       document.getElementById('detailDate').textContent = (v.game ? v.game + '  ·  ' : '') + (v.date || 'Active Broadcast') + (v.duration ? '  ·  ' + v.duration : '');
       document.getElementById('detailDesc').textContent = 'Captured from official channels — streaming here via ' + (v.type === 's3' ? 'high-definition storage' : 'YouTube embed') + '. ' + v.title + ' originally premiered ' + (v.date || 'recently') + '.' + (v.ageRestricted ? ' YouTube age-gates this trailer: if the player says “age-restricted”, continue on YouTube (DOB / sign-in) or Rockstar.' : '');
       const yt = v.type === 's3' ? v.sourceUrl : ('https://www.youtube.com/watch?v=' + v.youtubeId);
@@ -1827,7 +2074,9 @@
     function setSlideText(item) {
       const kick = document.getElementById('heroKicker'), h = document.getElementById('heroTitle'), sub = document.getElementById('heroSub');
       if (kick) kick.textContent = item.kick;
-      if (h) h.innerHTML = item.title;
+      if (h) {
+        runGlitchScramble(h, item.title, true);
+      }
       if (sub) sub.textContent = item.sub;
     }
     function initHeroCarousel() {
@@ -1928,12 +2177,33 @@
             }
           });
         }
+        if (Array.isArray(dbMedia.home_trailers)) {
+          dbMedia.home_trailers.forEach(v => {
+            if (!dynamicVideos.some(x => String(x._id) === String(v._id))) {
+              dynamicVideos.push({
+                _id: v._id,
+                title: v.title,
+                type: v.type,
+                sourceUrl: v.sourceUrl,
+                youtubeId: v.youtubeId || null,
+                thumbnail: v.thumbnail,
+                date: 'OFFICIAL TRAILER',
+                duration: 'OFFICIAL',
+                game: v.title?.toLowerCase().includes('counter-strike') ? 'Counter-Strike 2' : 'TRAILER',
+                ageRestricted: false,
+                isDynamic: true
+              });
+            }
+          });
+        }
         if (dynamicVideos.length) {
           MEDIA.videos = [...dynamicVideos, ...MEDIA.videos.filter(x => !dynamicVideos.some(d => (d.youtubeId && d.youtubeId === x.youtubeId) || String(d._id) === String(x._id)))];
         }
       }
       renderLibrary(MEDIA);
       initHeroCarousel();
+
+
       const mv = document.getElementById('menuVideos');
       mv.className = 'mt-5 grid sm:grid-cols-2 gap-4';
       mv.innerHTML = MEDIA.videos.map(menuCard).join('');

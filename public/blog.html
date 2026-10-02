@@ -44,7 +44,7 @@
           colors: {
             ink: '#191924',
             inkdeep: '#12121c',
-            pill: '#f6a9c6',
+            pill: '#3F9AAE',
             cream: '#f2ecdc',
             panel: '#4a2b6b',
             vice: { pink: '#ff2e88', cyan: '#00e5ff', purple: '#7b2ff7' }
@@ -353,7 +353,7 @@
     #dBody p:first-child::first-letter {
       font-weight: 900;
       font-size: 1.6em;
-      color: #f6a9c6;
+      color: #3F9AAE;
       padding-right: 2px;
     }
 
@@ -479,6 +479,18 @@
       font-weight: 500;
       display: block;
     }
+
+    /* overlay nav: transparent at top, solid dark glass after scroll */
+    #siteHeader {
+      transition: background .3s ease, backdrop-filter .3s ease, border-color .3s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    #siteHeader.header-solid {
+      background: rgba(25, 25, 36, .88);
+      backdrop-filter: blur(16px);
+      border-bottom-color: rgba(255, 255, 255, .08);
+    }
   </style>
 </head>
 
@@ -523,12 +535,13 @@
       class="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-vice-pink via-vice-purple to-vice-cyan"></div>
   </div>
 
-  <header class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4">
+  <header id="siteHeader"
+    class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-3">
     <a href="/"
       class="flex items-center gap-2.5 font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white"><img
         src="/images/logo.svg" alt="IGV logo" width="40" height="40"
         class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span
-          class="text-pill">V</span></span></a>
+          class="text-pill">Victory</span></span></a>
     <div class="flex items-center gap-2 sm:gap-3">
       <a href="#posts"
         class="pill-btn hidden sm:inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Read
@@ -600,7 +613,7 @@
     <svg class="palm absolute -right-10 bottom-0 w-56 sm:w-80 opacity-40">
       <use href="#palm" />
     </svg>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-0 pt-14 sm:pt-20 pb-12 sm:pb-16">
+    <div class="relative max-w-7xl mx-auto px-4 pt-14 sm:pt-20 pb-12 sm:pb-16">
       <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/60">Cypher&nbsp;Stories</p>
       <h1 class="mt-4 font-black uppercase leading-[0.95] tracking-tight text-cream text-[clamp(2.4rem,8vw,5rem)]">Vice
         City<br>Blog</h1>
@@ -668,7 +681,7 @@
       <div>
         <p class="flex items-center gap-2.5 font-black text-2xl tracking-tighter"><img src="/images/logo.svg"
             alt="IGV logo" width="40" height="40" loading="lazy" decoding="async"
-            class="w-10 h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span class="text-pill">V</span></span></p>
+            class="w-10 h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span class="text-pill">Victory</span></span></p>
         <p class="mt-3 text-white/55 text-sm max-w-xs">Next-gen console coverage — trailers, esports, guides and reviews
           from the neon coast.</p>
         <div class="mt-4 flex flex-wrap gap-2 font-mono text-[0.62rem] font-bold tracking-[0.2em]">
@@ -1153,6 +1166,12 @@
         renderer.render(scene, camera);
       })();
     })();
+
+    // overlay header: transparent over fullscreen hero, solid after scroll
+    const siteHeader = document.getElementById('siteHeader');
+    const syncHeader = () => siteHeader && siteHeader.classList.toggle('header-solid', scrollY > 40);
+    addEventListener('scroll', syncHeader, { passive: true });
+    syncHeader();
   </script>
 </body>
 

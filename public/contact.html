@@ -42,7 +42,7 @@
       theme: {
         extend: {
           colors: {
-            ink: '#191924', inkdeep: '#12121c', pill: '#f6a9c6', cream: '#f2ecdc',
+            ink: '#191924', inkdeep: '#12121c', pill: '#3F9AAE', cream: '#f2ecdc',
             panel: '#4a2b6b', vice: { pink: '#ff2e88', cyan: '#00e5ff', purple: '#7b2ff7' }
           },
           fontFamily: { archivo: ['Archivo', 'system-ui', 'sans-serif'], mono: ['ui-monospace', 'Menlo', 'monospace'] }
@@ -267,6 +267,18 @@
     #toast {
       transition: opacity .4s ease, transform .4s ease;
     }
+
+    /* overlay nav: transparent at top, solid dark glass after scroll */
+    #siteHeader {
+      transition: background .3s ease, backdrop-filter .3s ease, border-color .3s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    #siteHeader.header-solid {
+      background: rgba(25, 25, 36, .88);
+      backdrop-filter: blur(16px);
+      border-bottom-color: rgba(255, 255, 255, .08);
+    }
   </style>
 </head>
 
@@ -302,13 +314,13 @@
     </symbol>
   </svg>
 
-  <header
-    class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-4 bg-ink/85 backdrop-blur-xl border-b border-white/10">
+  <header id="siteHeader"
+    class="sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-3">
     <a href="/"
       class="flex items-center gap-2.5 font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white"><img
         src="/images/logo.svg" alt="IGV logo" width="40" height="40"
         class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span
-          class="text-pill">V</span></span></a>
+          class="text-pill">Victory</span></span></a>
     <div class="flex items-center gap-2 sm:gap-3">
       <a href="/blog"
         class="pill-btn hidden sm:inline-block bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Read
@@ -460,7 +472,7 @@
       <div>
         <p class="flex items-center gap-2.5 font-black text-2xl tracking-tighter"><img src="/images/logo.svg"
             alt="IGV logo" width="40" height="40" loading="lazy" decoding="async"
-            class="w-10 h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span class="text-pill">V</span></span></p>
+            class="w-10 h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span class="text-pill">Victory</span></span></p>
         <p class="mt-3 text-white/55 text-sm max-w-xs">Next-gen console coverage — trailers, esports, guides and reviews
           from the neon coast.</p>
         <div class="mt-4 flex flex-wrap gap-2 font-mono text-[0.62rem] font-bold tracking-[0.2em]">
@@ -639,6 +651,12 @@
       t.style.opacity = '1'; t.style.transform = 'translate(-50%, 0)';
       setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translate(-50%, 6rem)'; }, 2200);
     });
+
+    // overlay header: transparent over fullscreen hero, solid after scroll
+    const siteHeader = document.getElementById('siteHeader');
+    const syncHeader = () => siteHeader && siteHeader.classList.toggle('header-solid', scrollY > 40);
+    addEventListener('scroll', syncHeader, { passive: true });
+    syncHeader();
   </script>
 </body>
 

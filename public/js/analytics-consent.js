@@ -90,7 +90,7 @@
           border: none;
         }
         .igv-btn-primary {
-          background: #f6a9c6;
+          background: #3F9AAE;
           color: #12121c;
         }
         .igv-btn-primary:hover {
@@ -104,8 +104,8 @@
           border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .igv-btn-secondary:hover {
-          border-color: #f6a9c6;
-          color: #f6a9c6;
+          border-color: #3F9AAE;
+          color: #3F9AAE;
           transform: translateY(-2px);
         }
       </style>
@@ -114,15 +114,15 @@
           <div style="display: flex; align-items: center; gap: 0.5rem;">
             <span style="font-size: 1.2rem;">🍪</span>
             <strong style="font-size: 0.95rem; font-weight: 800; letter-spacing: -0.02em;">
-              IG<span style="color: #f6a9c6;">V</span> Privacy & Cookie Preferences
+              IG<span style="color: #3F9AAE;">V</span> Privacy & Cookie Preferences
             </strong>
           </div>
           <button id="igv-consent-close" aria-label="Dismiss banner" style="background: transparent; border: none; color: rgba(255,255,255,0.4); font-size: 1.1rem; cursor: pointer; padding: 0 4px; line-height: 1;">✕</button>
         </div>
         <p style="margin: 0; font-size: 0.85rem; line-height: 1.5; color: rgba(255, 255, 255, 0.75);">
           We use telemetry and cookies to maintain broadcast playback, track video performance, and optimize content across igvictory.com. By clicking <em>Accept All</em>, you consent to our analytics and AdSense readiness per our
-          <a href="/privacy" style="color: #f6a9c6; text-decoration: underline;">Privacy Policy</a> and
-          <a href="/terms" style="color: #f6a9c6; text-decoration: underline;">Terms of Service</a>.
+          <a href="/privacy" style="color: #3F9AAE; text-decoration: underline;">Privacy Policy</a> and
+          <a href="/terms" style="color: #3F9AAE; text-decoration: underline;">Terms of Service</a>.
         </p>
         <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; justify-content: flex-end; margin-top: 0.25rem;">
           <button id="igv-consent-essential" class="igv-consent-btn igv-btn-secondary">Essential Only</button>
