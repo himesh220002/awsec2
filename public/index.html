@@ -782,11 +782,7 @@
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-4 2xl:px-0 pt-10 sm:pt-14">
-    <div id="eventSpot">
-      <p class="text-white/60">Loading spotlight…</p>
-    </div>
-  </section>
+
 
   <section class="max-w-7xl mx-auto px-4 2xl:px-0 py-10 sm:py-14">
     <div class="reveal flex items-end justify-between mb-6">
@@ -797,6 +793,12 @@
       <p class="text-white/60">Loading showcase…</p>
     </div>
     <div id="gamesMore" class="mt-6 text-center"></div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 2xl:px-0 pt-10 sm:pt-14">
+    <div id="eventSpot">
+      <p class="text-white/60">Loading spotlight…</p>
+    </div>
   </section>
 
   <section id="events" class="max-w-7xl mx-auto px-4 2xl:px-0 py-10 sm:py-14">
@@ -887,7 +889,7 @@
 
     </div>
 
-    <div class="p-6 sm:mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="p-4 sm:p-6 sm:mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
         <h3 id="activeTitleText" class="font-black uppercase text-cream text-xl leading-tight">Featured Broadcast</h3>
         <p id="activeMetaText" class="mt-1 font-mono text-xs text-white/50 tracking-wider">OFFICIAL FEED</p>
@@ -996,7 +998,7 @@
           <h3 class="font-bold text-lg md:text-2xl text-vice-pink flex items-center gap-2">
             Real-Time Twitch Live Streams & VOD
           </h3>
-          <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
+          <p class="mt-3 text-cyan-200/75 text-sm leading-relaxed">
             At IGV, our intelligent Twitch relay connects the Twitch Helix API directly to your screen. Track live
             streams and replays for games like <em>Rust</em>, <em>Grand Theft Auto V</em>, <em>VALORANT</em>, and
             <em>Counter-Strike 2</em> with effortless clarity.
@@ -1012,7 +1014,7 @@
           <h3 class="font-bold text-lg md:text-2xl text-vice-pink flex items-center gap-2">
             Dynamic Search & Broadcaster Discovery
           </h3>
-          <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
+          <p class="mt-3 text-cyan-200/75 text-sm leading-relaxed">
             Skip the endless submenus. IGV streamlines discovery with a unified search for categories, channels, clips,
             and archives. Search for creators like <em>shroud</em>, <em>tarik</em>, or <em>caseoh_</em> to instantly
             check live viewers, uptime, and community stats.
@@ -1029,7 +1031,7 @@
           <h3 class="font-bold text-lg md:text-2xl text-vice-pink flex items-center gap-2">
             The GTA VI Dispatch
           </h3>
-          <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
+          <p class="mt-3 text-cyan-200/75 text-sm leading-relaxed">
             As anticipation builds for Rockstar Games' upcoming opus, IGV stands as the premier digital dispatch for the
             neon state of Leonida. We track official reveal trailers, verified 4K character artwork, map breakdowns of
             Vice City and the surrounding wetlands, and critical franchise history.
@@ -1045,7 +1047,7 @@
           <h3 class="font-bold text-lg md:text-2xl text-vice-pink flex items-center gap-2">
             Pure Performance
           </h3>
-          <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
+          <p class="mt-3 text-cyan-200/75 text-sm leading-relaxed">
             IGV was designed with a performance-first mindset. Built with lightweight semantic markup, ultra-crisp SVG
             vector icons, GPU-accelerated styling, and cloud-cached API endpoints, the platform loads at lightning speed
             across desktop displays, tablets, and smartphones alike.
@@ -2085,6 +2087,7 @@
                 <div class="relative w-40 h-40 sm:w-52 sm:h-52 rounded-full overflow-hidden border-2 border-vice-pink/60 shadow-[0_0_50px_rgba(255,46,136,0.35)]">
                   <img id="activeVinylImg" src="${thumb || '/images/posters/music_default.webp'}" alt="${title}" class="w-full h-full object-cover spin-vinyl" style="animation-play-state: running;">
                   <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20"></div>
+                  <div class="absolute w-6 h-6 bg-neutral-800 border border-neutral-700 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full z-10 shadow-inner"></div>
                 </div>
                 <div class="hidden 2xl:block mt-4">
                   <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-vice-pink/20 border border-vice-pink/50 text-vice-pink font-mono text-[0.65rem] uppercase tracking-widest font-bold">

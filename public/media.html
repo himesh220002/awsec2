@@ -756,7 +756,7 @@
             class="hidden pill-btn bg-white text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Rockstar
             ↗</a>
           <a id="featureYT" href="#" target="_blank" rel="noopener"
-            class="pill-btn bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Watch on
+            class="hidden pill-btn bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Watch on
             YouTube ↗</a>
         </div>
       </div>
@@ -1322,7 +1322,7 @@
                 <div class="relative w-40 h-40 sm:w-52 sm:h-52 rounded-full overflow-hidden border-2 border-vice-pink/60 shadow-[0_0_50px_rgba(255,46,136,0.35)]">
                   <img id="mediaVinylImg" src="${v.thumbnail || '/images/posters/music_default.webp'}" alt="${v.title}" class="w-full h-full object-cover spin-vinyl" style="animation-play-state: running;">
                   <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20"></div>
-                   <div class="absolute w-6 h-6 bg-neutral-800 border border-neutral-700 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full z-10 shadow-inner"></div>
+                  <div class="absolute w-6 h-6 bg-neutral-800 border border-neutral-700 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full z-10 shadow-inner"></div>
                   </div>
                 <div class="hidden 2xl:block mt-4">
                   
@@ -1368,12 +1368,12 @@
 
       const ytEl = document.getElementById('featureYT');
       if (ytEl) {
-        if (isAudio) {
-          ytEl.href = v.sourceUrl;
-          ytEl.textContent = 'Direct Stream ↗';
+        if (v.type === 's3' || !v.youtubeId) {
+          ytEl.classList.add('hidden');
         } else {
-          ytEl.href = v.type === 's3' ? v.sourceUrl : ('https://www.youtube.com/watch?v=' + v.youtubeId);
+          ytEl.href = 'https://www.youtube.com/watch?v=' + v.youtubeId;
           ytEl.textContent = 'Watch on YouTube ↗';
+          ytEl.classList.remove('hidden');
         }
       }
 
