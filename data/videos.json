@@ -1,5 +1,78 @@
 [
   {
+    "_id": "vmus7y0dhgqolm",
+    "title": "Going Through Changes",
+    "artist": "EMINEM",
+    "mediaType": "music",
+    "audioFormat": "FLAC",
+    "type": "s3",
+    "sourceUrl": "/api/videos/stream?key=igv_music%2F1791021467118_06_-_Going_Through_Changes.flac",
+    "fileKey": "igv_music/1791021467118_06_-_Going_Through_Changes.flac",
+    "youtubeId": null,
+    "thumbnail": "/api/videos/stream?key=igv_videos%2Fthumbnails%2F1791021476602_cover.jpg",
+    "placements": [
+      "music",
+      "home_gameplay",
+      "media_page"
+    ],
+    "isAssignedTo": "music",
+    "uploadedAt": "2026-10-03T09:57:57.221Z"
+  },
+  {
+    "_id": "vmus3zu6q0iupz",
+    "title": "Eminem feat. Billie Eilish - Numb - Empire Remix",
+    "artist": "",
+    "mediaType": "video",
+    "audioFormat": "none",
+    "type": "s3",
+    "sourceUrl": "/api/videos/stream?key=igv_videos%2F1791014824492_Eminem_feat__Billie_Eilish_-_Numb_-_Empire_Remix_faststart.mp4",
+    "fileKey": "igv_videos/1791014824492_Eminem_feat__Billie_Eilish_-_Numb_-_Empire_Remix_faststart.mp4",
+    "youtubeId": null,
+    "thumbnail": "/api/videos/stream?key=igv_videos%2Fthumbnails%2F1791015149350_Screenshot_From_2026-10-03_11-30-33.png",
+    "placements": [
+      "home_gameplay",
+      "media_page"
+    ],
+    "isAssignedTo": "home_gameplay",
+    "uploadedAt": "2026-10-03T08:07:24.050Z"
+  },
+  {
+    "_id": "vmus3y91x9s5es",
+    "title": "LinkinPark-What-Ive-Done",
+    "artist": "",
+    "mediaType": "video",
+    "audioFormat": "none",
+    "type": "s3",
+    "sourceUrl": "/api/videos/stream?key=igv_videos%2F1791014766326_LinkinPark-What-Ive-Done_faststart.mp4",
+    "fileKey": "igv_videos/1791014766326_LinkinPark-What-Ive-Done_faststart.mp4",
+    "youtubeId": null,
+    "thumbnail": "/api/videos/stream?key=igv_videos%2Fthumbnails%2F1791015081770_frame_vmus3y91x9s5es_17_0s.jpg",
+    "placements": [
+      "home_gameplay",
+      "media_page"
+    ],
+    "isAssignedTo": "home_gameplay",
+    "uploadedAt": "2026-10-03T08:06:10.005Z"
+  },
+  {
+    "_id": "vmus3tl6gcesrx",
+    "title": "valorant Ticking away",
+    "artist": "",
+    "mediaType": "video",
+    "audioFormat": "none",
+    "type": "s3",
+    "sourceUrl": "/api/videos/stream?key=igv_videos%2F1790932913313_valorant_Ticking_away.mp4",
+    "fileKey": "igv_videos/1790932913313_valorant_Ticking_away.mp4",
+    "youtubeId": null,
+    "thumbnail": "/api/videos/stream?key=igv_videos%2Fthumbnails%2F1791015137956_Screenshot_From_2026-10-02_23-26-01.png",
+    "placements": [
+      "home_gameplay",
+      "media_page"
+    ],
+    "isAssignedTo": "home_gameplay",
+    "uploadedAt": "2026-10-03T08:02:32.441Z"
+  },
+  {
     "_id": "vmupf5w9ifqa2h",
     "title": "valorant Ticking away",
     "type": "s3",

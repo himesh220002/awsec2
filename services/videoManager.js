@@ -1,7 +1,11 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
+const { execFile } = require('child_process');
+const util = require('util');
+const execFilePromise = util.promisify(execFile);
 const mongoose = require('mongoose');
-const { S3Client, PutObjectCommand, GetObjectCommand, HeadObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand, GetObjectCommand, HeadObjectCommand, DeleteObjectCommand, ListObjectsV2Command } = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 
 const DB_FILE = path.join(__dirname, '..', 'data', 'videos.json');
@@ -63,6 +67,20 @@ const VideoSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  artist: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  mediaType: {
+    type: String,
+    enum: ['video', 'music'],
+    default: 'video'
+  },
+  audioFormat: {
+    type: String,
+    default: null
+  },
   type: {
     type: String,
     enum: ['s3', 'youtube'],
@@ -85,10 +103,9 @@ const VideoSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  // Multiple selection placements: e.g. ['home_trailer', 'home_gameplay', 'media_page']
+  // Multiple selection placements: e.g. ['home_trailer', 'home_gameplay', 'media_page', 'music']
   placements: {
     type: [String],
-    enum: ['home_trailer', 'home_gameplay', 'media_page'],
     default: [],
     index: true
   },
@@ -179,8 +196,33 @@ async function initMongo() {
   return ensureMongo();
 }
 
-mongoose.connection.on('connected', () => {
+mongoose.connection.on('connected', async () => {
   isMongoConnected = true;
+  try {
+    const count = await Video.countDocuments();
+    if (count === 0 && fallbackVideos.length > 0) {
+      console.log('[MediaManager] Seeding MongoDB with existing fallback videos...');
+      for (const item of fallbackVideos) {
+        await Video.create({
+          title: item.title,
+          type: item.type,
+          sourceUrl: item.sourceUrl,
+          fileKey: item.fileKey,
+          youtubeId: item.youtubeId,
+          thumbnail: item.thumbnail,
+          isAssignedTo: item.isAssignedTo,
+          placements: item.placements || (item.isAssignedTo ? [item.isAssignedTo] : []),
+          mediaType: item.mediaType || 'video',
+          artist: item.artist || '',
+          audioFormat: item.audioFormat || 'none',
+          uploadedAt: item.uploadedAt || new Date()
+        });
+      }
+      console.log('[MediaManager] MongoDB seeded successfully.');
+    }
+  } catch (err) {
+    console.warn('[MediaManager] Seeding warning:', err.message);
+  }
 });
 mongoose.connection.on('disconnected', () => {
   isMongoConnected = false;
@@ -248,7 +290,9 @@ async function getS3UploadPresignedUrl(fileName, contentType = 'video/mp4', expi
 
   const ext = path.extname(fileName) || '.mp4';
   const cleanBase = path.basename(fileName, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
-  const fileKey = `igv_videos/${Date.now()}_${cleanBase}${ext}`;
+  const isAudio = (contentType && contentType.startsWith('audio/')) || ['.mp3', '.wav', '.ogg', '.m4a', '.flac', '.aac'].includes(ext.toLowerCase());
+  const folder = isAudio ? 'igv_music' : 'igv_videos';
+  const fileKey = `${folder}/${Date.now()}_${cleanBase}${ext}`;
 
   const command = new PutObjectCommand({
     Bucket: s3Config.bucket,
@@ -298,7 +342,7 @@ async function streamVideoChunk(fileKey, req, res) {
   const s3Config = getS3Config();
   const s3 = getS3Client();
 
-  if (s3 && fileKey && fileKey.startsWith('igv_videos/')) {
+  if (s3 && fileKey && (fileKey.startsWith('igv_videos/') || fileKey.startsWith('igv_music/'))) {
     try {
       // 1. Verify existence in S3 bucket
       await s3.send(new HeadObjectCommand({
@@ -308,8 +352,6 @@ async function streamVideoChunk(fileKey, req, res) {
 
       // 2. High-speed Direct S3 Playback:
       // Redirect directly to S3 Mumbai (ap-south-1) with a presigned GET URL.
-      // This completely bypasses transatlantic serverless hops through Vercel Washington D.C.,
-      // giving instant, zero-buffer, multi-megabit domestic streaming directly to the browser!
       const signed = await getS3SignedPlaybackUrl(fileKey, 7200);
       if (signed) {
         res.setHeader('Cache-Control', 'public, max-age=3600');
@@ -317,7 +359,7 @@ async function streamVideoChunk(fileKey, req, res) {
       }
     } catch (err) {
       if (err.name === 'NotFound' || err.$metadata?.httpStatusCode === 404) {
-        return res.status(404).send('Video file not found in current S3 storage bucket. (The file may belong to an older deleted storage bucket).');
+        return res.status(404).send('Media file not found in current S3 storage bucket.');
       }
       console.error('[MediaManager] S3 Stream Error:', err.message);
     }
@@ -397,24 +439,77 @@ async function uploadImageFile(fileBuffer, originalName, mimeType) {
   }
 }
 
-// Upload buffer to AWS S3 (under igv_videos/) or fallback to local disk
+// Optimize video with FFmpeg: apply stream copy + FastStart or H.264/AAC transcode
+async function optimizeMediaWithFfmpeg(inputBuffer, originalName) {
+  const ext = (path.extname(originalName) || '').toLowerCase();
+  const videoExts = ['.mp4', '.mkv', '.avi', '.mov', '.webm'];
+  if (!videoExts.includes(ext)) {
+    return { buffer: inputBuffer, finalExt: ext, contentType: null };
+  }
+
+  const tmpDir = os.tmpdir();
+  const inPath = path.join(tmpDir, `in_${Date.now()}_${Math.random().toString(36).substr(2, 5)}${ext}`);
+  const outPath = path.join(tmpDir, `out_${Date.now()}_${Math.random().toString(36).substr(2, 5)}.mp4`);
+
+  try {
+    fs.writeFileSync(inPath, inputBuffer);
+    // 1. Try fast stream copy with FastStart (runs in <1s if H.264/AAC)
+    try {
+      await execFilePromise('ffmpeg', ['-y', '-i', inPath, '-c', 'copy', '-movflags', '+faststart', outPath]);
+    } catch (copyErr) {
+      console.log(`[MediaManager] Stream copy not possible for ${originalName}, transcoding with H.264/AAC + FastStart...`);
+      await execFilePromise('ffmpeg', ['-y', '-i', inPath, '-c:v', 'libx264', '-preset', 'fast', '-crf', '22', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', outPath]);
+    }
+
+    if (fs.existsSync(outPath) && fs.statSync(outPath).size > 0) {
+      const optimizedBuffer = fs.readFileSync(outPath);
+      return { buffer: optimizedBuffer, finalExt: '.mp4', contentType: 'video/mp4' };
+    }
+  } catch (err) {
+    console.warn('[MediaManager] FFmpeg optimization warning:', err.message);
+  } finally {
+    try { if (fs.existsSync(inPath)) fs.unlinkSync(inPath); } catch (e) {}
+    try { if (fs.existsSync(outPath)) fs.unlinkSync(outPath); } catch (e) {}
+  }
+  return { buffer: inputBuffer, finalExt: ext, contentType: null };
+}
+
+// Upload buffer to AWS S3 (under igv_videos/ or igv_music/) or fallback to local disk
 async function uploadMediaFile(fileBuffer, originalName, mimeType) {
   const s3Config = getS3Config();
   const s3 = getS3Client();
-  const ext = path.extname(originalName) || '.mp4';
-  const cleanBase = path.basename(originalName, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
-  const fileKey = `igv_videos/${Date.now()}_${cleanBase}${ext}`;
+  let ext = (path.extname(originalName) || '').toLowerCase() || '.mp4';
+  let bufferToUpload = fileBuffer;
+  let finalMime = mimeType || 'video/mp4';
+
+  const isAudio = (mimeType && mimeType.startsWith('audio/')) || ['.mp3', '.wav', '.ogg', '.m4a', '.flac', '.aac'].includes(ext);
+  const videoExts = ['.mp4', '.mkv', '.avi', '.mov', '.webm'];
+
+  // Automatically optimize videos with FastStart
+  if (videoExts.includes(ext)) {
+    try {
+      const opt = await optimizeMediaWithFfmpeg(fileBuffer, originalName);
+      bufferToUpload = opt.buffer;
+      ext = opt.finalExt;
+      if (opt.contentType) finalMime = opt.contentType;
+    } catch (e) {
+      console.warn('[MediaManager] FastStart remux skipped:', e.message);
+    }
+  }
+
+  const cleanBase = path.basename(originalName, path.extname(originalName)).replace(/[^a-zA-Z0-9_-]/g, '_');
+  const folder = isAudio ? 'igv_music' : 'igv_videos';
+  const fileKey = `${folder}/${Date.now()}_${cleanBase}${ext}`;
 
   if (s3) {
     try {
       await s3.send(new PutObjectCommand({
         Bucket: s3Config.bucket,
         Key: fileKey,
-        Body: fileBuffer,
-        ContentType: mimeType || 'video/mp4'
+        Body: bufferToUpload,
+        ContentType: finalMime
       }));
 
-      // Stream URL ensures chunked byte-range retrieval works with 100% reliability
       const streamUrl = `/api/videos/stream?key=${encodeURIComponent(fileKey)}`;
       const directS3Url = `https://${s3Config.bucket}.s3.${s3Config.region}.amazonaws.com/${fileKey}`;
       return {
@@ -433,7 +528,7 @@ async function uploadMediaFile(fileBuffer, originalName, mimeType) {
   try {
     const localFileName = `${Date.now()}_${cleanBase}${ext}`;
     const localFilePath = path.join(UPLOAD_DIR, localFileName);
-    fs.writeFileSync(localFilePath, fileBuffer);
+    fs.writeFileSync(localFilePath, bufferToUpload);
 
     const streamUrl = `/api/videos/stream?key=${encodeURIComponent(localFileName)}`;
     return {
@@ -445,6 +540,86 @@ async function uploadMediaFile(fileBuffer, originalName, mimeType) {
   } catch (err) {
     console.error('[MediaManager] Local video write failed:', err.message);
     throw new Error('Storage unavailable: please configure AWS S3 environment variables.');
+  }
+}
+
+// Remux/optimize an existing video in S3 into FastStart Progressive MP4
+async function optimizeVideoOnS3(videoId) {
+  await ensureMongo();
+  const v = await getVideoById(videoId);
+  if (!v) throw new Error('Media not found with id ' + videoId);
+  if (v.type !== 's3' || !v.fileKey) throw new Error('Only S3 hosted media can be optimized with FastStart');
+
+  const s3Config = getS3Config();
+  const s3 = getS3Client();
+  if (!s3 || !s3Config.bucket) throw new Error('S3 client not configured');
+
+  const tmpDir = os.tmpdir();
+  const inExt = path.extname(v.fileKey) || '.mp4';
+  const inPath = path.join(tmpDir, `s3_in_${Date.now()}${inExt}`);
+  const outPath = path.join(tmpDir, `s3_out_${Date.now()}.mp4`);
+
+  try {
+    console.log(`[MediaManager] Downloading S3 object ${v.fileKey} for FastStart remuxing...`);
+    const s3Obj = await s3.send(new GetObjectCommand({
+      Bucket: s3Config.bucket,
+      Key: v.fileKey
+    }));
+    const chunks = [];
+    for await (const chunk of s3Obj.Body) {
+      chunks.push(chunk);
+    }
+    fs.writeFileSync(inPath, Buffer.concat(chunks));
+
+    console.log(`[MediaManager] Running FFmpeg FastStart remux on ${inPath}...`);
+    try {
+      await execFilePromise('ffmpeg', ['-y', '-i', inPath, '-c', 'copy', '-movflags', '+faststart', outPath]);
+    } catch (copyErr) {
+      console.log(`[MediaManager] Fast stream copy not possible, transcoding:`, copyErr.message);
+      await execFilePromise('ffmpeg', ['-y', '-i', inPath, '-c:v', 'libx264', '-preset', 'fast', '-crf', '22', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', outPath]);
+    }
+
+    if (!fs.existsSync(outPath) || fs.statSync(outPath).size === 0) {
+      throw new Error('FFmpeg failed to produce optimized output file');
+    }
+
+    const newKey = v.fileKey.replace(/\.[a-zA-Z0-9]+$/, '') + '_faststart.mp4';
+    const optBuffer = fs.readFileSync(outPath);
+    await s3.send(new PutObjectCommand({
+      Bucket: s3Config.bucket,
+      Key: newKey,
+      Body: optBuffer,
+      ContentType: 'video/mp4'
+    }));
+
+    if (newKey !== v.fileKey) {
+      try {
+        await s3.send(new DeleteObjectCommand({ Bucket: s3Config.bucket, Key: v.fileKey }));
+      } catch (e) {}
+    }
+
+    const newSourceUrl = `/api/videos/stream?key=${encodeURIComponent(newKey)}`;
+    if (isMongoConnected) {
+      await Video.findByIdAndUpdate(v._id, {
+        $set: { fileKey: newKey, sourceUrl: newSourceUrl }
+      });
+    }
+    const local = fallbackVideos.find(x => String(x._id) === String(v._id));
+    if (local) {
+      local.fileKey = newKey;
+      local.sourceUrl = newSourceUrl;
+      saveDb();
+    }
+
+    return {
+      success: true,
+      fileKey: newKey,
+      sizeBytes: optBuffer.length,
+      message: 'FastStart optimization applied! Video will now stream in 1-2 requests.'
+    };
+  } finally {
+    try { if (fs.existsSync(inPath)) fs.unlinkSync(inPath); } catch (e) {}
+    try { if (fs.existsSync(outPath)) fs.unlinkSync(outPath); } catch (e) {}
   }
 }
 
@@ -481,6 +656,23 @@ function normalizeDoc(doc) {
   if (!Array.isArray(o.placements)) {
     o.placements = o.isAssignedTo && o.isAssignedTo !== 'none' ? [o.isAssignedTo] : [];
   }
+  // Enforce source truth by file extension:
+  // .mp4, .webm, .mkv, .avi, .mov or youtube = 100% VIDEO (audioFormat: 'none')
+  // .mp3, .wav, .ogg, .flac, .aac = AUDIO TRACK (audioFormat: 'MP3', etc.)
+  const key = (o.fileKey || o.sourceUrl || '').toLowerCase();
+  const isVideoExt = o.type === 'youtube' || /\.(mp4|webm|mkv|avi|mov)(\?|$)/i.test(key);
+  const isAudioExt = /\.(mp3|wav|ogg|flac|aac)(\?|$)/i.test(key);
+
+  if (isVideoExt) {
+    o.mediaType = 'video';
+    o.audioFormat = 'none';
+  } else if (isAudioExt) {
+    o.mediaType = 'music';
+    if (!o.audioFormat || o.audioFormat === 'none' || o.audioFormat.toLowerCase() === 'mp4') {
+      const extMatch = key.match(/\.([a-z0-9]+)(\?|$)/i);
+      o.audioFormat = extMatch ? extMatch[1].toUpperCase() : 'MP3';
+    }
+  }
   return o;
 }
 
@@ -510,7 +702,7 @@ async function getVideoById(id) {
   return fallbackVideos.find(v => String(v._id) === String(id) || String(v.id) === String(id)) || null;
 }
 
-async function addVideo({ title, type, sourceUrl, fileKey, youtubeId, thumbnail, placements }) {
+async function addVideo({ title, artist, mediaType, audioFormat, type, sourceUrl, fileKey, youtubeId, thumbnail, placements }) {
   await ensureMongo();
   // Prevent duplicate entries if both direct browser upload and S3-triggered Lambda submit the same fileKey
   if (fileKey) {
@@ -525,7 +717,7 @@ async function addVideo({ title, type, sourceUrl, fileKey, youtubeId, thumbnail,
   }
 
   const newId = 'v' + (Date.now().toString(36) + Math.random().toString(36).substr(2, 5));
-  const validPlacements = ['home_trailer', 'home_gameplay', 'media_page'];
+  const validPlacements = ['home_trailer', 'home_gameplay', 'media_page', 'music', 'home_music', 'media_music'];
   let pArray = [];
   if (Array.isArray(placements)) {
     pArray = placements.filter(p => validPlacements.includes(p));
@@ -533,16 +725,34 @@ async function addVideo({ title, type, sourceUrl, fileKey, youtubeId, thumbnail,
     pArray = [placements];
   }
 
+  const fileKeyOrUrl = (fileKey || sourceUrl || '').toLowerCase();
+  const isExplicitVideo = type === 'youtube' || /\.(mp4|webm|mkv|avi|mov)(\?|$)/i.test(fileKeyOrUrl);
+  const isExplicitAudio = /\.(mp3|wav|ogg|flac|aac)(\?|$)/i.test(fileKeyOrUrl);
+
+  const finalMediaType = isExplicitVideo ? 'video' : (isExplicitAudio ? 'music' : (mediaType === 'music' ? 'music' : 'video'));
+  const detectedFormat = isExplicitVideo
+    ? 'none'
+    : (isExplicitAudio
+      ? (fileKey ? path.extname(fileKey).replace('.', '').toUpperCase() : 'MP3')
+      : (finalMediaType === 'music' ? (audioFormat && audioFormat !== 'none' && audioFormat.toLowerCase() !== 'mp4' ? audioFormat.toUpperCase() : 'MP3') : 'none'));
+
+  const defaultPoster = finalMediaType === 'music'
+    ? '/images/posters/music_default.webp'
+    : (type === 's3' ? '/images/posters/poster_full.0az_iud2g3y4j.jpg' : null);
+
   const primaryPlacement = pArray[0] || 'none';
 
   const record = {
     _id: newId,
-    title: title || 'Untitled Broadcast',
+    title: title || (finalMediaType === 'music' ? 'Untitled Soundtrack' : 'Untitled Broadcast'),
+    artist: artist || '',
+    mediaType: finalMediaType,
+    audioFormat: detectedFormat,
     type: type === 's3' ? 's3' : 'youtube',
     sourceUrl: sourceUrl || '',
     fileKey: fileKey || null,
     youtubeId: youtubeId || null,
-    thumbnail: thumbnail || (type === 's3' ? '/images/posters/poster_full.0az_iud2g3y4j.jpg' : null),
+    thumbnail: thumbnail || defaultPoster,
     placements: pArray,
     isAssignedTo: primaryPlacement,
     uploadedAt: new Date()
@@ -613,16 +823,15 @@ async function updateVideoThumbnail(videoId, { thumbnailUrl, fileBuffer, origina
 // Handles: ['home_trailer', 'home_gameplay', 'media_page']
 // -------------------------------------------------------------
 async function assignVideoPlacement(videoId, targetPlacement, options = {}) {
-  const validPlacements = ['home_trailer', 'home_gameplay', 'media_page'];
+  const validPlacements = ['home_trailer', 'home_gameplay', 'media_page', 'music', 'home_music', 'media_music'];
 
   let newPlacements = [];
   const existingVideo = await getVideoById(videoId);
-  if (!existingVideo) throw new Error(`Video not found with id ${videoId}`);
+  if (!existingVideo) throw new Error(`Media not found with id ${videoId}`);
 
   const currentPlacements = Array.isArray(existingVideo.placements) ? [...existingVideo.placements] : [];
 
   if (Array.isArray(targetPlacement)) {
-    // Array of placements provided directly
     newPlacements = targetPlacement.filter(p => validPlacements.includes(p));
   } else if (typeof targetPlacement === 'object' && targetPlacement.placements) {
     newPlacements = targetPlacement.placements.filter(p => validPlacements.includes(p));
@@ -630,14 +839,12 @@ async function assignVideoPlacement(videoId, targetPlacement, options = {}) {
     if (targetPlacement === 'none' || targetPlacement === 'unassign') {
       newPlacements = [];
     } else if (options.toggle !== undefined) {
-      // Toggle a specific placement on or off
       if (options.toggle) {
         newPlacements = Array.from(new Set([...currentPlacements, targetPlacement]));
       } else {
         newPlacements = currentPlacements.filter(p => p !== targetPlacement);
       }
     } else if (validPlacements.includes(targetPlacement)) {
-      // Direct set
       newPlacements = Array.from(new Set([...currentPlacements, targetPlacement]));
     }
   }
@@ -666,7 +873,6 @@ async function assignVideoPlacement(videoId, targetPlacement, options = {}) {
     }
   }
 
-  // Update in-memory / JSON fallback
   const local = fallbackVideos.find(v => String(v._id) === String(videoId) || String(v.id) === String(videoId));
   if (local) {
     local.placements = newPlacements;
@@ -678,7 +884,8 @@ async function assignVideoPlacement(videoId, targetPlacement, options = {}) {
   return updatedVideo;
 }
 
-async function deleteVideo(videoId) {
+async function deleteVideo(videoId, options = {}) {
+  const purgeS3 = options.purgeS3 === true;
   await ensureMongo();
   let deleted = null;
 
@@ -698,7 +905,123 @@ async function deleteVideo(videoId) {
     if (!deleted) deleted = localDeleted;
   }
 
-  return deleted;
+  // Delete from AWS S3 storage ONLY if purgeS3 is explicitly true
+  if (deleted && purgeS3) {
+    const s3Config = getS3Config();
+    const s3 = getS3Client();
+    if (s3 && s3Config.bucket) {
+      // 1. Delete main video or audio file from S3
+      if (deleted.fileKey && (deleted.fileKey.startsWith('igv_videos/') || deleted.fileKey.startsWith('igv_music/'))) {
+        try {
+          await s3.send(new DeleteObjectCommand({
+            Bucket: s3Config.bucket,
+            Key: deleted.fileKey
+          }));
+          console.log(`[MediaManager] S3 media file purged: ${deleted.fileKey}`);
+        } catch (s3Err) {
+          console.warn('[MediaManager] S3 media deletion warning:', s3Err.message);
+        }
+      }
+      // 2. Delete custom S3 thumbnail if not default
+      const thumbUrl = deleted.thumbnail || '';
+      if (thumbUrl.includes('igv_videos/thumbnails/') && !thumbUrl.includes('poster_full') && !thumbUrl.includes('music_default')) {
+        const thumbKeyMatch = thumbUrl.match(/(igv_videos\/thumbnails\/[^?&#]+)/);
+        if (thumbKeyMatch && thumbKeyMatch[1]) {
+          try {
+            await s3.send(new DeleteObjectCommand({
+              Bucket: s3Config.bucket,
+              Key: decodeURIComponent(thumbKeyMatch[1])
+            }));
+            console.log(`[MediaManager] S3 custom thumbnail purged: ${thumbKeyMatch[1]}`);
+          } catch (tErr) {
+            console.warn('[MediaManager] S3 thumbnail deletion warning:', tErr.message);
+          }
+        }
+      }
+    }
+  }
+
+  return { ...deleted, purgedS3: purgeS3 };
+}
+
+// -------------------------------------------------------------
+// S3 Direct Explorer & Peek Storage
+// -------------------------------------------------------------
+async function listS3Objects() {
+  const s3Config = getS3Config();
+  const s3 = getS3Client();
+  if (!s3 || !s3Config.bucket) {
+    return { isConfigured: false, error: 'AWS S3 is not configured', files: [] };
+  }
+
+  try {
+    const res = await s3.send(new ListObjectsV2Command({
+      Bucket: s3Config.bucket,
+      MaxKeys: 300
+    }));
+
+    const allDbVideos = await getAllVideos();
+    const dbKeyMap = new Map();
+    allDbVideos.forEach(v => {
+      if (v.fileKey) dbKeyMap.set(v.fileKey, v);
+    });
+
+    const items = (res.Contents || [])
+      .filter(item => item.Key && !item.Key.endsWith('/'))
+      .map(item => {
+        const key = item.Key;
+        const isThumbnail = key.includes('/thumbnails/');
+        const isMusic = key.startsWith('igv_music/') || /\.(mp3|wav|m4a|ogg|flac|aac)$/i.test(key);
+        const fileName = path.basename(key);
+        const existingVideo = dbKeyMap.get(key) || null;
+
+        return {
+          key,
+          fileName,
+          sizeBytes: item.Size,
+          sizeMB: (item.Size / (1024 * 1024)).toFixed(2),
+          lastModified: item.LastModified,
+          streamUrl: `/api/videos/stream?key=${encodeURIComponent(key)}`,
+          isThumbnail,
+          isMusic,
+          folder: key.startsWith('igv_music/') ? 'igv_music' : (key.startsWith('igv_videos/thumbnails') ? 'thumbnails' : 'igv_videos'),
+          inDatabase: !!existingVideo,
+          linkedVideoId: existingVideo ? existingVideo._id : null,
+          linkedVideoTitle: existingVideo ? existingVideo.title : null
+        };
+      });
+
+    return {
+      success: true,
+      isConfigured: true,
+      bucket: s3Config.bucket,
+      region: s3Config.region,
+      totalCount: items.length,
+      files: items
+    };
+  } catch (err) {
+    console.error('[MediaManager] listS3Objects error:', err.message);
+    throw err;
+  }
+}
+
+async function deleteS3ObjectDirect(fileKey) {
+  const s3Config = getS3Config();
+  const s3 = getS3Client();
+  if (!s3 || !s3Config.bucket) {
+    throw new Error('AWS S3 is not configured');
+  }
+  if (!fileKey || (!fileKey.startsWith('igv_videos/') && !fileKey.startsWith('igv_music/'))) {
+    throw new Error('Invalid or restricted S3 key');
+  }
+
+  await s3.send(new DeleteObjectCommand({
+    Bucket: s3Config.bucket,
+    Key: fileKey
+  }));
+
+  console.log(`[MediaManager] Directly deleted S3 object: ${fileKey}`);
+  return { success: true, key: fileKey };
 }
 
 // -------------------------------------------------------------
@@ -714,16 +1037,16 @@ async function getActivePlacement(placement) {
   };
 
   if (placement === 'home_trailer') {
-    // Primary active trailer
     return all.find(v => hasPlacement(v, 'home_trailer')) || null;
   }
   if (placement === 'home_gameplay') {
-    // Elastic list of ALL gameplay showcase videos (no hardcoded limits)
     return all.filter(v => hasPlacement(v, 'home_gameplay'));
   }
   if (placement === 'media_page') {
-    // Elastic list of media vault videos
     return all.filter(v => hasPlacement(v, 'media_page'));
+  }
+  if (placement === 'music') {
+    return all.filter(v => v.mediaType === 'music' || hasPlacement(v, 'music') || hasPlacement(v, 'home_music') || hasPlacement(v, 'media_music'));
   }
   if (placement === 'all') {
     return {
@@ -731,6 +1054,7 @@ async function getActivePlacement(placement) {
       home_trailers: all.filter(v => hasPlacement(v, 'home_trailer')),
       home_gameplay: all.filter(v => hasPlacement(v, 'home_gameplay')),
       media_page: all.filter(v => hasPlacement(v, 'media_page')),
+      music: all.filter(v => v.mediaType === 'music' || hasPlacement(v, 'music') || hasPlacement(v, 'home_music') || hasPlacement(v, 'media_music')),
       unassigned: all.filter(v => (!v.placements || v.placements.length === 0) && (!v.isAssignedTo || v.isAssignedTo === 'none')),
       dbStatus: getDbStatus()
     };
@@ -748,12 +1072,15 @@ module.exports = {
   streamVideoChunk,
   getS3SignedPlaybackUrl,
   getS3UploadPresignedUrl,
+  optimizeVideoOnS3,
   parseYouTubeUrl,
   getAllVideos,
   getVideoById,
   addVideo,
   assignVideoPlacement,
   deleteVideo,
+  listS3Objects,
+  deleteS3ObjectDirect,
   getActivePlacement,
   getSecret
 };

@@ -193,6 +193,20 @@
       transform: scale(.95);
     }
 
+    @keyframes spinVinyl {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spin-vinyl {
+      animation: spinVinyl 20s linear infinite;
+    }
+
     #loader {
       transition: opacity 0.5s ease;
     }
@@ -633,7 +647,7 @@
 
   <div id="siteHeader" class="sticky top-0 z-40">
     <!-- Top Live Match Ticker -->
-    <div id="liveTickerBar"
+    <!-- <div id="liveTickerBar"
       class="w-full bg-[#0d0d14]/80 backdrop-blur-md border-b border-white/10 px-4 sm:px-8 py-2 flex items-center justify-between text-xs font-mono overflow-x-auto no-scrollbar">
       <div id="tickerContent" class="flex items-center gap-6 whitespace-nowrap">
         <div class="flex items-center gap-2">
@@ -662,7 +676,7 @@
         class="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-pill hover:underline uppercase tracking-wider ml-4 shrink-0">
         ⚔️ Pick'ems Arena →
       </a>
-    </div>
+    </div> -->
 
     <!-- Main Navigation Header -->
     <header class="flex items-center justify-between px-4 sm:px-8 py-3 bg-transparent">
@@ -855,8 +869,8 @@
 
     <!-- Active Media Showcase Player (Dynamically queries /api/videos/active?placement=home_trailer) -->
     <div id="activeMediaContainer"
-      class="reveal mt-8 mb-10 overflow-hidden rounded-[28px] bg-ink border-2 border-panel shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
-      <div class="flex items-center justify-between px-6 py-4 bg-white/[0.03] border-b border-white/10">
+      class="max-w-6xl mx-auto reveal mt-16 mb-16 overflow-hidden rounded-[28px] bg-ink border-2 border-panel shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+      <div class="flex items-center justify-between px-6 py-1 bg-white/[0.03] border-b border-white/10">
         <div class="flex items-center gap-2">
           <span class="w-2.5 h-2.5 rounded-full bg-vice-pink animate-pulse"></span>
           <span id="activeBadgeText"
@@ -870,17 +884,19 @@
       <div id="activePlayerBox" class="relative w-full aspect-video bg-black/80 flex items-center justify-center">
         <p class="text-white/40 font-mono text-sm animate-pulse">Loading active media relay…</p>
       </div>
-      <div class="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h3 id="activeTitleText" class="font-black uppercase text-cream text-xl leading-tight">Featured Broadcast</h3>
-          <p id="activeMetaText" class="mt-1 font-mono text-xs text-white/50 tracking-wider">OFFICIAL FEED</p>
-        </div>
-        <div class="flex items-center gap-3">
-          <a id="activeExternalLink" href="/media"
-            class="pill-btn bg-pill text-inkdeep font-bold text-xs px-6 py-2.5 rounded-full no-underline uppercase tracking-wider">
-            Open in Media Vault →
-          </a>
-        </div>
+
+    </div>
+
+    <div class="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <h3 id="activeTitleText" class="font-black uppercase text-cream text-xl leading-tight">Featured Broadcast</h3>
+        <p id="activeMetaText" class="mt-1 font-mono text-xs text-white/50 tracking-wider">OFFICIAL FEED</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <a id="activeExternalLink" href="/media"
+          class="pill-btn bg-pill text-inkdeep font-bold text-xs px-6 py-2.5 rounded-full no-underline uppercase tracking-wider">
+          Open in Media Vault →
+        </a>
       </div>
     </div>
 
@@ -896,6 +912,9 @@
         <button onclick="setWatchTab('trailers')" id="wTabTrailers"
           class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎬
           Official Trailers</button>
+        <button onclick="setWatchTab('music')" id="wTabMusic"
+          class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎵
+          Soundtracks & Music</button>
       </div>
       <span id="watchCountText" class="font-mono text-xs text-white/50">Showing all broadcasts</span>
     </div>
@@ -1199,7 +1218,11 @@
     fetch('/api/showcase').then(r => r.json()).then(s => {
       const el = document.getElementById('footVideos');
       if (!el || !s.media || !s.media.videos) return;
-      el.innerHTML = s.media.videos.slice(0, 3).map(v => `<a href="/media#/watch/${v.youtubeId}" class="no-underline hover:text-pill transition w-fit">${v.title}</a>`).join('');
+      el.innerHTML = s.media.videos.slice(0, 3).map(v => {
+        const safeTitle = (v.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        const safeYt = (v.youtubeId || '').replace(/'/g, "\\'");
+        return `<a href="javascript:void(0)" onclick="playHomeVideo('', '${safeTitle}', false, 'https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg', '${safeYt}')" class="no-underline hover:text-pill transition w-fit cursor-pointer">${v.title}</a>`;
+      }).join('');
     }).catch(() => { });
   </script>
 
@@ -1266,11 +1289,15 @@
     fetch('/api/showcase').then(r => r.json()).then(s => {
       const mv = document.getElementById('menuVideos');
       mv.className = 'mt-5 grid sm:grid-cols-2 gap-4';
-      mv.innerHTML = s.media.videos.map(v => `
-        <a href="/media#/watch/${v.youtubeId}" class="rs-card block no-underline group">
+      mv.innerHTML = s.media.videos.map(v => {
+        const safeTitle = (v.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        const safeYt = (v.youtubeId || '').replace(/'/g, "\\'");
+        return `
+        <a href="javascript:void(0)" onclick="setMenu(false); playHomeVideo('', '${safeTitle}', false, 'https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg', '${safeYt}');" class="rs-card block no-underline group cursor-pointer">
           <span class="rs-thumb"><img src="https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg" srcset="https://i.ytimg.com/vi/${v.youtubeId}/mqdefault.jpg 320w, https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg 480w" sizes="320px" alt="" loading="lazy" decoding="async"><span class="rs-dur">${v.duration}</span></span>
           <span class="rs-body"><span class="rs-title group-hover:text-pill transition">${v.title}</span><span class="rs-date">${v.date}</span></span>
-        </a>`).join('');
+        </a>`;
+      }).join('');
     }).catch(() => { });
 
     const ARTS = [
@@ -1963,14 +1990,14 @@
       E_SHOW += E_STEP;
       renderTourneyHub();
     }
-    let WATCH_TAB = 'all'; // 'all' | 'gameplay' | 'trailers'
-    let DB_VIDEOS = { home_trailer: null, home_trailers: [], home_gameplay: [], media_page: [] };
+    let WATCH_TAB = 'all'; // 'all' | 'gameplay' | 'trailers' | 'music'
+    let DB_VIDEOS = { home_trailer: null, home_trailers: [], home_gameplay: [], media_page: [], music: [] };
     let W_SHOW = 6, W_STEP = 6;
 
     function setWatchTab(tab) {
       WATCH_TAB = tab;
       W_SHOW = 6;
-      ['all', 'gameplay', 'trailers'].forEach(t => {
+      ['all', 'gameplay', 'trailers', 'music'].forEach(t => {
         const btn = document.getElementById('wTab' + t.charAt(0).toUpperCase() + t.slice(1));
         if (btn) {
           if (t === tab) {
@@ -1996,6 +2023,13 @@
         displayGame: 'Official Trailer',
         displayDate: 'Database Feed'
       }));
+      const dbMusic = (DB_VIDEOS.music || []).map(v => ({
+        ...v,
+        category: 'music',
+        displayGame: v.artist ? `Artist · ${v.artist}` : 'OST / Soundtrack',
+        displayDate: v.audioFormat ? v.audioFormat.toUpperCase() : 'Audio Stream',
+        isMusic: true
+      }));
       const showcaseVideos = (SHOWCASE && SHOWCASE.media && SHOWCASE.media.videos ? SHOWCASE.media.videos : []).map(v => ({
         ...v,
         category: 'trailers',
@@ -2003,7 +2037,7 @@
         displayDate: v.date || 'Official'
       }));
 
-      // Deduplicate by sourceUrl or youtubeId
+      // Deduplicate by sourceUrl, youtubeId, or _id
       const seen = new Set();
       const combined = [];
       const addUnique = item => {
@@ -2023,28 +2057,77 @@
         showcaseVideos.forEach(addUnique);
         return combined;
       }
+      if (WATCH_TAB === 'music') {
+        dbMusic.forEach(addUnique);
+        return combined;
+      }
 
-      // 'all': Gameplay first, then trailers
+      // 'all': Gameplay first, then trailers, showcase, and music
       dbGameplay.forEach(addUnique);
       dbTrailers.forEach(addUnique);
       showcaseVideos.forEach(addUnique);
+      dbMusic.forEach(addUnique);
       return combined;
     }
 
-    function playS3Video(url, title, thumb) {
+    function playHomeVideo(url, title, isS3, thumb, youtubeId, isMusic = false, artist = '') {
       const box = document.getElementById('activePlayerBox');
       const titleEl = document.getElementById('activeTitleText');
       const metaEl = document.getElementById('activeMetaText');
       const badge = document.getElementById('activeBadgeText');
       const sourceBadge = document.getElementById('activeSourceBadge');
+      const extLink = document.getElementById('activeExternalLink');
 
       if (box) {
-        box.innerHTML = `<video src="${url}" class="w-full h-full object-cover" controls autoplay preload="metadata" poster="${thumb || ''}" controlsList="nodownload"></video>`;
+        if (isMusic) {
+          box.innerHTML = `
+            <div class="relative w-full h-full bg-gradient-to-br from-[#150a24] via-[#0c0717] to-[#040209] flex flex-col items-center justify-center p-6 sm:p-10 select-none overflow-hidden">
+              <div class="relative z-10 flex flex-col items-center text-center">
+                <div class="relative w-40 h-40 sm:w-52 sm:h-52 rounded-full overflow-hidden border-2 border-vice-pink/60 shadow-[0_0_50px_rgba(255,46,136,0.35)]">
+                  <img id="activeVinylImg" src="${thumb || '/images/posters/music_default.webp'}" alt="${title}" class="w-full h-full object-cover spin-vinyl" style="animation-play-state: running;">
+                  <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20"></div>
+                </div>
+                <div class="mt-4">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-vice-pink/20 border border-vice-pink/50 text-vice-pink font-mono text-[0.65rem] uppercase tracking-widest font-bold">
+                    <span class="w-2 h-2 rounded-full bg-vice-pink animate-ping"></span> High-Fidelity Audio Relay
+                  </span>
+                  <h3 class="mt-2 text-cream font-black text-xl sm:text-2xl uppercase tracking-tight">${title}</h3>
+                  <p class="font-mono text-xs text-vice-cyan/90 tracking-widest uppercase mt-0.5">${artist || 'IGV Soundtracks'}</p>
+                </div>
+              </div>
+              <div class="w-full max-w-xl mt-6 z-10 px-4">
+                <audio id="activeAudioEl" src="${url}" controls autoplay class="w-full h-11 rounded-lg" style="filter: invert(0.9) hue-rotate(180deg);" controlsList="nodownload"></audio>
+              </div>
+              <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-vice-pink/10 rounded-full blur-3xl pointer-events-none"></div>
+              <div class="absolute -top-24 -left-24 w-96 h-96 bg-vice-cyan/10 rounded-full blur-3xl pointer-events-none"></div>
+            </div>`;
+          const aud = document.getElementById('activeAudioEl');
+          const vinyl = document.getElementById('activeVinylImg');
+          if (aud && vinyl) {
+            aud.onplay = () => { vinyl.style.animationPlayState = 'running'; };
+            aud.onpause = () => { vinyl.style.animationPlayState = 'paused'; };
+          }
+          if (metaEl) metaEl.innerText = 'PLAYING: HIGH-FIDELITY SOUNDTRACK / AUDIO RELAY';
+          if (badge) badge.innerText = 'Now Playing Soundtrack';
+          if (sourceBadge) sourceBadge.innerText = 'S3 High-Speed Audio';
+          if (extLink) extLink.href = url;
+        } else if (isS3) {
+          box.innerHTML = `<video src="${url}" class="w-full h-full object-cover" controls autoplay preload="metadata" poster="${thumb || ''}" controlsList="nodownload"></video>`;
+          if (metaEl) metaEl.innerText = 'PLAYING: HIGH-SPEED S3 CHUNK STREAM (HTTP 206)';
+          if (badge) badge.innerText = 'Now Playing S3 Video';
+          if (sourceBadge) sourceBadge.innerText = 'S3 stream';
+          if (extLink) extLink.href = url;
+        } else {
+          const yId = youtubeId || (url ? (url.match(/(?:embed\/|v=|vi\/|youtu\.be\/|\/v\/)([\w-]{11})/) || [])[1] : '');
+          const embedUrl = `https://www.youtube-nocookie.com/embed/${yId}?autoplay=1&rel=0`;
+          box.innerHTML = `<iframe src="${embedUrl}" title="${title}" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+          if (metaEl) metaEl.innerText = 'PLAYING: VERIFIED YOUTUBE BROADCAST';
+          if (badge) badge.innerText = 'Now Playing YouTube Stream';
+          if (sourceBadge) sourceBadge.innerText = 'YouTube Stream';
+          if (extLink) extLink.href = yId ? `https://www.youtube.com/watch?v=${yId}` : '/media';
+        }
       }
       if (titleEl) titleEl.innerText = title;
-      if (metaEl) metaEl.innerText = 'PLAYING: HIGH-SPEED CHUNK STREAM (HTTP 206)';
-      if (badge) badge.innerText = 'Now Playing S3 Video';
-      if (sourceBadge) sourceBadge.innerText = 'Amazon S3 Chunked';
 
       const container = document.getElementById('activeMediaContainer');
       if (container) {
@@ -2052,31 +2135,65 @@
       }
     }
 
+    function isMediaAudio(v) {
+      if (!v) return false;
+      const urlOrKey = (v.fileKey || v.sourceUrl || '').toLowerCase();
+      // If it's YouTube, mediaType is video, or has a video extension (.mp4, .webm, .mkv, .avi, .mov), IT IS ALWAYS VIDEO!
+      if (v.type === 'youtube' || v.mediaType === 'video' || /\.(mp4|webm|mkv|avi|mov)(\?|$)/i.test(urlOrKey)) {
+        return false;
+      }
+      // If it has an audio extension (.mp3, .wav, .ogg, .flac, .aac), it is audio
+      if (/\.(mp3|wav|ogg|flac|aac)(\?|$)/i.test(urlOrKey)) {
+        return true;
+      }
+      return v.mediaType === 'music';
+    }
+
+    function playS3Video(url, title, thumb) {
+      playHomeVideo(url, title, true, thumb, '');
+    }
+
     function watchHTML(v) {
+      const isMusic = isMediaAudio(v);
       const isS3 = v.type === 's3';
-      const thumb = v.thumbnail || (v.youtubeId ? `https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg` : '/images/posters/poster_full.0az_iud2g3y4j.jpg');
+      const defaultPoster = isMusic ? '/images/posters/music_default.webp' : '/images/posters/poster_full.0az_iud2g3y4j.jpg';
+      const thumb = v.thumbnail || (v.youtubeId ? `https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg` : defaultPoster);
       const safeTitle = (v.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      const safeArtist = (v.artist || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
       const safeThumb = (thumb || '').replace(/'/g, "\\'");
       const safeUrl = (v.sourceUrl || '').replace(/'/g, "\\'");
-      const clickAction = isS3
-        ? `playS3Video('${safeUrl}', '${safeTitle}', '${safeThumb}')`
-        : `location.href='/media#/watch/${v.youtubeId}'`;
-      const playBadge = isS3
-        ? '<span class="bg-vice-cyan/90 text-inkdeep font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">S3 CHUNK STREAM</span>'
-        : '<span class="bg-red-600 text-white font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">YOUTUBE</span>';
+      const safeYt = (v.youtubeId || '').replace(/'/g, "\\'");
+      const clickAction = `playHomeVideo('${safeUrl}', '${safeTitle}', ${isS3}, '${safeThumb}', '${safeYt}', ${isMusic}, '${safeArtist}')`;
+
+      let playBadge = '';
+      if (isMusic) {
+        playBadge = '<span class="bg-vice-pink text-inkdeep font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">🎵 SOUNDTRACK</span>';
+      } else if (isS3) {
+        playBadge = '<span class="bg-vice-cyan/90 text-inkdeep font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">S3 CHUNK STREAM</span>';
+      } else {
+        playBadge = '<span class="bg-red-600 text-white font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">YOUTUBE</span>';
+      }
+
+      const categoryLabel = isMusic
+        ? '<span class="font-mono text-[0.6rem] text-vice-pink uppercase tracking-wider">🎵 Audio Track</span>'
+        : (v.category === 'gameplay'
+          ? '<span class="font-mono text-[0.6rem] text-vice-cyan uppercase tracking-wider">🎮 Gameplay</span>'
+          : '<span class="font-mono text-[0.6rem] text-vice-cyan uppercase tracking-wider">🎬 Trailer</span>');
+
+      const playBtnText = isMusic ? 'Play Audio →' : 'Play Video →';
 
       return `
         <article class="watch-card overflow-hidden rounded-[24px] bg-inkdeep border-2 border-panel transition hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,229,255,0.15)] flex flex-col justify-between">
           <div class="watch-thumb relative block cursor-pointer" onclick="${clickAction}">
             <img src="${thumb}" alt="${safeTitle}" loading="lazy" decoding="async" class="w-full aspect-video object-cover">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
-            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/95 flex items-center justify-center transition hover:scale-110 shadow-lg">
-              <span class="text-inkdeep text-xl font-black pl-0.5">▶</span>
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full ${isMusic ? 'bg-vice-pink/95 text-inkdeep' : 'bg-white/95 text-inkdeep'} flex items-center justify-center transition hover:scale-110 shadow-lg">
+              <span class="text-xl font-black pl-0.5">▶</span>
             </div>
             <div class="absolute top-3 left-3 flex gap-2">
               ${playBadge}
             </div>
-            <span class="absolute right-3 bottom-3 font-mono text-[0.65rem] font-bold bg-black/80 rounded px-2 py-1 text-white/90">${v.duration || 'STREAM'}</span>
+            <span class="absolute right-3 bottom-3 font-mono text-[0.65rem] font-bold bg-black/80 rounded px-2 py-1 text-white/90">${v.duration || (isMusic ? 'AUDIO' : 'STREAM')}</span>
           </div>
           <div class="p-5 flex flex-col justify-between flex-1">
             <div>
@@ -2084,8 +2201,8 @@
               <p class="mt-1 font-mono text-[0.65rem] tracking-[0.2em] text-white/40 uppercase">${v.displayGame || v.game || 'IGV RELAY'} · ${v.displayDate || v.date || 'ACTIVE'}</p>
             </div>
             <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
-              <span class="font-mono text-[0.6rem] text-vice-cyan uppercase tracking-wider">${v.category === 'gameplay' ? '🎮 Gameplay' : '🎬 Trailer'}</span>
-              <button onclick="${clickAction}" class="text-xs font-bold text-pill hover:underline cursor-pointer">Play Video →</button>
+              ${categoryLabel}
+              <button onclick="${clickAction}" class="text-xs font-bold ${isMusic ? 'text-vice-pink' : 'text-pill'} hover:underline cursor-pointer">${playBtnText}</button>
             </div>
           </div>
         </article>`;
@@ -2490,29 +2607,34 @@
         if (!box) return;
 
         if (activeTrailer && activeTrailer.sourceUrl) {
-          const titleEl = document.getElementById('activeTitleText');
-          const metaEl = document.getElementById('activeMetaText');
-          const sourceBadge = document.getElementById('activeSourceBadge');
-          const extLink = document.getElementById('activeExternalLink');
-
-          if (titleEl) titleEl.innerText = activeTrailer.title;
-          if (metaEl) metaEl.innerText = `SOURCE: ${activeTrailer.type.toUpperCase()} · HIGH-SPEED CHUNK STREAMING`;
-          if (sourceBadge) {
-            sourceBadge.innerText = activeTrailer.type === 'youtube' ? 'YouTube Stream' : 'Amazon S3 (HTTP 206)';
-          }
-
-          if (activeTrailer.type === 'youtube') {
-            const embedUrl = activeTrailer.sourceUrl.includes('embed')
-              ? activeTrailer.sourceUrl
-              : `https://www.youtube-nocookie.com/embed/${activeTrailer.youtubeId || ''}`;
-            box.innerHTML = `<iframe src="${embedUrl}" title="${activeTrailer.title}" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+          const isMusic = isMediaAudio(activeTrailer);
+          if (isMusic) {
+            playHomeVideo(activeTrailer.sourceUrl, activeTrailer.title, activeTrailer.type === 's3', activeTrailer.thumbnail, activeTrailer.youtubeId, true, activeTrailer.artist || '');
           } else {
-            box.innerHTML = `<video src="${activeTrailer.sourceUrl}" class="w-full h-full object-cover" controls preload="metadata" poster="${activeTrailer.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg'}" controlsList="nodownload"></video>`;
-          }
+            const titleEl = document.getElementById('activeTitleText');
+            const metaEl = document.getElementById('activeMetaText');
+            const sourceBadge = document.getElementById('activeSourceBadge');
+            const extLink = document.getElementById('activeExternalLink');
 
-          if (extLink) {
-            if (activeTrailer.youtubeId) extLink.href = `/media#/watch/${activeTrailer.youtubeId}`;
-            else extLink.href = '/media';
+            if (titleEl) titleEl.innerText = activeTrailer.title;
+            if (metaEl) metaEl.innerText = `SOURCE: ${activeTrailer.type.toUpperCase()} · HIGH-SPEED CHUNK STREAMING`;
+            if (sourceBadge) {
+              sourceBadge.innerText = activeTrailer.type === 'youtube' ? 'YouTube Stream' : 'Amazon S3 (HTTP 206)';
+            }
+
+            if (activeTrailer.type === 'youtube') {
+              const embedUrl = activeTrailer.sourceUrl.includes('embed')
+                ? activeTrailer.sourceUrl
+                : `https://www.youtube-nocookie.com/embed/${activeTrailer.youtubeId || ''}`;
+              box.innerHTML = `<iframe src="${embedUrl}" title="${activeTrailer.title}" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            } else {
+              box.innerHTML = `<video src="${activeTrailer.sourceUrl}" class="w-full h-full object-cover" controls preload="metadata" poster="${activeTrailer.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg'}" controlsList="nodownload"></video>`;
+            }
+
+            if (extLink) {
+              if (activeTrailer.youtubeId) extLink.href = `/media#/watch/${activeTrailer.youtubeId}`;
+              else extLink.href = '/media';
+            }
           }
         } else {
           box.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/QdBZY2fkU-0" title="GTA VI Trailer" class="w-full h-full border-0" allowfullscreen></iframe>`;

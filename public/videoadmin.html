@@ -234,20 +234,34 @@
             official YouTube link.</p>
         </div>
 
-        <!-- Mode Toggle -->
-        <div class="inline-flex rounded-xl bg-black/40 p-1 border border-white/10">
-          <button id="tabS3" onclick="switchUploadTab('s3')" type="button"
-            class="px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer">
-            📁 File Upload (S3)
+        <!-- Mode Toggle & S3 Explorer Button -->
+        <div class="flex items-center gap-2.5 flex-wrap">
+          <button onclick="openS3ExplorerModal()" type="button"
+            class="pill-btn bg-vice-cyan/15 hover:bg-vice-cyan/25 text-vice-cyan border border-vice-cyan/40 px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer">
+            <span>🔍</span> Peek S3 Storage
           </button>
-          <button id="tabYoutube" onclick="switchUploadTab('youtube')" type="button"
-            class="px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">
-            📺 YouTube Link
-          </button>
+          <div class="inline-flex rounded-xl bg-black/40 p-1 border border-white/10">
+            <button id="tabS3" onclick="switchUploadTab('s3')" type="button"
+              class="px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer">
+              📁 Video (S3)
+            </button>
+            <button id="tabMusic" onclick="switchUploadTab('music')" type="button"
+              class="px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">
+              🎵 Music (S3)
+            </button>
+            <button id="tabLinkS3" onclick="switchUploadTab('links3')" type="button"
+              class="px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">
+              🔗 Link S3 File
+            </button>
+            <button id="tabYoutube" onclick="switchUploadTab('youtube')" type="button"
+              class="px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">
+              📺 YouTube
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- S3 File Upload Form -->
+      <!-- S3 Video Upload Form -->
       <form id="formS3" onsubmit="event.preventDefault(); submitS3Upload();"
         class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
         <div>
@@ -258,20 +272,20 @@
         </div>
         <div>
           <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">2. Video File
-            (.mp4, .webm, .mov)</label>
-          <input id="s3File" type="file" accept="video/mp4,video/webm,video/quicktime" required
+            (.mp4, .mkv, .avi, .webm, .mov)</label>
+          <input id="s3File" type="file" accept="video/*,.mp4,.mkv,.avi,.webm,.mov" required
             class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-xs text-white/70 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-white/10 file:text-white hover:file:bg-pill hover:file:text-inkdeep cursor-pointer">
         </div>
         <div>
           <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-vice-cyan mb-1.5">3. Thumbnail
-            Image (Optional Setter)</label>
+            Image (Optional)</label>
           <input id="s3ThumbFile" type="file" accept="image/jpeg,image/png,image/webp"
             class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-xs text-white/70 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-vice-cyan/20 file:text-vice-cyan hover:file:bg-vice-cyan hover:file:text-inkdeep cursor-pointer">
         </div>
 
         <div class="sm:col-span-2">
           <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Assign Placement
-            Spots (Multiple Selection)</label>
+            Spots & Optimization</label>
           <div
             class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
             <label class="flex items-center gap-2 cursor-pointer hover:text-vice-pink">
@@ -283,6 +297,9 @@
             <label class="flex items-center gap-2 cursor-pointer hover:text-purple-400">
               <input type="checkbox" id="s3PlaceMedia" class="accent-purple-400 w-4 h-4 rounded"> Media Vault Page
             </label>
+            <label class="flex items-center gap-2 cursor-pointer text-emerald-400 font-bold ml-auto" title="Puts metadata at front for instant streaming">
+              <input type="checkbox" id="s3PlaceFastStart" checked class="accent-emerald-400 w-4 h-4 rounded"> ⚡ FastStart Remux
+            </label>
           </div>
         </div>
 
@@ -290,6 +307,55 @@
           <button type="submit" id="btnSubmitS3"
             class="w-full pill-btn bg-vice-cyan text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
             Upload Video to S3 ↗
+          </button>
+        </div>
+      </form>
+
+      <!-- Music & Audio Upload Form -->
+      <form id="formMusic" onsubmit="event.preventDefault(); submitMusicUpload();"
+        class="hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">1. Track Title</label>
+          <input id="musicTitle" type="text" placeholder="e.g., Eminem feat. Billie Eilish - Numb - Empire Remix" required
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
+        </div>
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">2. Artist / Album</label>
+          <input id="musicArtist" type="text" placeholder="e.g., Eminem, Billie Eilish"
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
+        </div>
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-vice-pink mb-1.5">3. Audio File (.mp3, .mp4, .wav, .m4a, .ogg, .flac)</label>
+          <input id="musicFile" type="file" accept="audio/*,video/mp4,.mp3,.mp4,.wav,.m4a,.ogg,.flac,.aac" required
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-xs text-white/70 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-vice-pink/20 file:text-vice-pink hover:file:bg-vice-pink hover:file:text-white cursor-pointer">
+        </div>
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">4. Custom Album Art (Optional)</label>
+          <input id="musicThumbFile" type="file" accept="image/jpeg,image/png,image/webp"
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-xs text-white/70 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-white/10 file:text-white hover:file:bg-pill hover:file:text-inkdeep cursor-pointer">
+          <p class="font-mono text-[0.6rem] text-white/30 mt-1">Leave empty to use default Cyber Vinyl artwork.</p>
+        </div>
+
+        <div class="sm:col-span-1">
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Placements</label>
+          <div
+            class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
+            <label class="flex items-center gap-2 cursor-pointer hover:text-vice-pink">
+              <input type="checkbox" id="musicPlaceMusic" checked class="accent-vice-pink w-4 h-4 rounded"> Music Section
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer hover:text-vice-cyan">
+              <input type="checkbox" id="musicPlaceGameplay" checked class="accent-vice-cyan w-4 h-4 rounded"> Home Player
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer hover:text-purple-400">
+              <input type="checkbox" id="musicPlaceMedia" checked class="accent-purple-400 w-4 h-4 rounded"> Media Player
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" id="btnSubmitMusic"
+            class="w-full pill-btn bg-vice-pink text-white font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+            Upload Music to S3 ↗
           </button>
         </div>
       </form>
@@ -337,6 +403,66 @@
           <button type="submit" id="btnSubmitYt"
             class="w-full pill-btn bg-pill text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
             Add YouTube Relay
+          </button>
+        </div>
+      </form>
+
+      <!-- Link Existing S3 File Form -->
+      <form id="formLinkS3" onsubmit="event.preventDefault(); submitLinkS3();"
+        class="hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">1. Media Title</label>
+          <input id="linkTitle" type="text" placeholder="e.g., Linkin Park - What I've Done" required
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
+        </div>
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-vice-cyan mb-1.5">2. S3 File Key / Stream URL</label>
+          <div class="flex gap-2">
+            <input id="linkS3Key" type="text" placeholder="igv_videos/... or igv_music/..." required
+              class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-xs text-white placeholder-white/25 outline-none focus:border-vice-cyan font-mono">
+            <button type="button" onclick="openS3ExplorerModal()" class="shrink-0 px-3 py-2 rounded-xl bg-vice-cyan/20 hover:bg-vice-cyan/30 text-vice-cyan text-xs font-mono font-bold border border-vice-cyan/40 cursor-pointer" title="Pick from S3 Bucket">🔍 Browse</button>
+          </div>
+        </div>
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">3. Media Type &amp; Artist</label>
+          <div class="flex gap-2">
+            <select id="linkMediaType" onchange="toggleLinkArtistField()" class="rounded-xl bg-inkdeep border border-white/15 px-3 py-2 text-xs text-white outline-none cursor-pointer">
+              <option value="video">🎬 Video</option>
+              <option value="music">🎵 Music Track</option>
+            </select>
+            <input id="linkArtist" type="text" placeholder="Artist Name (Optional)"
+              class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-xs text-white placeholder-white/25 outline-none focus:border-pill">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">4. Custom Poster / Thumbnail URL (Optional)</label>
+          <input id="linkThumbUrl" type="text" placeholder="Leave blank for common default poster"
+            class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2 text-xs text-white placeholder-white/25 outline-none focus:border-pill">
+        </div>
+
+        <div class="sm:col-span-1">
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Placements</label>
+          <div class="flex flex-wrap items-center gap-3 text-xs font-mono text-white/80 p-2 rounded-xl bg-white/5 border border-white/10">
+            <label class="flex items-center gap-1.5 cursor-pointer hover:text-vice-pink">
+              <input type="checkbox" id="linkPlaceTrailer" class="accent-vice-pink w-3.5 h-3.5 rounded"> Trailer
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer hover:text-vice-cyan">
+              <input type="checkbox" id="linkPlaceGameplay" checked class="accent-vice-cyan w-3.5 h-3.5 rounded"> Gameplay
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer hover:text-purple-400">
+              <input type="checkbox" id="linkPlaceMedia" checked class="accent-purple-400 w-3.5 h-3.5 rounded"> Vault
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer hover:text-vice-pink">
+              <input type="checkbox" id="linkPlaceMusic" class="accent-vice-pink w-3.5 h-3.5 rounded"> Music
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" id="btnSubmitLink"
+            class="w-full pill-btn bg-emerald-500 hover:bg-emerald-400 text-inkdeep font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-pointer">
+            Register S3 File to Database ↗
           </button>
         </div>
       </form>
@@ -650,6 +776,112 @@
     </div>
   </div>
 
+  <!-- Advanced Delete Options Modal (DB Only vs DB + S3) -->
+  <div id="deleteModal"
+    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-[#1b1b26] border border-red-500/30 rounded-3xl p-6 relative shadow-2xl">
+      <button onclick="closeDeleteModal()"
+        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition cursor-pointer">✕</button>
+
+      <div class="w-12 h-12 rounded-2xl bg-red-500/20 border border-red-500/40 text-red-400 flex items-center justify-center text-2xl mb-4">
+        ⚠️
+      </div>
+
+      <h3 class="font-bold text-xl text-cream mb-1">Delete Media Options</h3>
+      <p id="delModalTitle" class="text-sm font-semibold text-white/90 mb-1 truncate"></p>
+      <p id="delModalKey" class="text-[0.65rem] font-mono text-vice-cyan mb-6 truncate"></p>
+
+      <div class="space-y-3">
+        <!-- Option 1: DB Only -->
+        <button type="button" onclick="executeDelete(false)" id="btnDeleteDbOnly"
+          class="w-full p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/15 hover:border-amber-400/50 text-left transition group cursor-pointer">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-sm text-cream group-hover:text-amber-300">💾 Delete from Database ONLY</span>
+            <span class="text-[0.65rem] text-amber-400 font-mono font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">PRESERVE S3</span>
+          </div>
+          <p class="text-xs text-white/50 mt-1.5 leading-relaxed">Removes from website lists &amp; database, but keeps the physical file safely in your AWS S3 bucket. You can re-link it anytime without re-uploading.</p>
+        </button>
+
+        <!-- Option 2: DB + S3 -->
+        <button type="button" onclick="executeDelete(true)" id="btnDeleteDbS3"
+          class="w-full p-4 rounded-2xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 hover:border-red-500/60 text-left transition group cursor-pointer">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-sm text-red-300 group-hover:text-red-200">🗑️ Delete from DB + AWS S3 Storage</span>
+            <span class="text-[0.65rem] text-red-400 font-mono font-bold bg-red-500/20 px-2 py-0.5 rounded border border-red-500/40">PERMANENT PURGE</span>
+          </div>
+          <p class="text-xs text-white/50 mt-1.5 leading-relaxed">Permanently purges from MongoDB database AND deletes the physical file from your AWS S3 bucket (<code class="text-red-300">aws-cypherstream-bucket</code>). Cannot be undone.</p>
+        </button>
+
+        <button type="button" onclick="closeDeleteModal()"
+          class="w-full py-2.5 text-xs text-white/40 hover:text-white font-mono uppercase tracking-wider transition cursor-pointer">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- S3 Bucket Explorer & Peek Storage Modal -->
+  <div id="s3ExplorerModal"
+    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="w-full max-w-4xl max-h-[90vh] bg-[#161622] border border-vice-cyan/30 rounded-3xl p-6 relative flex flex-col shadow-2xl">
+      <div class="flex items-center justify-between pb-4 border-b border-white/10 shrink-0">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="w-2.5 h-2.5 rounded-full bg-vice-cyan animate-pulse"></span>
+            <h3 class="font-bold text-lg text-cream">AWS S3 Cloud Storage Explorer</h3>
+            <span class="font-mono text-[0.65rem] bg-vice-cyan/20 text-vice-cyan px-2 py-0.5 rounded-full border border-vice-cyan/30" id="s3BucketNameBadge">aws-cypherstream-bucket</span>
+          </div>
+          <p class="text-xs text-white/50 mt-1">Peek files directly in your AWS S3 bucket. Copy keys, preview media, or 1-click import into library without logging into AWS.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="https://ap-south-1.console.aws.amazon.com/s3/buckets/aws-cypherstream-bucket?region=ap-south-1&prefix=igv_videos/&showversions=false&tab=objects"
+            target="_blank" rel="noopener noreferrer"
+            class="px-3 py-1.5 rounded-xl bg-[#232f3e] hover:bg-[#2c3b4e] text-[#ff9900] border border-[#ff9900]/40 text-xs font-mono font-bold flex items-center gap-1.5 transition cursor-pointer"
+            title="Open this exact folder in official AWS S3 Console">
+            <span>☁️ AWS S3 Console ↗</span>
+          </a>
+          <button onclick="closeS3ExplorerModal()"
+            class="w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition cursor-pointer">✕</button>
+        </div>
+      </div>
+
+      <!-- Filter & Search Bar -->
+      <div class="flex items-center justify-between gap-3 my-4 shrink-0 flex-wrap sm:flex-nowrap">
+        <div class="relative flex-1 min-w-[200px]">
+          <input type="text" id="s3SearchInput" placeholder="Filter S3 files by name (e.g., mp4, valorant, eminem)..."
+            oninput="filterS3Explorer()"
+            class="w-full rounded-xl bg-black/40 border border-white/15 pl-9 pr-4 py-2 text-xs text-white placeholder-white/30 outline-none focus:border-vice-cyan">
+          <span class="absolute left-3 top-2.5 text-xs text-white/40">🔍</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <select id="s3FolderFilter" onchange="filterS3Explorer()"
+            class="rounded-xl bg-black/40 border border-white/15 px-3 py-2 text-xs text-white outline-none cursor-pointer">
+            <option value="all">All Folders</option>
+            <option value="igv_videos">Videos (igv_videos/)</option>
+            <option value="igv_music">Music (igv_music/)</option>
+            <option value="thumbnails">Thumbnails</option>
+          </select>
+          <button onclick="fetchS3Files()"
+            class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono text-xs cursor-pointer">↻ Refresh</button>
+        </div>
+      </div>
+
+      <!-- File List Container -->
+      <div id="s3FileList" class="overflow-y-auto flex-1 space-y-2.5 pr-1 min-h-[280px]">
+        <p class="text-center text-white/40 font-mono text-xs py-12">Loading S3 cloud files...</p>
+      </div>
+
+      <!-- Bottom Status & Quick Preview Player -->
+      <div id="s3QuickPlayerBox" class="hidden mt-4 pt-4 border-t border-white/10 shrink-0">
+        <div class="flex items-center justify-between mb-2">
+          <span id="s3QuickPlayerTitle" class="text-xs font-mono text-vice-pink font-bold truncate"></span>
+          <button onclick="closeS3QuickPlayer()" class="text-xs text-white/40 hover:text-white cursor-pointer">✕ Close Player</button>
+        </div>
+        <div id="s3QuickPlayerEl" class="w-full bg-black/60 rounded-xl overflow-hidden aspect-video sm:aspect-[21/9] flex items-center justify-center"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div id="toast"
     class="fixed bottom-6 right-6 z-50 translate-y-24 opacity-0 transition-all duration-300 rounded-2xl bg-[#1f1f2e] border border-pill px-5 py-3 text-sm font-bold text-cream shadow-2xl flex items-center gap-3">
@@ -680,23 +912,97 @@
       }, 3500);
     }
 
-    // Switch between YouTube & S3 forms
+    // Switch between Video S3, Music S3, Link S3, and YouTube forms
     function switchUploadTab(type) {
       const formYt = document.getElementById('formYoutube');
       const formS3 = document.getElementById('formS3');
+      const formMusic = document.getElementById('formMusic');
+      const formLink = document.getElementById('formLinkS3');
       const tabYt = document.getElementById('tabYoutube');
       const tabS3 = document.getElementById('tabS3');
+      const tabMusic = document.getElementById('tabMusic');
+      const tabLink = document.getElementById('tabLinkS3');
+
+      const activeClass = 'px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer';
+      const inactiveClass = 'px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer';
+
+      // Hide all forms first
+      [formYt, formS3, formMusic, formLink].forEach(f => f && f.classList.add('hidden'));
+      [tabYt, tabS3, tabMusic, tabLink].forEach(t => t && (t.className = inactiveClass));
 
       if (type === 'youtube') {
-        formYt.classList.remove('hidden');
-        formS3.classList.add('hidden');
-        tabYt.className = 'px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer';
-        tabS3.className = 'px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer';
+        if (formYt) formYt.classList.remove('hidden');
+        if (tabYt) tabYt.className = activeClass;
+      } else if (type === 'music') {
+        if (formMusic) formMusic.classList.remove('hidden');
+        if (tabMusic) tabMusic.className = 'px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-vice-pink text-white cursor-pointer';
+      } else if (type === 'links3') {
+        if (formLink) formLink.classList.remove('hidden');
+        if (tabLink) tabLink.className = 'px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-emerald-400 text-inkdeep cursor-pointer';
       } else {
-        formYt.classList.add('hidden');
-        formS3.classList.remove('hidden');
-        tabS3.className = 'px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer';
-        tabYt.className = 'px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer';
+        if (formS3) formS3.classList.remove('hidden');
+        if (tabS3) tabS3.className = activeClass;
+      }
+    }
+
+    function toggleLinkArtistField() {
+      const sel = document.getElementById('linkMediaType');
+      const musicCheck = document.getElementById('linkPlaceMusic');
+      if (sel && sel.value === 'music') {
+        if (musicCheck) musicCheck.checked = true;
+      }
+    }
+
+    async function submitLinkS3() {
+      const title = document.getElementById('linkTitle').value.trim();
+      const s3Key = document.getElementById('linkS3Key').value.trim();
+      const mediaType = document.getElementById('linkMediaType').value;
+      const artist = document.getElementById('linkArtist').value.trim();
+      const thumbUrl = document.getElementById('linkThumbUrl').value.trim();
+
+      const placements = [];
+      if (document.getElementById('linkPlaceTrailer').checked) placements.push('home_trailer');
+      if (document.getElementById('linkPlaceGameplay').checked) placements.push('home_gameplay');
+      if (document.getElementById('linkPlaceMedia').checked) placements.push('media_page');
+      if (document.getElementById('linkPlaceMusic').checked) placements.push('music');
+
+      const btn = document.getElementById('btnSubmitLink');
+      btn.disabled = true;
+      btn.innerText = 'Registering into Database...';
+
+      try {
+        const res = await fetch('/api/admin/videos/link-s3', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': adminToken
+          },
+          body: JSON.stringify({
+            title,
+            s3Key,
+            mediaType,
+            artist,
+            thumbnail: thumbUrl || null,
+            placements
+          })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          showToast('S3 file successfully registered into database!');
+          document.getElementById('linkTitle').value = '';
+          document.getElementById('linkS3Key').value = '';
+          document.getElementById('linkArtist').value = '';
+          document.getElementById('linkThumbUrl').value = '';
+          loadVideos();
+        } else {
+          alert(data.error || 'Failed to register S3 file');
+        }
+      } catch (err) {
+        alert('Network error registering S3 file: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Register S3 File to Database ↗';
       }
     }
 
@@ -1086,6 +1392,9 @@
       if (hasPlacement(v, 'media_page')) {
         badges.push('<span class="badge-media px-2.5 py-0.5 rounded-md text-[0.6rem] font-bold uppercase tracking-wider">Media Vault</span>');
       }
+      if (v.mediaType === 'music' || hasPlacement(v, 'music')) {
+        badges.push('<span class="bg-vice-pink/20 border border-vice-pink text-vice-pink px-2.5 py-0.5 rounded-md text-[0.6rem] font-bold uppercase tracking-wider">🎵 Music Track</span>');
+      }
       if (badges.length === 0) {
         badges.push('<span class="badge-none px-2.5 py-0.5 rounded-md text-[0.6rem] font-bold uppercase tracking-wider">Unassigned</span>');
       }
@@ -1095,32 +1404,45 @@
     function renderVideoCards(videos) {
       const grid = document.getElementById('videoGrid');
       if (!videos || videos.length === 0) {
-        grid.innerHTML = '<p class="text-white/40 font-mono text-sm py-12 text-center col-span-full">No videos found. Add your first video above!</p>';
+        grid.innerHTML = '<p class="text-white/40 font-mono text-sm py-12 text-center col-span-full">No media files found. Add your first video or soundtrack above!</p>';
         return;
       }
 
       grid.innerHTML = videos.map((v, i) => {
+        const key = (v.fileKey || v.sourceUrl || '').toLowerCase();
+        const isExplicitVideo = v.type === 'youtube' || /\.(mp4|webm|mkv|avi|mov)(\?|$)/i.test(key);
+        const isExplicitAudio = /\.(mp3|wav|ogg|flac|aac)(\?|$)/i.test(key);
+        const isMusic = !isExplicitVideo && (v.mediaType === 'music' || isExplicitAudio);
         const isS3 = v.type === 's3';
-        const thumb = v.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg';
+        const thumb = v.thumbnail || (isMusic ? '/images/posters/music_default.webp' : '/images/posters/poster_full.0az_iud2g3y4j.jpg');
         const dateStr = v.uploadedAt ? new Date(v.uploadedAt).toLocaleDateString() : 'Recent';
         const isTrailer = hasPlacement(v, 'home_trailer');
         const isGameplay = hasPlacement(v, 'home_gameplay');
         const isMedia = hasPlacement(v, 'media_page');
+        const isMusicPlace = hasPlacement(v, 'music');
+
+        let topBadge = '';
+        if (isMusic) {
+          topBadge = `<span class="bg-vice-pink text-white font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">🎵 ${v.audioFormat || 'AUDIO'}</span>`;
+        } else if (hasPlacement(v, 'music')) {
+          topBadge = '<span class="bg-purple-600 text-white font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">🎬 MUSIC VIDEO</span>';
+        } else if (isS3) {
+          topBadge = '<span class="bg-vice-cyan/90 text-inkdeep font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">S3 / MP4</span>';
+        } else {
+          topBadge = '<span class="bg-red-600 text-white font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">YOUTUBE</span>';
+        }
 
         return `
           <div class="card-glow rounded-3xl bg-ink border border-white/10 p-5 flex flex-col justify-between transition duration-200">
             <div>
-              <!-- Video Preview Thumbnail & Badges -->
+              <!-- Video / Audio Preview Thumbnail & Badges -->
               <div class="relative aspect-video rounded-2xl overflow-hidden bg-black/60 mb-4 group cursor-pointer" onclick="openPreview('${v._id}')">
                 <img src="${thumb}" alt="${v.title}" class="w-full h-full object-cover transition duration-300 group-hover:scale-105">
                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                  <span class="w-12 h-12 rounded-full bg-pill/90 text-inkdeep flex items-center justify-center font-bold text-lg shadow-lg">▶</span>
+                  <span class="w-12 h-12 rounded-full ${isMusic ? 'bg-vice-pink text-white' : 'bg-pill/90 text-inkdeep'} flex items-center justify-center font-bold text-lg shadow-lg">▶</span>
                 </div>
                 <div class="absolute top-3 left-3 flex gap-2">
-                  ${isS3
-            ? '<span class="bg-vice-cyan/90 text-inkdeep font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">S3 / MP4</span>'
-            : '<span class="bg-red-600 text-white font-black text-[0.6rem] px-2 py-0.5 rounded uppercase tracking-wider">YOUTUBE</span>'
-          }
+                  ${topBadge}
                 </div>
                 <div class="absolute bottom-3 right-3 font-mono text-[0.6rem] bg-black/75 px-2 py-0.5 rounded text-white/80">
                   ${dateStr}
@@ -1131,6 +1453,7 @@
               <div class="flex items-start justify-between gap-2 mb-2">
                 <h3 class="font-bold text-base text-cream leading-snug truncate" title="${v.title}">${v.title}</h3>
               </div>
+              ${v.artist ? `<p class="font-mono text-xs text-vice-pink/80 mb-2 truncate">Artist: ${v.artist}</p>` : ''}
               <div class="flex flex-wrap gap-1.5 mb-3">
                 ${getPlacementBadges(v)}
               </div>
@@ -1144,7 +1467,7 @@
             <div class="border-t border-white/10 pt-4 mt-auto">
               <label class="block font-mono text-[0.6rem] uppercase tracking-wider text-white/40 mb-2">Assign Placements (Multiple Selection):</label>
               
-              <div class="grid grid-cols-3 gap-2 text-xs font-mono">
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
                 <label class="flex items-center gap-1.5 p-2 rounded-xl bg-white/5 border border-white/10 hover:border-vice-pink/60 cursor-pointer select-none transition">
                   <input type="checkbox" ${isTrailer ? 'checked' : ''} 
                     onchange="togglePlacement('${v._id}', 'home_trailer', this.checked)" class="w-4 h-4 rounded text-vice-pink focus:ring-0 cursor-pointer accent-[#ff2e88]">
@@ -1162,19 +1485,26 @@
                     onchange="togglePlacement('${v._id}', 'media_page', this.checked)" class="w-4 h-4 rounded text-purple-400 focus:ring-0 cursor-pointer accent-[#a855f7]">
                   <span class="truncate text-[0.7rem] ${isMedia ? 'text-purple-300 font-bold' : 'text-white/70'}">Media Vault</span>
                 </label>
+
+                <label class="flex items-center gap-1.5 p-2 rounded-xl bg-white/5 border border-white/10 hover:border-vice-pink/60 cursor-pointer select-none transition">
+                  <input type="checkbox" ${isMusicPlace ? 'checked' : ''} 
+                    onchange="togglePlacement('${v._id}', 'music', this.checked)" class="w-4 h-4 rounded text-vice-pink focus:ring-0 cursor-pointer accent-[#ff2e88]">
+                  <span class="truncate text-[0.7rem] ${isMusicPlace ? 'text-vice-pink font-bold' : 'text-white/70'}">🎵 Music</span>
+                </label>
               </div>
 
-              <!-- Delete, Thumbnail, & Preview Bar -->
+              <!-- Delete, Thumbnail, FastStart & Preview Bar -->
               <div class="flex items-center justify-between gap-2 mt-4 pt-3 border-t border-white/5">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 flex-wrap">
                   <button onclick="openThumbModal('${v._id}')" class="text-xs text-pill/90 hover:text-pill font-mono cursor-pointer flex items-center gap-1">
-                    🖼️ Thumbnail
+                    🖼️ Poster
                   </button>
                   <button onclick="openPreview('${v._id}')" class="text-xs text-white/60 hover:text-white font-mono cursor-pointer flex items-center gap-1">
                     👁 Preview
                   </button>
+                  ${isS3 && !isMusic ? `<button onclick="optimizeFastStart('${v._id}', '${v.title.replace(/'/g, "\\'")}')" class="text-xs text-emerald-400 hover:text-emerald-300 font-mono cursor-pointer flex items-center gap-1" title="Optimize with FastStart for instant 1-sec playback">⚡ FastStart</button>` : ''}
                 </div>
-                <button onclick="deleteVideo('${v._id}', '${v.title.replace(/'/g, "\\'")}')" class="text-xs text-red-400/70 hover:text-red-400 font-mono cursor-pointer">
+                <button onclick="promptDeleteModal('${v._id}', '${v.title.replace(/'/g, "\\'")}', ${isS3}, '${(v.fileKey || '').replace(/'/g, "\\'")}')" class="text-xs text-red-400/80 hover:text-red-400 font-mono cursor-pointer flex items-center gap-1">
                   🗑 Delete
                 </button>
               </div>
@@ -1353,7 +1683,8 @@
               title: title || file.name,
               fileKey: presign.fileKey,
               thumbnailUrl: finalThumbUrl,
-              placements
+              placements,
+              autoOptimize: document.getElementById('s3PlaceFastStart') ? document.getElementById('s3PlaceFastStart').checked : true
             })
           });
 
@@ -1401,6 +1732,155 @@
           btn.disabled = false;
           btn.innerText = 'Upload Video to S3 ↗';
         }, 1200);
+      }
+    }
+
+    // Submit Music / Audio Track S3 Upload
+    async function submitMusicUpload() {
+      const title = document.getElementById('musicTitle').value.trim();
+      const artist = document.getElementById('musicArtist').value.trim();
+      const fileInput = document.getElementById('musicFile');
+      const thumbInput = document.getElementById('musicThumbFile');
+      const file = fileInput.files[0];
+      const thumbFile = thumbInput.files[0];
+      const btn = document.getElementById('btnSubmitMusic');
+
+      if (!file) {
+        alert('Please choose an audio or music file (.mp3, .mp4, .wav, .m4a, .ogg, .flac)');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = 'Initializing Music upload...';
+      const progressBox = document.getElementById('uploadProgress');
+      const progressBar = document.getElementById('progressBar');
+      const progressPercent = document.getElementById('progressPercent');
+      const progressText = document.getElementById('progressText');
+      progressBox.classList.remove('hidden');
+      progressBar.style.width = '5%';
+      progressPercent.innerText = '5%';
+      progressText.innerText = 'Requesting secure S3 Presigned URL...';
+
+      const placements = [];
+      if (document.getElementById('musicPlaceMusic').checked) placements.push('music');
+      if (document.getElementById('musicPlaceGameplay').checked) placements.push('home_gameplay');
+      if (document.getElementById('musicPlaceMedia').checked) placements.push('media_page');
+
+      const ext = (file.name.split('.').pop() || 'mp3').toUpperCase();
+      const isVideoMp4 = file.type.includes('video') || file.name.toLowerCase().endsWith('.mp4');
+      const contentType = file.type || (isVideoMp4 ? 'video/mp4' : 'audio/mpeg');
+
+      try {
+        const presignRes = await fetch('/api/admin/videos/presign', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': adminToken
+          },
+          body: JSON.stringify({ fileName: file.name, contentType })
+        });
+
+        if (presignRes.ok) {
+          const presign = await presignRes.json();
+          btn.innerText = 'Streaming Music to AWS S3...';
+          await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('PUT', presign.uploadUrl, true);
+            xhr.setRequestHeader('Content-Type', contentType);
+            xhr.upload.onprogress = (e) => {
+              if (e.lengthComputable) {
+                const percent = Math.round((e.loaded / e.total) * 100);
+                progressBar.style.width = percent + '%';
+                progressPercent.innerText = percent + '%';
+                const mbLoaded = (e.loaded / (1024 * 1024)).toFixed(1);
+                const mbTotal = (e.total / (1024 * 1024)).toFixed(1);
+                progressText.innerText = `Direct S3: ${mbLoaded}MB / ${mbTotal}MB (${percent}%)`;
+              }
+            };
+            xhr.onload = () => {
+              if (xhr.status >= 200 && xhr.status < 300) resolve();
+              else reject(new Error('S3 direct upload rejected with status ' + xhr.status));
+            };
+            xhr.onerror = () => reject(new Error('Network error uploading directly to S3.'));
+            xhr.send(file);
+          });
+
+          let finalThumbUrl = null;
+          if (thumbFile) {
+            progressText.innerText = 'Uploading custom album art...';
+            const thumbForm = new FormData();
+            thumbForm.append('thumbFile', thumbFile);
+            const thumbRes = await fetch('/api/admin/videos/upload-thumb', {
+              method: 'POST',
+              headers: { 'x-admin-password': adminToken },
+              body: thumbForm
+            }).catch(() => null);
+            if (thumbRes && thumbRes.ok) {
+              const td = await thumbRes.json();
+              finalThumbUrl = td.thumbnailUrl;
+            }
+          }
+
+          progressText.innerText = 'Registering Music Track...';
+          const completeRes = await fetch('/api/admin/videos/complete-direct-upload', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-admin-password': adminToken
+            },
+            body: JSON.stringify({
+              title: title || file.name,
+              artist: artist || '',
+              mediaType: 'music',
+              audioFormat: ext,
+              fileKey: presign.fileKey,
+              thumbnailUrl: finalThumbUrl || '/images/posters/music_default.webp',
+              placements
+            })
+          });
+
+          if (!completeRes.ok) {
+            const errData = await completeRes.json();
+            throw new Error(errData.error || 'Failed to save music track in database');
+          }
+
+          progressBar.style.width = '100%';
+          progressPercent.innerText = '100%';
+          showToast('🎵 Soundtrack uploaded to AWS S3 and registered!');
+        }
+
+        document.getElementById('musicTitle').value = '';
+        document.getElementById('musicArtist').value = '';
+        fileInput.value = '';
+        thumbInput.value = '';
+        loadVideos();
+      } catch (err) {
+        alert('Music Upload Notice: ' + err.message);
+      } finally {
+        setTimeout(() => {
+          progressBox.classList.add('hidden');
+          btn.disabled = false;
+          btn.innerText = 'Upload Music to S3 ↗';
+        }, 1200);
+      }
+    }
+
+    // One-click FastStart Optimization for S3 videos
+    async function optimizeFastStart(videoId, title) {
+      if (!confirm(`Run FastStart streaming optimization for "${title}"?\n\nThis uses FFmpeg on the server to re-index the MP4 container and place metadata at the front so it streams in 1-2 requests and starts playing instantly.`)) return;
+
+      showToast('⚡ Running FastStart optimization with FFmpeg...');
+      try {
+        const res = await fetch(`/api/admin/videos/${videoId}/faststart`, {
+          method: 'POST',
+          headers: { 'x-admin-password': adminToken }
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'FastStart optimization failed');
+        showToast('⚡ ' + (data.message || 'FastStart applied successfully!'));
+        loadVideos();
+      } catch (err) {
+        alert('FastStart Error: ' + err.message);
       }
     }
 
@@ -1730,24 +2210,308 @@
       }
     }
 
-    // Delete Video
-    async function deleteVideo(videoId, title) {
-      if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
+    // -------------------------------------------------------------
+    // Delete Video / Music Modal & Logic (DB Only vs DB + S3)
+    // -------------------------------------------------------------
+    let pendingDelete = { id: null, title: '', isS3: false, key: '' };
+
+    function promptDeleteModal(id, title, isS3, key) {
+      pendingDelete = { id, title, isS3, key };
+      document.getElementById('delModalTitle').innerText = title;
+      const keyEl = document.getElementById('delModalKey');
+      if (key) {
+        keyEl.innerText = 'S3 Key: ' + key;
+        keyEl.classList.remove('hidden');
+      } else if (isS3) {
+        keyEl.innerText = 'S3 Managed Media';
+        keyEl.classList.remove('hidden');
+      } else {
+        keyEl.innerText = 'YouTube Relay Video (Database Record Only)';
+        keyEl.classList.remove('hidden');
+      }
+
+      // If it's not an S3 file, disable or notify on Option 2
+      const btnS3 = document.getElementById('btnDeleteDbS3');
+      if (!isS3 && !key) {
+        btnS3.classList.add('opacity-40', 'pointer-events-none');
+      } else {
+        btnS3.classList.remove('opacity-40', 'pointer-events-none');
+      }
+
+      document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.add('hidden');
+      pendingDelete = { id: null, title: '', isS3: false, key: '' };
+    }
+
+    async function executeDelete(purgeS3) {
+      if (!pendingDelete.id) return;
+
+      const confirmMsg = purgeS3
+        ? `⚠️ FINAL CONFIRMATION:\n\nAre you ABSOLUTELY sure you want to PERMANENTLY PURGE "${pendingDelete.title}" from BOTH MongoDB AND your AWS S3 bucket?\n\nThis CANNOT be undone!`
+        : `Delete "${pendingDelete.title}" from Database only?\n\nThe physical file will stay safe in AWS S3 and can be re-linked anytime.`;
+
+      if (!confirm(confirmMsg)) return;
+
+      const btnDb = document.getElementById('btnDeleteDbOnly');
+      const btnS3 = document.getElementById('btnDeleteDbS3');
+      btnDb.disabled = true;
+      btnS3.disabled = true;
 
       try {
-        const res = await fetch(`/api/admin/videos/${videoId}`, {
+        const res = await fetch(`/api/admin/videos/${pendingDelete.id}?purgeS3=${purgeS3 ? 'true' : 'false'}`, {
           method: 'DELETE',
           headers: { 'x-admin-password': adminToken }
         });
 
+        const data = await res.json();
         if (res.ok) {
-          showToast('Video deleted');
+          showToast(purgeS3 ? 'Permanently purged from DB and AWS S3!' : 'Deleted from DB only. S3 file preserved!');
+          closeDeleteModal();
           loadVideos();
         } else {
-          alert('Failed to delete video');
+          alert(data.error || 'Failed to delete media file');
         }
       } catch (err) {
-        alert('Network error while deleting video');
+        alert('Network error while deleting media file: ' + err.message);
+      } finally {
+        btnDb.disabled = false;
+        btnS3.disabled = false;
+      }
+    }
+
+    // -------------------------------------------------------------
+    // S3 Cloud Storage Peek & Explorer
+    // -------------------------------------------------------------
+    let s3FilesCache = [];
+
+    function openS3ExplorerModal() {
+      document.getElementById('s3ExplorerModal').classList.remove('hidden');
+      fetchS3Files();
+    }
+
+    function closeS3ExplorerModal() {
+      document.getElementById('s3ExplorerModal').classList.add('hidden');
+      closeS3QuickPlayer();
+    }
+
+    async function fetchS3Files() {
+      const container = document.getElementById('s3FileList');
+      container.innerHTML = `
+        <div class="flex flex-col items-center justify-center py-14 space-y-3">
+          <div class="w-8 h-8 border-2 border-vice-cyan border-t-transparent rounded-full animate-spin"></div>
+          <p class="text-xs font-mono text-vice-cyan animate-pulse">Scanning AWS S3 Bucket Objects...</p>
+        </div>
+      `;
+
+      try {
+        const res = await fetch('/api/admin/s3/files', {
+          headers: { 'x-admin-password': adminToken }
+        });
+        const data = await res.json();
+
+        if (res.ok && (data.success || Array.isArray(data.files))) {
+          s3FilesCache = data.files || [];
+          if (data.bucket) {
+            const badge = document.getElementById('s3BucketNameBadge');
+            if (badge) badge.innerText = `${data.bucket} (${s3FilesCache.length} objects)`;
+          }
+          filterS3Explorer();
+        } else {
+          container.innerHTML = `<p class="text-red-400 font-mono text-xs py-8 text-center">${data.error || 'Failed to list S3 bucket objects'}</p>`;
+        }
+      } catch (e) {
+        container.innerHTML = `<p class="text-red-400 font-mono text-xs py-8 text-center">Network error querying S3: ${e.message}</p>`;
+      }
+    }
+
+    function filterS3Explorer() {
+      const query = (document.getElementById('s3SearchInput')?.value || '').toLowerCase().trim();
+      const folder = document.getElementById('s3FolderFilter')?.value || 'all';
+
+      let filtered = s3FilesCache.filter(item => {
+        // Folder check
+        if (folder === 'igv_videos' && !item.key.startsWith('igv_videos/')) return false;
+        if (folder === 'igv_music' && !item.key.startsWith('igv_music/')) return false;
+        if (folder === 'thumbnails' && !item.key.startsWith('thumbnails/')) return false;
+
+        // Search query
+        if (query) {
+          const matchKey = item.key.toLowerCase().includes(query);
+          const matchName = (item.fileName || '').toLowerCase().includes(query);
+          if (!matchKey && !matchName) return false;
+        }
+        return true;
+      });
+
+      renderS3ExplorerList(filtered);
+    }
+
+    function renderS3ExplorerList(files) {
+      const container = document.getElementById('s3FileList');
+      if (!files || files.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 border border-dashed border-white/10 rounded-2xl p-6">
+            <p class="text-white/40 font-mono text-sm">No S3 objects found matching filters.</p>
+            <p class="text-[0.65rem] text-white/30 mt-1">Upload a file or change search criteria.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = files.map(f => {
+        const isMusic = f.key.startsWith('igv_music/') || /\.(mp3|wav|m4a|ogg|flac|aac)$/i.test(f.key);
+        const isImage = /\.(jpg|jpeg|png|webp|gif)$/i.test(f.key) || f.key.startsWith('thumbnails/');
+        const icon = isMusic ? '🎵' : (isImage ? '🖼️' : '🎬');
+        const badgeColor = f.inDatabase ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+        const badgeText = f.inDatabase ? '✓ IN DATABASE' : 'UNLINKED FILE';
+
+        const dateStr = f.lastModified ? new Date(f.lastModified).toLocaleDateString() : 'N/A';
+        const safeTitle = (f.fileName || f.key.split('/').pop()).replace(/'/g, "\\'");
+        const safeKey = f.key.replace(/'/g, "\\'");
+
+        return `
+          <div class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 transition">
+            <div class="flex items-start gap-3 min-w-0">
+              <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
+                ${icon}
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="font-bold text-xs text-cream truncate max-w-[280px] sm:max-w-md" title="${f.key}">${f.fileName || f.key}</span>
+                  <span class="text-[0.6rem] font-mono px-1.5 py-0.5 rounded border ${badgeColor}">${badgeText}</span>
+                </div>
+                <div class="flex items-center gap-3 text-[0.65rem] font-mono text-white/40 mt-1">
+                  <span class="text-vice-cyan">${f.sizeFormatted || (f.sizeMB + ' MB')}</span>
+                  <span>•</span>
+                  <span>${dateStr}</span>
+                  <span>•</span>
+                  <span class="truncate max-w-[200px]" title="${f.key}">${f.key}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions Bar -->
+            <div class="flex items-center gap-1.5 shrink-0 flex-wrap justify-end">
+              <button onclick="copyS3Key('${safeKey}')" type="button"
+                class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/80 hover:text-white text-[0.65rem] font-mono border border-white/10 transition cursor-pointer" title="Copy S3 Key">
+                📋 Key
+              </button>
+              <button onclick="copyS3StreamUrl('${safeKey}')" type="button"
+                class="px-2.5 py-1.5 rounded-lg bg-vice-cyan/15 hover:bg-vice-cyan/25 text-vice-cyan text-[0.65rem] font-mono border border-vice-cyan/30 transition cursor-pointer" title="Copy Streaming URL">
+                🔗 Stream URL
+              </button>
+              ${!isImage ? `
+              <button onclick="playS3ExplorerFile('${safeKey}', '${safeTitle}', ${isMusic})" type="button"
+                class="px-2.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-cream text-[0.65rem] font-mono border border-white/20 transition cursor-pointer" title="Quick Preview">
+                ▶ Preview
+              </button>
+              ` : ''}
+              <button onclick="quickImportS3('${safeKey}', ${isMusic}, '${safeTitle}')" type="button"
+                class="px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-[0.65rem] font-mono font-bold border border-emerald-500/40 transition cursor-pointer" title="Load into Add Form">
+                ⚡ 1-Click Link
+              </button>
+              <button onclick="deleteS3Direct('${safeKey}')" type="button"
+                class="px-2 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/25 text-red-400 text-[0.65rem] font-mono border border-red-500/30 transition cursor-pointer" title="Purge file from AWS S3 storage">
+                🗑️
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function copyS3Key(key) {
+      navigator.clipboard.writeText(key).then(() => {
+        showToast('Copied S3 Key: ' + key);
+      }).catch(() => {
+        prompt('Copy S3 Key:', key);
+      });
+    }
+
+    function copyS3StreamUrl(key) {
+      const url = `${window.location.origin}/api/videos/stream?key=${encodeURIComponent(key)}`;
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('Copied Stream URL to clipboard!');
+      }).catch(() => {
+        prompt('Copy Stream URL:', url);
+      });
+    }
+
+    function quickImportS3(key, isMusic, defaultTitle) {
+      switchUploadTab('links3');
+      document.getElementById('linkS3Key').value = key;
+
+      // Clean title from filename
+      let clean = defaultTitle || key.split('/').pop();
+      clean = clean.replace(/^\d+_/, '').replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ').trim();
+      document.getElementById('linkTitle').value = clean;
+
+      const mediaTypeSelect = document.getElementById('linkMediaType');
+      if (mediaTypeSelect) {
+        mediaTypeSelect.value = isMusic ? 'music' : 'video';
+      }
+      toggleLinkArtistField();
+
+      closeS3ExplorerModal();
+      showToast('Loaded S3 file into Link Form! Click "Register" to add.');
+
+      // Scroll smoothly to the form
+      const formEl = document.getElementById('formLinkS3');
+      if (formEl) formEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function playS3ExplorerFile(key, title, isMusic) {
+      const box = document.getElementById('s3QuickPlayerBox');
+      const playerEl = document.getElementById('s3QuickPlayerEl');
+      const titleEl = document.getElementById('s3QuickPlayerTitle');
+
+      const streamUrl = `/api/videos/stream?key=${encodeURIComponent(key)}`;
+      titleEl.innerText = `Streaming: ${title} (${key})`;
+
+      if (isMusic) {
+        playerEl.innerHTML = `
+          <div class="p-4 w-full flex flex-col items-center justify-center space-y-3 bg-[#11111a]">
+            <div class="text-3xl animate-bounce">🎵</div>
+            <audio src="${streamUrl}" controls autoplay class="w-full max-w-md"></audio>
+          </div>
+        `;
+      } else {
+        playerEl.innerHTML = `
+          <video src="${streamUrl}" controls autoplay playsinline preload="metadata" class="w-full h-full max-h-[300px] object-contain bg-black"></video>
+        `;
+      }
+
+      box.classList.remove('hidden');
+    }
+
+    function closeS3QuickPlayer() {
+      const box = document.getElementById('s3QuickPlayerBox');
+      const playerEl = document.getElementById('s3QuickPlayerEl');
+      if (playerEl) playerEl.innerHTML = '';
+      if (box) box.classList.add('hidden');
+    }
+
+    async function deleteS3Direct(key) {
+      if (!confirm(`⚠️ PERMANENT S3 PURGE:\n\nAre you sure you want to permanently delete this file directly from your AWS S3 bucket?\n\nKey: ${key}\nBucket: aws-cypherstream-bucket\n\nThis CANNOT be undone!`)) return;
+
+      try {
+        const res = await fetch(`/api/admin/s3/file?key=${encodeURIComponent(key)}`, {
+          method: 'DELETE',
+          headers: { 'x-admin-password': adminToken }
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showToast('S3 object permanently purged!');
+          fetchS3Files();
+          loadVideos();
+        } else {
+          alert(data.error || 'Failed to delete S3 file');
+        }
+      } catch (e) {
+        alert('Network error deleting S3 file: ' + e.message);
       }
     }
 

@@ -286,11 +286,26 @@
     }
 
     #featured,
+    #music,
     #videos,
     #shots,
     #art,
     #live {
       scroll-margin-top: 140px;
+    }
+
+    @keyframes spinVinyl {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spin-vinyl {
+      animation: spinVinyl 20s linear infinite;
     }
 
     .live-dot {
@@ -601,6 +616,8 @@
       <nav class="nav-pills hidden lg:flex items-center gap-1" aria-label="Media sections">
         <a href="#featured" data-sub="featured"
           class="subpill active shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Featured</a>
+        <a href="#music" data-sub="music"
+          class="subpill shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Soundtracks</a>
         <a href="#videos" data-sub="videos"
           class="subpill shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Videos</a>
         <a href="#shots" data-sub="shots"
@@ -624,6 +641,8 @@
       class="mobile-subnav no-scrollbar lg:hidden mt-3 -mx-4 px-4 flex flex-nowrap gap-2 overflow-x-auto pb-1.5 pt-0.5 snap-x snap-proximity">
       <a href="#featured" data-sub="featured"
         class="subpill active shrink-0 snap-start whitespace-nowrap font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Featured</a>
+      <a href="#music" data-sub="music"
+        class="subpill shrink-0 snap-start whitespace-nowrap font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Soundtracks</a>
       <a href="#videos" data-sub="videos"
         class="subpill shrink-0 snap-start whitespace-nowrap font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Videos</a>
       <a href="#shots" data-sub="shots"
@@ -722,7 +741,7 @@
 
   <div id="library">
     <!-- featured player -->
-    <section id="featured" class="max-w-7xl mx-auto px-4 sm:px-0 pt-8 sm:pt-12">
+    <section id="featured" class="max-w-7xl mx-auto px-4 2xl:px-0 pt-8 sm:pt-12">
       <div id="featurePlayer" class="overflow-hidden rounded-[24px] border-2 border-panel bg-inkdeep"></div>
       <div class="mt-4 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div>
@@ -743,8 +762,10 @@
       </div>
     </section>
 
+
+
     <!-- videos -->
-    <section id="videos" class="max-w-[1800px] mx-auto px-4 pt-10 sm:pt-14">
+    <section id="videos" class="max-w-[1600px] mx-auto px-4 pt-10 sm:pt-14">
       <div class="reveal flex items-end justify-between mb-6">
         <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Videos</h2>
         <span id="videoCount" class="font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></span>
@@ -753,8 +774,26 @@
       <div id="videoMore" class="mt-6 text-center"></div>
     </section>
 
+    <!-- soundtracks / music -->
+    <section id="music" class="max-w-[1600px] mx-auto px-4 pt-10 sm:pt-14">
+      <div class="reveal flex items-end justify-between mb-6">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-2 h-2 rounded-full bg-vice-pink animate-ping"></span>
+            <span class="font-mono text-[0.62rem] text-vice-pink tracking-widest uppercase font-bold">Original
+              Soundtracks &amp; Audio Feeds</span>
+          </div>
+          <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Soundtracks &amp;
+            Audio</h2>
+        </div>
+        <span id="musicCount" class="font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></span>
+      </div>
+      <div id="musicGrid" class="grid gap-5 sm:gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+      <div id="musicMore" class="mt-6 text-center"></div>
+    </section>
+
     <!-- screenshots -->
-    <section id="shots" class="max-w-[1800px] mx-auto px-4 pt-10 sm:pt-14">
+    <section id="shots" class="max-w-[1600px] mx-auto px-4 pt-10 sm:pt-14">
       <div class="reveal flex items-end justify-between mb-6">
         <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Screenshots</h2>
         <span id="shotCount" class="font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></span>
@@ -764,7 +803,7 @@
     </section>
 
     <!-- artwork -->
-    <section id="art" class="max-w-[1800px] mx-auto px-4 py-10 sm:py-14">
+    <section id="art" class="max-w-[1600px] mx-auto px-4 py-10 sm:py-14">
       <div class="reveal flex items-end justify-between mb-6">
         <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.6rem,5vw,2.75rem)]">Artwork</h2>
       </div>
@@ -773,7 +812,7 @@
     </section>
 
     <!-- live & gameplay (Twitch relay) -->
-    <section id="live" class="max-w-[1800px] mx-auto px-4 sm:px-0 py-10 sm:py-14">
+    <section id="live" class="max-w-[1600px] mx-auto px-4 sm:px-0 py-10 sm:py-14">
       <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
         <div>
           <span class="font-mono text-[0.62rem] tracking-[0.3em] text-vice-pink uppercase">Broadcaster & Hub
@@ -1084,7 +1123,7 @@
     fetch('/api/showcase').then(r => r.json()).then(s => {
       const el = document.getElementById('footVideos');
       if (!el || !s.media || !s.media.videos) return;
-      el.innerHTML = s.media.videos.slice(0, 3).map(v => `<a href="/media#/watch/${v.youtubeId}" class="no-underline hover:text-pill transition w-fit">${v.title}</a>`).join('');
+      el.innerHTML = s.media.videos.slice(0, 3).map(v => `<a href="javascript:void(0)" onclick="playMediaVideo('${v.youtubeId}', true, true)" class="no-underline hover:text-pill transition w-fit cursor-pointer">${v.title}</a>`).join('');
     }).catch(() => { });
   </script>
 
@@ -1252,6 +1291,116 @@
       return url;
     }
 
+    function isMediaAudio(v) {
+      if (!v) return false;
+      const urlOrKey = (v.fileKey || v.sourceUrl || '').toLowerCase();
+      // If it's YouTube, mediaType is video, or has a video extension (.mp4, .webm, .mkv, .avi, .mov), IT IS ALWAYS VIDEO!
+      if (v.type === 'youtube' || v.mediaType === 'video' || /\.(mp4|webm|mkv|avi|mov)(\?|$)/i.test(urlOrKey)) {
+        return false;
+      }
+      // If it has an audio extension (.mp3, .wav, .ogg, .flac, .aac), it is audio
+      if (/\.(mp3|wav|ogg|flac|aac)(\?|$)/i.test(urlOrKey)) {
+        return true;
+      }
+      return v.mediaType === 'music';
+    }
+
+    /* ---------- In-page media player controller ---------- */
+    function playMediaVideo(id, autoplay = true, autoScroll = true, forceAudio = false) {
+      if (!MEDIA) return;
+      const allPool = [...(MEDIA.music || []), ...(MEDIA.videos || [])];
+      const v = allPool.find(x => (x.youtubeId && x.youtubeId === id) || String(x._id) === String(id) || String(x.id) === String(id)) || (MEDIA.videos && MEDIA.videos[0]);
+      if (!v) return;
+
+      const isAudio = forceAudio ? true : isMediaAudio(v);
+      const player = document.getElementById('featurePlayer');
+      if (player) {
+        if (isAudio) {
+          player.innerHTML = `
+            <div class="relative w-full aspect-video bg-gradient-to-br from-[#130924] via-[#090714] to-[#040209] flex flex-col items-center justify-center p-6 select-none overflow-hidden">
+              <div class="relative z-10 flex flex-col items-center text-center">
+                <div class="relative w-40 h-40 sm:w-52 sm:h-52 rounded-full overflow-hidden border-2 border-vice-pink/60 shadow-[0_0_50px_rgba(255,46,136,0.35)]">
+                  <img id="mediaVinylImg" src="${v.thumbnail || '/images/posters/music_default.webp'}" alt="${v.title}" class="w-full h-full object-cover spin-vinyl" style="animation-play-state: running;">
+                  <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20"></div>
+                   <div class="absolute w-6 h-6 bg-neutral-800 border border-neutral-700 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full z-10 shadow-inner"></div>
+                  </div>
+                <div class="mt-4">
+                  
+                  <h3 class="mt-2 text-cream font-black text-xl sm:text-2xl uppercase tracking-tight">${v.title}</h3>
+                  <p class="font-mono text-xs text-vice-cyan/90 tracking-widest uppercase mt-0.5">${v.artist || 'Original Soundtrack'}</p>
+                </div>
+              </div>
+              <div class="w-full max-w-xl mt-6 z-10 px-4">
+                <audio id="mediaAudioEl" src="${v.sourceUrl}" controls ${autoplay ? 'autoplay' : ''} class="w-full h-11 rounded-lg" style="filter: invert(0.9) hue-rotate(180deg);" controlsList="nodownload"></audio>
+              </div>
+              <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-vice-pink/10 rounded-full blur-3xl pointer-events-none"></div>
+              <div class="absolute -top-24 -left-24 w-96 h-96 bg-vice-cyan/10 rounded-full blur-3xl pointer-events-none"></div>
+            </div>`;
+          const aud = document.getElementById('mediaAudioEl');
+          const vinyl = document.getElementById('mediaVinylImg');
+          if (aud && vinyl) {
+            aud.onplay = () => { vinyl.style.animationPlayState = 'running'; };
+            aud.onpause = () => { vinyl.style.animationPlayState = 'paused'; };
+          }
+        } else if (v.type === 's3') {
+          player.innerHTML = `<video src="${v.sourceUrl}" class="w-full aspect-video object-cover" controls ${autoplay ? 'autoplay' : ''} controlsList="nodownload" preload="metadata" poster="${v.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg'}"></video>`;
+        } else {
+          player.innerHTML = embed(v.youtubeId, autoplay);
+        }
+      }
+
+      const titleEl = document.getElementById('featureTitle');
+      if (titleEl) {
+        titleEl.textContent = v.title;
+        if (autoplay && typeof runGlitchScramble === 'function') {
+          runGlitchScramble(titleEl, v.title);
+        }
+      }
+
+      const dateEl = document.getElementById('featureDate');
+      if (dateEl) {
+        if (isAudio) {
+          dateEl.textContent = (v.artist ? 'Artist: ' + v.artist + '  ·  ' : '') + 'Audio Format: ' + (v.audioFormat ? v.audioFormat.toUpperCase() : 'S3 DIRECT');
+        } else {
+          dateEl.textContent = (v.artist ? 'Artist: ' + v.artist + '  ·  ' : '') + (v.game ? v.game + '  ·  ' : '') + (v.date || 'Active Broadcast') + (v.duration ? '  ·  ' + v.duration : '');
+        }
+      }
+
+      const ytEl = document.getElementById('featureYT');
+      if (ytEl) {
+        if (isAudio) {
+          ytEl.href = v.sourceUrl;
+          ytEl.textContent = 'Direct Stream ↗';
+        } else {
+          ytEl.href = v.type === 's3' ? v.sourceUrl : ('https://www.youtube.com/watch?v=' + v.youtubeId);
+          ytEl.textContent = 'Watch on YouTube ↗';
+        }
+      }
+
+      const rsEl = document.getElementById('featureRS');
+      if (rsEl) {
+        if (v.rockstarUrl) {
+          rsEl.href = v.rockstarUrl;
+          rsEl.classList.remove('hidden');
+        } else {
+          rsEl.classList.add('hidden');
+        }
+      }
+
+      const ageEl = document.getElementById('featureAgeNote');
+      if (ageEl) {
+        ageEl.classList.toggle('hidden', !v.ageRestricted);
+      }
+
+      if (autoScroll) {
+        const featSec = document.getElementById('featured');
+        if (featSec) {
+          const y = featSec.getBoundingClientRect().top + scrollY - 100;
+          scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
+      }
+    }
+
     /* ---------- Rockstar-exact video cards ---------- */
     function videoCard(v) {
       const vidKey = v.youtubeId || v._id;
@@ -1263,16 +1412,16 @@
       const s3Tag = v.type === 's3' ? '<span class="rs-badge18 !bg-vice-cyan/20 !border-vice-cyan !text-vice-cyan">S3 / MP4</span>' : '';
       return `
       <article class="rs-card">
-        <a href="#/watch/${vidKey}" data-watch="${vidKey}" class="block no-underline">
+        <a href="javascript:void(0)" onclick="playMediaVideo('${vidKey}', true, true)" data-watch="${vidKey}" class="block no-underline cursor-pointer">
           <span class="rs-thumb block">
             ${thumbHtml}
-            <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/95 flex items-center justify-center"><span class="text-inkdeep text-xl font-black pl-0.5">▶</span></span>
+            <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/95 flex items-center justify-center transition hover:scale-110 shadow-lg"><span class="text-inkdeep text-xl font-black pl-0.5">▶</span></span>
             <span class="rs-dur">${v.duration || 'PLAY'}</span>
           </span>
         </a>
         <div class="rs-body">
           <div class="flex items-center gap-2 flex-wrap">${game}${s3Tag}</div>
-          <a href="#/watch/${vidKey}" data-watch="${vidKey}" class="rs-title no-underline hover:text-pill transition block mt-1">${v.title}${badge18}</a>
+          <a href="javascript:void(0)" onclick="playMediaVideo('${vidKey}', true, true)" data-watch="${vidKey}" class="rs-title no-underline hover:text-pill transition block mt-1 cursor-pointer">${v.title}${badge18}</a>
           <p class="rs-date">${v.date || 'Vault Broadcast'}${v.channel ? ' · ' + v.channel : ''}</p>
         </div>
       </article>`;
@@ -1283,7 +1432,7 @@
         ? `<img src="${v.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg'}" alt="${(v.title || '').replace(/"/g, '')}" class="w-full h-full object-cover">`
         : ytThumb(v.youtubeId, v.title);
       return `
-        <a href="/media#/watch/${vidKey}" class="rs-card block no-underline group">
+        <a href="javascript:void(0)" onclick="setMenu(false); playMediaVideo('${vidKey}', true, true);" class="rs-card block no-underline group cursor-pointer">
           <span class="rs-thumb block">
             ${thumbHtml}
             <span class="rs-dur">${v.duration || 'PLAY'}</span>
@@ -1295,22 +1444,67 @@
         </a>`;
     }
 
+    function musicCard(m) {
+      const mid = m._id || m.id;
+      const thumb = m.thumbnail || '/images/posters/music_default.webp';
+      const safeTitle = (m.title || 'Soundtrack').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      const safeArtist = (m.artist || 'IGV Soundtracks').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      return `
+        <article class="rs-card flex flex-col justify-between group">
+          <div class="block no-underline cursor-pointer" onclick="playMediaVideo('${mid}', true, true, true)">
+            <span class="rs-thumb block relative aspect-video sm:aspect-square overflow-hidden rounded-xl bg-inkdeep border border-panel group-hover:border-vice-pink transition">
+              <img src="${thumb}" alt="${safeTitle}" loading="lazy" decoding="async" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+              <span class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></span>
+              <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-vice-pink/95 text-inkdeep flex items-center justify-center transition group-hover:scale-110 shadow-[0_0_20px_rgba(255,46,136,0.5)]">
+                <span class="text-xl font-black pl-0.5">▶</span>
+              </span>
+              <span class="absolute top-2 left-2 flex gap-1">
+                <span class="rs-badge18 !bg-vice-pink/20 !border-vice-pink !text-vice-pink font-bold">🎵 ${m.audioFormat ? m.audioFormat.toUpperCase() : 'AUDIO'}</span>
+              </span>
+              <span class="rs-dur">${m.duration || 'AUDIO'}</span>
+            </span>
+          </div>
+          <div class="rs-body p-4 flex flex-col justify-between flex-1">
+            <div>
+              <a href="javascript:void(0)" onclick="playMediaVideo('${mid}', true, true, true)" class="rs-title no-underline hover:text-vice-pink transition block font-bold text-cream text-base line-clamp-1">${m.title}</a>
+              <p class="rs-date text-xs text-white/50 font-mono mt-0.5">${m.artist || 'Original Soundtrack'}</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
+              <span class="font-mono text-[0.6rem] text-vice-pink uppercase tracking-widest">S3 Chunked</span>
+              <button onclick="playMediaVideo('${mid}', true, true, true)" class="text-xs font-bold text-vice-pink hover:underline cursor-pointer">Play Track →</button>
+            </div>
+          </div>
+        </article>`;
+    }
+
+    let MG_SHOW = 12;
+    const MG_STEP = 6;
+    function paintMusic() {
+      const list = (MEDIA && MEDIA.music) || [];
+      const countEl = document.getElementById('musicCount');
+      if (countEl) countEl.textContent = list.length + ' TRACKS';
+      const el = document.getElementById('musicGrid');
+      if (!el) return;
+      if (!list.length) {
+        el.innerHTML = '<p class="text-white/40 text-sm py-6 col-span-full">No soundtrack audio uploaded yet. Add audio via VideoAdmin (/videoadmin).</p>';
+        const mm = document.getElementById('musicMore');
+        if (mm) mm.innerHTML = '';
+        return;
+      }
+      el.innerHTML = list.slice(0, MG_SHOW).map(musicCard).join('');
+      moreBtn('musicMore', list.length - MG_SHOW, MG_STEP, 'moreMusic');
+    }
+    function moreMusic() {
+      MG_SHOW += MG_STEP;
+      paintMusic();
+    }
+
     function renderLibrary(m) {
       const v0 = m.videos[0];
-      if (v0.type === 's3') {
-        document.getElementById('featurePlayer').innerHTML = `<video src="${v0.sourceUrl}" class="w-full aspect-video object-cover" controls controlsList="nodownload" preload="metadata" poster="${v0.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg'}"></video>`;
-      } else {
-        document.getElementById('featurePlayer').innerHTML = embed(v0.youtubeId, false);
-      }
-      document.getElementById('featureTitle').textContent = v0.title;
-      document.getElementById('featureDate').textContent = (v0.game ? v0.game + '  ·  ' : '') + (v0.date || 'Active Broadcast') + (v0.duration ? '  ·  ' + v0.duration : '');
-      document.getElementById('featureYT').href = v0.type === 's3' ? v0.sourceUrl : ('https://www.youtube.com/watch?v=' + v0.youtubeId);
-      const frs = document.getElementById('featureRS');
-      if (v0.rockstarUrl) { frs.href = v0.rockstarUrl; frs.classList.remove('hidden'); }
-      else { frs.classList.add('hidden'); }
-      document.getElementById('featureAgeNote').classList.toggle('hidden', !v0.ageRestricted);
+      playMediaVideo(v0.youtubeId || v0._id, false, false);
       document.getElementById('videoCount').textContent = m.videos.length + ' FILES';
       document.getElementById('shotCount').textContent = m.screenshots.length + ' FILES';
+      paintMusic();
       paintVideos();
       paintShots();
       paintArt();
@@ -1875,9 +2069,11 @@
     function bindWatchLinks() {
       document.querySelectorAll('a[data-watch]').forEach(a => {
         a.onclick = e => {
+          e.preventDefault();
           const id = a.dataset.watch;
-          const v = (MEDIA.videos || []).find(x => x.youtubeId === id);
-          if (needsGate(v)) { e.preventDefault(); openAgeGate(id); }
+          const v = (MEDIA.videos || []).find(x => (x.youtubeId && x.youtubeId === id) || String(x._id) === String(id));
+          if (needsGate(v)) { openAgeGate(id); return; }
+          playMediaVideo(id, true, true);
         };
       });
     }
@@ -1973,51 +2169,29 @@
       if (!v && MEDIA && Array.isArray(MEDIA.videos)) v = MEDIA.videos[0];
       if (!v) return;
       if (!skipGate && needsGate(v)) { openAgeGate(v.youtubeId || v._id); return; }
-      document.getElementById('library').classList.add('hidden');
+
+      // Keep library visible so videos, screenshots, artwork, and live streams never disappear!
+      const lib = document.getElementById('library');
+      if (lib) lib.classList.remove('hidden');
       const wd = document.getElementById('watchDetail');
-      wd.classList.remove('hidden');
-      if (v.type === 's3') {
-        document.getElementById('detailPlayer').innerHTML = `<video src="${v.sourceUrl}" class="w-full aspect-video object-cover" controls controlsList="nodownload" preload="metadata" autoplay poster="${v.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg'}"></video>`;
-      } else {
-        document.getElementById('detailPlayer').innerHTML = embed(v.youtubeId, true);
-      }
-      const titleEl = document.getElementById('detailTitle');
-      if (titleEl) {
-        titleEl.textContent = v.title;
-        runGlitchScramble(titleEl, v.title);
-      }
-      document.getElementById('detailDate').textContent = (v.game ? v.game + '  ·  ' : '') + (v.date || 'Active Broadcast') + (v.duration ? '  ·  ' + v.duration : '');
-      document.getElementById('detailDesc').textContent = 'Captured from official channels — streaming here via ' + (v.type === 's3' ? 'high-definition storage' : 'YouTube embed') + '. ' + v.title + ' originally premiered ' + (v.date || 'recently') + '.' + (v.ageRestricted ? ' YouTube age-gates this trailer: if the player says “age-restricted”, continue on YouTube (DOB / sign-in) or Rockstar.' : '');
-      const yt = v.type === 's3' ? v.sourceUrl : ('https://www.youtube.com/watch?v=' + v.youtubeId);
-      document.getElementById('detailYT').href = yt;
-      document.getElementById('detailYT2').href = yt;
-      const rs = document.getElementById('detailRS'), rs2 = document.getElementById('detailRS2');
-      if (v.rockstarUrl) { rs.href = v.rockstarUrl; rs.classList.remove('hidden'); rs2.href = v.rockstarUrl; rs2.classList.remove('hidden'); }
-      else { rs.classList.add('hidden'); rs2.classList.add('hidden'); }
-      document.getElementById('ageFallback').classList.toggle('hidden', !v.ageRestricted);
-      document.getElementById('detailVerified').classList.toggle('hidden', !(v.ageRestricted && isVerified()));
-      document.getElementById('moreGrid').innerHTML = MEDIA.videos.filter(x => (x.youtubeId || x._id) !== (v.youtubeId || v._id)).map(videoCard).join('');
-      bindWatchLinks();
-      requestAnimationFrame(() => {
-        const dp = document.getElementById('detailPlayer');
-        const y = dp.getBoundingClientRect().top + scrollY - 140;
-        scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-      });
+      if (wd) wd.classList.add('hidden');
+
+      playMediaVideo(v.youtubeId || v._id, true, true);
     }
     function closeWatch() {
-      document.getElementById('watchDetail').classList.add('hidden');
-      document.getElementById('detailPlayer').innerHTML = '';
-      document.getElementById('library').classList.remove('hidden');
+      const wd = document.getElementById('watchDetail');
+      if (wd) wd.classList.add('hidden');
+      const dp = document.getElementById('detailPlayer');
+      if (dp) dp.innerHTML = '';
+      const lib = document.getElementById('library');
+      if (lib) lib.classList.remove('hidden');
       if (location.hash.startsWith('#/watch/')) history.replaceState(null, '', location.pathname);
-      requestAnimationFrame(() => {
-        const sec = document.getElementById('videos');
-        if (sec) scrollTo({ top: Math.max(0, sec.getBoundingClientRect().top + scrollY - 140), behavior: 'smooth' });
-      });
     }
     function route() {
       const m = location.hash.match(/^#\/watch\/([\w-]{6,})/);
-      if (m && MEDIA) openWatch(m[1]);
-      else if (!document.getElementById('watchDetail').classList.contains('hidden')) closeWatch();
+      if (m && MEDIA) {
+        openWatch(m[1]);
+      }
     }
     addEventListener('hashchange', route);
 
@@ -2132,6 +2306,10 @@
             sourceUrl: dbMedia.home_trailer.sourceUrl,
             youtubeId: dbMedia.home_trailer.youtubeId || (dbMedia.home_trailer.type === 'youtube' ? 'QdBZY2fkU-0' : null),
             thumbnail: dbMedia.home_trailer.thumbnail,
+            mediaType: isMediaAudio(dbMedia.home_trailer) ? 'music' : 'video',
+            artist: dbMedia.home_trailer.artist || '',
+            audioFormat: isMediaAudio(dbMedia.home_trailer) ? (dbMedia.home_trailer.audioFormat || 'MP3') : 'none',
+            isMusic: isMediaAudio(dbMedia.home_trailer),
             date: 'ACTIVE TRAILER',
             duration: 'OFFICIAL',
             game: 'GTA VI',
@@ -2149,6 +2327,10 @@
                 sourceUrl: v.sourceUrl,
                 youtubeId: v.youtubeId || null,
                 thumbnail: v.thumbnail,
+                mediaType: isMediaAudio(v) ? 'music' : 'video',
+                artist: v.artist || '',
+                audioFormat: isMediaAudio(v) ? (v.audioFormat || 'MP3') : 'none',
+                isMusic: isMediaAudio(v),
                 date: 'MEDIA VAULT',
                 duration: 'BROADCAST',
                 game: 'FEATURED',
@@ -2168,6 +2350,10 @@
                 sourceUrl: v.sourceUrl,
                 youtubeId: v.youtubeId || null,
                 thumbnail: v.thumbnail,
+                mediaType: isMediaAudio(v) ? 'music' : 'video',
+                artist: v.artist || '',
+                audioFormat: isMediaAudio(v) ? (v.audioFormat || 'MP3') : 'none',
+                isMusic: isMediaAudio(v),
                 date: 'GAMEPLAY RELAY',
                 duration: 'BROADCAST',
                 game: 'GAMEPLAY',
@@ -2187,6 +2373,10 @@
                 sourceUrl: v.sourceUrl,
                 youtubeId: v.youtubeId || null,
                 thumbnail: v.thumbnail,
+                mediaType: isMediaAudio(v) ? 'music' : 'video',
+                artist: v.artist || '',
+                audioFormat: isMediaAudio(v) ? (v.audioFormat || 'MP3') : 'none',
+                isMusic: isMediaAudio(v),
                 date: 'OFFICIAL TRAILER',
                 duration: 'OFFICIAL',
                 game: v.title?.toLowerCase().includes('counter-strike') ? 'Counter-Strike 2' : 'TRAILER',
@@ -2199,6 +2389,17 @@
         if (dynamicVideos.length) {
           MEDIA.videos = [...dynamicVideos, ...MEDIA.videos.filter(x => !dynamicVideos.some(d => (d.youtubeId && d.youtubeId === x.youtubeId) || String(d._id) === String(x._id)))];
         }
+        if (Array.isArray(dbMedia.music)) {
+          MEDIA.music = dbMedia.music.map(m => ({
+            ...m,
+            thumbnail: m.thumbnail || '/images/posters/music_default.webp',
+            isMusic: true
+          }));
+        } else {
+          MEDIA.music = [];
+        }
+      } else if (MEDIA) {
+        MEDIA.music = [];
       }
       renderLibrary(MEDIA);
       initHeroCarousel();

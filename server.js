@@ -234,7 +234,7 @@ app.post('/api/admin/videos/presign', requireAdminAuth, async (req, res) => {
 // Complete direct S3 upload: write metadata to MongoDB with CloudFront playback URL
 app.post('/api/admin/videos/complete-direct-upload', requireAdminAuth, async (req, res) => {
   try {
-    const { title, fileKey, thumbnailUrl, placements } = req.body || {};
+    let { title, artist, mediaType, audioFormat, fileKey, thumbnailUrl, placements, autoOptimize } = req.body || {};
     if (!fileKey) return res.status(400).json({ error: 'fileKey is required' });
 
     let finalPlacements = [];
@@ -248,16 +248,50 @@ app.post('/api/admin/videos/complete-direct-upload', requireAdminAuth, async (re
       ? `https://${cleanDomain}/${fileKey}`
       : `/api/videos/stream?key=${encodeURIComponent(fileKey)}`;
 
-    const newVideo = await videoManager.addVideo({
-      title: title || 'S3 Video Relay',
+    const isExplicitAudio = fileKey && /\.(mp3|wav|ogg|flac|aac)$/i.test(fileKey);
+    const isExplicitVideo = fileKey && /\.(mp4|webm|mkv|avi|mov)$/i.test(fileKey);
+    const isMusic = !isExplicitVideo && (mediaType === 'music' || isExplicitAudio || fileKey.startsWith('igv_music/'));
+    const finalMediaType = isExplicitVideo ? 'video' : (isMusic ? 'music' : 'video');
+    const finalAudioFormat = finalMediaType === 'music'
+      ? (audioFormat && audioFormat !== 'none' && audioFormat.toLowerCase() !== 'mp4' ? audioFormat : (fileKey ? path.extname(fileKey).replace('.', '').toUpperCase() : 'MP3'))
+      : 'none';
+    const defaultThumb = finalMediaType === 'music' ? '/images/posters/music_default.webp' : '/images/posters/poster_full.0az_iud2g3y4j.jpg';
+
+    let newVideo = await videoManager.addVideo({
+      title: title || (finalMediaType === 'music' ? 'Soundtrack Relay' : 'S3 Video Relay'),
+      artist: artist || '',
+      mediaType: finalMediaType,
+      audioFormat: finalAudioFormat,
       type: 's3',
       sourceUrl,
       fileKey,
-      thumbnail: thumbnailUrl || '/images/posters/poster_full.0az_iud2g3y4j.jpg',
+      thumbnail: thumbnailUrl || defaultThumb,
       placements: finalPlacements
     });
 
+    // If MKV, AVI, or requested auto-optimize for videos, apply FastStart remuxing on S3
+    const isMkvOrAvi = fileKey.toLowerCase().endsWith('.mkv') || fileKey.toLowerCase().endsWith('.avi');
+    if (!isMusic && (isMkvOrAvi || autoOptimize)) {
+      try {
+        console.log(`[Server] Automatically running FastStart remux for ${fileKey}...`);
+        await videoManager.optimizeVideoOnS3(newVideo._id);
+        newVideo = await videoManager.getVideoById(newVideo._id);
+      } catch (optErr) {
+        console.warn('[Server] Auto FastStart remux warning:', optErr.message);
+      }
+    }
+
     res.status(201).json({ success: true, video: newVideo });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// One-click FastStart remuxing endpoint for existing S3 videos
+app.post('/api/admin/videos/:id/faststart', requireAdminAuth, async (req, res) => {
+  try {
+    const result = await videoManager.optimizeVideoOnS3(req.params.id);
+    res.json(result);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -349,9 +383,80 @@ app.post('/api/admin/videos/assign', requireAdminAuth, async (req, res) => {
 
 app.delete('/api/admin/videos/:id', requireAdminAuth, async (req, res) => {
   try {
-    const deleted = await videoManager.deleteVideo(req.params.id);
+    const purgeS3 = req.query.purgeS3 === 'true' || req.body?.purgeS3 === true;
+    const deleted = await videoManager.deleteVideo(req.params.id, { purgeS3 });
     if (!deleted) return res.status(404).json({ error: 'Video not found' });
-    res.json({ success: true, message: 'Video deleted successfully', video: deleted });
+    const msg = purgeS3
+      ? 'Video deleted from Database AND permanently purged from AWS S3 storage.'
+      : 'Video deleted from Database only. S3 file remains intact for future re-linking.';
+    res.json({ success: true, message: msg, video: deleted, purgeS3 });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// S3 Storage Peek / Explorer: List all objects in AWS S3 bucket
+app.get('/api/admin/s3/files', requireAdminAuth, async (req, res) => {
+  try {
+    const data = await videoManager.listS3Objects();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Direct S3 Object Deletion (for unlinked / orphaned files)
+app.delete('/api/admin/s3/file', requireAdminAuth, async (req, res) => {
+  try {
+    const key = req.query.key || (req.body && req.body.key);
+    if (!key) return res.status(400).json({ error: 'Missing key parameter' });
+    const result = await videoManager.deleteS3ObjectDirect(key);
+    res.json({ success: true, message: `File purged from S3: ${key}`, ...result });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Link Existing S3 File into Library & Database without re-uploading
+app.post('/api/admin/videos/link-s3', requireAdminAuth, async (req, res) => {
+  try {
+    let { title, artist, mediaType, audioFormat, s3Key, sourceUrl, thumbnail, placements } = req.body || {};
+    if (!title) return res.status(400).json({ error: 'Title is required' });
+    
+    let key = s3Key;
+    if (!key && sourceUrl) {
+      const m = sourceUrl.match(/(?:key=|\.amazonaws\.com\/)(igv_[^?&#]+)/);
+      if (m) key = decodeURIComponent(m[1]);
+    }
+    if (!key) return res.status(400).json({ error: 'Valid S3 key (e.g. igv_videos/... or igv_music/...) is required' });
+
+    const streamUrl = `/api/videos/stream?key=${encodeURIComponent(key)}`;
+    const isExplicitAudio = key && /\.(mp3|wav|ogg|flac|aac)$/i.test(key);
+    const isExplicitVideo = key && /\.(mp4|webm|mkv|avi|mov)$/i.test(key);
+    const isMusic = !isExplicitVideo && (mediaType === 'music' || isExplicitAudio || key.startsWith('igv_music/'));
+    const finalMediaType = isExplicitVideo ? 'video' : (isMusic ? 'music' : 'video');
+    const finalAudioFormat = finalMediaType === 'music'
+      ? (audioFormat && audioFormat !== 'none' && audioFormat.toLowerCase() !== 'mp4' ? audioFormat : (key ? path.extname(key).replace('.', '').toUpperCase() : 'MP3'))
+      : 'none';
+
+    const defaultThumb = finalMediaType === 'music' ? '/images/posters/music_default.webp' : '/images/posters/poster_full.0az_iud2g3y4j.jpg';
+    const video = await videoManager.addVideo({
+      title,
+      artist: artist || '',
+      mediaType: finalMediaType,
+      audioFormat: finalAudioFormat,
+      type: 's3',
+      sourceUrl: streamUrl,
+      fileKey: key,
+      thumbnail: thumbnail || defaultThumb,
+      placements: Array.isArray(placements) ? placements : (finalMediaType === 'music' ? ['music'] : ['media_page'])
+    });
+
+    res.status(201).json({
+      success: true,
+      video,
+      message: 'S3 file successfully registered into database!'
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
