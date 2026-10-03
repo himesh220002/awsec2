@@ -613,7 +613,7 @@
           class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span
             class="text-pill">Victory</span>
           <span class="text-white/70 font-bold text-base sm:text-lg tracking-normal">| Media</span></span></a>
-      <nav class="nav-pills hidden lg:flex items-center gap-1" aria-label="Media sections">
+      <nav class="nav-pills hidden 2xl:flex items-center gap-1" aria-label="Media sections">
         <a href="#featured" data-sub="featured"
           class="subpill active shrink-0 font-bold text-xs uppercase tracking-widest rounded-full px-5 py-2.5 no-underline">Featured</a>
         <a href="#music" data-sub="music"
@@ -637,7 +637,7 @@
         </button>
       </div>
     </div>
-    <div id="mobileSubnav"
+    <!-- <div id="mobileSubnav"
       class="mobile-subnav no-scrollbar lg:hidden mt-3 -mx-4 px-4 flex flex-nowrap gap-2 overflow-x-auto pb-1.5 pt-0.5 snap-x snap-proximity">
       <a href="#featured" data-sub="featured"
         class="subpill active shrink-0 snap-start whitespace-nowrap font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Featured</a>
@@ -651,7 +651,7 @@
         class="subpill shrink-0 snap-start whitespace-nowrap font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Artwork</a>
       <a href="#live" data-sub="live"
         class="subpill shrink-0 snap-start whitespace-nowrap font-bold text-xs uppercase tracking-widest border border-white/20 rounded-full px-5 py-2.5 no-underline text-white/80 bg-black/30 backdrop-blur">Live</a>
-    </div>
+    </div> -->
   </header>
 
   <div id="rmenu" class="hidden fixed inset-0 z-[80]">
@@ -812,7 +812,7 @@
     </section>
 
     <!-- live & gameplay (Twitch relay) -->
-    <section id="live" class="max-w-[1600px] mx-auto px-4 sm:px-0 py-10 sm:py-14">
+    <section id="live" class="max-w-[1600px] mx-auto px-4 2xl:px-0 py-10 sm:py-14">
       <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
         <div>
           <span class="font-mono text-[0.62rem] tracking-[0.3em] text-vice-pink uppercase">Broadcaster & Hub
@@ -831,13 +831,13 @@
 
       <!-- Search and Filters Panel -->
       <div class="rounded-2xl bg-inkdeep/80 border border-white/10 p-4 sm:p-5 mb-8 backdrop-blur-md">
-        <div class="flex flex-col lg:flex-row gap-3">
+        <div class="flex flex-col sm:flex-row gap-3">
           <!-- Search Input Box -->
           <div class="relative flex-1">
             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-base pointer-events-none">🔍</span>
             <input id="liveSearchInput" type="text"
               placeholder="Search game, channel, or streamer... (e.g. Rust, GTA V, shroud, tarik)"
-              class="w-full rounded-xl bg-white/5 border border-white/15 pl-11 pr-10 py-3.5 font-medium text-cream placeholder-white/40 outline-none transition focus:border-vice-pink focus:bg-white/[0.08]"
+              class="w-full rounded-xl bg-white/5 border border-white/15 pl-11 pr-10 py-2 font-medium text-cream placeholder-white/40 outline-none transition focus:border-vice-pink focus:bg-white/[0.08]"
               autocomplete="off" />
             <button id="liveClearBtn" onclick="clearLiveSearch()"
               class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white flex items-center justify-center text-xs transition cursor-pointer"
@@ -860,7 +860,7 @@
 
           <!-- Search Action Button -->
           <button id="liveSearchSubmitBtn" onclick="triggerLiveSearch()"
-            class="pill-btn bg-vice-pink hover:bg-vice-pink/90 text-white font-bold text-sm px-6 py-3.5 rounded-xl flex items-center justify-center gap-2 tracking-wide transition shadow-[0_4px_20px_rgba(255,46,136,.3)] cursor-pointer">
+            class="pill-btn bg-vice-pink hover:bg-vice-pink/90 text-white font-bold text-sm px-6 py-2 rounded-xl flex items-center justify-center gap-2 tracking-wide transition shadow-[0_4px_20px_rgba(255,46,136,.3)] cursor-pointer">
             <span>Search</span>
           </button>
         </div>
@@ -990,7 +990,7 @@
         </div>
       </div>
     </section>
-    <section class="max-w-7xl mx-auto px-4 sm:px-0 py-8 sm:py-12 grid sm:grid-cols-2 gap-8">
+    <section class="max-w-7xl mx-auto px-4 2xl:px-0 py-8 sm:py-12 grid sm:grid-cols-2 gap-8">
       <div>
         <h2 id="detailTitle" class="font-black uppercase text-cream leading-tight text-lg md:text-3rem"></h2>
         <p id="detailDate" class="mt-2 font-mono text-[0.65rem] tracking-[0.25em] text-white/40"></p>
@@ -1324,13 +1324,13 @@
                   <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20"></div>
                    <div class="absolute w-6 h-6 bg-neutral-800 border border-neutral-700 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full z-10 shadow-inner"></div>
                   </div>
-                <div class="mt-4">
+                <div class="hidden 2xl:block mt-4">
                   
                   <h3 class="mt-2 text-cream font-black text-xl sm:text-2xl uppercase tracking-tight">${v.title}</h3>
                   <p class="font-mono text-xs text-vice-cyan/90 tracking-widest uppercase mt-0.5">${v.artist || 'Original Soundtrack'}</p>
                 </div>
               </div>
-              <div class="w-full max-w-xl mt-6 z-10 px-4">
+              <div class="w-full max-w-xl mt-2 2xl:mt-6 z-10 px-4">
                 <audio id="mediaAudioEl" src="${v.sourceUrl}" controls ${autoplay ? 'autoplay' : ''} class="w-full h-11 rounded-lg" style="filter: invert(0.9) hue-rotate(180deg);" controlsList="nodownload"></audio>
               </div>
               <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-vice-pink/10 rounded-full blur-3xl pointer-events-none"></div>

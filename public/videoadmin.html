@@ -32,6 +32,7 @@
     body {
       font-family: 'Archivo', system-ui, sans-serif;
       background: #12121c;
+      overflow-x: hidden;
     }
 
     .font-cond {
@@ -70,6 +71,26 @@
       border-color: rgba(246, 169, 198, 0.4);
     }
 
+    /* Hide scrollbars for slick mobile tabs horizontal swipe */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Mobile touch target smoothing */
+    @media (max-width: 640px) {
+
+      input,
+      select,
+      button {
+        touch-action: manipulation;
+      }
+    }
+
     .badge-trailer {
       background: rgba(255, 46, 136, 0.2);
       border: 1px solid #ff2e88;
@@ -100,9 +121,10 @@
   class="bg-inkdeep text-white min-h-screen flex flex-col justify-between antialiased selection:bg-pill selection:text-inkdeep">
 
   <!-- Password Authentication Gate Modal -->
-  <div id="authGate" class="fixed inset-0 z-50 bg-[#0d0d16]/95 backdrop-blur-xl flex items-center justify-center p-4">
+  <div id="authGate"
+    class="fixed inset-0 z-50 bg-[#0d0d16]/95 backdrop-blur-xl flex items-center justify-center p-3 sm:p-4">
     <div
-      class="w-full max-w-md rounded-3xl bg-[#1b1b28] border border-white/15 p-8 text-center shadow-2xl relative overflow-hidden">
+      class="w-full max-w-md rounded-3xl bg-[#1b1b28] border border-white/15 p-6 sm:p-8 text-center shadow-2xl relative overflow-hidden">
       <div class="absolute -top-24 -left-24 w-48 h-48 bg-vice-pink/30 rounded-full blur-3xl pointer-events-none"></div>
       <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-vice-cyan/30 rounded-full blur-3xl pointer-events-none">
       </div>
@@ -113,19 +135,20 @@
             class="text-white/40 font-mono text-sm tracking-normal">| ADMIN</span></span>
       </div>
 
-      <h1 class="text-2xl font-black text-cream uppercase font-cond tracking-wide">Media Command Center</h1>
-      <p class="mt-2 text-sm text-white/60">Enter the authorized admin password to manage video relays, thumbnails, and
+      <h1 class="text-xl sm:text-2xl font-black text-cream uppercase font-cond tracking-wide">Media Command Center</h1>
+      <p class="mt-2 text-xs sm:text-sm text-white/60">Enter the authorized admin password to manage video relays,
+        thumbnails, and
         multi-placements.</p>
 
       <form id="loginForm" class="mt-6 flex flex-col gap-4" onsubmit="event.preventDefault(); handleLogin();">
         <div>
           <input id="adminPassInput" type="password" placeholder="Admin Password" required
             autocomplete="current-password"
-            class="w-full rounded-2xl bg-white/5 border border-white/15 px-4 py-3.5 text-center text-lg font-mono text-white placeholder-white/30 outline-none focus:border-pill focus:ring-2 focus:ring-pill/20 transition">
+            class="w-full rounded-2xl bg-white/5 border border-white/15 px-4 py-3 sm:py-3.5 text-center text-base sm:text-lg font-mono text-white placeholder-white/30 outline-none focus:border-pill focus:ring-2 focus:ring-pill/20 transition">
         </div>
         <p id="authError" class="hidden text-xs font-bold text-red-400 font-mono"></p>
         <button type="submit" id="loginBtn"
-          class="pill-btn bg-pill text-inkdeep font-bold text-sm py-3.5 rounded-full uppercase tracking-wider cursor-pointer">
+          class="pill-btn bg-pill text-inkdeep font-bold text-xs sm:text-sm py-3.5 rounded-full uppercase tracking-wider cursor-pointer">
           Unlock Media Console →
         </button>
       </form>
@@ -134,21 +157,22 @@
   </div>
 
   <!-- Local 4-Pin Terminal Safeguard (Layer 2 Quick-Lock Wall) -->
-  <div id="pinGate" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
+  <div id="pinGate"
+    class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-3 sm:p-4">
     <div
-      class="relative w-full max-w-sm rounded-3xl bg-[#171722] border border-red-500/30 p-8 text-center shadow-[0_20px_80px_rgba(239,68,68,0.25)]">
+      class="relative w-full max-w-sm rounded-3xl bg-[#171722] border border-red-500/30 p-6 sm:p-8 text-center shadow-[0_20px_80px_rgba(239,68,68,0.25)]">
       <div
         class="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-500 flex items-center justify-center mx-auto mb-4 text-xl">
         🔒
       </div>
       <h2 class="text-xl font-bold font-cond tracking-wide text-red-500 uppercase">Local Safeguard</h2>
       <p class="text-xs text-white/50 mt-1 mb-6">Enter your 4-digit terminal code to unlock the video management
-        console.</p>
+        console. (Session remains unlocked for 1 hour)</p>
 
       <form onsubmit="event.preventDefault(); verifyPin();" class="space-y-4">
         <input id="pinInput" type="password" maxlength="4" pattern="\d*" inputmode="numeric" placeholder="••••"
           autofocus
-          class="w-full text-center text-3xl font-mono tracking-[0.5em] bg-black/60 border border-red-500/30 rounded-2xl p-3.5 focus:outline-none focus:border-red-500 text-white placeholder-white/20 transition">
+          class="w-full text-center text-3xl font-mono tracking-[0.5em] bg-black/60 border border-red-500/30 rounded-2xl p-3 sm:p-3.5 focus:outline-none focus:border-red-500 text-white placeholder-white/20 transition">
         <p id="pinError" class="hidden text-xs font-mono font-bold text-red-400"></p>
         <button type="submit" id="btnUnlockPin"
           class="w-full pill-btn bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl cursor-pointer transition">
@@ -163,71 +187,79 @@
   </div>
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 bg-inkdeep/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-4">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <a href="/" class="flex items-center gap-2.5 font-black text-2xl tracking-tighter text-white no-underline">
-          <img src="/images/logo.svg" alt="IGV" width="36" height="36" class="w-9 h-9 rounded-xl ring-1 ring-white/15">
-          <span>IG<span class="text-pill">V</span> <span
+  <header class="sticky top-0 z-40 bg-inkdeep/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3.5 sm:py-4">
+    <div class="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+      <div class="flex items-center justify-between w-full sm:w-auto gap-2">
+        <a href="/"
+          class="flex items-center gap-2 font-black text-lg sm:text-2xl tracking-tighter text-white no-underline shrink-0">
+          <img src="/images/logo.svg" alt="IGV" width="36" height="36"
+            class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl ring-1 ring-white/15 shrink-0">
+          <span class="whitespace-nowrap">IG<span class="text-pill">V</span> <span
               class="text-white/40 font-mono text-xs sm:text-sm tracking-normal">/ Video Manager</span></span>
         </a>
         <span
-          class="hidden md:inline-block font-mono text-[0.65rem] bg-white/10 text-white/70 px-2.5 py-1 rounded-full uppercase tracking-wider">v2.1
-          Multi-Slot</span>
+          class="inline-block font-mono text-[0.6rem] sm:text-[0.65rem] bg-white/10 text-white/70 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full uppercase tracking-wider shrink-0">v2.1</span>
       </div>
 
-      <div class="flex flex-wrap items-center gap-2.5">
-        <div id="mongoBadge"
-          class="flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="mongoStatusText">MongoDB: Checking...</span>
-        </div>
-        <div id="s3Badge"
-          class="flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-white/15 bg-white/5">
-          <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
-          <span id="s3StatusText">Checking S3...</span>
-        </div>
+      <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2 sm:gap-2.5">
         <a href="/" target="_blank"
-          class="ghost-btn font-bold text-xs uppercase tracking-wider text-white/70 hover:text-pill border border-white/20 px-4 py-2 rounded-full no-underline">View
+          class="ghost-btn flex-1 sm:flex-initial text-center font-bold text-xs uppercase tracking-wider text-white/70 hover:text-pill border border-white/20 px-3 sm:px-4 py-2 rounded-full no-underline whitespace-nowrap">View
           Site ↗</a>
         <button onclick="lockTerminal()"
-          class="ghost-btn font-mono text-xs uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-500/20 px-3 py-2 rounded-full cursor-pointer">🔒
-          Quick Lock</button>
+          class="ghost-btn flex-1 sm:flex-initial text-center font-mono text-xs uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-500/20 px-3 py-2 rounded-full cursor-pointer whitespace-nowrap">🔒
+          Lock</button>
         <button onclick="handleLogout()"
-          class="ghost-btn font-mono text-xs uppercase tracking-wider text-white/40 hover:text-white border border-white/10 px-3 py-2 rounded-full cursor-pointer">Sign
+          class="ghost-btn flex-1 sm:flex-initial text-center font-mono text-xs uppercase tracking-wider text-white/40 hover:text-white border border-white/10 px-3 py-2 rounded-full cursor-pointer whitespace-nowrap">Sign
           Out</button>
       </div>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-8 py-8 w-full flex-1">
+  <main class="max-w-[1600px] mx-auto px-4 2xl:px-0 py-6 sm:py-8 w-full flex-1">
 
     <!-- Top Stats Bar -->
-    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-      <div class="rounded-2xl bg-ink border border-white/10 p-4">
+    <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-4 mb-8">
+      <div class="rounded-2xl bg-ink border border-white/10 p-3.5 sm:p-4 flex flex-col justify-between min-h-[76px]">
+        <p class="font-mono text-[0.65rem] uppercase tracking-wider text-white/40 mb-1.5">Database Cloud</p>
+        <div id="mongoBadge"
+          class="inline-flex items-center gap-1.5 font-mono text-[11px] sm:text-xs px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 w-full truncate">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+          <span id="mongoStatusText" class="truncate">MongoDB: Checking...</span>
+        </div>
+      </div>
+      <div class="rounded-2xl bg-ink border border-white/10 p-3.5 sm:p-4 flex flex-col justify-between min-h-[76px]">
+        <p class="font-mono text-[0.65rem] uppercase tracking-wider text-white/40 mb-1.5">S3 Bucket Storage</p>
+        <div id="s3Badge"
+          class="inline-flex items-center gap-1.5 font-mono text-[11px] sm:text-xs px-2.5 py-1 rounded-full border border-white/15 bg-white/5 w-full truncate">
+          <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse shrink-0"></span>
+          <span id="s3StatusText" class="truncate">Checking S3...</span>
+        </div>
+      </div>
+      <div class="rounded-2xl bg-ink border border-white/10 p-3.5 sm:p-4 flex flex-col justify-between min-h-[76px]">
         <p class="font-mono text-[0.65rem] uppercase tracking-wider text-white/40">Home Trailers</p>
-        <p id="statTrailer" class="mt-1 font-black text-lg text-vice-pink truncate">0 Active</p>
+        <p id="statTrailer" class="mt-1 font-black text-base sm:text-lg text-vice-pink truncate">0 Active</p>
       </div>
-      <div class="rounded-2xl bg-ink border border-white/10 p-4">
+      <div class="rounded-2xl bg-ink border border-white/10 p-3.5 sm:p-4 flex flex-col justify-between min-h-[76px]">
         <p class="font-mono text-[0.65rem] uppercase tracking-wider text-white/40">Gameplay Relays</p>
-        <p id="statGameplay" class="mt-1 font-black text-lg text-vice-cyan truncate">0 Active</p>
+        <p id="statGameplay" class="mt-1 font-black text-base sm:text-lg text-vice-cyan truncate">0 Active</p>
       </div>
-      <div class="rounded-2xl bg-ink border border-white/10 p-4">
+      <div class="rounded-2xl bg-ink border border-white/10 p-3.5 sm:p-4 flex flex-col justify-between min-h-[76px]">
         <p class="font-mono text-[0.65rem] uppercase tracking-wider text-white/40">Media Vault Videos</p>
-        <p id="statMedia" class="mt-1 font-black text-lg text-purple-400">0 Videos</p>
+        <p id="statMedia" class="mt-1 font-black text-base sm:text-lg text-purple-400 truncate">0 Videos</p>
       </div>
-      <div class="rounded-2xl bg-ink border border-white/10 p-4">
+      <div class="rounded-2xl bg-ink border border-white/10 p-3.5 sm:p-4 flex flex-col justify-between min-h-[76px]">
         <p class="font-mono text-[0.65rem] uppercase tracking-wider text-white/40">Total Database</p>
-        <p id="statTotal" class="mt-1 font-black text-lg text-cream">0 Loaded</p>
+        <p id="statTotal" class="mt-1 font-black text-base sm:text-lg text-cream truncate">0 Loaded</p>
       </div>
     </section>
 
     <!-- Add Video Module -->
-    <section class="rounded-3xl bg-ink border border-white/15 p-6 sm:p-8 mb-10 shadow-xl relative overflow-hidden">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <section class="rounded-3xl bg-ink border border-white/15 p-4 sm:p-8 mb-10 shadow-xl relative overflow-hidden">
+      <div class="flex flex-col 2xl:flex-row 2xl:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 class="font-cond font-bold text-2xl uppercase tracking-wide text-cream flex items-center gap-2">
+          <h2
+            class="font-cond font-bold text-xl sm:text-2xl uppercase tracking-wide text-cream flex items-center gap-2">
             <span>+</span> Add New Video
           </h2>
           <p class="text-xs text-white/60">Upload directly to Amazon S3 with custom thumbnail setter, or paste an
@@ -235,26 +267,27 @@
         </div>
 
         <!-- Mode Toggle & S3 Explorer Button -->
-        <div class="flex items-center gap-2.5 flex-wrap">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
           <button onclick="openS3ExplorerModal()" type="button"
-            class="pill-btn bg-vice-cyan/15 hover:bg-vice-cyan/25 text-vice-cyan border border-vice-cyan/40 px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer">
+            class="pill-btn w-full sm:w-auto justify-center bg-vice-cyan/15 hover:bg-vice-cyan/25 text-vice-cyan border border-vice-cyan/40 px-3.5 py-2.5 sm:py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer">
             <span>🔍</span> Peek S3 Storage
           </button>
-          <div class="inline-flex rounded-xl bg-black/40 p-1 border border-white/10">
+          <div
+            class="grid grid-cols-2 2xl:grid-cols-4 rounded-xl bg-black/40 p-1 border border-white/10 w-full sm:w-auto">
             <button id="tabS3" onclick="switchUploadTab('s3')" type="button"
-              class="px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer">
+              class="flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer whitespace-nowrap text-center">
               📁 Video (S3)
             </button>
             <button id="tabMusic" onclick="switchUploadTab('music')" type="button"
-              class="px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">
+              class="flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer whitespace-nowrap text-center">
               🎵 Music (S3)
             </button>
             <button id="tabLinkS3" onclick="switchUploadTab('links3')" type="button"
-              class="px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">
+              class="flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer whitespace-nowrap text-center">
               🔗 Link S3 File
             </button>
             <button id="tabYoutube" onclick="switchUploadTab('youtube')" type="button"
-              class="px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">
+              class="flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer whitespace-nowrap text-center">
               📺 YouTube
             </button>
           </div>
@@ -263,7 +296,7 @@
 
       <!-- S3 Video Upload Form -->
       <form id="formS3" onsubmit="event.preventDefault(); submitS3Upload();"
-        class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
+        class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
         <div>
           <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">1. Video
             Title</label>
@@ -287,7 +320,7 @@
           <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Assign Placement
             Spots & Optimization</label>
           <div
-            class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
+            class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-4 text-xs font-mono text-white/80 p-3 rounded-xl bg-white/5 border border-white/10">
             <label class="flex items-center gap-2 cursor-pointer hover:text-vice-pink">
               <input type="checkbox" id="s3PlaceTrailer" class="accent-vice-pink w-4 h-4 rounded"> Home Trailer
             </label>
@@ -297,8 +330,11 @@
             <label class="flex items-center gap-2 cursor-pointer hover:text-purple-400">
               <input type="checkbox" id="s3PlaceMedia" class="accent-purple-400 w-4 h-4 rounded"> Media Vault Page
             </label>
-            <label class="flex items-center gap-2 cursor-pointer text-emerald-400 font-bold ml-auto" title="Puts metadata at front for instant streaming">
-              <input type="checkbox" id="s3PlaceFastStart" checked class="accent-emerald-400 w-4 h-4 rounded"> ⚡ FastStart Remux
+            <label
+              class="flex items-center gap-2 cursor-pointer text-emerald-400 font-bold col-span-2 sm:col-span-1 sm:ml-auto"
+              title="Puts metadata at front for instant streaming">
+              <input type="checkbox" id="s3PlaceFastStart" checked class="accent-emerald-400 w-4 h-4 rounded"> ⚡
+              FastStart Remux
             </label>
           </div>
         </div>
@@ -313,41 +349,49 @@
 
       <!-- Music & Audio Upload Form -->
       <form id="formMusic" onsubmit="event.preventDefault(); submitMusicUpload();"
-        class="hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
+        class="hidden grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">1. Track Title</label>
-          <input id="musicTitle" type="text" placeholder="e.g., Eminem feat. Billie Eilish - Numb - Empire Remix" required
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">1. Track
+            Title</label>
+          <input id="musicTitle" type="text" placeholder="e.g., Eminem feat. Billie Eilish - Numb - Empire Remix"
+            required
             class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
         </div>
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">2. Artist / Album</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">2. Artist /
+            Album</label>
           <input id="musicArtist" type="text" placeholder="e.g., Eminem, Billie Eilish"
             class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
         </div>
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-vice-pink mb-1.5">3. Audio File (.mp3, .mp4, .wav, .m4a, .ogg, .flac)</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-vice-pink mb-1.5">3. Audio File
+            (.mp3, .mp4, .wav, .m4a, .ogg, .flac)</label>
           <input id="musicFile" type="file" accept="audio/*,video/mp4,.mp3,.mp4,.wav,.m4a,.ogg,.flac,.aac" required
             class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-xs text-white/70 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-vice-pink/20 file:text-vice-pink hover:file:bg-vice-pink hover:file:text-white cursor-pointer">
         </div>
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">4. Custom Album Art (Optional)</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">4. Custom Album
+            Art (Optional)</label>
           <input id="musicThumbFile" type="file" accept="image/jpeg,image/png,image/webp"
             class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-xs text-white/70 file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-white/10 file:text-white hover:file:bg-pill hover:file:text-inkdeep cursor-pointer">
           <p class="font-mono text-[0.6rem] text-white/30 mt-1">Leave empty to use default Cyber Vinyl artwork.</p>
         </div>
 
-        <div class="sm:col-span-1">
+        <div class="sm:col-span-1 lg:col-span-2">
           <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Placements</label>
           <div
-            class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
+            class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-4 text-xs font-mono text-white/80 p-3 rounded-xl bg-white/5 border border-white/10">
             <label class="flex items-center gap-2 cursor-pointer hover:text-vice-pink">
-              <input type="checkbox" id="musicPlaceMusic" checked class="accent-vice-pink w-4 h-4 rounded"> Music Section
+              <input type="checkbox" id="musicPlaceMusic" checked class="accent-vice-pink w-4 h-4 rounded"> Music
+              Section
             </label>
             <label class="flex items-center gap-2 cursor-pointer hover:text-vice-cyan">
-              <input type="checkbox" id="musicPlaceGameplay" checked class="accent-vice-cyan w-4 h-4 rounded"> Home Player
+              <input type="checkbox" id="musicPlaceGameplay" checked class="accent-vice-cyan w-4 h-4 rounded"> Home
+              Player
             </label>
             <label class="flex items-center gap-2 cursor-pointer hover:text-purple-400">
-              <input type="checkbox" id="musicPlaceMedia" checked class="accent-purple-400 w-4 h-4 rounded"> Media Player
+              <input type="checkbox" id="musicPlaceMedia" checked class="accent-purple-400 w-4 h-4 rounded"> Media
+              Player
             </label>
           </div>
         </div>
@@ -362,7 +406,7 @@
 
       <!-- YouTube Form -->
       <form id="formYoutube" onsubmit="event.preventDefault(); submitYoutube();"
-        class="hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
+        class="hidden grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
         <div>
           <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Video
             Title</label>
@@ -386,7 +430,7 @@
           <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Assign Placement
             Spots (Multiple Selection)</label>
           <div
-            class="flex flex-wrap items-center gap-4 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
+            class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-4 text-xs font-mono text-white/80 p-3 rounded-xl bg-white/5 border border-white/10">
             <label class="flex items-center gap-2 cursor-pointer hover:text-vice-pink">
               <input type="checkbox" id="ytPlaceTrailer" class="accent-vice-pink w-4 h-4 rounded"> Home Trailer
             </label>
@@ -409,24 +453,30 @@
 
       <!-- Link Existing S3 File Form -->
       <form id="formLinkS3" onsubmit="event.preventDefault(); submitLinkS3();"
-        class="hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
+        class="hidden grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 items-end">
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">1. Media Title</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">1. Media
+            Title</label>
           <input id="linkTitle" type="text" placeholder="e.g., Linkin Park - What I've Done" required
             class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-sm text-white placeholder-white/25 outline-none focus:border-pill">
         </div>
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-vice-cyan mb-1.5">2. S3 File Key / Stream URL</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-vice-cyan mb-1.5">2. S3 File Key /
+            Stream URL</label>
           <div class="flex gap-2">
             <input id="linkS3Key" type="text" placeholder="igv_videos/... or igv_music/..." required
               class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2.5 text-xs text-white placeholder-white/25 outline-none focus:border-vice-cyan font-mono">
-            <button type="button" onclick="openS3ExplorerModal()" class="shrink-0 px-3 py-2 rounded-xl bg-vice-cyan/20 hover:bg-vice-cyan/30 text-vice-cyan text-xs font-mono font-bold border border-vice-cyan/40 cursor-pointer" title="Pick from S3 Bucket">🔍 Browse</button>
+            <button type="button" onclick="openS3ExplorerModal()"
+              class="shrink-0 px-3 py-2 rounded-xl bg-vice-cyan/20 hover:bg-vice-cyan/30 text-vice-cyan text-xs font-mono font-bold border border-vice-cyan/40 cursor-pointer"
+              title="Pick from S3 Bucket">🔍 Browse</button>
           </div>
         </div>
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">3. Media Type &amp; Artist</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">3. Media Type
+            &amp; Artist</label>
           <div class="flex gap-2">
-            <select id="linkMediaType" onchange="toggleLinkArtistField()" class="rounded-xl bg-inkdeep border border-white/15 px-3 py-2 text-xs text-white outline-none cursor-pointer">
+            <select id="linkMediaType" onchange="toggleLinkArtistField()"
+              class="rounded-xl bg-inkdeep border border-white/15 px-3 py-2 text-xs text-white outline-none cursor-pointer">
               <option value="video">🎬 Video</option>
               <option value="music">🎵 Music Track</option>
             </select>
@@ -436,19 +486,22 @@
         </div>
 
         <div>
-          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">4. Custom Poster / Thumbnail URL (Optional)</label>
+          <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">4. Custom Poster /
+            Thumbnail URL (Optional)</label>
           <input id="linkThumbUrl" type="text" placeholder="Leave blank for common default poster"
             class="w-full rounded-xl bg-white/5 border border-white/15 px-4 py-2 text-xs text-white placeholder-white/25 outline-none focus:border-pill">
         </div>
 
-        <div class="sm:col-span-1">
+        <div class="sm:col-span-1 lg:col-span-2">
           <label class="block font-mono text-[0.65rem] uppercase tracking-wider text-white/50 mb-1.5">Placements</label>
-          <div class="flex flex-wrap items-center gap-3 text-xs font-mono text-white/80 p-2 rounded-xl bg-white/5 border border-white/10">
+          <div
+            class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2.5 sm:gap-3 text-xs font-mono text-white/80 p-2.5 rounded-xl bg-white/5 border border-white/10">
             <label class="flex items-center gap-1.5 cursor-pointer hover:text-vice-pink">
               <input type="checkbox" id="linkPlaceTrailer" class="accent-vice-pink w-3.5 h-3.5 rounded"> Trailer
             </label>
             <label class="flex items-center gap-1.5 cursor-pointer hover:text-vice-cyan">
-              <input type="checkbox" id="linkPlaceGameplay" checked class="accent-vice-cyan w-3.5 h-3.5 rounded"> Gameplay
+              <input type="checkbox" id="linkPlaceGameplay" checked class="accent-vice-cyan w-3.5 h-3.5 rounded">
+              Gameplay
             </label>
             <label class="flex items-center gap-1.5 cursor-pointer hover:text-purple-400">
               <input type="checkbox" id="linkPlaceMedia" checked class="accent-purple-400 w-3.5 h-3.5 rounded"> Vault
@@ -480,51 +533,54 @@
     </section>
 
     <!-- Videos Grid & Management Cards -->
-    <section>
-      <div class="flex items-center justify-between gap-4 mb-6">
+    <section class="mb-12">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
-          <h2 class="font-cond font-bold text-2xl uppercase tracking-wide text-white">Media Library & Placements</h2>
+          <h2 class="font-cond font-bold text-xl sm:text-2xl uppercase tracking-wide text-white">Media Library &
+            Placements</h2>
           <p class="text-xs text-white/50">Assign videos to multiple placement spots simultaneously. Thumbnails can be
             edited anytime.</p>
         </div>
         <button onclick="loadVideos()"
-          class="ghost-btn font-mono text-xs uppercase tracking-wider text-white/70 hover:text-pill border border-white/15 px-3 py-1.5 rounded-full cursor-pointer">↻
+          class="ghost-btn font-mono text-xs uppercase tracking-wider text-white/70 hover:text-pill border border-white/15 px-3 py-1.5 rounded-full cursor-pointer self-start sm:self-auto">↻
           Refresh</button>
       </div>
 
       <!-- Video Cards Grid -->
-      <div id="videoGrid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div id="videoGrid" class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <!-- Rendered dynamically -->
         <p class="text-white/40 font-mono text-sm py-12 text-center col-span-full">Loading media library...</p>
       </div>
     </section>
 
     <!-- Esports Tournament & Match Live Controls -->
-    <section class="mt-14 pt-10 border-t border-white/10">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <section class="mt-12 pt-8 sm:pt-10 border-t border-white/10">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
-          <h2 class="font-cond font-bold text-2xl uppercase tracking-wide text-cream flex items-center gap-2">
+          <h2
+            class="font-cond font-bold text-xl sm:text-2xl uppercase tracking-wide text-cream flex items-center gap-2">
             <span>⚔️</span> Esports Tournaments & Live Score Relays
           </h2>
           <p class="text-xs text-white/50">Update live scores, create custom matches, manage tournament stages, and
             monitor community pick'em votes.</p>
         </div>
         <button onclick="loadAdminMatches()"
-          class="ghost-btn font-mono text-xs uppercase tracking-wider text-vice-cyan hover:text-white border border-vice-cyan/30 px-3.5 py-1.5 rounded-full cursor-pointer">↻
+          class="ghost-btn font-mono text-xs uppercase tracking-wider text-vice-cyan hover:text-white border border-vice-cyan/30 px-3.5 py-1.5 rounded-full cursor-pointer self-start sm:self-auto">↻
           Refresh Matches</button>
       </div>
 
       <!-- Live Matches Management Grid -->
-      <div id="adminMatchGrid" class="grid gap-6 sm:grid-cols-2 mb-10">
+      <div id="adminMatchGrid" class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3 mx-auto mb-10">
         <!-- Rendered dynamically -->
         <p class="text-white/40 font-mono text-sm py-8 text-center col-span-full">Loading match feeds...</p>
       </div>
 
       <!-- Quick Add Tournament & Match Forms -->
-      <div class="grid gap-6 lg:grid-cols-2">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <!-- Create Match Card -->
-        <div class="rounded-3xl bg-ink border border-white/15 p-6 shadow-xl">
-          <h3 class="font-cond font-bold text-xl uppercase tracking-wide text-cream mb-1 flex items-center gap-2">
+        <div class="rounded-3xl bg-ink border border-white/15 p-5 sm:p-6 shadow-xl">
+          <h3
+            class="font-cond font-bold text-lg sm:text-xl uppercase tracking-wide text-cream mb-1 flex items-center gap-2">
             <span>+</span> Schedule New Match
           </h3>
           <p class="text-xs text-white/50 mb-5 font-mono">Deploy a live or upcoming matchup to the IGV Pick'ems arena.
@@ -542,7 +598,7 @@
                 <option value="t_lol_worlds_2026">League of Legends World Championship 2026</option>
               </select>
             </div>
-            <div class="grid grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-white/50 uppercase tracking-wider mb-1">Team A (Name & Tag)</label>
                 <input id="nmTeamAName" type="text" placeholder="e.g. Sentinels" required
@@ -558,7 +614,7 @@
                   class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-1.5 text-white outline-none uppercase">
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-white/50 uppercase tracking-wider mb-1">Round / Stage</label>
                 <input id="nmRound" type="text" placeholder="e.g. Grand Finals (BO5)" required
@@ -586,8 +642,9 @@
         </div>
 
         <!-- Create Tournament Card -->
-        <div class="rounded-3xl bg-ink border border-white/15 p-6 shadow-xl">
-          <h3 class="font-cond font-bold text-xl uppercase tracking-wide text-cream mb-1 flex items-center gap-2">
+        <div class="rounded-3xl bg-ink border border-white/15 p-5 sm:p-6 shadow-xl">
+          <h3
+            class="font-cond font-bold text-lg sm:text-xl uppercase tracking-wide text-cream mb-1 flex items-center gap-2">
             <span>🏆</span> Register New Championship
           </h3>
           <p class="text-xs text-white/50 mb-5 font-mono">Add an international Major or regional LAN circuit.</p>
@@ -599,7 +656,7 @@
               <input id="ntName" type="text" placeholder="e.g. DreamHack Hyderabad LAN 2026" required
                 class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2.5 text-white outline-none focus:border-pill">
             </div>
-            <div class="grid grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-white/50 uppercase tracking-wider mb-1">Game</label>
                 <select id="ntGame"
@@ -623,7 +680,7 @@
                 </select>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-white/50 uppercase tracking-wider mb-1">Prize Pool</label>
                 <input id="ntPrize" type="text" placeholder="e.g. ₹50,00,000 or $500,000" required
@@ -639,7 +696,7 @@
                 </select>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-white/50 uppercase tracking-wider mb-1">Venue & City</label>
                 <input id="ntVenue" type="text" placeholder="e.g. Hitex Arena, Hyderabad"
@@ -664,11 +721,11 @@
 
   <!-- Video Preview Modal -->
   <div id="previewModal"
-    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="w-full max-w-4xl bg-[#1b1b26] border border-white/15 rounded-3xl p-6 relative">
+    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+    <div class="w-full max-w-4xl bg-[#1b1b26] border border-white/15 rounded-3xl p-4 sm:p-6 relative">
       <button onclick="closePreview()"
-        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition">✕</button>
-      <h3 id="previewTitle" class="font-bold text-lg text-cream mb-4 pr-10 truncate">Video Preview</h3>
+        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition cursor-pointer flex items-center justify-center">✕</button>
+      <h3 id="previewTitle" class="font-bold text-base sm:text-lg text-cream mb-4 pr-10 truncate">Video Preview</h3>
       <div id="previewContainer"
         class="aspect-video w-full rounded-2xl overflow-hidden bg-black flex items-center justify-center">
         <!-- Iframe or Video Tag -->
@@ -678,12 +735,12 @@
 
   <!-- Thumbnail Setter Modal -->
   <div id="thumbModal"
-    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="w-full max-w-lg bg-[#1b1b26] border border-white/15 rounded-3xl p-6 relative">
+    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+    <div class="w-full max-w-lg bg-[#1b1b26] border border-white/15 rounded-3xl p-4 sm:p-6 relative">
       <button onclick="closeThumbModal()"
-        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition">✕</button>
+        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition cursor-pointer flex items-center justify-center">✕</button>
 
-      <h3 class="font-bold text-lg text-cream mb-1">Set Video Thumbnail</h3>
+      <h3 class="font-bold text-base sm:text-lg text-cream mb-1">Set Video Thumbnail</h3>
       <p id="thumbModalVideoTitle" class="text-xs text-white/50 mb-4 truncate"></p>
 
       <!-- Current Thumbnail / Live Video Scrubber Preview -->
@@ -736,7 +793,7 @@
       <div id="thumbPaneCapture" class="hidden space-y-3">
         <!-- If S3 or local video: interactive video scrubber -->
         <div id="s3ScrubberControls" class="space-y-2.5">
-          <div class="flex items-center justify-between text-xs font-mono">
+          <div class="flex items-center justify-between text-xs font-mono flex-wrap gap-2">
             <span class="text-white/70">Frame: <strong id="scrubberTimeDisplay"
                 class="text-pill font-bold">00:01.0</strong> / <span id="scrubberDurationDisplay"
                 class="text-white/40">--:--</span></span>
@@ -778,38 +835,48 @@
 
   <!-- Advanced Delete Options Modal (DB Only vs DB + S3) -->
   <div id="deleteModal"
-    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="w-full max-w-md bg-[#1b1b26] border border-red-500/30 rounded-3xl p-6 relative shadow-2xl">
+    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+    <div class="w-full max-w-md bg-[#1b1b26] border border-red-500/30 rounded-3xl p-5 sm:p-6 relative shadow-2xl">
       <button onclick="closeDeleteModal()"
-        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition cursor-pointer">✕</button>
+        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition cursor-pointer flex items-center justify-center">✕</button>
 
-      <div class="w-12 h-12 rounded-2xl bg-red-500/20 border border-red-500/40 text-red-400 flex items-center justify-center text-2xl mb-4">
+      <div
+        class="w-12 h-12 rounded-2xl bg-red-500/20 border border-red-500/40 text-red-400 flex items-center justify-center text-2xl mb-4">
         ⚠️
       </div>
 
-      <h3 class="font-bold text-xl text-cream mb-1">Delete Media Options</h3>
+      <h3 class="font-bold text-lg sm:text-xl text-cream mb-1">Delete Media Options</h3>
       <p id="delModalTitle" class="text-sm font-semibold text-white/90 mb-1 truncate"></p>
       <p id="delModalKey" class="text-[0.65rem] font-mono text-vice-cyan mb-6 truncate"></p>
 
       <div class="space-y-3">
         <!-- Option 1: DB Only -->
         <button type="button" onclick="executeDelete(false)" id="btnDeleteDbOnly"
-          class="w-full p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/15 hover:border-amber-400/50 text-left transition group cursor-pointer">
+          class="w-full p-3.5 sm:p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/15 hover:border-amber-400/50 text-left transition group cursor-pointer">
           <div class="flex items-center justify-between">
-            <span class="font-bold text-sm text-cream group-hover:text-amber-300">💾 Delete from Database ONLY</span>
-            <span class="text-[0.65rem] text-amber-400 font-mono font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">PRESERVE S3</span>
+            <span class="font-bold text-xs sm:text-sm text-cream group-hover:text-amber-300">💾 Delete from Database
+              ONLY</span>
+            <span
+              class="text-[0.65rem] text-amber-400 font-mono font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">PRESERVE
+              S3</span>
           </div>
-          <p class="text-xs text-white/50 mt-1.5 leading-relaxed">Removes from website lists &amp; database, but keeps the physical file safely in your AWS S3 bucket. You can re-link it anytime without re-uploading.</p>
+          <p class="text-xs text-white/50 mt-1.5 leading-relaxed">Removes from website lists &amp; database, but keeps
+            the physical file safely in your AWS S3 bucket. You can re-link it anytime without re-uploading.</p>
         </button>
 
         <!-- Option 2: DB + S3 -->
         <button type="button" onclick="executeDelete(true)" id="btnDeleteDbS3"
-          class="w-full p-4 rounded-2xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 hover:border-red-500/60 text-left transition group cursor-pointer">
+          class="w-full p-3.5 sm:p-4 rounded-2xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 hover:border-red-500/60 text-left transition group cursor-pointer">
           <div class="flex items-center justify-between">
-            <span class="font-bold text-sm text-red-300 group-hover:text-red-200">🗑️ Delete from DB + AWS S3 Storage</span>
-            <span class="text-[0.65rem] text-red-400 font-mono font-bold bg-red-500/20 px-2 py-0.5 rounded border border-red-500/40">PERMANENT PURGE</span>
+            <span class="font-bold text-xs sm:text-sm text-red-300 group-hover:text-red-200">🗑️ Delete from DB + AWS S3
+              Storage</span>
+            <span
+              class="text-[0.65rem] text-red-400 font-mono font-bold bg-red-500/20 px-2 py-0.5 rounded border border-red-500/40">PERMANENT
+              PURGE</span>
           </div>
-          <p class="text-xs text-white/50 mt-1.5 leading-relaxed">Permanently purges from MongoDB database AND deletes the physical file from your AWS S3 bucket (<code class="text-red-300">aws-cypherstream-bucket</code>). Cannot be undone.</p>
+          <p class="text-xs text-white/50 mt-1.5 leading-relaxed">Permanently purges from MongoDB database AND deletes
+            the physical file from your AWS S3 bucket (<code class="text-red-300">aws-cypherstream-bucket</code>).
+            Cannot be undone.</p>
         </button>
 
         <button type="button" onclick="closeDeleteModal()"
@@ -822,47 +889,53 @@
 
   <!-- S3 Bucket Explorer & Peek Storage Modal -->
   <div id="s3ExplorerModal"
-    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="w-full max-w-4xl max-h-[90vh] bg-[#161622] border border-vice-cyan/30 rounded-3xl p-6 relative flex flex-col shadow-2xl">
-      <div class="flex items-center justify-between pb-4 border-b border-white/10 shrink-0">
+    class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="w-full max-w-4xl max-h-[92vh] bg-[#161622] border border-vice-cyan/30 rounded-3xl p-4 sm:p-6 relative flex flex-col shadow-2xl">
+      <div
+        class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 sm:pb-4 border-b border-white/10 shrink-0">
         <div>
           <div class="flex items-center gap-2 flex-wrap">
             <span class="w-2.5 h-2.5 rounded-full bg-vice-cyan animate-pulse"></span>
-            <h3 class="font-bold text-lg text-cream">AWS S3 Cloud Storage Explorer</h3>
-            <span class="font-mono text-[0.65rem] bg-vice-cyan/20 text-vice-cyan px-2 py-0.5 rounded-full border border-vice-cyan/30" id="s3BucketNameBadge">aws-cypherstream-bucket</span>
+            <h3 class="font-bold text-base sm:text-lg text-cream">AWS S3 Cloud Storage Explorer</h3>
+            <span
+              class="font-mono text-[0.65rem] bg-vice-cyan/20 text-vice-cyan px-2 py-0.5 rounded-full border border-vice-cyan/30"
+              id="s3BucketNameBadge">aws-cypherstream-bucket</span>
           </div>
-          <p class="text-xs text-white/50 mt-1">Peek files directly in your AWS S3 bucket. Copy keys, preview media, or 1-click import into library without logging into AWS.</p>
+          <p class="text-xs text-white/50 mt-1">Peek files directly in your AWS S3 bucket. Copy keys, preview media, or
+            1-click import into library without logging into AWS.</p>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center justify-between sm:justify-end gap-2">
           <a href="https://ap-south-1.console.aws.amazon.com/s3/buckets/aws-cypherstream-bucket?region=ap-south-1&prefix=igv_videos/&showversions=false&tab=objects"
             target="_blank" rel="noopener noreferrer"
-            class="px-3 py-1.5 rounded-xl bg-[#232f3e] hover:bg-[#2c3b4e] text-[#ff9900] border border-[#ff9900]/40 text-xs font-mono font-bold flex items-center gap-1.5 transition cursor-pointer"
-            title="Open this exact folder in official AWS S3 Console">
+            class="px-3 py-1.5 rounded-xl bg-[#232f3e] hover:bg-[#2c3b4e] text-[#ff9900] border border-[#ff9900]/40 text-xs font-mono font-bold flex items-center gap-1.5 transition cursor-pointer">
             <span>☁️ AWS S3 Console ↗</span>
           </a>
           <button onclick="closeS3ExplorerModal()"
-            class="w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition cursor-pointer">✕</button>
+            class="w-9 h-9 rounded-full bg-white/10 hover:bg-pill hover:text-inkdeep font-bold text-sm transition cursor-pointer flex items-center justify-center">✕</button>
         </div>
       </div>
 
       <!-- Filter & Search Bar -->
-      <div class="flex items-center justify-between gap-3 my-4 shrink-0 flex-wrap sm:flex-nowrap">
-        <div class="relative flex-1 min-w-[200px]">
+      <div
+        class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 my-3 sm:my-4 shrink-0">
+        <div class="relative flex-1 w-full">
           <input type="text" id="s3SearchInput" placeholder="Filter S3 files by name (e.g., mp4, valorant, eminem)..."
             oninput="filterS3Explorer()"
             class="w-full rounded-xl bg-black/40 border border-white/15 pl-9 pr-4 py-2 text-xs text-white placeholder-white/30 outline-none focus:border-vice-cyan">
           <span class="absolute left-3 top-2.5 text-xs text-white/40">🔍</span>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 w-full sm:w-auto">
           <select id="s3FolderFilter" onchange="filterS3Explorer()"
-            class="rounded-xl bg-black/40 border border-white/15 px-3 py-2 text-xs text-white outline-none cursor-pointer">
+            class="flex-1 sm:flex-initial rounded-xl bg-black/40 border border-white/15 px-3 py-2 text-xs text-white outline-none cursor-pointer">
             <option value="all">All Folders</option>
             <option value="igv_videos">Videos (igv_videos/)</option>
             <option value="igv_music">Music (igv_music/)</option>
             <option value="thumbnails">Thumbnails</option>
           </select>
           <button onclick="fetchS3Files()"
-            class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono text-xs cursor-pointer">↻ Refresh</button>
+            class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono text-xs cursor-pointer whitespace-nowrap">↻
+            Refresh</button>
         </div>
       </div>
 
@@ -875,9 +948,12 @@
       <div id="s3QuickPlayerBox" class="hidden mt-4 pt-4 border-t border-white/10 shrink-0">
         <div class="flex items-center justify-between mb-2">
           <span id="s3QuickPlayerTitle" class="text-xs font-mono text-vice-pink font-bold truncate"></span>
-          <button onclick="closeS3QuickPlayer()" class="text-xs text-white/40 hover:text-white cursor-pointer">✕ Close Player</button>
+          <button onclick="closeS3QuickPlayer()" class="text-xs text-white/40 hover:text-white cursor-pointer">✕ Close
+            Player</button>
         </div>
-        <div id="s3QuickPlayerEl" class="w-full bg-black/60 rounded-xl overflow-hidden aspect-video sm:aspect-[21/9] flex items-center justify-center"></div>
+        <div id="s3QuickPlayerEl"
+          class="w-full bg-black/60 rounded-xl overflow-hidden aspect-video sm:aspect-[21/9] flex items-center justify-center">
+        </div>
       </div>
     </div>
   </div>
@@ -923,8 +999,8 @@
       const tabMusic = document.getElementById('tabMusic');
       const tabLink = document.getElementById('tabLinkS3');
 
-      const activeClass = 'px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer';
-      const inactiveClass = 'px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer';
+      const activeClass = 'flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer whitespace-nowrap text-center';
+      const inactiveClass = 'flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer whitespace-nowrap text-center';
 
       // Hide all forms first
       [formYt, formS3, formMusic, formLink].forEach(f => f && f.classList.add('hidden'));
@@ -935,10 +1011,10 @@
         if (tabYt) tabYt.className = activeClass;
       } else if (type === 'music') {
         if (formMusic) formMusic.classList.remove('hidden');
-        if (tabMusic) tabMusic.className = 'px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-vice-pink text-white cursor-pointer';
+        if (tabMusic) tabMusic.className = 'flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-vice-pink text-white cursor-pointer whitespace-nowrap text-center';
       } else if (type === 'links3') {
         if (formLink) formLink.classList.remove('hidden');
-        if (tabLink) tabLink.className = 'px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-emerald-400 text-inkdeep cursor-pointer';
+        if (tabLink) tabLink.className = 'flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider transition bg-emerald-400 text-inkdeep cursor-pointer whitespace-nowrap text-center';
       } else {
         if (formS3) formS3.classList.remove('hidden');
         if (tabS3) tabS3.className = activeClass;
@@ -1006,13 +1082,27 @@
       }
     }
 
-    let isPinVerified = false; // In-memory safeguard: resets on page reload/tab close for maximum physical security
+    const PIN_SESSION_KEY = 'igv_pin_verified_until';
+    const ONE_HOUR_MS = 60 * 60 * 1000;
+
+    function isPinSessionValid() {
+      const until = parseInt(localStorage.getItem(PIN_SESSION_KEY) || '0', 10);
+      return Date.now() < until;
+    }
+
+    function setPinSession() {
+      localStorage.setItem(PIN_SESSION_KEY, String(Date.now() + ONE_HOUR_MS));
+    }
+
+    function clearPinSession() {
+      localStorage.removeItem(PIN_SESSION_KEY);
+    }
 
     function initSecurity() {
       if (!adminToken) {
         document.getElementById('authGate').classList.remove('hidden');
         document.getElementById('pinGate').classList.add('hidden');
-      } else if (!isPinVerified) {
+      } else if (!isPinSessionValid()) {
         document.getElementById('authGate').classList.add('hidden');
         document.getElementById('pinGate').classList.remove('hidden');
         setTimeout(() => document.getElementById('pinInput').focus(), 150);
@@ -1047,9 +1137,13 @@
           adminToken = pass;
           localStorage.setItem('igv_admin_pass', pass);
           document.getElementById('authGate').classList.add('hidden');
-          // Proceed to Layer 2 Terminal PIN Check
-          document.getElementById('pinGate').classList.remove('hidden');
-          setTimeout(() => document.getElementById('pinInput').focus(), 150);
+          // Proceed to Layer 2 Terminal PIN Check if expired
+          if (isPinSessionValid()) {
+            loadVideos();
+          } else {
+            document.getElementById('pinGate').classList.remove('hidden');
+            setTimeout(() => document.getElementById('pinInput').focus(), 150);
+          }
         } else {
           errBox.innerText = 'Invalid Admin Key. Check .env configuration.';
           errBox.classList.remove('hidden');
@@ -1063,7 +1157,7 @@
       }
     }
 
-    // Layer 2: 4-Digit Quick-Lock Terminal Safeguard
+    // Layer 2: 4-Digit Quick-Lock Terminal Safeguard (1-Hour Session)
     async function verifyPin() {
       const pinInput = document.getElementById('pinInput');
       const pin = pinInput.value.trim();
@@ -1083,8 +1177,9 @@
         });
 
         if (res.ok) {
-          isPinVerified = true;
+          setPinSession();
           document.getElementById('pinGate').classList.add('hidden');
+          showToast('Safeguard PIN verified (unlocked for 1 hour)');
           loadVideos();
         } else {
           errBox.innerText = 'Invalid Access PIN. Default is 1234.';
@@ -1102,7 +1197,7 @@
     }
 
     function lockTerminal() {
-      isPinVerified = false;
+      clearPinSession();
       document.getElementById('pinGate').classList.remove('hidden');
       document.getElementById('pinInput').value = '';
       setTimeout(() => document.getElementById('pinInput').focus(), 150);
@@ -1110,8 +1205,8 @@
 
     function handleLogout() {
       localStorage.removeItem('igv_admin_pass');
+      clearPinSession();
       adminToken = '';
-      isPinVerified = false;
       document.getElementById('pinGate').classList.add('hidden');
       document.getElementById('authGate').classList.remove('hidden');
       document.getElementById('adminPassInput').value = '';
@@ -1119,7 +1214,7 @@
 
     // Load Videos & Status
     async function loadVideos() {
-      if (!adminToken || !isPinVerified) {
+      if (!adminToken || !isPinSessionValid()) {
         initSecurity();
         return;
       }
@@ -1142,14 +1237,14 @@
         const mongoBadge = document.getElementById('mongoBadge');
         if (data.dbStatus && data.dbStatus.connected) {
           mongoStatus.innerText = `MongoDB: Atlas (${data.dbStatus.database || 'igvDB'})`;
-          mongoStatus.className = 'text-emerald-300';
-          mongoBadge.className = 'flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/15 text-emerald-300';
-          mongoBadge.querySelector('span').className = 'w-2 h-2 rounded-full bg-emerald-400';
+          mongoStatus.className = 'text-emerald-300 truncate';
+          mongoBadge.className = 'inline-flex items-center gap-1.5 font-mono text-[11px] sm:text-xs px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/15 text-emerald-300 w-full truncate';
+          mongoBadge.querySelector('span').className = 'w-2 h-2 rounded-full bg-emerald-400 shrink-0';
         } else {
           mongoStatus.innerText = 'Database: Local JSON Fallback';
-          mongoStatus.className = 'text-yellow-300';
-          mongoBadge.className = 'flex items-center gap-2 font-mono text-xs px-3 py-1.5 rounded-full border border-yellow-500/40 bg-yellow-500/15 text-yellow-300';
-          mongoBadge.querySelector('span').className = 'w-2 h-2 rounded-full bg-yellow-400';
+          mongoStatus.className = 'text-yellow-300 truncate';
+          mongoBadge.className = 'inline-flex items-center gap-1.5 font-mono text-[11px] sm:text-xs px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-yellow-500/40 bg-yellow-500/15 text-yellow-300 w-full truncate';
+          mongoBadge.querySelector('span').className = 'w-2 h-2 rounded-full bg-yellow-400 shrink-0';
         }
 
         // Render S3 Badge
@@ -1157,12 +1252,14 @@
         const s3Badge = document.getElementById('s3Badge');
         if (data.s3Config && data.s3Config.isConfigured) {
           s3Status.innerText = `S3: Connected (${data.s3Config.bucket})`;
-          s3Status.className = 'text-green-400';
-          s3Badge.querySelector('span').className = 'w-2 h-2 rounded-full bg-green-400';
+          s3Status.className = 'text-green-400 truncate';
+          s3Badge.className = 'inline-flex items-center gap-1.5 font-mono text-[11px] sm:text-xs px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-green-500/30 bg-green-500/10 text-green-300 w-full truncate';
+          s3Badge.querySelector('span').className = 'w-2 h-2 rounded-full bg-green-400 shrink-0';
         } else {
-          s3Status.innerText = 'S3: Ready for AWS .env (Local Fallback)';
-          s3Status.className = 'text-yellow-300';
-          s3Badge.querySelector('span').className = 'w-2 h-2 rounded-full bg-yellow-400';
+          s3Status.innerText = 'S3: Ready for AWS .env';
+          s3Status.className = 'text-yellow-300 truncate';
+          s3Badge.className = 'inline-flex items-center gap-1.5 font-mono text-[11px] sm:text-xs px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-yellow-500/40 bg-yellow-500/15 text-yellow-300 w-full truncate';
+          s3Badge.querySelector('span').className = 'w-2 h-2 rounded-full bg-yellow-400 shrink-0';
         }
 
         updateStats(currentVideos);
@@ -1200,25 +1297,25 @@
         const scoreA = m.teamA?.score ?? 0;
         const scoreB = m.teamB?.score ?? 0;
         return `
-          <div class="rounded-2xl bg-black/40 border border-white/10 p-5 flex flex-col justify-between">
+          <div class="rounded-2xl bg-black/40 border border-white/10 p-4 sm:p-5 flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between font-mono text-[10px] mb-3">
-                <span class="text-vice-pink font-bold uppercase">${m.tournamentName || m.game} · ${m.round}</span>
-                <span class="px-2 py-0.5 rounded-full ${m.status === 'live' ? 'bg-red-500/20 text-red-400 border border-red-500/40' : 'bg-white/10 text-white/60'} font-bold uppercase">${m.status}</span>
+                <span class="text-vice-pink font-bold uppercase truncate max-w-[200px]">${m.tournamentName || m.game} · ${m.round}</span>
+                <span class="px-2 py-0.5 rounded-full ${m.status === 'live' ? 'bg-red-500/20 text-red-400 border border-red-500/40' : 'bg-white/10 text-white/60'} font-bold uppercase shrink-0">${m.status}</span>
               </div>
-              <div class="flex items-center justify-between gap-4 py-2">
-                <div class="flex-1 text-center font-mono">
-                  <p class="font-bold text-sm text-white">${m.teamA?.name}</p>
-                  <p class="text-[10px] text-white/40 uppercase">${m.teamA?.tag}</p>
+              <div class="flex items-center justify-between gap-2 sm:gap-4 py-2">
+                <div class="flex-1 text-center font-mono min-w-0">
+                  <p class="font-bold text-xs sm:text-sm text-white truncate">${m.teamA?.name}</p>
+                  <p class="text-[10px] text-white/40 uppercase truncate">${m.teamA?.tag}</p>
                 </div>
-                <div class="flex items-center gap-2">
-                  <input id="scoreA_${m._id}" type="number" min="0" value="${scoreA}" class="w-12 text-center bg-white/10 border border-white/20 rounded-lg p-1.5 font-mono text-base font-black text-vice-cyan">
+                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                  <input id="scoreA_${m._id}" type="number" min="0" value="${scoreA}" class="w-10 sm:w-12 text-center bg-white/10 border border-white/20 rounded-lg p-1 sm:p-1.5 font-mono text-sm sm:text-base font-black text-vice-cyan">
                   <span class="font-mono text-white/40">:</span>
-                  <input id="scoreB_${m._id}" type="number" min="0" value="${scoreB}" class="w-12 text-center bg-white/10 border border-white/20 rounded-lg p-1.5 font-mono text-base font-black text-vice-pink">
+                  <input id="scoreB_${m._id}" type="number" min="0" value="${scoreB}" class="w-10 sm:w-12 text-center bg-white/10 border border-white/20 rounded-lg p-1 sm:p-1.5 font-mono text-sm sm:text-base font-black text-vice-pink">
                 </div>
-                <div class="flex-1 text-center font-mono">
-                  <p class="font-bold text-sm text-white">${m.teamB?.name}</p>
-                  <p class="text-[10px] text-white/40 uppercase">${m.teamB?.tag}</p>
+                <div class="flex-1 text-center font-mono min-w-0">
+                  <p class="font-bold text-xs sm:text-sm text-white truncate">${m.teamB?.name}</p>
+                  <p class="text-[10px] text-white/40 uppercase truncate">${m.teamB?.tag}</p>
                 </div>
               </div>
               <div class="mt-3 grid grid-cols-2 gap-2 text-xs font-mono">
@@ -1230,9 +1327,9 @@
                 </select>
               </div>
             </div>
-            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-2 flex-wrap">
               <span class="font-mono text-[10px] text-white/40">Votes: A: ${m.votes?.teamA || 0} | B: ${m.votes?.teamB || 0}</span>
-              <button onclick="saveMatchScore('${m._id}')" class="pill-btn bg-white/15 hover:bg-pill hover:text-inkdeep font-mono text-xs font-bold px-4 py-1.5 rounded-lg cursor-pointer">
+              <button onclick="saveMatchScore('${m._id}')" class="pill-btn bg-white/15 hover:bg-pill hover:text-inkdeep font-mono text-xs font-bold px-3.5 py-1.5 rounded-lg cursor-pointer">
                 Save Updates
               </button>
             </div>
@@ -1433,10 +1530,10 @@
         }
 
         return `
-          <div class="card-glow rounded-3xl bg-ink border border-white/10 p-5 flex flex-col justify-between transition duration-200">
+          <div class="card-glow rounded-3xl bg-ink border border-white/10 p-4 flex flex-col justify-between transition duration-200">
             <div>
               <!-- Video / Audio Preview Thumbnail & Badges -->
-              <div class="relative aspect-video rounded-2xl overflow-hidden bg-black/60 mb-4 group cursor-pointer" onclick="openPreview('${v._id}')">
+              <div class="relative max-w-[350px] sm:max-w-[500px] xl:max-w-full aspect-video rounded-2xl overflow-hidden bg-black/60 mb-4 group cursor-pointer" onclick="openPreview('${v._id}')">
                 <img src="${thumb}" alt="${v.title}" class="w-full h-full object-cover transition duration-300 group-hover:scale-105">
                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                   <span class="w-12 h-12 rounded-full ${isMusic ? 'bg-vice-pink text-white' : 'bg-pill/90 text-inkdeep'} flex items-center justify-center font-bold text-lg shadow-lg">▶</span>
@@ -1467,44 +1564,44 @@
             <div class="border-t border-white/10 pt-4 mt-auto">
               <label class="block font-mono text-[0.6rem] uppercase tracking-wider text-white/40 mb-2">Assign Placements (Multiple Selection):</label>
               
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
                 <label class="flex items-center gap-1.5 p-2 rounded-xl bg-white/5 border border-white/10 hover:border-vice-pink/60 cursor-pointer select-none transition">
                   <input type="checkbox" ${isTrailer ? 'checked' : ''} 
-                    onchange="togglePlacement('${v._id}', 'home_trailer', this.checked)" class="w-4 h-4 rounded text-vice-pink focus:ring-0 cursor-pointer accent-[#ff2e88]">
+                    onchange="togglePlacement('${v._id}', 'home_trailer', this.checked)" class="w-4 h-4 rounded text-vice-pink focus:ring-0 cursor-pointer accent-[#ff2e88] shrink-0">
                   <span class="truncate text-[0.7rem] ${isTrailer ? 'text-vice-pink font-bold' : 'text-white/70'}">Trailer</span>
                 </label>
 
                 <label class="flex items-center gap-1.5 p-2 rounded-xl bg-white/5 border border-white/10 hover:border-vice-cyan/60 cursor-pointer select-none transition">
                   <input type="checkbox" ${isGameplay ? 'checked' : ''} 
-                    onchange="togglePlacement('${v._id}', 'home_gameplay', this.checked)" class="w-4 h-4 rounded text-vice-cyan focus:ring-0 cursor-pointer accent-[#00e5ff]">
+                    onchange="togglePlacement('${v._id}', 'home_gameplay', this.checked)" class="w-4 h-4 rounded text-vice-cyan focus:ring-0 cursor-pointer accent-[#00e5ff] shrink-0">
                   <span class="truncate text-[0.7rem] ${isGameplay ? 'text-vice-cyan font-bold' : 'text-white/70'}">Gameplay</span>
                 </label>
 
                 <label class="flex items-center gap-1.5 p-2 rounded-xl bg-white/5 border border-white/10 hover:border-purple-400/60 cursor-pointer select-none transition">
                   <input type="checkbox" ${isMedia ? 'checked' : ''} 
-                    onchange="togglePlacement('${v._id}', 'media_page', this.checked)" class="w-4 h-4 rounded text-purple-400 focus:ring-0 cursor-pointer accent-[#a855f7]">
+                    onchange="togglePlacement('${v._id}', 'media_page', this.checked)" class="w-4 h-4 rounded text-purple-400 focus:ring-0 cursor-pointer accent-[#a855f7] shrink-0">
                   <span class="truncate text-[0.7rem] ${isMedia ? 'text-purple-300 font-bold' : 'text-white/70'}">Media Vault</span>
                 </label>
 
                 <label class="flex items-center gap-1.5 p-2 rounded-xl bg-white/5 border border-white/10 hover:border-vice-pink/60 cursor-pointer select-none transition">
                   <input type="checkbox" ${isMusicPlace ? 'checked' : ''} 
-                    onchange="togglePlacement('${v._id}', 'music', this.checked)" class="w-4 h-4 rounded text-vice-pink focus:ring-0 cursor-pointer accent-[#ff2e88]">
+                    onchange="togglePlacement('${v._id}', 'music', this.checked)" class="w-4 h-4 rounded text-vice-pink focus:ring-0 cursor-pointer accent-[#ff2e88] shrink-0">
                   <span class="truncate text-[0.7rem] ${isMusicPlace ? 'text-vice-pink font-bold' : 'text-white/70'}">🎵 Music</span>
                 </label>
               </div>
 
               <!-- Delete, Thumbnail, FastStart & Preview Bar -->
-              <div class="flex items-center justify-between gap-2 mt-4 pt-3 border-t border-white/5">
-                <div class="flex items-center gap-2 flex-wrap">
-                  <button onclick="openThumbModal('${v._id}')" class="text-xs text-pill/90 hover:text-pill font-mono cursor-pointer flex items-center gap-1">
+              <div class="flex items-center justify-between gap-1.5 mt-3 pt-3 border-t border-white/5 flex-wrap">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <button onclick="openThumbModal('${v._id}')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[0.7rem] text-pill font-mono cursor-pointer flex items-center gap-1 active:scale-95 transition">
                     🖼️ Poster
                   </button>
-                  <button onclick="openPreview('${v._id}')" class="text-xs text-white/60 hover:text-white font-mono cursor-pointer flex items-center gap-1">
-                    👁 Preview
+                  <button onclick="openPreview('${v._id}')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[0.7rem] text-white/70 hover:text-white font-mono cursor-pointer flex items-center gap-1 active:scale-95 transition">
+                    👁 View
                   </button>
-                  ${isS3 && !isMusic ? `<button onclick="optimizeFastStart('${v._id}', '${v.title.replace(/'/g, "\\'")}')" class="text-xs text-emerald-400 hover:text-emerald-300 font-mono cursor-pointer flex items-center gap-1" title="Optimize with FastStart for instant 1-sec playback">⚡ FastStart</button>` : ''}
+                  ${isS3 && !isMusic ? `<button onclick="optimizeFastStart('${v._id}', '${v.title.replace(/'/g, "\\'")}')" class="px-2 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-[0.7rem] text-emerald-400 font-mono cursor-pointer flex items-center gap-1 active:scale-95 transition" title="Optimize with FastStart for instant 1-sec playback">⚡ Remux</button>` : ''}
                 </div>
-                <button onclick="promptDeleteModal('${v._id}', '${v.title.replace(/'/g, "\\'")}', ${isS3}, '${(v.fileKey || '').replace(/'/g, "\\'")}')" class="text-xs text-red-400/80 hover:text-red-400 font-mono cursor-pointer flex items-center gap-1">
+                <button onclick="promptDeleteModal('${v._id}', '${v.title.replace(/'/g, "\\'")}', ${isS3}, '${(v.fileKey || '').replace(/'/g, "\\'")}')" class="px-2.5 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-[0.7rem] text-red-400 font-mono cursor-pointer flex items-center gap-1 ml-auto active:scale-95 transition">
                   🗑 Delete
                 </button>
               </div>
@@ -2373,28 +2470,28 @@
         const safeKey = f.key.replace(/'/g, "\\'");
 
         return `
-          <div class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 transition">
+          <div class="p-3 sm:p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 transition">
             <div class="flex items-start gap-3 min-w-0">
-              <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-base sm:text-lg shrink-0">
                 ${icon}
               </div>
               <div class="min-w-0">
                 <div class="flex items-center gap-2 flex-wrap">
-                  <span class="font-bold text-xs text-cream truncate max-w-[280px] sm:max-w-md" title="${f.key}">${f.fileName || f.key}</span>
+                  <span class="font-bold text-xs text-cream truncate max-w-[240px] sm:max-w-md" title="${f.key}">${f.fileName || f.key}</span>
                   <span class="text-[0.6rem] font-mono px-1.5 py-0.5 rounded border ${badgeColor}">${badgeText}</span>
                 </div>
-                <div class="flex items-center gap-3 text-[0.65rem] font-mono text-white/40 mt-1">
+                <div class="flex items-center gap-2 text-[0.65rem] font-mono text-white/40 mt-1 flex-wrap">
                   <span class="text-vice-cyan">${f.sizeFormatted || (f.sizeMB + ' MB')}</span>
                   <span>•</span>
                   <span>${dateStr}</span>
                   <span>•</span>
-                  <span class="truncate max-w-[200px]" title="${f.key}">${f.key}</span>
+                  <span class="truncate max-w-[160px] sm:max-w-[200px]" title="${f.key}">${f.key}</span>
                 </div>
               </div>
             </div>
 
             <!-- Actions Bar -->
-            <div class="flex items-center gap-1.5 shrink-0 flex-wrap justify-end">
+            <div class="flex items-center gap-1.5 shrink-0 flex-wrap justify-start sm:justify-end w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-0 border-white/5">
               <button onclick="copyS3Key('${safeKey}')" type="button"
                 class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-white/80 hover:text-white text-[0.65rem] font-mono border border-white/10 transition cursor-pointer" title="Copy S3 Key">
                 📋 Key
@@ -2414,7 +2511,7 @@
                 ⚡ 1-Click Link
               </button>
               <button onclick="deleteS3Direct('${safeKey}')" type="button"
-                class="px-2 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/25 text-red-400 text-[0.65rem] font-mono border border-red-500/30 transition cursor-pointer" title="Purge file from AWS S3 storage">
+                class="px-2.5 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/25 text-red-400 text-[0.65rem] font-mono border border-red-500/30 transition cursor-pointer" title="Purge file from AWS S3 storage">
                 🗑️
               </button>
             </div>

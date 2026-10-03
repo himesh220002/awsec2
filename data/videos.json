@@ -1,5 +1,23 @@
 [
   {
+    "_id": "vmusk1awgqttwm",
+    "title": "BMSD 2026 | Qualifiers Week 3 | Day 3",
+    "artist": "",
+    "mediaType": "video",
+    "audioFormat": "none",
+    "type": "youtube",
+    "sourceUrl": "https://www.youtube-nocookie.com/embed/eirM68AnN78",
+    "fileKey": null,
+    "youtubeId": "eirM68AnN78",
+    "thumbnail": "https://i.ytimg.com/vi/eirM68AnN78/hqdefault.jpg",
+    "placements": [
+      "home_gameplay",
+      "media_page"
+    ],
+    "isAssignedTo": "home_gameplay",
+    "uploadedAt": "2026-10-03T15:36:26.226Z"
+  },
+  {
     "_id": "vmus7y0dhgqolm",
     "title": "Going Through Changes",
     "artist": "EMINEM",
@@ -12,8 +30,7 @@
     "thumbnail": "/api/videos/stream?key=igv_videos%2Fthumbnails%2F1791021476602_cover.jpg",
     "placements": [
       "music",
-      "home_gameplay",
-      "media_page"
+      "home_gameplay"
     ],
     "isAssignedTo": "music",
     "uploadedAt": "2026-10-03T09:57:57.221Z"

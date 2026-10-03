@@ -750,7 +750,7 @@
     <svg class="palm absolute -right-10 bottom-0 w-56 sm:w-80 opacity-40">
       <use href="#palm" />
     </svg>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-0 pt-16 sm:pt-24 pb-14 sm:pb-20">
+    <div class="relative max-w-7xl mx-auto px-4 2xl:px-0 pt-16 sm:pt-24 pb-14 sm:pb-20">
       <!-- Cyberpunk Transmission Decryption Bar (Tournament Page Style) -->
       <!-- <div class="flex items-center justify-between gap-4 flex-wrap pb-3 mb-4 border-b border-white/10 max-w-2xl">
         <div class="flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.25em] text-vice-cyan uppercase">
@@ -782,13 +782,13 @@
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-4 sm:px-0 pt-10 sm:pt-14">
+  <section class="max-w-7xl mx-auto px-4 2xl:px-0 pt-10 sm:pt-14">
     <div id="eventSpot">
       <p class="text-white/60">Loading spotlight…</p>
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-4 sm:px-0 py-10 sm:py-14">
+  <section class="max-w-7xl mx-auto px-4 2xl:px-0 py-10 sm:py-14">
     <div class="reveal flex items-end justify-between mb-6">
       <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Featured&nbsp;Games</p>
       <a href="/blog" class="ghost-btn text-xs font-bold uppercase tracking-widest text-pill no-underline">Intel →</a>
@@ -799,7 +799,7 @@
     <div id="gamesMore" class="mt-6 text-center"></div>
   </section>
 
-  <section id="events" class="max-w-7xl mx-auto px-4 sm:px-0 py-10 sm:py-14">
+  <section id="events" class="max-w-7xl mx-auto px-4 2xl:px-0 py-10 sm:py-14">
     <div class="reveal flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
       <div>
         <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-vice-pink">Live Esports Circuit &amp;
@@ -810,16 +810,16 @@
           real-time pick'em voting, and fan popularity leaderboards.</p>
       </div>
       <!-- Mode View Tabs -->
-      <div class="inline-flex rounded-full bg-white/5 p-1 border border-white/10 shrink-0" id="tourneyModeBar">
+      <div class="" id="tourneyModeBar">
         <button onclick="setTourneyMode('matches')" id="tModeMatches"
-          class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer">⚔️
-          Matches &amp; Pick'ems</button>
+          class="p-2 rounded-full font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer">
+          Matches</button>
         <button onclick="setTourneyMode('brackets')" id="tModeBrackets"
-          class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🏆
+          class="p-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">
           Tournaments</button>
-        <button onclick="setTourneyMode('hype')" id="tModeHype"
-          class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🔥
-          Team Hype</button>
+        <!-- <button onclick="setTourneyMode('hype')" id="tModeHype"
+          class="p-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">
+          Hype</button> -->
       </div>
     </div>
 
@@ -852,7 +852,7 @@
     <div id="eventMore" class="mt-8 text-center"></div>
   </section>
 
-  <section id="watch" class="max-w-7xl mx-auto px-4 sm:px-0 py-10 sm:py-14">
+  <section id="watch" class="max-w-7xl mx-auto px-4 2xl:px-0 py-10 sm:py-14">
     <div class="reveal mb-2">
       <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Watch</p>
     </div>
@@ -887,7 +887,7 @@
 
     </div>
 
-    <div class="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="p-6 sm:mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
         <h3 id="activeTitleText" class="font-black uppercase text-cream text-xl leading-tight">Featured Broadcast</h3>
         <p id="activeMetaText" class="mt-1 font-mono text-xs text-white/50 tracking-wider">OFFICIAL FEED</p>
@@ -902,19 +902,18 @@
 
     <!-- Filter Pills for Elastic Nature: All / Gameplay Showcases / Official Trailers -->
     <div class="reveal flex flex-wrap items-center justify-between gap-4 mb-6">
-      <div class="inline-flex rounded-full bg-white/5 p-1 border border-white/10" id="watchFilterBar">
+      <div class="flex rounded-full bg-white/5 p-1 border border-white/10" id="watchFilterBar">
         <button onclick="setWatchTab('all')" id="wTabAll"
-          class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer">All
-          Relays</button>
+          class="p-2 rounded-full font-bold text-xs uppercase tracking-wider transition bg-pill text-inkdeep cursor-pointer">All</button>
         <button onclick="setWatchTab('gameplay')" id="wTabGameplay"
-          class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎮
-          Gameplay Relays</button>
+          class="p-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎮
+          Gameplay</button>
         <button onclick="setWatchTab('trailers')" id="wTabTrailers"
-          class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎬
-          Official Trailers</button>
+          class="p-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎬
+          Trailers</button>
         <button onclick="setWatchTab('music')" id="wTabMusic"
-          class="px-5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎵
-          Soundtracks & Music</button>
+          class="p-2 rounded-full font-bold text-xs uppercase tracking-wider transition text-white/60 hover:text-white cursor-pointer">🎵
+          Music</button>
       </div>
       <span id="watchCountText" class="font-mono text-xs text-white/50">Showing all broadcasts</span>
     </div>
@@ -926,7 +925,7 @@
     <div id="watchMore" class="mt-8 text-center"></div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-4 sm:px-0 py-10 sm:py-14">
+  <section class="max-w-7xl mx-auto px-4 2xl:px-0 py-10 sm:py-14">
     <div class="reveal flex items-end justify-between mb-6">
       <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Latest&nbsp;Transmissions</p>
       <a href="/blog" class="ghost-btn text-xs font-bold uppercase tracking-widest text-pill no-underline">All →</a>
@@ -994,8 +993,8 @@
 
       <div class="mt-12 grid gap-8 md:grid-cols-2">
         <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
-          <h3 class="font-bold text-2xl text-vice-pink flex items-center gap-2">
-            <span>//</span> Real-Time Twitch Live Streams & VOD
+          <h3 class="font-bold text-lg md:text-2xl text-vice-pink flex items-center gap-2">
+            Real-Time Twitch Live Streams & VOD
           </h3>
           <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
             At IGV, our intelligent Twitch relay connects the Twitch Helix API directly to your screen. Track live
@@ -1010,8 +1009,8 @@
         </div>
 
         <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
-          <h3 class="font-bold text-2xl text-vice-pink flex items-center gap-2">
-            <span>//</span> Dynamic Search & Broadcaster Discovery
+          <h3 class="font-bold text-lg md:text-2xl text-vice-pink flex items-center gap-2">
+            Dynamic Search & Broadcaster Discovery
           </h3>
           <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
             Skip the endless submenus. IGV streamlines discovery with a unified search for categories, channels, clips,
@@ -1027,8 +1026,8 @@
         </div>
 
         <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
-          <h3 class="font-bold text-2xl text-vice-pink flex items-center gap-2">
-            <span>//</span> Vice City & Leonida: The GTA VI Dispatch
+          <h3 class="font-bold text-lg md:text-2xl text-vice-pink flex items-center gap-2">
+            The GTA VI Dispatch
           </h3>
           <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
             As anticipation builds for Rockstar Games' upcoming opus, IGV stands as the premier digital dispatch for the
@@ -1043,8 +1042,8 @@
         </div>
 
         <div class="rounded-2xl border border-white/10 bg-inkdeep/80 p-6 sm:p-8 backdrop-blur-sm">
-          <h3 class="font-bold text-2xl text-vice-pink flex items-center gap-2">
-            <span>//</span>Pure Performance
+          <h3 class="font-bold text-lg md:text-2xl text-vice-pink flex items-center gap-2">
+            Pure Performance
           </h3>
           <p class="mt-3 text-cyan-200/75 text-sm sm:text-lg leading-relaxed">
             IGV was designed with a performance-first mindset. Built with lightweight semantic markup, ultra-crisp SVG
@@ -1075,7 +1074,7 @@
 
       <div class="mt-10 space-y-4">
         <details
-          class="group rounded-2xl border border-white/10 bg-ink p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
+          class="group rounded-2xl border border-white/10 bg-ink p-3 sm:p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
           <summary
             class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-white group-open:text-pill list-none">
             <span>What is IGV (igvictory.com)?</span>
@@ -1090,7 +1089,7 @@
         </details>
 
         <details
-          class="group rounded-2xl border border-white/10 bg-ink p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
+          class="group rounded-2xl border border-white/10 bg-ink p-3 sm:p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
           <summary
             class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-white group-open:text-pill list-none">
             <span>How does the Twitch search and filter system work?</span>
@@ -1107,7 +1106,7 @@
         </details>
 
         <details
-          class="group rounded-2xl border border-white/10 bg-ink p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
+          class="group rounded-2xl border border-white/10 bg-ink p-3 sm:p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
           <summary
             class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-white group-open:text-pill list-none">
             <span>Can I watch full Twitch past broadcasts (VODs) here?</span>
@@ -1122,7 +1121,7 @@
         </details>
 
         <details
-          class="group rounded-2xl border border-white/10 bg-ink p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
+          class="group rounded-2xl border border-white/10 bg-ink p-3 sm:p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
           <summary
             class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-white group-open:text-pill list-none">
             <span>Why is there an age verification (18+ check) on certain videos?</span>
@@ -1137,7 +1136,7 @@
         </details>
 
         <details
-          class="group rounded-2xl border border-white/10 bg-ink p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
+          class="group rounded-2xl border border-white/10 bg-ink p-3 sm:p-6 transition duration-200 open:border-pill/50 open:bg-[#1e1e2d]">
           <summary
             class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-white group-open:text-pill list-none">
             <span>Is IGV free to use and do I need an account?</span>
@@ -1401,7 +1400,7 @@
             <span class="text-white/40 uppercase">${ev.source || 'House Event'} · ${ev.game}</span>
           </div>
           <h2 class="mt-4 font-cond font-semibold uppercase text-cream leading-[0.95] text-[clamp(1rem,1.5rem,2rem)]">${ev.name}</h2>
-          <p class="mt-3 font-mono text-xs sm:text-sm text-white/60">◷ ${ev.date} &nbsp;·&nbsp; ◈ ${ev.location} &nbsp;·&nbsp; ◆ ${ev.prize}${ev.format ? ` &nbsp;·&nbsp; ${ev.format}` : ''}</p>
+          <p class="mt-3 text-xs sm:text-sm text-white/60">◷ ${ev.date} &nbsp;·&nbsp; ◈ ${ev.location} &nbsp;·&nbsp; ◆ ${ev.prize}${ev.format ? ` &nbsp;·&nbsp; ${ev.format}` : ''}</p>
           ${ev.desc ? `<p class="mt-3 text-white/70 text-sm sm:text-base max-w-2xl">${ev.desc}</p>` : ''}
           <div class="mt-6 flex flex-wrap gap-3"><a href="#/event/${ev.slug || ev.id || 0}" onclick="openTournamentModal('${ev.id || ev.slug || 0}')" class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full no-underline cursor-pointer">Full Details →</a>${eventCTA(ev)}</div>
         </div>
@@ -2087,7 +2086,7 @@
                   <img id="activeVinylImg" src="${thumb || '/images/posters/music_default.webp'}" alt="${title}" class="w-full h-full object-cover spin-vinyl" style="animation-play-state: running;">
                   <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20"></div>
                 </div>
-                <div class="mt-4">
+                <div class="hidden 2xl:block mt-4">
                   <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-vice-pink/20 border border-vice-pink/50 text-vice-pink font-mono text-[0.65rem] uppercase tracking-widest font-bold">
                     <span class="w-2 h-2 rounded-full bg-vice-pink animate-ping"></span> High-Fidelity Audio Relay
                   </span>
@@ -2197,7 +2196,7 @@
           </div>
           <div class="p-5 flex flex-col justify-between flex-1">
             <div>
-              <h4 class="font-black uppercase text-cream text-base sm:text-lg leading-tight cursor-pointer hover:text-pill transition" onclick="${clickAction}">${v.title}</h4>
+              <h4 class="text-cream text-base sm:text-md leading-tight cursor-pointer hover:text-pill transition" onclick="${clickAction}">${v.title}</h4>
               <p class="mt-1 font-mono text-[0.65rem] tracking-[0.2em] text-white/40 uppercase">${v.displayGame || v.game || 'IGV RELAY'} · ${v.displayDate || v.date || 'ACTIVE'}</p>
             </div>
             <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
