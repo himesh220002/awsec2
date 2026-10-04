@@ -756,7 +756,8 @@
             class="hidden pill-btn bg-white text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Rockstar
             ↗</a>
           <a id="featureYT" href="#" target="_blank" rel="noopener"
-            class="hidden pill-btn bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Watch on
+            class="hidden pill-btn bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full no-underline">Watch
+            on
             YouTube ↗</a>
         </div>
       </div>
@@ -1058,6 +1059,41 @@
     </figure>
   </div>
 
+  <!-- Twitch Expand Popup Modal (max-w-7xl) -->
+  <div id="twExpandModal"
+    class="hidden fixed inset-0 z-[98] bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 lg:p-8"
+    onclick="if(event.target === this) closeTwPopup()">
+    <div
+      class="relative w-full max-w-7xl bg-[#131120] border border-white/15 rounded-[22px] overflow-hidden shadow-2xl flex flex-col max-h-[95vh]">
+      <!-- Close button on top-right -->
+      <!-- <button onclick="closeTwPopup()"
+        class="absolute top-3 right-3 z-30 pill-btn bg-black/75 hover:bg-white text-white hover:text-inkdeep font-bold text-xs sm:text-sm px-4 py-2 rounded-full border border-white/20 transition flex items-center gap-1.5 cursor-pointer shadow-lg backdrop-blur-sm">
+        <span>✕</span> <span>Close Popup</span>
+      </button> -->
+
+      <!-- Video / Stream Player Area -->
+      <div id="twPopupPlayer" class="w-full aspect-video bg-black rounded-t-[22px] overflow-hidden"></div>
+
+      <!-- Info Footer matching card layout -->
+      <div
+        class="p-4 sm:p-6 bg-gradient-to-b from-[#181528] to-[#100e1c] border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="min-w-0 flex-1">
+          <span id="twPopupGame"
+            class="rs-game text-vice-cyan text-xs font-mono font-bold tracking-wider uppercase block">Twitch</span>
+          <h3 id="twPopupTitle" class="text-cream font-black text-lg sm:text-2xl mt-1 uppercase leading-snug truncate">
+            Stream Title</h3>
+          <span id="twPopupUser" class="rs-date text-white/60 text-xs sm:text-sm font-mono mt-1 block">Streamer</span>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="closeTwPopup()"
+            class="pill-btn bg-white/10 hover:bg-white text-white hover:text-inkdeep font-bold text-xs sm:text-sm px-5 py-2.5 rounded-full border border-white/20 transition cursor-pointer">
+            Return to Cards ↙
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="border-t border-white/10 bg-inkdeep/60">
     <div
       class="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
@@ -1313,36 +1349,14 @@
       if (!v) return;
 
       const isAudio = forceAudio ? true : isMediaAudio(v);
+      if (isAudio) {
+        playSongInCard(v._id || v.id);
+        return;
+      }
+
       const player = document.getElementById('featurePlayer');
       if (player) {
-        if (isAudio) {
-          player.innerHTML = `
-            <div class="relative w-full aspect-video bg-gradient-to-br from-[#130924] via-[#090714] to-[#040209] flex flex-col items-center justify-center p-6 select-none overflow-hidden">
-              <div class="relative z-10 flex flex-col items-center text-center">
-                <div class="relative w-40 h-40 sm:w-52 sm:h-52 rounded-full overflow-hidden border-2 border-vice-pink/60 shadow-[0_0_50px_rgba(255,46,136,0.35)]">
-                  <img id="mediaVinylImg" src="${v.thumbnail || '/images/posters/music_default.webp'}" alt="${v.title}" class="w-full h-full object-cover spin-vinyl" style="animation-play-state: running;">
-                  <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20"></div>
-                  <div class="absolute w-6 h-6 bg-neutral-800 border border-neutral-700 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full z-10 shadow-inner"></div>
-                  </div>
-                <div class="hidden 2xl:block mt-4">
-                  
-                  <h3 class="mt-2 text-cream font-black text-xl sm:text-2xl uppercase tracking-tight">${v.title}</h3>
-                  <p class="font-mono text-xs text-vice-cyan/90 tracking-widest uppercase mt-0.5">${v.artist || 'Original Soundtrack'}</p>
-                </div>
-              </div>
-              <div class="w-full max-w-xl mt-2 2xl:mt-6 z-10 px-4">
-                <audio id="mediaAudioEl" src="${v.sourceUrl}" controls ${autoplay ? 'autoplay' : ''} class="w-full h-11 rounded-lg" style="filter: invert(0.9) hue-rotate(180deg);" controlsList="nodownload"></audio>
-              </div>
-              <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-vice-pink/10 rounded-full blur-3xl pointer-events-none"></div>
-              <div class="absolute -top-24 -left-24 w-96 h-96 bg-vice-cyan/10 rounded-full blur-3xl pointer-events-none"></div>
-            </div>`;
-          const aud = document.getElementById('mediaAudioEl');
-          const vinyl = document.getElementById('mediaVinylImg');
-          if (aud && vinyl) {
-            aud.onplay = () => { vinyl.style.animationPlayState = 'running'; };
-            aud.onpause = () => { vinyl.style.animationPlayState = 'paused'; };
-          }
-        } else if (v.type === 's3') {
+        if (v.type === 's3') {
           player.innerHTML = `<video src="${v.sourceUrl}" class="w-full aspect-video object-cover" controls ${autoplay ? 'autoplay' : ''} controlsList="nodownload" preload="metadata" poster="${v.thumbnail || '/images/posters/poster_full.0az_iud2g3y4j.jpg'}"></video>`;
         } else {
           player.innerHTML = embed(v.youtubeId, autoplay);
@@ -1444,14 +1458,53 @@
         </a>`;
     }
 
+    function activeMusicCard(m) {
+      const mid = String(m._id || m.id);
+      const thumb = m.thumbnail || '/images/posters/music_default.webp';
+      const safeTitle = (m.title || 'Soundtrack').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      const safeArtist = (m.artist || 'Original Soundtrack').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      return `
+        <article class="rs-card relative overflow-hidden bg-gradient-to-b from-[#160d29] via-[#0d0918] to-[#07050d] border-2 border-vice-pink/60 shadow-[0_0_40px_rgba(255,46,136,0.3)] flex flex-col justify-between p-5 text-center select-none min-h-[390px] group transition duration-300">
+          <div class="flex items-center justify-between w-full mb-1">
+            <span class="font-mono text-[0.58rem] font-bold tracking-[0.15em] bg-vice-pink/20 border border-vice-pink text-vice-pink rounded px-2 py-0.5 uppercase flex items-center gap-1.5 shadow-[0_0_10px_rgba(255,46,136,0.3)]">
+              <span class="w-1.5 h-1.5 rounded-full bg-vice-pink animate-ping"></span>PLAYING
+            </span>
+            <button onclick="stopSongCard()" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white flex items-center justify-center text-xs font-bold transition cursor-pointer border border-white/15" title="Close player">✕</button>
+          </div>
+
+          <div class="relative my-auto py-2 flex items-center justify-center">
+            <div class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full overflow-hidden border-2 border-vice-pink/60 shadow-[0_0_50px_rgba(255,46,136,0.35)] mx-auto">
+              <img id="cardVinyl_${mid}" src="${thumb}" alt="${safeTitle}" class="w-full h-full object-cover spin-vinyl" style="animation-play-state: running;">
+              <div class="absolute inset-0 rounded-full ring-1 ring-inset ring-white/20"></div>
+              <div class="absolute w-5 h-5 bg-neutral-800 border border-neutral-700 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full z-10 shadow-inner"></div>
+            </div>
+          </div>
+
+          <div class="w-full px-1 mt-1">
+            <h4 class="font-black uppercase text-cream text-lg sm:text-xl tracking-tight leading-snug truncate" title="${safeTitle}">${m.title}</h4>
+            <p class="font-mono text-xs text-vice-cyan tracking-widest uppercase mt-1 truncate">${m.artist || 'Original Soundtrack'}</p>
+          </div>
+
+          <div class="w-full mt-3 z-10">
+            <audio id="cardAudio_${mid}" src="${m.sourceUrl}" controls autoplay class="w-full h-10 rounded-lg" style="filter: invert(0.9) hue-rotate(180deg);" controlsList="nodownload"></audio>
+          </div>
+
+          <div class="absolute -bottom-16 -right-16 w-44 h-44 bg-vice-pink/15 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -top-16 -left-16 w-44 h-44 bg-vice-cyan/15 rounded-full blur-3xl pointer-events-none"></div>
+        </article>`;
+    }
+
     function musicCard(m) {
-      const mid = m._id || m.id;
+      const mid = String(m._id || m.id);
+      if (currentPlayingSongId && String(currentPlayingSongId) === mid) {
+        return activeMusicCard(m);
+      }
       const thumb = m.thumbnail || '/images/posters/music_default.webp';
       const safeTitle = (m.title || 'Soundtrack').replace(/'/g, "\\'").replace(/"/g, '&quot;');
       const safeArtist = (m.artist || 'IGV Soundtracks').replace(/'/g, "\\'").replace(/"/g, '&quot;');
       return `
-        <article class="rs-card flex flex-col justify-between group">
-          <div class="block no-underline cursor-pointer" onclick="playMediaVideo('${mid}', true, true, true)">
+        <article class="rs-card flex flex-col justify-between group min-h-[390px]">
+          <div class="block no-underline cursor-pointer" onclick="playSongInCard('${mid}')">
             <span class="rs-thumb block relative aspect-video sm:aspect-square overflow-hidden rounded-xl bg-inkdeep border border-panel group-hover:border-vice-pink transition">
               <img src="${thumb}" alt="${safeTitle}" loading="lazy" decoding="async" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
               <span class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></span>
@@ -1466,12 +1519,12 @@
           </div>
           <div class="rs-body p-4 flex flex-col justify-between flex-1">
             <div>
-              <a href="javascript:void(0)" onclick="playMediaVideo('${mid}', true, true, true)" class="rs-title no-underline hover:text-vice-pink transition block font-bold text-cream text-base line-clamp-1">${m.title}</a>
+              <a href="javascript:void(0)" onclick="playSongInCard('${mid}')" class="rs-title no-underline hover:text-vice-pink transition block font-bold text-cream text-base line-clamp-1">${m.title}</a>
               <p class="rs-date text-xs text-white/50 font-mono mt-0.5">${m.artist || 'Original Soundtrack'}</p>
             </div>
             <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
               <span class="font-mono text-[0.6rem] text-vice-pink uppercase tracking-widest">S3 Chunked</span>
-              <button onclick="playMediaVideo('${mid}', true, true, true)" class="text-xs font-bold text-vice-pink hover:underline cursor-pointer">Play Track →</button>
+              <button onclick="playSongInCard('${mid}')" class="text-xs font-bold text-vice-pink hover:underline cursor-pointer">Play Track →</button>
             </div>
           </div>
         </article>`;
@@ -1479,6 +1532,45 @@
 
     let MG_SHOW = 12;
     const MG_STEP = 6;
+    let currentPlayingSongId = null;
+    let currentSongAudio = null;
+
+    function stopSongCard() {
+      if (currentSongAudio) {
+        currentSongAudio.pause();
+        currentSongAudio = null;
+      }
+      currentPlayingSongId = null;
+      paintMusic();
+    }
+
+    function playSongInCard(id) {
+      if (!id) return;
+      if (String(currentPlayingSongId) === String(id)) {
+        const aud = document.getElementById('cardAudio_' + id);
+        if (aud) {
+          if (aud.paused) aud.play();
+          else aud.pause();
+        }
+        return;
+      }
+
+      // Stop Twitch if playing
+      stopTwitch();
+
+      // Pause featured video if playing
+      const featVid = document.querySelector('#featurePlayer video');
+      if (featVid) featVid.pause();
+
+      if (currentSongAudio) {
+        currentSongAudio.pause();
+        currentSongAudio = null;
+      }
+
+      currentPlayingSongId = String(id);
+      paintMusic();
+    }
+
     function paintMusic() {
       const list = (MEDIA && MEDIA.music) || [];
       const countEl = document.getElementById('musicCount');
@@ -1493,6 +1585,20 @@
       }
       el.innerHTML = list.slice(0, MG_SHOW).map(musicCard).join('');
       moreBtn('musicMore', list.length - MG_SHOW, MG_STEP, 'moreMusic');
+
+      // Bind audio playback & events for the active card
+      if (currentPlayingSongId) {
+        const aud = document.getElementById('cardAudio_' + currentPlayingSongId);
+        const vinyl = document.getElementById('cardVinyl_' + currentPlayingSongId);
+        if (aud) {
+          currentSongAudio = aud;
+          if (vinyl) {
+            aud.onplay = () => { vinyl.style.animationPlayState = 'running'; };
+            aud.onpause = () => { vinyl.style.animationPlayState = 'paused'; };
+          }
+          aud.play().catch(e => console.warn('Song autoplay interrupted:', e));
+        }
+      }
     }
     function moreMusic() {
       MG_SHOW += MG_STEP;
@@ -1594,8 +1700,8 @@
       const gName = game || s.game || 'Twitch';
       const viewersStr = isNaN(s.viewers) ? String(s.viewers || 'Live') : Number(s.viewers).toLocaleString() + ' watching';
       return `
-      <article class="rs-card w-full">
-        <div class="rs-thumb tw-play cursor-pointer group" data-kind="live" data-login="${s.login}" data-title="${(s.title || '').replace(/"/g, '')}">
+      <article class="rs-card w-full" data-game="${gName}" data-user="${s.user}">
+        <div class="rs-thumb tw-play cursor-pointer group" data-kind="live" data-login="${s.login}" data-title="${(s.title || '').replace(/"/g, '')}" data-game="${gName}" data-user="${s.user}">
           <img src="${twThumb(s.thumb)}" alt="${s.user} live" loading="lazy" decoding="async" class="w-full h-full object-cover">
           <span class="absolute left-3 top-3 font-mono text-[0.6rem] font-bold tracking-[0.15em] bg-red-500/90 rounded px-2 py-1"><span class="live-dot inline-block w-1.5 h-1.5 rounded-full bg-white mr-1"></span>LIVE</span>
           <span class="rs-dur">${viewersStr}</span>
@@ -1606,16 +1712,20 @@
         <div class="rs-body">
           <span class="rs-game">${gName}</span>
           <span class="rs-title mt-1 block line-clamp-2">${s.title || (s.user + ' streaming live')}</span>
-          <span class="rs-date mt-1 block">${s.user}</span>
+          <div class="mt-1 flex items-center justify-between gap-2">
+            <span class="rs-date truncate">${s.user}</span>
+            <button type="button" onclick="openTwPopup(this, event)" class="tw-expand-btn hidden shrink-0 font-mono text-[0.68rem] tracking-wider px-2 py-0.5 rounded bg-white/10 hover:bg-vice-pink text-white hover:text-inkdeep border border-white/20 transition cursor-pointer font-bold flex items-center gap-1 shadow-sm" title="Expand to popup view">&lt;-&gt;</button>
+          </div>
         </div>
       </article>`;
     }
 
     function clipCard(c) {
       const viewsStr = c.views ? Number(c.views).toLocaleString() + ' views' : '';
+      const gName = c.game || 'Twitch';
       return `
-      <article class="rs-card w-full">
-        <div class="rs-thumb tw-play cursor-pointer group" data-kind="clip" data-id="${c.id}" data-title="${(c.title || '').replace(/"/g, '')}">
+      <article class="rs-card w-full" data-game="${gName}" data-user="${c.user}">
+        <div class="rs-thumb tw-play cursor-pointer group" data-kind="clip" data-id="${c.id}" data-title="${(c.title || '').replace(/"/g, '')}" data-game="${gName}" data-user="${c.user}">
           <img src="${c.thumb}" alt="${(c.title || '').replace(/"/g, '')}" loading="lazy" decoding="async" class="w-full h-full object-cover">
           <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/95 flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-200">
             <span class="text-inkdeep text-xl font-black pl-0.5">▶</span>
@@ -1623,18 +1733,22 @@
           <span class="rs-dur">${c.dur || 'Clip'}</span>
         </div>
         <div class="rs-body">
-          <span class="rs-game">${c.game || 'Twitch'}</span>
+          <span class="rs-game">${gName}</span>
           <span class="rs-title mt-1 block line-clamp-2">${c.title}</span>
-          <span class="rs-date mt-1 block">${c.user}${viewsStr ? ' · ' + viewsStr : ''}</span>
+          <div class="mt-1 flex items-center justify-between gap-2">
+            <span class="rs-date truncate">${c.user}${viewsStr ? ' · ' + viewsStr : ''}</span>
+            <button type="button" onclick="openTwPopup(this, event)" class="tw-expand-btn hidden shrink-0 font-mono text-[0.68rem] tracking-wider px-2 py-0.5 rounded bg-white/10 hover:bg-vice-pink text-white hover:text-inkdeep border border-white/20 transition cursor-pointer font-bold flex items-center gap-1 shadow-sm" title="Expand to popup view">&lt;-&gt;</button>
+          </div>
         </div>
       </article>`;
     }
 
     function vodCard(v) {
       const viewsStr = v.views ? Number(v.views).toLocaleString() + ' views' : '';
+      const gName = v.game || 'Twitch';
       return `
-      <article class="rs-card w-full">
-        <div class="rs-thumb tw-play cursor-pointer group" data-kind="video" data-id="${v.id}" data-title="${(v.title || '').replace(/"/g, '')}">
+      <article class="rs-card w-full" data-game="${gName}" data-user="${v.user}">
+        <div class="rs-thumb tw-play cursor-pointer group" data-kind="video" data-id="${v.id}" data-title="${(v.title || '').replace(/"/g, '')}" data-game="${gName}" data-user="${v.user}">
           <img src="${twThumb(v.thumb)}" alt="${(v.title || '').replace(/"/g, '')}" loading="lazy" decoding="async" class="w-full h-full object-cover">
           <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/95 flex items-center justify-center shadow-lg group-hover:scale-110 transition duration-200">
             <span class="text-inkdeep text-xl font-black pl-0.5">▶</span>
@@ -1643,9 +1757,12 @@
           <span class="rs-dur">${v.dur || 'VOD'}</span>
         </div>
         <div class="rs-body">
-          <span class="rs-game">${v.game || 'Twitch'}</span>
+          <span class="rs-game">${gName}</span>
           <span class="rs-title mt-1 block line-clamp-2">${v.title}</span>
-          <span class="rs-date mt-1 block">${v.user}${viewsStr ? ' · ' + viewsStr : ''}</span>
+          <div class="mt-1 flex items-center justify-between gap-2">
+            <span class="rs-date truncate">${v.user}${viewsStr ? ' · ' + viewsStr : ''}</span>
+            <button type="button" onclick="openTwPopup(this, event)" class="tw-expand-btn hidden shrink-0 font-mono text-[0.68rem] tracking-wider px-2 py-0.5 rounded bg-white/10 hover:bg-vice-pink text-white hover:text-inkdeep border border-white/20 transition cursor-pointer font-bold flex items-center gap-1 shadow-sm" title="Expand to popup view">&lt;-&gt;</button>
+          </div>
         </div>
       </article>`;
     }
@@ -1772,6 +1889,17 @@
       paintClips();
     }
 
+    let currentTwitchData = null;
+
+    function stopTwitch() {
+      if (currentPlayer) {
+        currentPlayer.innerHTML = currentPlayer.dataset.thumb;
+        currentPlayer = null;
+      }
+      document.querySelectorAll('.tw-expand-btn').forEach(btn => btn.classList.add('hidden'));
+      currentTwitchData = null;
+    }
+
     function playTwitch(box) {
       const kind = box.dataset.kind;
       let src = '';
@@ -1784,9 +1912,96 @@
       }
       if (!src) return;
       stopTwitch();
+
+      // Pause audio song if playing
+      if (currentSongAudio) {
+        currentSongAudio.pause();
+      }
+
       box.dataset.thumb = box.innerHTML;
       box.innerHTML = twFrame(src, box.dataset.title || 'twitch player');
       currentPlayer = box;
+
+      const card = box.closest('.rs-card');
+      currentTwitchData = {
+        src: src,
+        title: box.dataset.title || (card && card.querySelector('.rs-title')?.textContent) || 'Twitch Stream',
+        game: box.dataset.game || (card && card.querySelector('.rs-game')?.textContent) || 'Twitch',
+        user: box.dataset.user || (card && card.querySelector('.rs-date')?.textContent) || 'Streamer',
+        card: card,
+        box: box
+      };
+
+      // Show the <-> button on this card
+      if (card) {
+        const btn = card.querySelector('.tw-expand-btn');
+        if (btn) btn.classList.remove('hidden');
+      }
+    }
+
+    function openTwPopup(btn, e) {
+      if (e) e.stopPropagation();
+      let data = currentTwitchData;
+      if (!data && btn) {
+        const card = btn.closest('.rs-card');
+        const box = card ? card.querySelector('.tw-play') : null;
+        if (box) {
+          const kind = box.dataset.kind;
+          let src = '';
+          if (kind === 'live') src = `https://player.twitch.tv/?channel=${box.dataset.login}&parent=${twHost()}&autoplay=true`;
+          else if (kind === 'clip') src = `https://clips.twitch.tv/embed?clip=${box.dataset.id}&parent=${twHost()}&autoplay=true`;
+          else if (kind === 'video') src = `https://player.twitch.tv/?video=${box.dataset.id}&parent=${twHost()}&autoplay=true`;
+          data = {
+            src,
+            title: box.dataset.title || (card && card.querySelector('.rs-title')?.textContent) || 'Twitch Stream',
+            game: box.dataset.game || (card && card.querySelector('.rs-game')?.textContent) || 'Twitch',
+            user: box.dataset.user || (card && card.querySelector('.rs-date')?.textContent) || 'Streamer',
+            card: card,
+            box: box
+          };
+          currentTwitchData = data;
+        }
+      }
+      if (!data || !data.src) return;
+
+      const modal = document.getElementById('twExpandModal');
+      const player = document.getElementById('twPopupPlayer');
+      const gameEl = document.getElementById('twPopupGame');
+      const titleEl = document.getElementById('twPopupTitle');
+      const userEl = document.getElementById('twPopupUser');
+
+      if (modal && player) {
+        player.innerHTML = twFrame(data.src, data.title);
+        if (gameEl) gameEl.textContent = data.game;
+        if (titleEl) titleEl.textContent = data.title;
+        if (userEl) userEl.textContent = data.user;
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+
+        // Mute/stop the card's small iframe to prevent dual audio while in popup
+        if (data.card) {
+          const cardIframe = data.card.querySelector('iframe');
+          if (cardIframe) cardIframe.src = 'about:blank';
+        }
+      }
+    }
+
+    function closeTwPopup() {
+      const modal = document.getElementById('twExpandModal');
+      const player = document.getElementById('twPopupPlayer');
+      if (player) player.innerHTML = '';
+      if (modal) modal.classList.add('hidden');
+      document.body.style.overflow = '';
+
+      // Return to card view: restore stream in the card
+      if (currentTwitchData && currentTwitchData.card) {
+        const box = currentTwitchData.card.querySelector('.tw-play');
+        if (box && currentTwitchData.src) {
+          box.innerHTML = twFrame(currentTwitchData.src, currentTwitchData.title);
+          currentPlayer = box;
+          currentTwitchData.card.querySelector('.tw-expand-btn')?.classList.remove('hidden');
+        }
+      }
     }
 
     document.getElementById('liveRail').addEventListener('click', e => {
@@ -2208,7 +2423,7 @@
       document.getElementById('boxImg').src = '';
       document.body.style.overflow = '';
     }
-    addEventListener('keydown', e => { if (e.key === 'Escape') { closeBox(); if (!document.getElementById('ageGate').classList.contains('hidden')) closeAgeGate(); } });
+    addEventListener('keydown', e => { if (e.key === 'Escape') { closeBox(); closeTwPopup(); if (!document.getElementById('ageGate').classList.contains('hidden')) closeAgeGate(); } });
     document.getElementById('lightbox').addEventListener('click', e => { if (e.target.id === 'lightbox') closeBox(); });
     document.getElementById('ageGate').addEventListener('click', e => { if (e.target.id === 'ageGate') closeAgeGate(); });
 

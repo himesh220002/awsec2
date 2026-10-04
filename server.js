@@ -6,6 +6,7 @@ const path = require('path');
 const multer = require('multer');
 const videoManager = require('./services/videoManager');
 const tournamentManager = require('./services/tournamentManager');
+const blogManager = require('./services/blogManager');
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -573,14 +574,43 @@ app.put('/api/admin/matches/:id/score', requireAdminAuth, async (req, res) => {
   }
 });
 
-app.get('/api/posts', (req, res) => {
-  res.json(posts);
+app.get('/api/posts', async (req, res) => {
+  try {
+    const list = await blogManager.getAllBlogs();
+    res.json(list);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-app.get('/api/posts/:id', (req, res) => {
-  const post = posts.find(p => p.id === parseInt(req.params.id));
-  if (!post) return res.status(404).json({ error: 'Post not found' });
-  res.json(post);
+app.get('/api/posts/:id', async (req, res) => {
+  try {
+    const post = await blogManager.getBlogById(req.params.id);
+    if (!post) return res.status(404).json({ error: 'Post not found' });
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Admin Blog Management Routes
+app.post('/api/admin/blogs', requireAdminAuth, upload.single('blogImage'), async (req, res) => {
+  try {
+    const created = await blogManager.createBlog(req.body, req.file);
+    res.status(201).json({ success: true, blog: created });
+  } catch (err) {
+    console.error('Blog create error:', err);
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.delete('/api/admin/blogs/:id', requireAdminAuth, async (req, res) => {
+  try {
+    await blogManager.deleteBlog(req.params.id);
+    res.json({ success: true, deletedId: req.params.id });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
 app.get('/api/showcase', (req, res) => {

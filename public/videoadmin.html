@@ -717,6 +717,124 @@
       </div>
     </section>
 
+    <!-- Blog & Editorial Post Management Section -->
+    <section class="mt-14 pt-10 border-t border-white/10" id="sectionBlogs">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+        <div>
+          <h2 class="font-cond font-bold text-xl sm:text-2xl uppercase tracking-wide text-cream flex items-center gap-2">
+            <span>📰</span> Editorial Dispatch & Blog Publisher
+          </h2>
+          <p class="text-xs text-white/50">Publish rich long-form articles, leaks, and tournament dossiers. Banner artwork is stored directly in AWS S3 (prefix: <code class="text-vice-pink">igv_videos/blogimage/</code>).</p>
+        </div>
+        <button onclick="loadAdminBlogs()"
+          class="ghost-btn font-mono text-xs uppercase tracking-wider text-pill hover:text-white border border-pill/30 px-3.5 py-1.5 rounded-full cursor-pointer self-start sm:self-auto">↻ Refresh Stories</button>
+      </div>
+
+      <!-- Published Blogs Grid -->
+      <div id="adminBlogGrid" class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 mb-10">
+        <p class="text-white/40 font-mono text-sm py-8 text-center col-span-full">Loading blog stories...</p>
+      </div>
+
+      <!-- Create New Blog Form Card -->
+      <div class="rounded-3xl bg-ink border border-white/15 p-5 sm:p-8 shadow-xl relative overflow-hidden">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="font-cond font-bold text-lg sm:text-xl uppercase tracking-wide text-cream flex items-center gap-2">
+              <span>✍️</span> Compose New Transmission / Blog Dossier
+            </h3>
+            <p class="text-xs text-white/50 font-mono">Fill in story details. Uploaded images are routed straight to AWS S3 Mumbai bucket.</p>
+          </div>
+          <span class="hidden sm:inline-block font-mono text-[0.62rem] font-bold tracking-[0.2em] bg-vice-pink/15 text-vice-pink border border-vice-pink/40 px-3 py-1 rounded-full uppercase">S3 / Blogimage</span>
+        </div>
+
+        <form id="formNewBlog" onsubmit="event.preventDefault(); submitNewBlog();" class="space-y-4 text-xs font-mono">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div class="lg:col-span-2">
+              <label class="block text-white/50 uppercase tracking-wider mb-1">Story Title *</label>
+              <input id="blTitle" type="text" placeholder="e.g. GTA 6 — What We Know About Vice City Map Scaling & Radiance" required
+                class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2.5 text-white font-sans text-sm outline-none focus:border-pill">
+            </div>
+            <div>
+              <label class="block text-white/50 uppercase tracking-wider mb-1">URL Slug</label>
+              <input id="blSlug" type="text" placeholder="auto-generated-slug"
+                class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2.5 text-white/80 outline-none focus:border-pill">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-white/50 uppercase tracking-wider mb-1">Category *</label>
+              <select id="blCategory" class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2.5 text-white outline-none focus:border-pill">
+                <option value="News">News</option>
+                <option value="Esports">Esports</option>
+                <option value="Guides">Guides</option>
+                <option value="Reviews">Reviews</option>
+                <option value="Intel">Intel / Leaks</option>
+                <option value="Community">Community</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-white/50 uppercase tracking-wider mb-1">Author *</label>
+              <input id="blAuthor" type="text" value="CypherTech Editorial" required
+                class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2.5 text-white outline-none focus:border-pill">
+            </div>
+            <div>
+              <label class="block text-white/50 uppercase tracking-wider mb-1">Tags (Comma-separated)</label>
+              <input id="blTags" type="text" placeholder="GTA 6, Leonida, Open World, PS5"
+                class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2.5 text-white outline-none focus:border-pill">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-white/50 uppercase tracking-wider mb-1">Excerpt / Hook *</label>
+            <textarea id="blExcerpt" rows="2" placeholder="Brief punchy summary that hooks readers on index cards and previews..." required
+              class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2.5 text-white font-sans outline-none focus:border-pill"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-white/50 uppercase tracking-wider mb-1">Full Article Content (Markdown / Paragraphs supported) *</label>
+            <textarea id="blContent" rows="8" placeholder="Type or paste the complete story here. Separate paragraphs with empty lines. Use ### for subheadings or > for quote highlights..." required
+              class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2.5 text-white font-sans leading-relaxed outline-none focus:border-pill"></textarea>
+          </div>
+
+          <!-- Image Upload / S3 Section -->
+          <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="block text-white/80 font-bold uppercase tracking-wider text-xs">Artwork & Header Banner</label>
+              <span class="text-[0.65rem] text-vice-cyan">AWS S3 Folder: /igv_videos/blogimage/</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+              <div>
+                <label class="block text-white/40 text-[0.65rem] uppercase mb-1">Upload File (PNG, JPG, WEBP)</label>
+                <input id="blImageFile" type="file" accept="image/*"
+                  class="w-full text-xs text-white/70 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-vice-pink/20 file:text-vice-pink hover:file:bg-vice-pink hover:file:text-inkdeep cursor-pointer">
+              </div>
+              <div>
+                <label class="block text-white/40 text-[0.65rem] uppercase mb-1">Or Existing Image / Poster URL</label>
+                <input id="blImageUrl" type="url" placeholder="https://... or /images/..."
+                  class="w-full rounded-xl bg-white/5 border border-white/15 px-3 py-2 text-white outline-none focus:border-pill">
+              </div>
+            </div>
+            <div id="blImagePreviewBox" class="hidden mt-2 flex items-center gap-3">
+              <img id="blImagePreview" src="" alt="Preview" class="w-24 h-14 object-cover rounded-lg border border-white/20">
+              <span id="blImagePreviewText" class="text-xs text-emerald-400 font-mono">Image selected for S3 upload</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
+            <label class="flex items-center gap-2 cursor-pointer text-white/70 hover:text-white select-none">
+              <input type="checkbox" id="blFeatured" checked class="w-4 h-4 rounded bg-white/10 border-white/20 text-pill focus:ring-0">
+              <span>Display in Open Featured Dossiers (Reading Room)</span>
+            </label>
+            <button type="submit" id="btnSubmitBlog"
+              class="pill-btn bg-pill text-inkdeep font-bold text-xs uppercase tracking-wider px-8 py-3 rounded-xl cursor-pointer hover:shadow-[0_0_20px_rgba(0,229,255,0.4)] transition">
+              Publish Story to Blog →
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
   </main>
 
   <!-- Video Preview Modal -->
@@ -1265,6 +1383,7 @@
         updateStats(currentVideos);
         renderVideoCards(currentVideos);
         loadAdminMatches();
+        loadAdminBlogs();
       } catch (err) {
         console.error('Failed to load videos:', err);
       }
@@ -1461,6 +1580,162 @@
         btn.innerText = 'Register Championship →';
       }
     }
+
+    /* ---------- Blog Management Controller ---------- */
+    let adminBlogs = [];
+
+    async function loadAdminBlogs() {
+      const grid = document.getElementById('adminBlogGrid');
+      if (!grid) return;
+      try {
+        const res = await fetch('/api/posts');
+        const blogs = await res.json();
+        adminBlogs = blogs || [];
+        renderAdminBlogs(adminBlogs);
+      } catch (e) {
+        grid.innerHTML = '<p class="text-red-400 font-mono text-sm py-4">Failed to load blogs.</p>';
+      }
+    }
+
+    function renderAdminBlogs(blogs) {
+      const grid = document.getElementById('adminBlogGrid');
+      if (!grid) return;
+      if (!blogs.length) {
+        grid.innerHTML = '<p class="text-white/40 font-mono text-sm py-8 text-center col-span-full">No blog stories published yet. Compose a new story below.</p>';
+        return;
+      }
+
+      grid.innerHTML = blogs.map(b => `
+        <div class="rounded-2xl bg-white/[0.04] border border-white/10 p-4 sm:p-5 flex flex-col justify-between hover:border-vice-pink/50 transition">
+          <div>
+            <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black/60 mb-3 border border-white/10">
+              <img src="${b.image || '/images/posters/opt/Official_Cover_Art_landscape-1600.webp'}" alt="${b.title}" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 font-mono text-[0.6rem] font-bold px-2 py-0.5 rounded bg-vice-cyan/20 border border-vice-cyan text-vice-cyan uppercase">${b.category || 'News'}</span>
+              <span class="absolute top-2 right-2 font-mono text-[0.6rem] font-bold px-2 py-0.5 rounded bg-black/70 text-white/80">ID #${b.id}</span>
+            </div>
+            <h4 class="font-bold text-cream text-base line-clamp-2 uppercase">${b.title}</h4>
+            <p class="text-xs text-white/50 font-mono mt-1">${b.author || 'CypherTech'} · ${b.date}</p>
+            <p class="text-xs text-white/70 line-clamp-2 mt-2 font-sans">${b.excerpt || ''}</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+            <a href="/blog#/post/${b.id}" target="_blank" class="text-xs font-bold text-pill hover:underline flex items-center gap-1 no-underline">
+              <span>View On Site</span> <span>↗</span>
+            </a>
+            <button onclick="deleteAdminBlog(${b.id})" class="text-xs font-mono text-red-400 hover:text-red-300 hover:underline cursor-pointer">
+              Delete Story
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function submitNewBlog() {
+      const title = document.getElementById('blTitle').value.trim();
+      const slug = document.getElementById('blSlug').value.trim();
+      const category = document.getElementById('blCategory').value;
+      const author = document.getElementById('blAuthor').value.trim();
+      const tags = document.getElementById('blTags').value.trim();
+      const excerpt = document.getElementById('blExcerpt').value.trim();
+      const content = document.getElementById('blContent').value.trim();
+      const imageUrl = document.getElementById('blImageUrl').value.trim();
+      const fileInput = document.getElementById('blImageFile');
+      const featured = document.getElementById('blFeatured').checked;
+
+      const btn = document.getElementById('btnSubmitBlog');
+      btn.disabled = true;
+      btn.innerText = 'Uploading to S3 & Publishing...';
+
+      try {
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('slug', slug);
+        formData.append('category', category);
+        formData.append('author', author);
+        formData.append('tags', tags);
+        formData.append('excerpt', excerpt);
+        formData.append('content', content);
+        formData.append('featured', featured);
+        if (imageUrl) formData.append('image', imageUrl);
+        if (fileInput.files && fileInput.files[0]) {
+          formData.append('blogImage', fileInput.files[0]);
+        }
+
+        const res = await fetch('/api/admin/blogs', {
+          method: 'POST',
+          headers: {
+            'x-admin-password': adminToken
+          },
+          body: formData
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          alert('Transmission Published! Blog story successfully created and uploaded to S3.');
+          document.getElementById('formNewBlog').reset();
+          document.getElementById('blImagePreviewBox')?.classList.add('hidden');
+          loadAdminBlogs();
+        } else {
+          alert('Failed to publish story: ' + (data.error || 'Server error'));
+        }
+      } catch (err) {
+        alert('Network error publishing story: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Publish Story to Blog →';
+      }
+    }
+
+    async function deleteAdminBlog(id) {
+      if (!confirm('Are you sure you want to permanently delete blog story #' + id + '?')) return;
+      try {
+        const res = await fetch('/api/admin/blogs/' + id, {
+          method: 'DELETE',
+          headers: {
+            'x-admin-password': adminToken
+          }
+        });
+        if (res.ok) {
+          alert('Blog story #' + id + ' deleted.');
+          loadAdminBlogs();
+        } else {
+          alert('Failed to delete blog story.');
+        }
+      } catch (err) {
+        alert('Network error deleting story.');
+      }
+    }
+
+    // Auto slug & image preview event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      const fileInput = document.getElementById('blImageFile');
+      const previewBox = document.getElementById('blImagePreviewBox');
+      const previewImg = document.getElementById('blImagePreview');
+      const titleInput = document.getElementById('blTitle');
+      const slugInput = document.getElementById('blSlug');
+
+      if (fileInput && previewBox && previewImg) {
+        fileInput.addEventListener('change', e => {
+          const file = e.target.files[0];
+          if (file) {
+            previewImg.src = URL.createObjectURL(file);
+            previewBox.classList.remove('hidden');
+          } else {
+            previewBox.classList.add('hidden');
+          }
+        });
+      }
+
+      if (titleInput && slugInput) {
+        titleInput.addEventListener('input', () => {
+          if (!slugInput.dataset.manuallyEdited) {
+            slugInput.value = titleInput.value.toLowerCase().trim().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-');
+          }
+        });
+        slugInput.addEventListener('input', () => {
+          slugInput.dataset.manuallyEdited = 'true';
+        });
+      }
+    });
 
     function hasPlacement(v, p) {
       if (Array.isArray(v.placements) && v.placements.includes(p)) return true;

@@ -439,6 +439,44 @@ async function uploadImageFile(fileBuffer, originalName, mimeType) {
   }
 }
 
+// Blog Artwork Upload to S3 (prefix: igv_videos/blogimage/) or Local
+// -------------------------------------------------------------
+async function uploadBlogImageFile(fileBuffer, originalName, mimeType) {
+  const s3Config = getS3Config();
+  const s3 = getS3Client();
+  const ext = path.extname(originalName) || '.jpg';
+  const cleanBase = path.basename(originalName, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
+  const fileKey = `igv_videos/blogimage/${Date.now()}_${cleanBase}${ext}`;
+
+  if (s3) {
+    try {
+      await s3.send(new PutObjectCommand({
+        Bucket: s3Config.bucket,
+        Key: fileKey,
+        Body: fileBuffer,
+        ContentType: mimeType || 'image/jpeg'
+      }));
+
+      return `/api/videos/stream?key=${encodeURIComponent(fileKey)}`;
+    } catch (err) {
+      console.error('[MediaManager] S3 Blog Image Upload Error:', err.message);
+    }
+  }
+
+  // Local storage fallback
+  try {
+    const blogImgDir = path.join(__dirname, '..', 'public', 'uploads', 'blogimage');
+    if (!fs.existsSync(blogImgDir)) fs.mkdirSync(blogImgDir, { recursive: true });
+    const localFileName = `blog_${Date.now()}_${cleanBase}${ext}`;
+    const localFilePath = path.join(blogImgDir, localFileName);
+    fs.writeFileSync(localFilePath, fileBuffer);
+    return `/uploads/blogimage/${localFileName}`;
+  } catch (err) {
+    console.error('[MediaManager] Local blog image write failed:', err.message);
+    return '/images/posters/poster_full.0az_iud2g3y4j.jpg';
+  }
+}
+
 // Optimize video with FFmpeg: apply stream copy + FastStart or H.264/AAC transcode
 async function optimizeMediaWithFfmpeg(inputBuffer, originalName) {
   const ext = (path.extname(originalName) || '').toLowerCase();
@@ -1068,6 +1106,7 @@ module.exports = {
   getDbStatus,
   uploadMediaFile,
   uploadImageFile,
+  uploadBlogImageFile,
   updateVideoThumbnail,
   streamVideoChunk,
   getS3SignedPlaybackUrl,

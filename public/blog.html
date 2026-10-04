@@ -342,19 +342,13 @@
       color: #ff2e88;
     }
 
-    #dBody p {
+    #dBody p, .article-content p {
       margin-bottom: 1.25rem;
+      line-height: 1.8;
     }
 
-    #dBody p:last-child {
+    #dBody p:last-child, .article-content p:last-child {
       margin-bottom: 0;
-    }
-
-    #dBody p:first-child::first-letter {
-      font-weight: 900;
-      font-size: 1.6em;
-      color: #3F9AAE;
-      padding-right: 2px;
     }
 
     :root {
@@ -628,7 +622,7 @@
     </div>
   </section>
 
-  <main id="posts" class="relative z-10 max-w-7xl mx-auto px-4 2xl:px-0 pt-10 sm:pt-14 pb-0 -mb-24 sm:-mb-32">
+  <main id="posts" class="relative z-10 max-w-7xl mx-auto px-4 2xl:px-0 pt-10 sm:pt-14 pb-10 sm:pb-14">
     <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50 mb-4">Latest&nbsp;Panels</p>
     <div id="filters" class="flex flex-wrap gap-2 mb-6"></div>
     <div id="cards" class="grid gap-5 sm:gap-7 sm:grid-cols-2">
@@ -636,25 +630,47 @@
     </div>
   </main>
 
-  <section class="relative overflow-hidden z-0">
-    <div class="absolute inset-0 bg-gradient-to-br from-[#2a1535] via-[#4a1f3d] to-[#b3543f]"></div>
-    <svg class="palm absolute left-4 sm:left-16 -bottom-6 w-40 sm:w-64 opacity-50">
+  <!-- ===== EDITORIAL READING ROOM: OPEN FULL STORIES (IN PLACE OF SUNSET BANNER) ===== -->
+  <section id="openEditorialSection" class="relative overflow-hidden z-10 border-t border-b border-white/10 py-16 sm:py-24">
+    <!-- Atmospheric Synthwave Background Backdrop -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[#1e0f26] via-[#351630] to-[#120919] opacity-95"></div>
+    <div class="absolute left-1/2 top-12 -translate-x-1/2 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-b from-[#ffd9a0]/30 to-[#ff2e88]/20 blur-2xl pointer-events-none"></div>
+    <svg class="palm absolute left-2 sm:left-10 -bottom-10 w-44 sm:w-72 opacity-25 pointer-events-none">
       <use href="#palm" />
     </svg>
-    <svg class="palm absolute right-6 sm:right-24 -bottom-8 w-48 sm:w-72 opacity-50">
+    <svg class="palm absolute right-4 sm:right-16 -bottom-12 w-52 sm:w-80 opacity-25 pointer-events-none">
       <use href="#palm" />
     </svg>
-    <div
-      class="absolute left-1/2 top-1/3 -translate-x-1/2 w-40 h-40 sm:w-56 sm:h-56 rounded-full bg-gradient-to-b from-[#ffd9a0] to-[#ff2e88] blur-[1px] opacity-90">
-    </div>
-    <div class="relative max-w-7xl mx-auto px-4 2xl:px-0 pt-32 sm:pt-44 pb-20 sm:pb-28">
-      <h2
-        class="font-black uppercase tracking-tight text-pill text-[clamp(1.8rem,6vw,3.5rem)] leading-none drop-shadow-lg">
-        Leonida, USA.</h2>
-      <p class="mt-4 max-w-2xl text-cream/90 font-bold text-base sm:text-2xl leading-snug">Every push sails down the
-        coast — built, shipped and deployed before sundown.</p>
+
+    <div class="relative max-w-7xl mx-auto px-4 2xl:px-0">
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/10">
+        <div>
+          <div class="flex items-center gap-2 mb-2 font-mono text-[0.65rem] sm:text-xs font-bold tracking-[0.25em] text-vice-pink uppercase">
+            <span class="w-2 h-2 rounded-full bg-vice-pink animate-pulse"></span>
+            <span>Unabridged Reading Room // In-Place Editorial</span>
+          </div>
+          <h2 class="font-black uppercase tracking-tight text-cream text-[clamp(1.8rem,5.5vw,3.25rem)] leading-none">
+            Featured <span class="text-pill">Dispatches</span>
+          </h2>
+          <p class="mt-3 text-white/70 font-medium text-sm sm:text-base max-w-2xl">
+            Read complete, full-length investigations and esports dossiers directly on the page — no popup required.
+          </p>
+        </div>
+
+        <!-- Controls: Story Switcher / Mode -->
+        <div id="openEditorialControls" class="flex flex-wrap items-center gap-2">
+          <!-- Filled dynamically by paintOpenEditorial() -->
+        </div>
+      </div>
+
+      <!-- Container where 1 or 2 blogs are fully rendered open -->
+      <div id="openEditorialContainer" class="space-y-12 sm:space-y-16">
+        <p class="text-white/60 font-mono text-sm py-8 text-center">Loading unabridged editorial dispatches…</p>
+      </div>
     </div>
   </section>
+
 
   <section class="max-w-7xl mx-auto px-4 2xl:px-0 py-10 sm:py-14">
     <p class="kicker text-[0.65rem] sm:text-xs font-bold uppercase text-white/50">Live&nbsp;Intel</p>
@@ -745,12 +761,17 @@
 
   <!-- ===== detail overlay: event-launch transmission view ===== -->
   <div id="detail" class="hidden fixed inset-0 z-[60] overflow-y-auto bg-inkdeep/97 backdrop-blur-xl scanlines">
-    <div class="min-h-full max-w-7xl mx-auto px-4 sm:px-8 py-6 sm:py-10">
+    <!-- Reading Progress Bar -->
+    <div id="detailProgressWrap" class="fixed top-0 left-0 right-0 h-1 bg-white/10 z-[70] pointer-events-none">
+      <div id="detailProgressBar" class="h-full w-0 bg-gradient-to-r from-vice-pink via-pill to-vice-cyan transition-[width] duration-75"></div>
+    </div>
+
+    <div class="min-h-full max-w-7xl mx-auto px-4 sm:px-8 py-6 sm:py-10 pb-28">
       <div
         class="stage s1 flex items-center justify-between font-mono text-[0.65rem] sm:text-xs tracking-[0.25em] text-vice-cyan/80">
         <span id="dKicker">TRANSMISSION // PANEL 01</span>
         <button onclick="closeDetail()"
-          class="text-white/70 hover:text-pill font-bold tracking-widest border border-white/20 hover:border-pill rounded-full px-4 py-2 transition">✕
+          class="text-white/70 hover:text-pill font-bold tracking-widest border border-white/20 hover:border-pill rounded-full px-4 py-2 transition cursor-pointer">✕
           CLOSE</button>
       </div>
       <div class="stage s2 mt-4 h-[3px] w-24 bg-vice-cyan shadow-[0_0_12px_rgba(0,229,255,.8)]"></div>
@@ -768,27 +789,54 @@
       </div>
       <p id="dTags" class="stage s3 mt-3 font-mono text-[0.62rem] tracking-[0.2em] text-vice-cyan/70"></p>
       <div id="dArt"
-        class="stage s4 sweep relative mt-8 h-48 sm:h-72 overflow-hidden rounded-[24px] border-2 border-panel"></div>
-      <div class="stage s5 mt-8 grid sm:grid-cols-[1fr_220px] gap-6">
-        <div>
-          <p class="kicker text-[0.6rem] font-bold uppercase text-white/40 mb-3">Full&nbsp;Story</p>
-          <p id="dBody"
-            class="rounded-2xl bg-inkdeep/95 border border-white/10 p-5 sm:p-7 text-white/85 text-base sm:text-lg leading-relaxed">
-          </p>
+        class="stage s4 sweep relative mt-8 h-56 sm:h-80 overflow-hidden rounded-[24px] border-2 border-panel"></div>
+
+      <!-- Main Article & Extended Down-Scroll Flow -->
+      <div class="stage s5 mt-8 grid lg:grid-cols-[1fr_260px] gap-8 items-start">
+        <div class="min-w-0">
+          <p class="kicker text-[0.6rem] font-bold uppercase text-white/40 mb-3">Unabridged Dossier</p>
+          <div id="dBody"
+            class="rounded-3xl bg-inkdeep/95 border border-white/10 p-6 sm:p-9 text-white/85 text-base sm:text-lg leading-relaxed shadow-xl">
+          </div>
+          <!-- Extended Down-Scroll Deep Dossier Container -->
+          <div id="dExtra" class="mt-8 space-y-8"></div>
         </div>
-        <div class="flex sm:flex-col gap-3">
-          <button id="dPrev"
-            class="flex-1 sm:flex-none border border-white/20 hover:border-pill rounded-full px-5 py-3 text-xs font-bold tracking-widest text-white/80 hover:text-pill transition">←
-            PREV</button>
-          <button id="dNext"
-            class="flex-1 sm:flex-none border border-white/20 hover:border-pill rounded-full px-5 py-3 text-xs font-bold tracking-widest text-white/80 hover:text-pill transition">NEXT
-            →</button>
-          <button onclick="closeDetail()"
-            class="pill-btn flex-1 sm:flex-none bg-pill text-inkdeep rounded-full px-5 py-3 text-xs font-bold tracking-widest">ALL
-            PANELS</button>
+
+        <!-- Sticky Sidebar Navigation & Telemetry -->
+        <div class="sticky top-6 flex flex-col gap-4">
+          <div class="p-5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-3">
+            <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Transmission Nav</p>
+            <div class="flex gap-2">
+              <button id="dPrev"
+                class="flex-1 border border-white/20 hover:border-pill rounded-xl py-2.5 text-xs font-bold tracking-widest text-white/80 hover:text-pill transition cursor-pointer">← PREV</button>
+              <button id="dNext"
+                class="flex-1 border border-white/20 hover:border-pill rounded-xl py-2.5 text-xs font-bold tracking-widest text-white/80 hover:text-pill transition cursor-pointer">NEXT →</button>
+            </div>
+            <button onclick="closeDetail()"
+              class="pill-btn w-full bg-pill text-inkdeep rounded-xl py-2.5 text-xs font-bold tracking-widest cursor-pointer text-center block">ALL PANELS</button>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-black/40 border border-white/10 space-y-2.5 font-mono text-xs">
+            <p class="text-[10px] uppercase tracking-widest text-vice-cyan font-bold">Reading Intelligence</p>
+            <div class="flex justify-between text-white/60">
+              <span>Velocity:</span>
+              <span class="text-white">~220 WPM</span>
+            </div>
+            <div class="flex justify-between text-white/60">
+              <span>Security Tier:</span>
+              <span class="text-emerald-400">Class-4 Public</span>
+            </div>
+            <div class="flex justify-between text-white/60">
+              <span>Node Origin:</span>
+              <span class="text-white/80">AWS Mumbai</span>
+            </div>
+            <hr class="border-white/10 my-2">
+            <button onclick="detail.scrollTo({top:0, behavior:'smooth'})" class="w-full text-center py-1.5 text-xs text-pill hover:underline cursor-pointer">
+              ↑ Back to Top
+            </button>
+          </div>
         </div>
       </div>
-      <div id="dExtra" class="stage s5 mt-6"></div>
     </div>
   </div>
 
@@ -874,18 +922,105 @@
     const linkify = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
       .replace(/(https?:\/\/[^\s<]+)/g, '<a class="story-link" href="$1" target="_blank" rel="noopener">$1</a>');
 
-    // story text: paragraphs with real spacing (single IGDB/blog walls get split every ~3 sentences)
-    function storyHTML(text) {
-      const t = (text || '').trim();
-      if (!t) return '';
-      let paras = t.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
-      if (paras.length < 2) {
-        const sents = t.replace(/\s+/g, ' ').match(/[^.!?]+[.!?]+["']?/g) || [t];
-        paras = [];
-        for (let i = 0; i < sents.length; i += 3) paras.push(sents.slice(i, i + 3).join(' ').trim());
+    function showBlogToast(msg) {
+      let t = document.getElementById('blogToast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'blogToast';
+        t.className = 'fixed bottom-6 right-6 z-[100] px-5 py-3 rounded-2xl bg-[#11111a]/95 border border-vice-cyan/50 text-vice-cyan font-mono text-xs font-bold shadow-[0_0_25px_rgba(0,229,255,0.4)] backdrop-blur-md transition-all duration-300 transform translate-y-12 opacity-0 pointer-events-none flex items-center gap-2';
+        document.body.appendChild(t);
       }
-      return paras.map(p => `<p>${linkify(p)}</p>`).join('');
+      t.innerHTML = `<span>⚡</span> <span>${msg}</span>`;
+      t.classList.remove('translate-y-12', 'opacity-0');
+      setTimeout(() => t.classList.add('translate-y-12', 'opacity-0'), 2600);
     }
+
+    // story text: paragraphs, headings, blockquotes, lists, bold, italics, drop-caps
+    function storyHTML(text, withDropCap = true) {
+      let t = (text || '').trim();
+      if (!t) return '';
+
+      // Normalize: ensure headings and blockquotes are cleanly isolated from following paragraphs
+      t = t.replace(/^(#{1,6}\s+[^\n]+)\n(?!\n)/gm, '$1\n\n');
+      t = t.replace(/^((?:>+[^\n]*\n?)+)\n(?!\n)/gm, '$1\n\n');
+
+      let blocks = t.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+      if (blocks.length < 2) {
+        const sents = t.replace(/\s+/g, ' ').match(/[^.!?]+[.!?]+["']?/g) || [t];
+        blocks = [];
+        for (let i = 0; i < sents.length; i += 3) blocks.push(sents.slice(i, i + 3).join(' ').trim());
+      }
+
+      let didDropCap = false;
+
+      function renderParagraph(pBlock) {
+        let pText = linkify(pBlock);
+        pText = pText.replace(/\*\*(.*?)\*\*/g, '<strong class="text-cream font-bold">$1</strong>');
+        pText = pText.replace(/(^|[^*])\*(?!\s)([^*]+)(?!\s)\*(?=[^*]|$)/g, '$1<em class="text-white/90 italic">$2</em>');
+
+        if (withDropCap && !didDropCap) {
+          didDropCap = true;
+          const firstCharMatch = pText.match(/^([^a-zA-Z0-9]*)([a-zA-Z0-9])/);
+          if (firstCharMatch) {
+            const prefix = firstCharMatch[1];
+            const letter = firstCharMatch[2];
+            const rest = pText.slice(firstCharMatch[0].length);
+            return `
+              <p class="mb-5 leading-relaxed text-white/85 text-base sm:text-lg font-sans font-normal normal-case">
+                ${prefix}<span class="float-left text-5xl sm:text-6xl font-black text-vice-pink leading-none mr-3 pt-1 select-none font-serif drop-shadow-[0_0_14px_rgba(255,46,136,0.6)]">${letter}</span>${rest}
+              </p>`;
+          }
+        }
+
+        return `<p class="mb-5 leading-relaxed text-white/85 text-base sm:text-lg font-sans font-normal normal-case">${pText}</p>`;
+      }
+
+      return blocks.map(block => {
+        // Subheading: ### or ##
+        const headingMatch = block.match(/^(#{2,4})\s+([^\n]+)(?:\n+([\s\S]*))?$/);
+        if (headingMatch) {
+          const headingText = headingMatch[2].trim();
+          const remainder = (headingMatch[3] || '').trim();
+          const headingHtml = `
+            <h4 class="text-lg sm:text-xl font-bold uppercase tracking-wide text-cream mt-8 mb-3 flex items-center gap-2.5">
+              <span class="w-1.5 h-5 rounded-full bg-pill shadow-[0_0_8px_rgba(63,154,174,0.6)] shrink-0"></span>
+              <span>${headingText}</span>
+            </h4>`;
+          if (remainder) {
+            return headingHtml + renderParagraph(remainder);
+          }
+          return headingHtml;
+        }
+
+        // Pull quote: >
+        if (block.startsWith('> ') || block.startsWith('>')) {
+          const quoteText = block.replace(/^>+\s*/gm, '').trim();
+          return `
+            <blockquote class="my-6 p-5 sm:p-6 rounded-2xl bg-white/[0.04] border-l-4 border-vice-pink text-cream font-medium italic text-base sm:text-lg font-sans normal-case relative overflow-hidden">
+              <div class="absolute right-4 top-2 text-4xl text-vice-pink/20 font-serif select-none">“</div>
+              <p class="relative z-10 leading-relaxed font-sans normal-case">${linkify(quoteText)}</p>
+            </blockquote>`;
+        }
+
+        // Bullet lists: - or *
+        if (block.startsWith('- ') || block.startsWith('* ')) {
+          const items = block.split(/\n/).map(line => line.replace(/^[-*]\s+/, '').trim()).filter(Boolean);
+          return `
+            <ul class="my-5 space-y-2.5 pl-2 font-sans normal-case">
+              ${items.map(it => `
+                <li class="flex items-start gap-3 text-white/85 text-base sm:text-lg leading-relaxed">
+                  <span class="w-2 h-2 rounded-full bg-vice-cyan mt-2 shrink-0 shadow-[0_0_6px_rgba(0,229,255,0.8)]"></span>
+                  <span>${linkify(it)}</span>
+                </li>
+              `).join('')}
+            </ul>`;
+        }
+
+        // Standard paragraph
+        return renderParagraph(block);
+      }).join('');
+    }
+
     let activeCat = 'All';
     const visiblePosts = () => POSTS.filter(p => activeCat === 'All' || p.category === activeCat);
     function buildFilters() {
@@ -926,36 +1061,220 @@
         : '<p class="text-white/60 col-span-full">No panels in this category yet.</p>';
     }
 
+    // ---------- In-Place Open Editorial Reading Room (1 or 2 fully open blogs) ----------
+    let openEditorialFilter = 'all';
+
+    function paintOpenEditorial() {
+      const container = document.getElementById('openEditorialContainer');
+      const controls = document.getElementById('openEditorialControls');
+      if (!container || !POSTS.length) return;
+
+      // Select top 1 or 2 posts (either marked featured or top 2 in list)
+      const featuredPosts = POSTS.filter(p => p.featured);
+      const openPosts = featuredPosts.length >= 2 ? featuredPosts.slice(0, 2) : POSTS.slice(0, 2);
+
+      // Render controls
+      if (controls) {
+        controls.innerHTML = `
+          <button onclick="setOpenEditorialFilter('all')" class="font-mono text-[0.65rem] font-bold tracking-[0.2em] uppercase rounded-full px-4 py-2 border transition cursor-pointer ${openEditorialFilter === 'all' ? 'bg-pill text-inkdeep border-pill' : 'border-white/20 text-white/60 hover:border-pill hover:text-pill'}">📖 Read Both</button>
+          ${openPosts.map((p, idx) => `
+            <button onclick="setOpenEditorialFilter(${p.id})" class="font-mono text-[0.65rem] font-bold tracking-[0.2em] uppercase rounded-full px-4 py-2 border transition cursor-pointer ${openEditorialFilter === String(p.id) ? 'bg-pill text-inkdeep border-pill' : 'border-white/20 text-white/60 hover:border-pill hover:text-pill'}">
+              ◆ Panel 0${idx + 1}: ${p.title.slice(0, 20)}…
+            </button>
+          `).join('')}
+        `;
+      }
+
+      // Filter based on user choice
+      const toDisplay = openEditorialFilter === 'all'
+        ? openPosts
+        : openPosts.filter(p => String(p.id) === String(openEditorialFilter));
+
+      if (!toDisplay.length) {
+        container.innerHTML = '<p class="text-white/60 font-mono text-center py-8">No open story selected.</p>';
+        return;
+      }
+
+      container.innerHTML = toDisplay.map((p, idx) => {
+        const globalIdx = POSTS.indexOf(p);
+        const artGradient = ARTS[globalIdx % ARTS.length];
+        return `
+          <article id="open-story-${p.id}" class="rounded-3xl bg-inkdeep/90 border border-white/15 p-6 sm:p-10 shadow-2xl relative backdrop-blur-xl overflow-hidden group">
+            <!-- Neon Top Glow Line -->
+            <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${idx === 0 ? 'from-vice-cyan via-pill to-vice-pink' : 'from-vice-pink via-pill to-vice-cyan'}"></div>
+
+            <!-- Header Meta -->
+            <div class="flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-white/50 mb-4 pb-4 border-b border-white/10">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-vice-cyan font-bold tracking-[0.2em] uppercase">TRANSMISSION // OPEN PANEL 0${idx + 1}</span>
+                <span>•</span>
+                <span>${p.date}</span>
+                <span>•</span>
+                <span class="uppercase">BY ${p.author || 'CYPHERTECH EDITORIAL'}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="bg-vice-pink/15 text-vice-pink border border-vice-pink/40 px-3 py-1 rounded-full font-bold uppercase text-[0.65rem]">${p.category || 'News'}</span>
+                <span class="bg-white/5 border border-white/15 px-3 py-1 rounded-full text-[0.65rem] text-white/80">${readTime(p)} MIN READ</span>
+              </div>
+            </div>
+
+            <!-- Title & Excerpt -->
+            <h3 class="text-2xl sm:text-4xl lg:text-5xl font-black uppercase text-cream leading-[1.08] tracking-tight mb-3">
+              ${p.title}
+            </h3>
+            <p class="text-pill font-bold text-base sm:text-xl leading-snug max-w-3xl mb-8">
+              ${linkify(p.excerpt)}
+            </p>
+
+            <!-- Wide Banner Artwork -->
+            <div class="relative h-56 sm:h-96 w-full rounded-2xl overflow-hidden border border-white/15 mb-8 bg-gradient-to-br ${artGradient}">
+              ${p.image ? `
+                <img src="${p.image}" alt="${p.title}" loading="lazy" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+              ` : `
+                <svg class="palm absolute -left-6 -bottom-8 w-48 sm:w-72 opacity-60"><use href="#palm"/></svg>
+                <svg class="palm absolute right-10 -bottom-10 w-56 sm:w-80 opacity-60"><use href="#palm"/></svg>
+              `}
+              <div class="absolute right-6 top-3 font-black text-7xl sm:text-9xl ${p.image ? 'text-white/30' : 'text-black/20'} select-none">
+                0${idx + 1}
+              </div>
+              <div class="absolute left-5 bottom-4 font-mono text-xs tracking-[0.25em] text-white/90 uppercase font-bold flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-vice-cyan animate-pulse"></span>
+                <span>OPEN TRANSMISSION RELAY // VERIFIED FULL TEXT</span>
+              </div>
+            </div>
+
+            <!-- Full Article Content rendered in-place -->
+            <div class="article-content max-w-4xl text-white/85 text-base sm:text-lg leading-relaxed pt-2">
+              ${storyHTML(p.content, true)}
+            </div>
+
+            <!-- Article Bottom Actions & Navigation -->
+            <div class="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-mono text-xs text-white/40 uppercase tracking-widest mr-1">Tags:</span>
+                ${(p.tags || []).map(t => `
+                  <span class="font-mono text-[0.65rem] tracking-wider text-vice-cyan/90 bg-vice-cyan/10 border border-vice-cyan/30 px-2.5 py-1 rounded-lg">#${t.replace(/\s+/g, '')}</span>
+                `).join('')}
+              </div>
+
+              <div class="flex items-center gap-3">
+                <button onclick="copyDetailLink(${p.id})" class="ghost-btn font-mono text-xs uppercase tracking-wider text-white/70 hover:text-white border border-white/20 px-4 py-2 rounded-full cursor-pointer">
+                  🔗 Share
+                </button>
+                <a href="#/post/${p.id}" class="pill-btn bg-pill text-inkdeep font-mono font-bold text-xs uppercase tracking-wider px-6 py-2.5 rounded-full inline-flex items-center gap-1.5 no-underline cursor-pointer">
+                  <span>Open in Glitch HUD</span>
+                  <span>↗</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join(`
+        <div class="flex items-center justify-center gap-4 py-4">
+          <div class="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+          <span class="font-mono text-[10px] tracking-[0.3em] uppercase text-vice-pink font-bold px-4 py-1.5 rounded-full bg-white/5 border border-white/10">
+            ◆ DISPATCH CONTINUATION ◆
+          </span>
+          <div class="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+        </div>
+      `);
+    }
+
+    function setOpenEditorialFilter(filter) {
+      openEditorialFilter = String(filter);
+      paintOpenEditorial();
+      const el = document.getElementById('openEditorialSection');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
     fetch('/api/posts')
       .then(res => res.json())
       .then(posts => {
         POSTS = posts;
         buildFilters();
         renderCards();
+        paintOpenEditorial();
         loadLive('popular');
         route(); // deep links #/post/N and #/game/N on load
       })
       .catch(() => {
         document.getElementById('cards').innerHTML = '<p class="text-white/60">Failed to load stories.</p>';
+        document.getElementById('openEditorialContainer').innerHTML = '<p class="text-white/60">Failed to load editorial stories.</p>';
       });
 
-    // ---------- detail overlay w/ glitch reveal ----------
+    // ---------- detail overlay w/ glitch reveal & deep downward scroll ----------
     const detail = document.getElementById('detail');
     let current = -1;
+
+    // Track scroll in detail modal for top progress bar
+    if (detail) {
+      detail.addEventListener('scroll', () => {
+        const bar = document.getElementById('detailProgressBar');
+        if (!bar) return;
+        const max = detail.scrollHeight - detail.clientHeight;
+        const pct = max > 0 ? (detail.scrollTop / max) * 100 : 0;
+        bar.style.width = pct + '%';
+      });
+    }
+
+    function reactDetail(type) {
+      if (type === 'hype') {
+        const el = document.getElementById('hypeCount');
+        if (el) el.innerText = parseInt(el.innerText || '342', 10) + 1;
+        showBlogToast('🔥 Hype endorsed! Signal amplified.');
+      } else if (type === 'verified') {
+        const el = document.getElementById('verifiedCount');
+        if (el) el.innerText = parseInt(el.innerText || '189', 10) + 1;
+        showBlogToast('⚡ Intel verified by operator!');
+      }
+    }
+
+    function copyDetailLink(id) {
+      const url = `${window.location.origin}/blog#/post/${id}`;
+      navigator.clipboard.writeText(url).then(() => {
+        showBlogToast('Transmission link copied to clipboard!');
+      }).catch(() => {
+        prompt('Copy Transmission URL:', url);
+      });
+    }
+
+    function addFieldLog() {
+      const input = document.getElementById('newFieldLogInput');
+      const val = (input?.value || '').trim();
+      if (!val) return;
+      const box = document.getElementById('fieldLogContainer');
+      if (box) {
+        const newDiv = document.createElement('div');
+        newDiv.className = 'p-3.5 rounded-xl bg-vice-cyan/5 border border-vice-cyan/30 animate-pulse';
+        newDiv.innerHTML = `
+          <div class="flex items-center justify-between text-white/40 text-[10px] mb-1">
+            <span class="text-vice-cyan font-bold">@FieldAgent_${Math.floor(100 + Math.random() * 900)} (You)</span>
+            <span class="text-emerald-400 font-bold">Just now</span>
+          </div>
+          <p class="text-white/90 font-sans text-xs">${val.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
+        `;
+        box.prepend(newDiv);
+        input.value = '';
+        showBlogToast('Dispatch signal broadcasted!');
+      }
+    }
+
     function openDetail(id) {
       const i = POSTS.findIndex(p => p.id === id);
       if (i < 0) return;
       current = i;
       detailMode = 'post';
-      document.getElementById('dExtra').innerHTML = '';
       const p = POSTS[i];
       document.body.style.overflow = 'hidden';
       detail.classList.remove('hidden');
-      // restart staged animation
       detail.classList.remove('detail-open');
       void detail.offsetWidth;
       detail.classList.add('detail-open');
       detail.scrollTop = 0;
+      const bar = document.getElementById('detailProgressBar');
+      if (bar) bar.style.width = '0%';
+
       document.getElementById('dKicker').textContent = `TRANSMISSION // PANEL ${String(i + 1).padStart(2, '0')} — ${p.date} — BY ${(p.author || 'EDITORIAL').toUpperCase()}`;
       document.getElementById('dCat').textContent = '◆ ' + (p.category || 'STORY').toUpperCase();
       document.getElementById('dTags').textContent = (p.tags || []).map(t => '#' + t.toUpperCase().replace(/\s+/g, '')).join('   ');
@@ -964,17 +1283,170 @@
       t.dataset.text = p.title;
       t.classList.remove('glitching');
       void t.offsetWidth;
-      t.classList.add('glitching'); // millisecond RGB-split flicker
+      t.classList.add('glitching');
       document.getElementById('dExcerpt').innerHTML = linkify(p.excerpt);
       document.getElementById('dDate').textContent = '◷ ' + p.date;
       document.getElementById('dRead').textContent = '◈ ' + readTime(p) + ' MIN READ';
       document.getElementById('dWords').textContent = '⬣ ' + words(p.content) + ' WORDS';
-      document.getElementById('dArt').className = `stage s4 sweep relative mt-8 h-48 sm:h-72 overflow-hidden rounded-[24px] border-2 border-panel bg-gradient-to-br ${ARTS[i % ARTS.length]}`;
+      document.getElementById('dArt').className = `stage s4 sweep relative mt-8 h-56 sm:h-80 overflow-hidden rounded-[24px] border-2 border-panel bg-gradient-to-br ${ARTS[i % ARTS.length]}`;
       document.getElementById('dArt').innerHTML = `
         ${p.image ? `<img src="${p.image}" alt="${p.title} artwork" class="absolute inset-0 w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"></div>` : `<svg class="palm absolute -left-6 -bottom-8 w-48 sm:w-72 opacity-60"><use href="#palm"/></svg><svg class="palm absolute right-10 -bottom-10 w-56 sm:w-80 opacity-60"><use href="#palm"/></svg>`}
         <div class="absolute right-6 top-2 font-black text-8xl sm:text-9xl ${p.image ? 'text-white/40' : 'text-black/25'}">${String(i + 1).padStart(2, '0')}</div>
         <div class="absolute left-5 bottom-4 font-mono text-[0.65rem] tracking-[0.3em] ${p.image ? 'text-white/85' : 'text-black/60'}">SCENE // ${p.date}</div>`;
-      document.getElementById('dBody').innerHTML = storyHTML(p.content);
+      
+      // Main Article Content with Drop Cap and Markdown
+      document.getElementById('dBody').innerHTML = storyHTML(p.content, true);
+
+      // Related Posts for down-scroll continuation
+      const related = POSTS.filter(x => x.id !== p.id).slice(0, 3);
+
+      // Extended Downward Scroll Components in dExtra
+      document.getElementById('dExtra').innerHTML = `
+        <!-- Interactive Signals & Endorsements Bar -->
+        <div class="pt-6 border-t border-white/10">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10">
+            <div>
+              <h4 class="font-mono text-xs font-bold uppercase tracking-widest text-vice-cyan flex items-center gap-2">
+                <span>⚡</span> TRANSMISSION SIGNALS & FEEDBACK
+              </h4>
+              <p class="text-xs text-white/50 mt-1">Endorse this dispatch or share permalink with the community.</p>
+            </div>
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <button id="btnHype" onclick="reactDetail('hype')" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-vice-pink/15 hover:bg-vice-pink/25 border border-vice-pink/40 text-vice-pink font-mono text-xs font-bold transition cursor-pointer">
+                <span>🔥</span> <span id="hypeCount">342</span> Hype
+              </button>
+              <button id="btnVerified" onclick="reactDetail('verified')" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 font-mono text-xs font-bold transition cursor-pointer">
+                <span>⚡</span> <span id="verifiedCount">189</span> Verified
+              </button>
+              <button onclick="copyDetailLink(${p.id})" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-mono text-xs font-bold transition cursor-pointer">
+                <span>📋</span> Copy Link
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Telemetry / Mission Intel HUD -->
+        <div class="p-6 rounded-2xl bg-black/40 border border-white/10 space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <h4 class="font-mono text-xs font-bold uppercase tracking-widest text-white/50 flex items-center gap-2">
+              <span>🛰️</span> Mission Telemetry & Ingestion Specs
+            </h4>
+            <span class="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/30">STATUS: VERIFIED RELAY</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
+            <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+              <p class="text-white/40 text-[10px] uppercase">Node Origin</p>
+              <p class="text-vice-cyan font-bold truncate mt-1">ap-south-1 EC2</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+              <p class="text-white/40 text-[10px] uppercase">Storage Pipe</p>
+              <p class="text-vice-pink font-bold truncate mt-1">AWS S3 Mumbai</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+              <p class="text-white/40 text-[10px] uppercase">Clearance Protocol</p>
+              <p class="text-white/90 font-bold truncate mt-1">Level 4 Public</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+              <p class="text-white/40 text-[10px] uppercase">Word Density</p>
+              <p class="text-emerald-400 font-bold truncate mt-1">${words(p.content)} Words</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Author Profile & Editorial Bureau Card -->
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-white/[0.05] to-transparent border border-white/15 flex flex-col sm:flex-row items-center sm:items-start gap-5">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-vice-pink to-vice-cyan p-0.5 shrink-0 shadow-[0_0_20px_rgba(255,46,136,0.3)]">
+            <div class="w-full h-full rounded-[14px] bg-[#161622] flex items-center justify-center text-2xl font-black text-cream">
+              ${(p.author || 'CT').slice(0, 2).toUpperCase()}
+            </div>
+          </div>
+          <div class="flex-1 text-center sm:text-left">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h4 class="font-bold text-base sm:text-lg text-cream uppercase">${p.author || 'CypherTech Editorial'}</h4>
+                <p class="text-xs text-vice-cyan font-mono">Lead Technology & Esports Correspondent</p>
+              </div>
+              <span class="font-mono text-[10px] text-white/50 border border-white/20 rounded-full px-3 py-1 self-center sm:self-auto">BUREAU VERIFIED</span>
+            </div>
+            <p class="mt-3 text-white/70 text-xs sm:text-sm leading-relaxed">
+              Dispatches live from the intersection of next-gen interactive rendering, cloud streaming infrastructure, and competitive esports leagues worldwide.
+            </p>
+          </div>
+        </div>
+
+        <!-- Field Transmissions / Reader Community Comments -->
+        <div class="p-6 rounded-2xl bg-black/40 border border-white/10">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="font-mono text-xs font-bold uppercase tracking-widest text-cream flex items-center gap-2">
+              <span>💬</span> Field Transmissions & Reader Log
+            </h4>
+            <span class="font-mono text-[10px] text-white/40">Encrypted Signals</span>
+          </div>
+          <div id="fieldLogContainer" class="space-y-3 mb-5 font-mono text-xs">
+            <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
+              <div class="flex items-center justify-between text-white/40 text-[10px] mb-1">
+                <span class="text-vice-cyan font-bold">@GhostOperator_09</span>
+                <span>2 hours ago</span>
+              </div>
+              <p class="text-white/80 font-sans text-xs">The physics fidelity and weather cycles mentioned here align with the latest game patents. Unreal benchmark expectations!</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
+              <div class="flex items-center justify-between text-white/40 text-[10px] mb-1">
+                <span class="text-vice-pink font-bold">@VortexRider</span>
+                <span>5 hours ago</span>
+              </div>
+              <p class="text-white/80 font-sans text-xs">Top quality breakdown. Bookmarked for the upcoming live showcases!</p>
+            </div>
+          </div>
+          <!-- Live Interactive Field Dispatch Form -->
+          <form onsubmit="event.preventDefault(); addFieldLog();" class="flex flex-col sm:flex-row gap-2">
+            <input id="newFieldLogInput" type="text" placeholder="Transmit a field observation or reaction..." required class="flex-1 rounded-xl bg-white/5 border border-white/15 px-3.5 py-2.5 text-xs text-white placeholder-white/40 outline-none focus:border-pill font-mono">
+            <button type="submit" class="pill-btn bg-pill text-inkdeep font-mono text-xs font-bold px-5 py-2.5 rounded-xl uppercase tracking-wider shrink-0 cursor-pointer">
+              Send Signal →
+            </button>
+          </form>
+        </div>
+
+        <!-- Related Stories & Up-Next Grid -->
+        <div class="pt-4">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Up Next</p>
+              <h3 class="text-xl sm:text-2xl font-black uppercase text-cream tracking-tight">Related Dispatches</h3>
+            </div>
+            <button onclick="closeDetail(); location.hash='#posts';" class="text-xs font-mono text-pill hover:underline cursor-pointer">View All Panels →</button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            ${related.map(rp => `
+              <div onclick="location.hash='#/post/${rp.id}'; detail.scrollTop=0;" class="group rounded-2xl bg-white/[0.04] border border-white/10 hover:border-vice-pink/50 p-4 transition duration-300 cursor-pointer flex flex-col justify-between hover:-translate-y-1">
+                <div>
+                  <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black/60 mb-3 border border-white/10">
+                    ${rp.image ? `<img src="${rp.image}" alt="${rp.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">` : `<div class="w-full h-full bg-gradient-to-br ${ARTS[rp.id % ARTS.length]}"></div>`}
+                    <span class="absolute top-2 left-2 font-mono text-[0.6rem] font-bold px-2 py-0.5 rounded bg-vice-cyan/20 border border-vice-cyan/50 text-vice-cyan uppercase">${rp.category || 'Story'}</span>
+                  </div>
+                  <h4 class="font-bold text-cream text-sm uppercase line-clamp-2 group-hover:text-pill transition">${rp.title}</h4>
+                  <p class="text-[11px] text-white/60 line-clamp-2 mt-1.5 font-sans">${rp.excerpt}</p>
+                </div>
+                <div class="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-white/40">
+                  <span>${rp.date}</span>
+                  <span class="text-pill font-bold group-hover:translate-x-1 transition">Read →</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Bottom Return & Top Actions -->
+        <div class="mt-8 pt-6 border-t border-white/10 flex items-center justify-between flex-wrap gap-4">
+          <button onclick="detail.scrollTo({top:0, behavior:'smooth'})" class="ghost-btn font-mono text-xs uppercase tracking-wider text-white/60 hover:text-pill border border-white/20 px-5 py-2.5 rounded-full cursor-pointer">
+            ↑ Back to Top of Dossier
+          </button>
+          <button onclick="closeDetail()" class="pill-btn bg-pill text-inkdeep font-mono text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-full cursor-pointer">
+            ✕ Close Transmission
+          </button>
+        </div>
+      `;
+
       document.getElementById('dPrev').onclick = () => location.hash = '#/post/' + POSTS[(i - 1 + POSTS.length) % POSTS.length].id;
       document.getElementById('dNext').onclick = () => location.hash = '#/post/' + POSTS[(i + 1) % POSTS.length].id;
     }
