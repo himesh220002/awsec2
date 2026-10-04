@@ -391,7 +391,7 @@
   </section>
 
   <section class="max-w-7xl mx-auto px-4 2xl:px-0 pb-8 sm:pb-12 grid gap-4 sm:gap-5 sm:grid-cols-3">
-    <a href="https://youtube.com" target="_blank" rel="noopener"
+    <a href="https://www.youtube.com/@CypherTechLive" target="_blank" rel="noopener"
       class="reveal rounded-[20px] bg-inkdeep border border-panel p-6 no-underline block transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
       <p class="font-mono text-[0.6rem] tracking-[0.3em] text-vice-cyan">VIDEO</p>
       <h3 class="mt-2 font-black uppercase text-cream text-lg">YouTube</h3>
@@ -399,7 +399,7 @@
       <span class="pill-btn inline-block mt-4 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full">Watch
         →</span>
     </a>
-    <a href="https://twitter.com" target="_blank" rel="noopener"
+    <a href="https://x.com/CypherHarley" target="_blank" rel="noopener"
       class="reveal rounded-[20px] bg-inkdeep border border-panel p-6 no-underline block transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
       <p class="font-mono text-[0.6rem] tracking-[0.3em] text-vice-cyan">SOCIAL</p>
       <h3 class="mt-2 font-black uppercase text-cream text-lg">Twitter</h3>
@@ -407,7 +407,7 @@
       <span class="pill-btn inline-block mt-4 bg-pill text-inkdeep font-bold text-sm px-6 py-2.5 rounded-full">Follow
         →</span>
     </a>
-    <a href="https://discord.com" target="_blank" rel="noopener"
+    <a href="https://discord.gg/zZmAqnZ3T" target="_blank" rel="noopener"
       class="reveal rounded-[20px] bg-inkdeep border border-panel p-6 no-underline block transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(255,46,136,.25)]">
       <p class="font-mono text-[0.6rem] tracking-[0.3em] text-vice-cyan">COMMUNITY</p>
       <h3 class="mt-2 font-black uppercase text-cream text-lg">Discord</h3>
@@ -421,8 +421,8 @@
     <div class="reveal rounded-[24px] bg-inkdeep border border-panel p-6 sm:p-8 grid gap-5 sm:grid-cols-3">
       <div>
         <p class="font-mono text-[0.6rem] tracking-[0.3em] text-vice-cyan">EMAIL</p>
-        <a id="cEmail" href="mailto:support@cyphertech.online"
-          class="mt-1 block font-bold text-cream text-sm sm:text-base no-underline hover:text-pill break-all">support@cyphertech.online</a>
+        <a id="cEmail" href="mailto:satyamhimesh@gmail.com"
+          class="mt-1 block font-bold text-cream text-sm sm:text-base no-underline hover:text-pill break-all">satyamhimesh@gmail.com</a>
       </div>
       <div>
         <p class="font-mono text-[0.6rem] tracking-[0.3em] text-vice-cyan">PHONE</p>
@@ -441,20 +441,26 @@
       <div>
         <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Transmission&nbsp;Form</p>
         <h2 class="mt-3 font-black uppercase text-cream text-2xl sm:text-3xl">Send a Signal</h2>
-        <p class="mt-2 text-white/60 text-sm sm:text-base">Operational signal form — transmissions are committed directly to MongoDB and blasted instantly to the CypherTech Discord operations channel via webhook.</p>
+        <p class="mt-2 text-white/60 text-sm sm:text-base">Operational signal form — transmissions are committed
+          directly to MongoDB and blasted instantly to the CypherTech Discord operations channel via webhook.</p>
         <form id="tform" class="mt-6 flex flex-col gap-4" novalidate>
-          <input id="tname" class="field" type="text" maxlength="40" placeholder="Codename / Your Name" autocomplete="off" required>
-          <input id="thandle" class="field" type="text" maxlength="50" placeholder="@handle or email" autocomplete="off">
-          <textarea id="tmsg" class="field" rows="4" maxlength="500" placeholder="Your transmission…" required></textarea>
+          <input id="tname" class="field" type="text" maxlength="40" placeholder="Codename / Your Name"
+            autocomplete="off" required>
+          <input id="thandle" class="field" type="text" maxlength="50" placeholder="@discordhandle or email"
+            autocomplete="off">
+          <textarea id="tmsg" class="field" rows="4" maxlength="500" placeholder="Your transmission…"
+            required></textarea>
           <p id="terr" class="hidden text-vice-pink text-sm font-bold"></p>
           <button id="tbtn" type="submit"
-            class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full self-start cursor-pointer">Transmit Signal →</button>
+            class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full self-start cursor-pointer">Transmit
+            Signal →</button>
         </form>
       </div>
       <div>
         <div class="flex items-center justify-between">
           <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Live&nbsp;Inbox&nbsp;(MongoDB&nbsp;Pull)</p>
-          <button onclick="pullContactInbox()" class="font-mono text-[0.65rem] text-vice-cyan hover:underline uppercase cursor-pointer">↻ Pull</button>
+          <button onclick="pullContactInbox()"
+            class="font-mono text-[0.65rem] text-vice-cyan hover:underline uppercase cursor-pointer">↻ Pull</button>
         </div>
         <div id="inbox" class="mt-4 flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-1">
           <p class="text-white/40 text-sm font-mono py-4">Pulling transmissions from MongoDB...</p>
