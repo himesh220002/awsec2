@@ -341,12 +341,15 @@ async function addComment(postId, { author, message }) {
   backup.unshift(commentObj);
   saveCommentsBackup(backup.slice(0, 100));
 
-  // Trigger unawaited Discord notification
+  // Trigger Discord notification (safely awaited for Lambda/Vercel serverless containers)
   const discordUrl = process.env.DISCORD_WEBHOOK_URL;
   if (discordUrl) {
-    getBlogById(numId).then(blog => {
+    try {
+      const blog = await getBlogById(numId);
       const postTitle = blog ? blog.title : `Panel #${numId}`;
-      fetch(discordUrl, {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 2500);
+      await fetch(discordUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -363,9 +366,13 @@ async function addComment(postId, { author, message }) {
             footer: { text: 'IGVictory Editorial Field Terminal' },
             timestamp: new Date().toISOString()
           }]
-        })
-      }).catch(err => console.warn('[BlogManager] Discord webhook error:', err.message));
-    }).catch(() => { });
+        }),
+        signal: controller.signal
+      });
+      clearTimeout(timeout);
+    } catch (err) {
+      console.warn('[BlogManager] Discord webhook error:', err.message);
+    }
   }
 
   return saved || commentObj;

@@ -1,5 +1,14 @@
 [
   {
+    "_id": "6ac265f00d8c4d0d4fddd920",
+    "name": "Lambda Sentinel",
+    "handle": "@sentinel",
+    "email": "@sentinel",
+    "message": "Verifying serverless webhook dispatch to Discord",
+    "status": "unread",
+    "createdAt": "2026-10-04T14:42:56.823Z"
+  },
+  {
     "_id": "6ac2594becff500c6eafba93",
     "name": "AeroStrike",
     "handle": "@aero_vct",

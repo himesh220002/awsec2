@@ -36,19 +36,21 @@ function saveBackup(messages) {
   }
 }
 
-// Unawaited Discord Webhook Dispatcher
-function dispatchDiscordWebhook(payload) {
+// Discord Webhook Dispatcher (safe for AWS Lambda & Vercel serverless freeze)
+async function dispatchDiscordWebhook(payload) {
   const url = process.env.DISCORD_WEBHOOK_URL;
   if (!url) return;
 
   try {
-    fetch(url, {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2500);
+    await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    }).catch(err => {
-      console.warn('[ContactManager] Discord webhook dispatch warning:', err.message);
+      body: JSON.stringify(payload),
+      signal: controller.signal
     });
+    clearTimeout(timeout);
   } catch (err) {
     console.warn('[ContactManager] Discord webhook error:', err.message);
   }
@@ -92,8 +94,8 @@ async function saveMessage({ name, handle, email, message }) {
   backup.unshift(item);
   saveBackup(backup.slice(0, 50));
 
-  // 3. Fast unawaited Discord webhook execution
-  dispatchDiscordWebhook({
+  // 3. Fast Discord webhook execution (awaited with timeout for serverless safety)
+  await dispatchDiscordWebhook({
     username: 'CypherTech Stream Dispatch',
     avatar_url: 'https://igvictory.com/images/logo.svg',
     embeds: [
