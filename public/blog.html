@@ -1239,24 +1239,86 @@
       });
     }
 
-    function addFieldLog() {
-      const input = document.getElementById('newFieldLogInput');
-      const val = (input?.value || '').trim();
-      if (!val) return;
+    function formatTimeAgo(dateStr) {
+      if (!dateStr) return 'Recently';
+      const d = new Date(dateStr);
+      const diffSec = Math.floor((Date.now() - d.getTime()) / 1000);
+      if (diffSec < 60) return 'Just now';
+      const diffMin = Math.floor(diffSec / 60);
+      if (diffMin < 60) return `${diffMin}m ago`;
+      const diffHour = Math.floor(diffMin / 60);
+      if (diffHour < 24) return `${diffHour}h ago`;
+      const diffDay = Math.floor(diffHour / 24);
+      if (diffDay < 7) return `${diffDay}d ago`;
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    async function pullPostComments(postId) {
       const box = document.getElementById('fieldLogContainer');
-      if (box) {
-        const newDiv = document.createElement('div');
-        newDiv.className = 'p-3.5 rounded-xl bg-vice-cyan/5 border border-vice-cyan/30 animate-pulse';
-        newDiv.innerHTML = `
-          <div class="flex items-center justify-between text-white/40 text-[10px] mb-1">
-            <span class="text-vice-cyan font-bold">@FieldAgent_${Math.floor(100 + Math.random() * 900)} (You)</span>
-            <span class="text-emerald-400 font-bold">Just now</span>
+      const countEl = document.getElementById('fieldLogCount');
+      if (!box) return;
+
+      try {
+        const res = await fetch(`/api/posts/${postId}/comments`);
+        if (!res.ok) throw new Error('Failed to pull comments');
+        const list = await res.json();
+
+        if (countEl) countEl.innerText = `${list.length} Verified Signal${list.length !== 1 ? 's' : ''}`;
+
+        if (!list || !list.length) {
+          box.innerHTML = '<p class="text-white/40 font-mono text-xs py-4 text-center">No field transmissions recorded yet. Transmit the first signal below.</p>';
+          return;
+        }
+
+        box.innerHTML = list.slice(0, 10).map(c => `
+          <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 hover:border-white/15 transition">
+            <div class="flex items-center justify-between text-white/40 text-[10px] mb-1">
+              <span class="text-vice-cyan font-bold font-mono">@${(c.author || 'Operator').replace(/^@/, '')}</span>
+              <span class="font-mono">${formatTimeAgo(c.createdAt)}</span>
+            </div>
+            <p class="text-white/85 font-sans text-xs leading-relaxed">${(c.message || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')}</p>
           </div>
-          <p class="text-white/90 font-sans text-xs">${val.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
-        `;
-        box.prepend(newDiv);
-        input.value = '';
-        showBlogToast('Dispatch signal broadcasted!');
+        `).join('');
+      } catch (err) {
+        box.innerHTML = '<p class="text-white/40 font-mono text-xs py-3 text-center">Relay quiet. Unable to pull recent transmissions from MongoDB.</p>';
+      }
+    }
+
+    async function submitFieldLog(postId) {
+      const authorInput = document.getElementById('fieldLogAuthorInput');
+      const msgInput = document.getElementById('newFieldLogInput');
+      const btn = document.getElementById('btnSendSignal');
+
+      const author = (authorInput?.value || '').trim() || ('Operator_' + Math.floor(100 + Math.random() * 900));
+      const message = (msgInput?.value || '').trim();
+      if (!message) return;
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = 'Broadcasting...';
+      }
+
+      try {
+        const res = await fetch(`/api/posts/${postId}/comments`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ author, message })
+        });
+
+        if (res.ok) {
+          if (msgInput) msgInput.value = '';
+          showBlogToast('Signal broadcasted to MongoDB & Discord webhook!');
+          await pullPostComments(postId);
+        } else {
+          showBlogToast('Failed to transmit signal.');
+        }
+      } catch (e) {
+        showBlogToast('Network error broadcasting signal.');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = 'Send Signal →';
+        }
       }
     }
 
@@ -1374,36 +1436,29 @@
           </div>
         </div>
 
-        <!-- Field Transmissions / Reader Community Comments -->
+        <!-- Field Transmissions / Reader Community Comments (MongoDB Pull) -->
         <div class="p-6 rounded-2xl bg-black/40 border border-white/10">
-          <div class="flex items-center justify-between mb-4">
-            <h4 class="font-mono text-xs font-bold uppercase tracking-widest text-cream flex items-center gap-2">
-              <span>💬</span> Field Transmissions & Reader Log
-            </h4>
-            <span class="font-mono text-[10px] text-white/40">Encrypted Signals</span>
+          <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+            <div>
+              <h4 class="font-mono text-xs font-bold uppercase tracking-widest text-cream flex items-center gap-2">
+                <span>💬</span> Field Transmissions & Reader Log
+              </h4>
+              <p class="text-[10px] text-white/40 font-mono mt-0.5">Showing recent 10 messages · Live MongoDB HTTP Pull</p>
+            </div>
+            <span id="fieldLogCount" class="font-mono text-[10px] text-vice-cyan bg-vice-cyan/10 border border-vice-cyan/30 px-2.5 py-1 rounded-full">Syncing MongoDB...</span>
           </div>
           <div id="fieldLogContainer" class="space-y-3 mb-5 font-mono text-xs">
-            <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
-              <div class="flex items-center justify-between text-white/40 text-[10px] mb-1">
-                <span class="text-vice-cyan font-bold">@GhostOperator_09</span>
-                <span>2 hours ago</span>
-              </div>
-              <p class="text-white/80 font-sans text-xs">The physics fidelity and weather cycles mentioned here align with the latest game patents. Unreal benchmark expectations!</p>
-            </div>
-            <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
-              <div class="flex items-center justify-between text-white/40 text-[10px] mb-1">
-                <span class="text-vice-pink font-bold">@VortexRider</span>
-                <span>5 hours ago</span>
-              </div>
-              <p class="text-white/80 font-sans text-xs">Top quality breakdown. Bookmarked for the upcoming live showcases!</p>
-            </div>
+            <p class="text-white/40 font-mono text-xs py-4 text-center">Pulling recent field transmissions from MongoDB...</p>
           </div>
           <!-- Live Interactive Field Dispatch Form -->
-          <form onsubmit="event.preventDefault(); addFieldLog();" class="flex flex-col sm:flex-row gap-2">
-            <input id="newFieldLogInput" type="text" placeholder="Transmit a field observation or reaction..." required class="flex-1 rounded-xl bg-white/5 border border-white/15 px-3.5 py-2.5 text-xs text-white placeholder-white/40 outline-none focus:border-pill font-mono">
-            <button type="submit" class="pill-btn bg-pill text-inkdeep font-mono text-xs font-bold px-5 py-2.5 rounded-xl uppercase tracking-wider shrink-0 cursor-pointer">
-              Send Signal →
-            </button>
+          <form onsubmit="event.preventDefault(); submitFieldLog(${p.id});" class="space-y-2">
+            <div class="flex flex-col sm:flex-row gap-2">
+              <input id="fieldLogAuthorInput" type="text" placeholder="Operator Codename (e.g. @Ghost_01)" maxlength="30" class="sm:w-60 rounded-xl bg-white/5 border border-white/15 px-3.5 py-2.5 text-xs text-white placeholder-white/40 outline-none focus:border-pill font-mono">
+              <input id="newFieldLogInput" type="text" placeholder="Transmit a field observation or reaction..." required maxlength="280" class="flex-1 rounded-xl bg-white/5 border border-white/15 px-3.5 py-2.5 text-xs text-white placeholder-white/40 outline-none focus:border-pill font-mono">
+              <button id="btnSendSignal" type="submit" class="pill-btn bg-pill text-inkdeep font-mono text-xs font-bold px-6 py-2.5 rounded-xl uppercase tracking-wider shrink-0 cursor-pointer">
+                Send Signal →
+              </button>
+            </div>
           </form>
         </div>
 
@@ -1449,6 +1504,9 @@
 
       document.getElementById('dPrev').onclick = () => location.hash = '#/post/' + POSTS[(i - 1 + POSTS.length) % POSTS.length].id;
       document.getElementById('dNext').onclick = () => location.hash = '#/post/' + POSTS[(i + 1) % POSTS.length].id;
+
+      // HTTP Pull: Fetch recent 10 messages from MongoDB for this post
+      pullPostComments(p.id);
     }
     function closeDetail() {
       detail.classList.add('hidden');

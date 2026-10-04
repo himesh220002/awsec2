@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "6ac2594becff500c6eafba93",
+    "name": "AeroStrike",
+    "handle": "@aero_vct",
+    "email": "@aero_vct",
+    "message": "Looking forward to the CS2 LAN in Mumbai!",
+    "status": "unread",
+    "createdAt": "2026-10-04T13:48:59.819Z"
+  },
+  {
+    "_id": "6ac25861ecff500c6eafba92",
+    "name": "Himesh Operator",
+    "handle": "@himesh_dev",
+    "email": "@himesh_dev",
+    "message": "Testing real-time contact dispatch to Discord Webhook and MongoDB HTTP pull!",
+    "status": "unread",
+    "createdAt": "2026-10-04T13:45:05.707Z"
+  }
+]

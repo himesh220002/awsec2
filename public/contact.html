@@ -441,22 +441,24 @@
       <div>
         <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Transmission&nbsp;Form</p>
         <h2 class="mt-3 font-black uppercase text-cream text-2xl sm:text-3xl">Send a Signal</h2>
-        <p class="mt-2 text-white/60 text-sm sm:text-base">Front-end demo inbox — messages are validated, stored locally
-          in your browser and rendered below. Wire a backend endpoint later to deliver them for real.</p>
+        <p class="mt-2 text-white/60 text-sm sm:text-base">Operational signal form — transmissions are committed directly to MongoDB and blasted instantly to the CypherTech Discord operations channel via webhook.</p>
         <form id="tform" class="mt-6 flex flex-col gap-4" novalidate>
-          <input id="tname" class="field" type="text" maxlength="40" placeholder="Codename" autocomplete="off">
-          <input id="thandle" class="field" type="text" maxlength="40" placeholder="@handle (optional)"
-            autocomplete="off">
-          <textarea id="tmsg" class="field" rows="4" maxlength="500" placeholder="Your transmission…"></textarea>
+          <input id="tname" class="field" type="text" maxlength="40" placeholder="Codename / Your Name" autocomplete="off" required>
+          <input id="thandle" class="field" type="text" maxlength="50" placeholder="@handle or email" autocomplete="off">
+          <textarea id="tmsg" class="field" rows="4" maxlength="500" placeholder="Your transmission…" required></textarea>
           <p id="terr" class="hidden text-vice-pink text-sm font-bold"></p>
-          <button type="submit"
-            class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full self-start">Transmit
-            →</button>
+          <button id="tbtn" type="submit"
+            class="pill-btn bg-pill text-inkdeep font-bold text-sm px-7 py-3 rounded-full self-start cursor-pointer">Transmit Signal →</button>
         </form>
       </div>
       <div>
-        <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Local&nbsp;Inbox</p>
-        <div id="inbox" class="mt-4 flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-1"></div>
+        <div class="flex items-center justify-between">
+          <p class="kicker text-[0.6rem] font-bold uppercase text-white/40">Live&nbsp;Inbox&nbsp;(MongoDB&nbsp;Pull)</p>
+          <button onclick="pullContactInbox()" class="font-mono text-[0.65rem] text-vice-cyan hover:underline uppercase cursor-pointer">↻ Pull</button>
+        </div>
+        <div id="inbox" class="mt-4 flex flex-col gap-3 max-h-[380px] overflow-y-auto pr-1">
+          <p class="text-white/40 text-sm font-mono py-4">Pulling transmissions from MongoDB...</p>
+        </div>
       </div>
     </div>
   </section>
@@ -617,38 +619,83 @@
     const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('on'); io.unobserve(x.target); } }), { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // demo inbox (localStorage)
-    const KEY = 'viceblog_inbox';
-    const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
+    // Live Contact Inbox via HTTP Pull from MongoDB
     const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;');
-    function renderInbox() {
-      const items = load();
-      document.getElementById('inbox').innerHTML = items.length ? items.map(m => `
-        <div class="rounded-2xl bg-white/[0.04] border border-white/10 p-4">
-          <p class="font-bold text-cream text-sm">${esc(m.name)} <span class="text-white/40 font-mono text-xs">${esc(m.handle)}</span></p>
-          <p class="mt-1 text-white/70 text-sm">${esc(m.msg)}</p>
-          <p class="mt-1 font-mono text-[0.6rem] tracking-[0.2em] text-white/30">${m.at}</p>
-        </div>`).join('')
-        : '<p class="text-white/40 text-sm">No transmissions yet. Yours lands here.</p>';
+
+    function formatContactDate(d) {
+      if (!d) return 'Just now';
+      const dt = new Date(d);
+      return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     }
-    renderInbox();
-    document.getElementById('tform').addEventListener('submit', e => {
+
+    async function pullContactInbox() {
+      const inboxEl = document.getElementById('inbox');
+      if (!inboxEl) return;
+      try {
+        const res = await fetch('/api/contact');
+        if (!res.ok) throw new Error('Failed to pull messages');
+        const items = await res.json();
+        inboxEl.innerHTML = (items && items.length) ? items.map(m => `
+          <div class="rounded-2xl bg-white/[0.04] border border-white/10 p-4 transition hover:border-vice-cyan/40">
+            <div class="flex items-center justify-between gap-2">
+              <p class="font-bold text-cream text-sm">${esc(m.name)} <span class="text-vice-cyan font-mono text-xs">${m.handle ? esc(m.handle) : ''}</span></p>
+              <span class="font-mono text-[0.6rem] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 uppercase">Logged</span>
+            </div>
+            <p class="mt-2 text-white/80 text-sm leading-relaxed">${esc(m.message)}</p>
+            <p class="mt-2 font-mono text-[0.6rem] tracking-[0.2em] text-white/30">${formatContactDate(m.createdAt)}</p>
+          </div>`).join('')
+          : '<p class="text-white/40 text-sm font-mono py-4">No transmissions recorded yet. Yours lands here.</p>';
+      } catch (e) {
+        inboxEl.innerHTML = '<p class="text-white/40 text-sm font-mono py-4">Unable to pull transmissions from MongoDB relay.</p>';
+      }
+    }
+
+    pullContactInbox();
+
+    document.getElementById('tform').addEventListener('submit', async e => {
       e.preventDefault();
       const name = document.getElementById('tname').value.trim();
       const handle = document.getElementById('thandle').value.trim();
       const msg = document.getElementById('tmsg').value.trim();
       const err = document.getElementById('terr');
+      const btn = document.getElementById('tbtn');
+
       if (name.length < 2) { err.textContent = '⚠ Codename needs 2+ characters.'; err.classList.remove('hidden'); return; }
       if (msg.length < 5) { err.textContent = '⚠ Transmission needs 5+ characters.'; err.classList.remove('hidden'); return; }
       err.classList.add('hidden');
-      const items = load();
-      items.unshift({ name, handle, msg, at: new Date().toLocaleString() });
-      localStorage.setItem(KEY, JSON.stringify(items.slice(0, 20)));
-      e.target.reset();
-      renderInbox();
-      const t = document.getElementById('toast');
-      t.style.opacity = '1'; t.style.transform = 'translate(-50%, 0)';
-      setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translate(-50%, 6rem)'; }, 2200);
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = 'Transmitting...';
+      }
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, handle, message: msg })
+        });
+
+        if (res.ok) {
+          e.target.reset();
+          const t = document.getElementById('toast');
+          t.innerHTML = '✓ TRANSMISSION LOGGED & DISPATCHED TO DISCORD';
+          t.style.opacity = '1'; t.style.transform = 'translate(-50%, 0)';
+          setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translate(-50%, 6rem)'; }, 2800);
+          await pullContactInbox();
+        } else {
+          err.textContent = '⚠ Failed to log transmission on server.';
+          err.classList.remove('hidden');
+        }
+      } catch (errNet) {
+        err.textContent = '⚠ Network error transmitting signal.';
+        err.classList.remove('hidden');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = 'Transmit Signal →';
+        }
+      }
     });
 
     // overlay header: transparent over fullscreen hero, solid after scroll

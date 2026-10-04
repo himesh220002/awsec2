@@ -7,6 +7,7 @@ const multer = require('multer');
 const videoManager = require('./services/videoManager');
 const tournamentManager = require('./services/tournamentManager');
 const blogManager = require('./services/blogManager');
+const contactManager = require('./services/contactManager');
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -608,6 +609,44 @@ app.delete('/api/admin/blogs/:id', requireAdminAuth, async (req, res) => {
   try {
     await blogManager.deleteBlog(req.params.id);
     res.json({ success: true, deletedId: req.params.id });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Blog Comments / Field Transmissions API (HTTP Pull from MongoDB, recent 10 messages)
+app.get('/api/posts/:id/comments', async (req, res) => {
+  try {
+    const comments = await blogManager.getRecentComments(req.params.id, 10);
+    res.json(comments);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/posts/:id/comments', async (req, res) => {
+  try {
+    const comment = await blogManager.addComment(req.params.id, req.body);
+    res.status(201).json({ success: true, comment });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// Contact Messages API (HTTP Pull from MongoDB & unawaited Discord Webhook dispatch)
+app.get('/api/contact', async (req, res) => {
+  try {
+    const messages = await contactManager.getRecentMessages(20);
+    res.json(messages);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/contact', async (req, res) => {
+  try {
+    const saved = await contactManager.saveMessage(req.body);
+    res.status(201).json({ success: true, message: 'Transmission logged successfully', data: saved });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

@@ -230,11 +230,155 @@ async function deleteBlog(id) {
   return true;
 }
 
+// Comment Mongoose Schema for blog field transmissions
+const CommentSchema = new mongoose.Schema({
+  postId: { type: Number, required: true, index: true },
+  author: { type: String, default: 'FieldOperator' },
+  message: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Comment = mongoose.models.BlogComment || mongoose.model('BlogComment', CommentSchema, 'blog_comments');
+
+const COMMENTS_BACKUP_PATH = path.join(__dirname, '..', 'data', 'blog_comments.json');
+
+function loadCommentsBackup() {
+  try {
+    if (fs.existsSync(COMMENTS_BACKUP_PATH)) {
+      return JSON.parse(fs.readFileSync(COMMENTS_BACKUP_PATH, 'utf8'));
+    }
+  } catch (e) { }
+  return [];
+}
+
+function saveCommentsBackup(data) {
+  try {
+    fs.writeFileSync(COMMENTS_BACKUP_PATH, JSON.stringify(data, null, 2), 'utf8');
+  } catch (e) { }
+}
+
+const DEFAULT_COMMENTS = [
+  {
+    postId: 1,
+    author: 'GhostOperator_09',
+    message: 'The physics fidelity and weather cycles mentioned here align with the latest game patents. Unreal benchmark expectations!',
+    createdAt: new Date(Date.now() - 2 * 3600 * 1000).toISOString()
+  },
+  {
+    postId: 1,
+    author: 'VortexRider',
+    message: 'Top quality breakdown. Bookmarked for the upcoming live showcases!',
+    createdAt: new Date(Date.now() - 5 * 3600 * 1000).toISOString()
+  },
+  {
+    postId: 2,
+    author: 'TenZ_Fanatic',
+    message: 'VCT partner stipend model truly stabilized competitive teams through 2024-2025. Glad to see India LAN mentioned!',
+    createdAt: new Date(Date.now() - 1 * 3600 * 1000).toISOString()
+  },
+  {
+    postId: 2,
+    author: 'TacticalAero',
+    message: 'Console release cross-play and mobile testing are going to explode the active player base.',
+    createdAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString()
+  }
+];
+
+// Get recent 10 comments for a blog post (HTTP Pull from MongoDB)
+async function getRecentComments(postId, limit = 10) {
+  const numId = parseInt(postId, 10);
+  try {
+    if (mongoose.connection.readyState === 1) {
+      const docs = await Comment.find({ postId: numId })
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .lean();
+      if (docs && docs.length > 0) return docs;
+    }
+  } catch (err) {
+    console.warn('[BlogManager] Error reading comments from Mongo:', err.message);
+  }
+
+  // Backup check
+  const allBackup = loadCommentsBackup();
+  const matched = allBackup.filter(c => c.postId === numId).slice(0, limit);
+  if (matched.length > 0) return matched;
+
+  // Defaults
+  const defs = DEFAULT_COMMENTS.filter(c => c.postId === numId).slice(0, limit);
+  return defs.length > 0 ? defs : DEFAULT_COMMENTS.slice(0, 2);
+}
+
+// Add a comment to MongoDB and trigger unawaited Discord notification
+async function addComment(postId, { author, message }) {
+  const numId = parseInt(postId, 10);
+  const cleanAuthor = (author || 'FieldOperator').trim().replace(/^@/, '');
+  const cleanMessage = (message || '').trim();
+
+  let saved = null;
+  try {
+    if (mongoose.connection.readyState === 1) {
+      saved = await Comment.create({
+        postId: numId,
+        author: cleanAuthor,
+        message: cleanMessage,
+        createdAt: new Date()
+      });
+    }
+  } catch (err) {
+    console.warn('[BlogManager] Mongo comment save failed, using local backup:', err.message);
+  }
+
+  const commentObj = {
+    _id: saved?._id?.toString() || 'com_' + Date.now(),
+    postId: numId,
+    author: cleanAuthor,
+    message: cleanMessage,
+    createdAt: new Date().toISOString()
+  };
+
+  const backup = loadCommentsBackup();
+  backup.unshift(commentObj);
+  saveCommentsBackup(backup.slice(0, 100));
+
+  // Trigger unawaited Discord notification
+  const discordUrl = process.env.DISCORD_WEBHOOK_URL;
+  if (discordUrl) {
+    getBlogById(numId).then(blog => {
+      const postTitle = blog ? blog.title : `Panel #${numId}`;
+      fetch(discordUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: 'CypherTech Field Log Dispatch',
+          avatar_url: 'https://igvictory.com/images/logo.svg',
+          embeds: [{
+            title: `💬 New Field Transmission on Blog #${numId}`,
+            description: `**Post:** ${postTitle}`,
+            color: 16723592, // Vice pink
+            fields: [
+              { name: '👤 Operator', value: `@${cleanAuthor}`, inline: true },
+              { name: '💬 Dispatch', value: cleanMessage }
+            ],
+            footer: { text: 'IGVictory Editorial Field Terminal' },
+            timestamp: new Date().toISOString()
+          }]
+        })
+      }).catch(err => console.warn('[BlogManager] Discord webhook error:', err.message));
+    }).catch(() => { });
+  }
+
+  return saved || commentObj;
+}
+
 module.exports = {
   getAllBlogs,
   getBlogById,
   createBlog,
   deleteBlog,
   slugify,
-  calculateReadTime
+  calculateReadTime,
+  getRecentComments,
+  addComment
 };
+
