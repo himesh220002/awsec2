@@ -342,12 +342,14 @@
       color: #ff2e88;
     }
 
-    #dBody p, .article-content p {
+    #dBody p,
+    .article-content p {
       margin-bottom: 1.25rem;
       line-height: 1.8;
     }
 
-    #dBody p:last-child, .article-content p:last-child {
+    #dBody p:last-child,
+    .article-content p:last-child {
       margin-bottom: 0;
     }
 
@@ -503,7 +505,7 @@
     class="fixed inset-0 z-[90] bg-gradient-to-br from-[#000] via-[#00003d] to-[#12121c] pointer-events-none"
     style="transform:translateY(100%)">
     <img src="/images/nobglogo.svg" alt="" aria-hidden="true"
-      class="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-25 mix-blend-screen select-none">
+      class="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-25 mix-blend-screen select-none">
   </div>
 
   <svg width="0" height="0" class="absolute" aria-hidden="true">
@@ -533,7 +535,7 @@
     <a href="/"
       class="flex items-center gap-2.5 font-black text-2xl sm:text-3xl tracking-tighter no-underline text-white"><img
         src="/images/logo.svg" alt="IGV logo" width="40" height="40"
-        class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15"> <span>IG<span
+        class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl ring-1 ring-white/15 p-2"> <span>IG<span
           class="text-pill">Victory</span></span></a>
     <div class="flex items-center gap-2 sm:gap-3">
       <a href="#posts"
@@ -559,7 +561,7 @@
           <use href="#palm" />
         </svg>
         <img src="/images/nobglogo.svg" alt="" aria-hidden="true"
-          class="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[500px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-25 mix-blend-screen select-none">
+          class="pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[300px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-25 mix-blend-screen select-none">
         <!-- <div class="m-auto text-center relative px-8">
           <img src="https://www.rockstargames.com/VI/_next/static/media/vi.0hxa9~pf214xe.png?akim=1&imdensity=1&imwidth=1024" alt="Grand Theft Auto VI" loading="lazy" decoding="async" class="w-full max-w-[300px] mx-auto drop-shadow-2xl" onerror="this.style.display='none';document.getElementById('menuFallback').style.display='';">
           <p id="menuFallback" style="display:none" class="font-black leading-none tracking-tighter text-[9rem]">IG<span class="logo-text">V</span></p>
@@ -631,10 +633,13 @@
   </main>
 
   <!-- ===== EDITORIAL READING ROOM: OPEN FULL STORIES (IN PLACE OF SUNSET BANNER) ===== -->
-  <section id="openEditorialSection" class="relative overflow-hidden z-10 border-t border-b border-white/10 py-16 sm:py-24">
+  <section id="openEditorialSection"
+    class="relative overflow-hidden z-10 border-t border-b border-white/10 py-16 sm:py-24">
     <!-- Atmospheric Synthwave Background Backdrop -->
     <div class="absolute inset-0 bg-gradient-to-br from-[#1e0f26] via-[#351630] to-[#120919] opacity-95"></div>
-    <div class="absolute left-1/2 top-12 -translate-x-1/2 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-b from-[#ffd9a0]/30 to-[#ff2e88]/20 blur-2xl pointer-events-none"></div>
+    <div
+      class="absolute left-1/2 top-12 -translate-x-1/2 w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-b from-[#ffd9a0]/30 to-[#ff2e88]/20 blur-2xl pointer-events-none">
+    </div>
     <svg class="palm absolute left-2 sm:left-10 -bottom-10 w-44 sm:w-72 opacity-25 pointer-events-none">
       <use href="#palm" />
     </svg>
@@ -646,7 +651,8 @@
       <!-- Section Header -->
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/10">
         <div>
-          <div class="flex items-center gap-2 mb-2 font-mono text-[0.65rem] sm:text-xs font-bold tracking-[0.25em] text-vice-pink uppercase">
+          <div
+            class="flex items-center gap-2 mb-2 font-mono text-[0.65rem] sm:text-xs font-bold tracking-[0.25em] text-vice-pink uppercase">
             <span class="w-2 h-2 rounded-full bg-vice-pink animate-pulse"></span>
             <span>Unabridged Reading Room // In-Place Editorial</span>
           </div>
@@ -763,7 +769,8 @@
   <div id="detail" class="hidden fixed inset-0 z-[60] overflow-y-auto bg-inkdeep/97 backdrop-blur-xl scanlines">
     <!-- Reading Progress Bar -->
     <div id="detailProgressWrap" class="fixed top-0 left-0 right-0 h-1 bg-white/10 z-[70] pointer-events-none">
-      <div id="detailProgressBar" class="h-full w-0 bg-gradient-to-r from-vice-pink via-pill to-vice-cyan transition-[width] duration-75"></div>
+      <div id="detailProgressBar"
+        class="h-full w-0 bg-gradient-to-r from-vice-pink via-pill to-vice-cyan transition-[width] duration-75"></div>
     </div>
 
     <div class="min-h-full max-w-7xl mx-auto px-4 sm:px-8 py-6 sm:py-10 pb-28">
@@ -808,12 +815,15 @@
             <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Transmission Nav</p>
             <div class="flex gap-2">
               <button id="dPrev"
-                class="flex-1 border border-white/20 hover:border-pill rounded-xl py-2.5 text-xs font-bold tracking-widest text-white/80 hover:text-pill transition cursor-pointer">← PREV</button>
+                class="flex-1 border border-white/20 hover:border-pill rounded-xl py-2.5 text-xs font-bold tracking-widest text-white/80 hover:text-pill transition cursor-pointer">←
+                PREV</button>
               <button id="dNext"
-                class="flex-1 border border-white/20 hover:border-pill rounded-xl py-2.5 text-xs font-bold tracking-widest text-white/80 hover:text-pill transition cursor-pointer">NEXT →</button>
+                class="flex-1 border border-white/20 hover:border-pill rounded-xl py-2.5 text-xs font-bold tracking-widest text-white/80 hover:text-pill transition cursor-pointer">NEXT
+                →</button>
             </div>
             <button onclick="closeDetail()"
-              class="pill-btn w-full bg-pill text-inkdeep rounded-xl py-2.5 text-xs font-bold tracking-widest cursor-pointer text-center block">ALL PANELS</button>
+              class="pill-btn w-full bg-pill text-inkdeep rounded-xl py-2.5 text-xs font-bold tracking-widest cursor-pointer text-center block">ALL
+              PANELS</button>
           </div>
 
           <div class="p-5 rounded-2xl bg-black/40 border border-white/10 space-y-2.5 font-mono text-xs">
@@ -831,7 +841,8 @@
               <span class="text-white/80">AWS Mumbai</span>
             </div>
             <hr class="border-white/10 my-2">
-            <button onclick="detail.scrollTo({top:0, behavior:'smooth'})" class="w-full text-center py-1.5 text-xs text-pill hover:underline cursor-pointer">
+            <button onclick="detail.scrollTo({top:0, behavior:'smooth'})"
+              class="w-full text-center py-1.5 text-xs text-pill hover:underline cursor-pointer">
               ↑ Back to Top
             </button>
           </div>
@@ -1355,7 +1366,7 @@
         ${p.image ? `<img src="${p.image}" alt="${p.title} artwork" class="absolute inset-0 w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"></div>` : `<svg class="palm absolute -left-6 -bottom-8 w-48 sm:w-72 opacity-60"><use href="#palm"/></svg><svg class="palm absolute right-10 -bottom-10 w-56 sm:w-80 opacity-60"><use href="#palm"/></svg>`}
         <div class="absolute right-6 top-2 font-black text-8xl sm:text-9xl ${p.image ? 'text-white/40' : 'text-black/25'}">${String(i + 1).padStart(2, '0')}</div>
         <div class="absolute left-5 bottom-4 font-mono text-[0.65rem] tracking-[0.3em] ${p.image ? 'text-white/85' : 'text-black/60'}">SCENE // ${p.date}</div>`;
-      
+
       // Main Article Content with Drop Cap and Markdown
       document.getElementById('dBody').innerHTML = storyHTML(p.content, true);
 

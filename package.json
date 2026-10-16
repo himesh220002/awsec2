@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "images:optimize": "python3 tools/optimize_images.py",
+    "icons:generate": "python3 tools/generate_icons.py",
     "test": "node -e \"fetch('http://localhost:8080/api/posts').then(r=>r.json()).then(j=>{if(!Array.isArray(j))process.exit(1);console.log('API OK')})\""
   },
   "keywords": [],
