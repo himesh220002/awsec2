@@ -432,7 +432,11 @@ app.post('/api/admin/videos/link-s3', requireAdminAuth, async (req, res) => {
     }
     if (!key) return res.status(400).json({ error: 'Valid S3 key (e.g. igv_videos/... or igv_music/...) is required' });
 
-    const streamUrl = `/api/videos/stream?key=${encodeURIComponent(key)}`;
+    const cloudFrontDomain = (videoManager.getSecret ? videoManager.getSecret('CLOUDFRONT_DOMAIN') : process.env.CLOUDFRONT_DOMAIN) || '';
+    const cleanDomain = cloudFrontDomain.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    const streamUrl = cleanDomain
+      ? `https://${cleanDomain}/${key}`
+      : `/api/videos/stream?key=${encodeURIComponent(key)}`;
     const isExplicitAudio = key && /\.(mp3|wav|ogg|flac|aac)$/i.test(key);
     const isExplicitVideo = key && /\.(mp4|webm|mkv|avi|mov)$/i.test(key);
     const isMusic = !isExplicitVideo && (mediaType === 'music' || isExplicitAudio || key.startsWith('igv_music/'));

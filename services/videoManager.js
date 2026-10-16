@@ -1,3 +1,4 @@
+try { require('dotenv').config(); } catch (e) {}
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -341,27 +342,35 @@ async function getS3SignedPlaybackUrl(fileKey, expiresIn = 7200) {
 async function streamVideoChunk(fileKey, req, res) {
   const s3Config = getS3Config();
   const s3 = getS3Client();
+  const cloudFrontDomain = (getSecret('CLOUDFRONT_DOMAIN') || process.env.CLOUDFRONT_DOMAIN || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
 
-  if (s3 && fileKey && (fileKey.startsWith('igv_videos/') || fileKey.startsWith('igv_music/'))) {
-    try {
-      // 1. Verify existence in S3 bucket
-      await s3.send(new HeadObjectCommand({
-        Bucket: s3Config.bucket,
-        Key: fileKey
-      }));
+  if (fileKey && (fileKey.startsWith('igv_videos/') || fileKey.startsWith('igv_music/'))) {
+    // 1. High-speed CloudFront CDN Redirect:
+    // When CloudFront domain is set, instantly redirect to the global Edge PoP
+    if (cloudFrontDomain) {
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      return res.redirect(302, `https://${cloudFrontDomain}/${fileKey}`);
+    }
 
-      // 2. High-speed Direct S3 Playback:
-      // Redirect directly to S3 Mumbai (ap-south-1) with a presigned GET URL.
-      const signed = await getS3SignedPlaybackUrl(fileKey, 7200);
-      if (signed) {
-        res.setHeader('Cache-Control', 'public, max-age=3600');
-        return res.redirect(302, signed);
+    // 2. Direct S3 Presigned URL Playback (fallback if CloudFront not configured)
+    if (s3) {
+      try {
+        await s3.send(new HeadObjectCommand({
+          Bucket: s3Config.bucket,
+          Key: fileKey
+        }));
+
+        const signed = await getS3SignedPlaybackUrl(fileKey, 7200);
+        if (signed) {
+          res.setHeader('Cache-Control', 'public, max-age=3600');
+          return res.redirect(302, signed);
+        }
+      } catch (err) {
+        if (err.name === 'NotFound' || err.$metadata?.httpStatusCode === 404) {
+          return res.status(404).send('Media file not found in current S3 storage bucket.');
+        }
+        console.error('[MediaManager] S3 Stream Error:', err.message);
       }
-    } catch (err) {
-      if (err.name === 'NotFound' || err.$metadata?.httpStatusCode === 404) {
-        return res.status(404).send('Media file not found in current S3 storage bucket.');
-      }
-      console.error('[MediaManager] S3 Stream Error:', err.message);
     }
   }
 
@@ -420,7 +429,11 @@ async function uploadImageFile(fileBuffer, originalName, mimeType) {
         ContentType: mimeType || 'image/jpeg'
       }));
 
-      // Return stream URL or direct S3 URL
+      // Return CloudFront edge URL if configured, otherwise proxy stream URL
+      const cloudFrontDomain = (getSecret('CLOUDFRONT_DOMAIN') || process.env.CLOUDFRONT_DOMAIN || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
+      if (cloudFrontDomain) {
+        return `https://${cloudFrontDomain}/${fileKey}`;
+      }
       return `/api/videos/stream?key=${encodeURIComponent(fileKey)}`;
     } catch (err) {
       console.error('[MediaManager] S3 Image Upload Error:', err.message);
@@ -457,6 +470,10 @@ async function uploadBlogImageFile(fileBuffer, originalName, mimeType) {
         ContentType: mimeType || 'image/jpeg'
       }));
 
+      const cloudFrontDomain = (getSecret('CLOUDFRONT_DOMAIN') || process.env.CLOUDFRONT_DOMAIN || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
+      if (cloudFrontDomain) {
+        return `https://${cloudFrontDomain}/${fileKey}`;
+      }
       return `/api/videos/stream?key=${encodeURIComponent(fileKey)}`;
     } catch (err) {
       console.error('[MediaManager] S3 Blog Image Upload Error:', err.message);
@@ -548,7 +565,10 @@ async function uploadMediaFile(fileBuffer, originalName, mimeType) {
         ContentType: finalMime
       }));
 
-      const streamUrl = `/api/videos/stream?key=${encodeURIComponent(fileKey)}`;
+      const cloudFrontDomain = (getSecret('CLOUDFRONT_DOMAIN') || process.env.CLOUDFRONT_DOMAIN || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
+      const streamUrl = cloudFrontDomain
+        ? `https://${cloudFrontDomain}/${fileKey}`
+        : `/api/videos/stream?key=${encodeURIComponent(fileKey)}`;
       const directS3Url = `https://${s3Config.bucket}.s3.${s3Config.region}.amazonaws.com/${fileKey}`;
       return {
         sourceUrl: streamUrl,
@@ -636,7 +656,10 @@ async function optimizeVideoOnS3(videoId) {
       } catch (e) {}
     }
 
-    const newSourceUrl = `/api/videos/stream?key=${encodeURIComponent(newKey)}`;
+    const cloudFrontDomain = (getSecret('CLOUDFRONT_DOMAIN') || process.env.CLOUDFRONT_DOMAIN || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
+    const newSourceUrl = cloudFrontDomain
+      ? `https://${cloudFrontDomain}/${newKey}`
+      : `/api/videos/stream?key=${encodeURIComponent(newKey)}`;
     if (isMongoConnected) {
       await Video.findByIdAndUpdate(v._id, {
         $set: { fileKey: newKey, sourceUrl: newSourceUrl }
@@ -711,6 +734,28 @@ function normalizeDoc(doc) {
       o.audioFormat = extMatch ? extMatch[1].toUpperCase() : 'MP3';
     }
   }
+
+  // Automatic CloudFront CDN optimization:
+  // Rewrite legacy stream proxy URLs and thumbnail URLs to direct CloudFront edge URLs
+  const cloudFrontDomain = (getSecret('CLOUDFRONT_DOMAIN') || process.env.CLOUDFRONT_DOMAIN || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
+  if (cloudFrontDomain) {
+    if (o.fileKey && (o.fileKey.startsWith('igv_videos/') || o.fileKey.startsWith('igv_music/'))) {
+      o.sourceUrl = `https://${cloudFrontDomain}/${o.fileKey}`;
+    } else if (o.sourceUrl && o.sourceUrl.includes('/api/videos/stream?key=')) {
+      const m = o.sourceUrl.match(/key=([^&]+)/);
+      if (m) {
+        o.sourceUrl = `https://${cloudFrontDomain}/${decodeURIComponent(m[1])}`;
+      }
+    }
+
+    if (o.thumbnail && typeof o.thumbnail === 'string') {
+      const thumbMatch = o.thumbnail.match(/(?:key=|\.amazonaws\.com\/)(igv_[^?&#]+)/);
+      if (thumbMatch) {
+        o.thumbnail = `https://${cloudFrontDomain}/${decodeURIComponent(thumbMatch[1])}`;
+      }
+    }
+  }
+
   return o;
 }
 
@@ -724,7 +769,7 @@ async function getAllVideos() {
       console.warn('[MediaManager] Mongo getAllVideos failed, using fallback:', err.message);
     }
   }
-  return [...fallbackVideos];
+  return fallbackVideos.map(normalizeDoc);
 }
 
 async function getVideoById(id) {
@@ -737,7 +782,8 @@ async function getVideoById(id) {
       console.warn('[MediaManager] Mongo getVideoById error:', err.message);
     }
   }
-  return fallbackVideos.find(v => String(v._id) === String(id) || String(v.id) === String(id)) || null;
+  const found = fallbackVideos.find(v => String(v._id) === String(id) || String(v.id) === String(id));
+  return found ? normalizeDoc(found) : null;
 }
 
 async function addVideo({ title, artist, mediaType, audioFormat, type, sourceUrl, fileKey, youtubeId, thumbnail, placements }) {
@@ -1013,13 +1059,18 @@ async function listS3Objects() {
         const fileName = path.basename(key);
         const existingVideo = dbKeyMap.get(key) || null;
 
+        const cloudFrontDomain = (getSecret('CLOUDFRONT_DOMAIN') || process.env.CLOUDFRONT_DOMAIN || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
+        const streamUrl = cloudFrontDomain
+          ? `https://${cloudFrontDomain}/${key}`
+          : `/api/videos/stream?key=${encodeURIComponent(key)}`;
+
         return {
           key,
           fileName,
           sizeBytes: item.Size,
           sizeMB: (item.Size / (1024 * 1024)).toFixed(2),
           lastModified: item.LastModified,
-          streamUrl: `/api/videos/stream?key=${encodeURIComponent(key)}`,
+          streamUrl,
           isThumbnail,
           isMusic,
           folder: key.startsWith('igv_music/') ? 'igv_music' : (key.startsWith('igv_videos/thumbnails') ? 'thumbnails' : 'igv_videos'),
