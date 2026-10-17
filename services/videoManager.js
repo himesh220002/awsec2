@@ -1,4 +1,4 @@
-try { require('dotenv').config(); } catch (e) {}
+try { require('dotenv').config(); } catch (e) { }
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -147,13 +147,13 @@ function getSecret(key) {
     if (fs.existsSync(directPath)) {
       return fs.readFileSync(directPath, 'utf8').trim();
     }
-  } catch (e) {}
+  } catch (e) { }
   try {
     const lowerPath = path.join('/etc/secrets', key.toLowerCase());
     if (fs.existsSync(lowerPath)) {
       return fs.readFileSync(lowerPath, 'utf8').trim();
     }
-  } catch (e) {}
+  } catch (e) { }
   try {
     const envPath = '/etc/secrets/.env';
     if (fs.existsSync(envPath)) {
@@ -161,7 +161,7 @@ function getSecret(key) {
       const match = content.match(new RegExp(`^${key}=(.*)$`, 'm'));
       if (match) return match[1].trim();
     }
-  } catch (e) {}
+  } catch (e) { }
   return '';
 }
 
@@ -523,8 +523,8 @@ async function optimizeMediaWithFfmpeg(inputBuffer, originalName) {
   } catch (err) {
     console.warn('[MediaManager] FFmpeg optimization warning:', err.message);
   } finally {
-    try { if (fs.existsSync(inPath)) fs.unlinkSync(inPath); } catch (e) {}
-    try { if (fs.existsSync(outPath)) fs.unlinkSync(outPath); } catch (e) {}
+    try { if (fs.existsSync(inPath)) fs.unlinkSync(inPath); } catch (e) { }
+    try { if (fs.existsSync(outPath)) fs.unlinkSync(outPath); } catch (e) { }
   }
   return { buffer: inputBuffer, finalExt: ext, contentType: null };
 }
@@ -653,7 +653,7 @@ async function optimizeVideoOnS3(videoId) {
     if (newKey !== v.fileKey) {
       try {
         await s3.send(new DeleteObjectCommand({ Bucket: s3Config.bucket, Key: v.fileKey }));
-      } catch (e) {}
+      } catch (e) { }
     }
 
     const cloudFrontDomain = (getSecret('CLOUDFRONT_DOMAIN') || process.env.CLOUDFRONT_DOMAIN || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
@@ -679,8 +679,8 @@ async function optimizeVideoOnS3(videoId) {
       message: 'FastStart optimization applied! Video will now stream in 1-2 requests.'
     };
   } finally {
-    try { if (fs.existsSync(inPath)) fs.unlinkSync(inPath); } catch (e) {}
-    try { if (fs.existsSync(outPath)) fs.unlinkSync(outPath); } catch (e) {}
+    try { if (fs.existsSync(inPath)) fs.unlinkSync(inPath); } catch (e) { }
+    try { if (fs.existsSync(outPath)) fs.unlinkSync(outPath); } catch (e) { }
   }
 }
 
@@ -794,7 +794,7 @@ async function addVideo({ title, artist, mediaType, audioFormat, type, sourceUrl
       try {
         const existing = await Video.findOne({ fileKey }).lean();
         if (existing) return normalizeDoc(existing);
-      } catch (e) {}
+      } catch (e) { }
     }
     const local = fallbackVideos.find(v => v.fileKey === fileKey);
     if (local) return local;

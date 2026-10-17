@@ -2115,7 +2115,7 @@
           if (extLink) extLink.href = url;
         } else if (isS3) {
           box.innerHTML = `<video src="${url}" class="w-full h-full object-cover" controls autoplay preload="metadata" poster="${thumb || ''}" controlsList="nodownload"></video>`;
-          if (metaEl) metaEl.innerText = 'PLAYING: HIGH-SPEED S3 CHUNK STREAM (HTTP 206)';
+          if (metaEl) metaEl.innerText = 'PLAYING: HIGH-SPEED S3 CHUNK STREAM';
           if (badge) badge.innerText = 'Now Playing S3 Video';
           if (sourceBadge) sourceBadge.innerText = 'S3 stream';
           if (extLink) extLink.href = url;
